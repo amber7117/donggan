@@ -25,102 +25,50 @@ class _MePageState extends State {
   @override
   Widget build(BuildContext context) {
     var topOffset = ScreenUtil().statusBarHeight + 186.sh;
-    return Scaffold(
-      backgroundColor: ThemeColor.gray248,
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Container(
-              padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-              width: ScreenUtil().screenWidth,
-              height: 280.sh,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      alignment: Alignment.topCenter,
-                      image: JhImageUtils.getAssetImage("me/bgMeHead"))),
-              child: Column(
-                children: [
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.settings)),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
-                    child: _buildInfoWidget(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildFansWidget(),
-                      _buildFansWidget(),
-                    ],
-                  )
-                ],
-              )),
-          Positioned(
-              top: topOffset,
-              child: SizedBox(
-                height: ScreenUtil().screenHeight - topOffset,
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: 104,
-                        padding:
-                            EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-                        color: Colors.yellow,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                _buildCardWidget(
-                                    "me/iconMessage", "消息通知", "0条未读"),
-                                _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      sliver: DecoratedSliver(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
-                        sliver: SliverFixedExtentList.list(
-                            itemExtent: 64.0,
-                            children: [
-                              _buildListItemWidget(MeListItemType.pingbi),
-                              _buildListItemWidget(MeListItemType.liulan),
-                              _buildListItemWidget(MeListItemType.huodong),
-                              _buildListItemWidget(MeListItemType.wenti),
-                              _buildListItemWidget(MeListItemType.kefu),
-                              _buildListItemWidget(MeListItemType.women),
-                            ]),
-                      ),
-                    )
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
-
+    
     return Scaffold(
       backgroundColor: ThemeColor.gray248,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Container(
-              height: 200,
-              padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-              color: Colors.yellow,
+                padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
+                height: 280.h,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.topCenter,
+                        image: JhImageUtils.getAssetImage("me/bgMeHead"))),
+                child: Column(
+                  children: [
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.settings)),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+                      child: _buildInfoWidget(),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildFansWidget(),
+                        _buildFansWidget(),
+                      ],
+                    )
+                  ],
+                )),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+              height: 104,
+              // color: Colors.yellow,
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildCardWidget("me/iconMessage", "消息通知", "0条未读"),
+                      const SizedBox(width: 10),
                       _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
                     ],
                   ),
@@ -147,6 +95,7 @@ class _MePageState extends State {
         ],
       ),
     );
+    
   }
 
   _buildInfoWidget() {
@@ -206,7 +155,6 @@ class _MePageState extends State {
 
   _buildCardWidget(String imgPath, String title, String desc) {
     return Container(
-      height: 84.0,
       padding: const EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 40),
       decoration: const BoxDecoration(
           color: Colors.white,

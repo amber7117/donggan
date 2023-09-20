@@ -58,7 +58,7 @@ class _MyAppState extends State {
   Widget build(BuildContext context) {
     ThemeData theme = ThemeData();
     return ScreenUtilInit(
-      designSize: const Size(375, 775),
+      designSize: const Size(375, 812),
       builder: (context, child) {
         return MaterialApp(
           title: "test",
