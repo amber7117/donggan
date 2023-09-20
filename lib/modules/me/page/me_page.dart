@@ -31,9 +31,9 @@ class _MePageState extends State {
         slivers: [
           SliverToBoxAdapter(
             child: Container(
+              height: 200,
               padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
               color: Colors.yellow,
-              height: 200,
               child: Column(
                 children: [
                   Row(
@@ -62,7 +62,7 @@ class _MePageState extends State {
 
   _buildCardWidget(String imgPath, String title, String desc) {
     return Container(
-      height: 64.0,
+      height: 84.0,
       padding: const EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 40),
       decoration: const BoxDecoration(
           color: Colors.white,
