@@ -29,24 +29,23 @@ class JhImageUtils {
   /// widget: Image.asset('assets/images/set.png', fit: BoxFit.cover, width: 50, height: 50.0),
   static ImageProvider getAssetImage(String name,
       {ImageFormat format = ImageFormat.png}) {
-    //    print('路径-- '+ getImgPath(name, format: format));
-    return AssetImage(getImgPath(name, format: format));
-  }
-
-  /// 获取图片路径
-  static String getImgPath(String name,
-      {ImageFormat format = ImageFormat.png}) {
-    return 'assets/images/$name.${_methodValues[format]}';
+    return AssetImage(obtainImgPath(name, format: format));
   }
 
   /// 加载本地或者URL图片
   static ImageProvider loadImage(String imageUrl,
       {String placeholder = 'ic_placeholder'}) {
     if (imageUrl.isEmpty) {
-      return AssetImage(getImgPath(placeholder));
+      return AssetImage(obtainImgPath(placeholder));
     }
     return CachedNetworkImageProvider(imageUrl,
         errorListener: () => print('图片加载失败！'));
+  }
+
+  /// 获取图片路径
+  static String obtainImgPath(String name,
+      {ImageFormat format = ImageFormat.png}) {
+    return 'assets/images/$name@2x.${_methodValues[format]}';
   }
 }
 
@@ -59,29 +58,26 @@ class JhAssetImage extends StatelessWidget {
     this.width,
     this.height,
     this.fit,
-    this.format = ImageFormat.png,
-    this.color,
     this.cacheWidth,
     this.cacheHeight,
+    this.format = ImageFormat.png,
   }) : super(key: key);
 
   final String image; // 本地图片路径（assets/images/ 路径下的图片路径，不带后缀）
   final double? width;
   final double? height;
   final BoxFit? fit;
-  final ImageFormat format;
-  final Color? color;
   final int? cacheWidth;
   final int? cacheHeight;
+  final ImageFormat format;
 
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      JhImageUtils.getImgPath(image, format: format),
+      JhImageUtils.obtainImgPath(image, format: format),
       height: height,
       width: width,
       fit: fit,
-      color: color,
       cacheWidth: cacheWidth,
       cacheHeight: cacheHeight,
       // 忽略图片语义

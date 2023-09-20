@@ -1,12 +1,12 @@
 
 
 import 'package:fluro/fluro.dart';
-import 'package:wzty/business/anchor/page/anchor_page.dart';
-import 'package:wzty/business/login/page/login_page.dart';
-import 'package:wzty/business/main_page.dart';
-import 'package:wzty/business/match/page/match_page.dart';
-import 'package:wzty/business/me/page/me_page.dart';
-import 'package:wzty/business/news/page/news_page.dart';
+import 'package:wzty/modules/anchor/page/anchor_page.dart';
+import 'package:wzty/modules/login/page/login_page.dart';
+import 'package:wzty/modules/main_page.dart';
+import 'package:wzty/modules/match/page/match_page.dart';
+import 'package:wzty/modules/me/page/me_page.dart';
+import 'package:wzty/modules/news/page/news_page.dart';
 
 class Routes {
 

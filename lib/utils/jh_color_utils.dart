@@ -11,7 +11,7 @@ class JhColorUtils {
   /// hex, 十六进制值，例如：0xffffff,
   /// alpha, 透明度 [0.0,1.0]
   /// 用法：JhColorUtils.hexAColor(0x3caafa); | JhColorUtils.hexAColor(0x3caafa,alpha: 0.5);
-  static Color hexAColor(int hex, {double alpha = 1}) {
+  static Color hexIntColor(int hex, {double alpha = 1}) {
     if (alpha < 0) {
       alpha = 0;
     } else if (alpha > 1) {
@@ -22,32 +22,11 @@ class JhColorUtils {
   }
 
   /// hex颜色设置
-  static Color hexColor(String hexString) {
+  static Color hexStrColor(String hexString) {
     final buffer = StringBuffer();
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
-  }
-
-  /// 创建Material风格的color
-  static MaterialColor materialColor(Color color) {
-    List strengths = <double>[.05];
-    Map swatch = <int, Color>{};
-    final int r = color.red, g = color.green, b = color.blue;
-
-    for (int i = 1; i < 10; i++) {
-      strengths.add(0.1 * i);
-    }
-    for (var strength in strengths) {
-      final double ds = 0.5 - strength;
-      swatch[(strength * 1000).round()] = Color.fromRGBO(
-        r + ((ds < 0 ? r : (255 - r)) * ds).round(),
-        g + ((ds < 0 ? g : (255 - g)) * ds).round(),
-        b + ((ds < 0 ? b : (255 - b)) * ds).round(),
-        1,
-      );
-    }
-    return MaterialColor(color.value, swatch as Map<int, Color>);
   }
 
   /// 取随机颜色
@@ -64,4 +43,5 @@ class JhColorUtils {
     var isDark = Theme.of(context).brightness == Brightness.dark;
     return isDark ? darkColor ?? lightColor : lightColor;
   }
+
 }
