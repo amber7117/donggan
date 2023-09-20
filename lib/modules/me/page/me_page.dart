@@ -47,14 +47,22 @@ class _MePageState extends State {
               ),
             ),
           ),
-          SliverFixedExtentList.list(itemExtent: 64.0, children: [
-            _buildListItemWidget(MeListItemType.pingbi),
-            _buildListItemWidget(MeListItemType.liulan),
-            _buildListItemWidget(MeListItemType.huodong),
-            _buildListItemWidget(MeListItemType.wenti),
-            _buildListItemWidget(MeListItemType.kefu),
-            _buildListItemWidget(MeListItemType.women),
-          ])
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            sliver: DecoratedSliver(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              sliver: SliverFixedExtentList.list(itemExtent: 64.0, children: [
+                _buildListItemWidget(MeListItemType.pingbi),
+                _buildListItemWidget(MeListItemType.liulan),
+                _buildListItemWidget(MeListItemType.huodong),
+                _buildListItemWidget(MeListItemType.wenti),
+                _buildListItemWidget(MeListItemType.kefu),
+                _buildListItemWidget(MeListItemType.women),
+              ]),
+            ),
+          )
         ],
       ),
     );
@@ -99,8 +107,6 @@ class _MePageState extends State {
 
   _buildListItemWidget(MeListItemType type) {
     return Container(
-      color: Colors.white,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.only(top: 20, left: 16, bottom: 20, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,8 +132,7 @@ class _MePageState extends State {
 
 
 
-enum MeListItemType  {
-
+enum MeListItemType {
   pingbi(idx: 0, imgPath: "me/iconPingbi", title: "我的屏蔽"),
   liulan(idx: 1, imgPath: "me/iconJilu", title: "浏览记录"),
   huodong(idx: 2, imgPath: "me/iconGuangchang", title: "活动广场"),
