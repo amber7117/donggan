@@ -13,7 +13,6 @@ class MePage extends StatefulWidget {
 }
 
 class _MePageState extends State {
-
   final List<MeListItemType> _itemList = [
     MeListItemType.pingbi,
     MeListItemType.liulan,
@@ -21,10 +20,92 @@ class _MePageState extends State {
     MeListItemType.wenti,
     MeListItemType.kefu,
     MeListItemType.women,
-  ];  
+  ];
 
   @override
   Widget build(BuildContext context) {
+    var topOffset = ScreenUtil().statusBarHeight + 186.sh;
+    return Scaffold(
+      backgroundColor: ThemeColor.gray248,
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+              padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
+              width: ScreenUtil().screenWidth,
+              height: 280.sh,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      alignment: Alignment.topCenter,
+                      image: JhImageUtils.getAssetImage("me/bgMeHead"))),
+              child: Column(
+                children: [
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.settings)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+                    child: _buildInfoWidget(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildFansWidget(),
+                      _buildFansWidget(),
+                    ],
+                  )
+                ],
+              )),
+          Positioned(
+              top: topOffset,
+              child: SizedBox(
+                height: ScreenUtil().screenHeight - topOffset,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Container(
+                        height: 104,
+                        padding:
+                            EdgeInsets.only(top: ScreenUtil().statusBarHeight),
+                        color: Colors.yellow,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _buildCardWidget(
+                                    "me/iconMessage", "消息通知", "0条未读"),
+                                _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      sliver: DecoratedSliver(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        sliver: SliverFixedExtentList.list(
+                            itemExtent: 64.0,
+                            children: [
+                              _buildListItemWidget(MeListItemType.pingbi),
+                              _buildListItemWidget(MeListItemType.liulan),
+                              _buildListItemWidget(MeListItemType.huodong),
+                              _buildListItemWidget(MeListItemType.wenti),
+                              _buildListItemWidget(MeListItemType.kefu),
+                              _buildListItemWidget(MeListItemType.women),
+                            ]),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+
     return Scaffold(
       backgroundColor: ThemeColor.gray248,
       body: CustomScrollView(
@@ -65,6 +146,61 @@ class _MePageState extends State {
           )
         ],
       ),
+    );
+  }
+
+  _buildInfoWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            const JhAssetImage("common/iconTouxiang",
+                width: 62.0, height: 62.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "用户昵称",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  "个性签名个性签名个性签名…",
+                  style: TextStyle(
+                      color: const Color.fromRGBO(255, 255, 255, 0.6),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const JhAssetImage("me/iconMeJiantou2", width: 16.0, height: 16.0),
+      ],
+    );
+  }
+
+  _buildFansWidget() {
+    return Row(
+      children: [
+        Text(
+          "1566",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500),
+        ),
+        Text(
+          "关注",
+          style: TextStyle(
+              color: const Color.fromRGBO(255, 255, 255, 0.6),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w500),
+        ),
+      ],
     );
   }
 
@@ -129,8 +265,6 @@ class _MePageState extends State {
     );
   }
 }
-
-
 
 enum MeListItemType {
   pingbi(idx: 0, imgPath: "me/iconPingbi", title: "我的屏蔽"),
