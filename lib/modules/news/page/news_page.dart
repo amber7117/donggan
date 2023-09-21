@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/modules/news/widget/news_tabbar_item_widget.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class NewsPage extends StatefulWidget {
@@ -43,31 +44,52 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: ScreenUtil().statusBarHeight),
           Container(
-            // 隐藏点击效果
-            padding: const EdgeInsets.only(left: 16.0),
-            color: Colors.yellow,
-            child: TabBar(
-              onTap: (index) {
-                if (!mounted) return;
-                _pageController.jumpToPage(index);
-              },
-              isScrollable: true,
-              controller: _tabController,
-              labelStyle: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: TextStyleUtils.medium),
-              indicatorSize: TabBarIndicatorSize.label,
-              labelPadding: EdgeInsets.zero,
-              unselectedLabelColor: ColorUtils.rgb(248, 135, 152),
-              labelColor: Colors.white,
-              indicatorPadding: const EdgeInsets.only(right: 98.0 - 36.0),
-              tabs: tabs.map((e) => NewsTabbarItemWidget(tabName: e)).toList(),
+            width: ScreenUtil().screenWidth,
+            height: ScreenUtil().statusBarHeight + 65.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(image: JhImageUtils.getAssetImage("common/bgHomeTop"), fit: BoxFit.fitWidth),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: ScreenUtil().statusBarHeight),
+                Container(
+                  // 隐藏点击效果
+                  padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+                  color: Colors.yellow,
+                  child: TabBar(
+                    onTap: (index) {
+                      if (!mounted) return;
+                      _pageController.jumpToPage(index);
+                    },
+                    isScrollable: true,
+                    controller: _tabController,
+                    labelStyle: TextStyle(
+                        color: ColorUtils.black34,
+                        fontSize: 14.sp,
+                        fontWeight: TextStyleUtils.semibold),
+                    unselectedLabelStyle: TextStyle(
+                        color: ColorUtils.rgb(248, 135, 152),
+                        fontSize: 14.sp,
+                        fontWeight: TextStyleUtils.medium),
+                    indicatorSize: TabBarIndicatorSize.label,
+                    labelPadding: EdgeInsets.zero,
+
+                    // indicatorPadding: const EdgeInsets.only(right: 98.0 - 36.0),
+                    tabs: tabs
+                        .map((e) => NewsTabbarItemWidget(
+                              tabName: e,
+                              selected: true,
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
           ),
-          // const SizedBox(height: 10),
           Expanded(
             child: PageView.builder(
                 key: const Key('pageView'),
