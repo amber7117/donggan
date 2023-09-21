@@ -9,9 +9,9 @@ class NewsTabbarItemWidget extends StatefulWidget {
 
   final String tabName;
 
-  final bool selected;
+  final int index;
 
-  const NewsTabbarItemWidget({super.key, required this.tabName, required this.selected});
+  const NewsTabbarItemWidget({super.key, required this.tabName, required this.index});
 
   @override
   State<StatefulWidget> createState() {
