@@ -14,7 +14,7 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State with SingleTickerProviderStateMixin {
 
   late TabController _tabController;
-  List tabs = ["新闻", "历史", "图片"];
+  List tabs = ["关注", "足球", "篮球"];
 
   @override
   void initState() {
