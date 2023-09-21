@@ -38,15 +38,23 @@ class _NewsTabbarItemState extends State <NewsTabbarItemWidget> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        child: Text(
-          widget.tabName,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: ColorUtils.black34,
-              fontSize: 14.sp,
-              fontWeight: TextStyleUtils.semibold),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))
         ),
+        child: Column(
+          children: [
+            Text(
+                widget.tabName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 14.sp,
+                    fontWeight: TextStyleUtils.semibold),
+              ),
+              const DecoratedBox(
+                  decoration: BoxDecoration(color: ColorUtils.red235),
+                  child: SizedBox(height: 2, width: 30))
+          ],
+        )
       ),
     );
   }

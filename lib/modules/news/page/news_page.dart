@@ -44,52 +44,40 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: ScreenUtil().screenWidth,
             height: ScreenUtil().statusBarHeight + 65.0,
             decoration: BoxDecoration(
-              image: DecorationImage(image: JhImageUtils.getAssetImage("common/bgHomeTop"), fit: BoxFit.fitWidth),
+              image: DecorationImage(
+                  image: JhImageUtils.getAssetImage("common/bgHomeTop"),
+                  fit: BoxFit.fitWidth),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: ScreenUtil().statusBarHeight),
-                Container(
-                  // 隐藏点击效果
-                  padding: const EdgeInsets.only(left: 10.0, top: 10.0),
-                  color: Colors.yellow,
-                  child: TabBar(
-                    onTap: (index) {
-                      if (!mounted) return;
-                      _pageController.jumpToPage(index);
-                    },
-                    isScrollable: true,
-                    controller: _tabController,
-                    labelStyle: TextStyle(
-                        color: ColorUtils.black34,
-                        fontSize: 14.sp,
-                        fontWeight: TextStyleUtils.semibold),
-                    unselectedLabelStyle: TextStyle(
-                        color: ColorUtils.rgb(248, 135, 152),
-                        fontSize: 14.sp,
-                        fontWeight: TextStyleUtils.medium),
-                    indicatorSize: TabBarIndicatorSize.label,
-                    labelPadding: EdgeInsets.zero,
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
+              padding: const EdgeInsets.only(left: 10.0, top: 25.0, right: 10.0),
+              // color: Colors.yellow,
+              child: TabBar(
+                onTap: (index) {
+                  if (!mounted) return;
+                  _pageController.jumpToPage(index);
+                },
+                isScrollable: true,
+                controller: _tabController,
+                indicator: const BoxDecoration(),
+                labelPadding: EdgeInsets.zero,
 
-                    // indicatorPadding: const EdgeInsets.only(right: 98.0 - 36.0),
-                    tabs: tabs
-                        .map((e) => NewsTabbarItemWidget(
-                              tabName: e,
-                              selected: true,
-                            ))
-                        .toList(),
-                  ),
-                ),
-              ],
+                tabs: tabs
+                    .map((e) => NewsTabbarItemWidget(
+                          tabName: e,
+                          selected: true,
+                        ))
+                    .toList(),
+              ),
             ),
           ),
+        
           Expanded(
             child: PageView.builder(
                 key: const Key('pageView'),
