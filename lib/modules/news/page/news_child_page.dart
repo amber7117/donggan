@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/colors.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 class NewsChildPage extends StatefulWidget {
@@ -13,16 +13,16 @@ class NewsChildPage extends StatefulWidget {
 }
 
 class _NewsChildPageState extends State {
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
+    return ListView.builder(
+        padding: EdgeInsets.zero,
         itemCount: 10,
         // itemExtent: 68,
         itemBuilder: (context, index) {
-        return _buildCellWidget(index);
-      }) ,
-    );
+          return _buildCellWidget(index);
+        });
   }
 
   _buildCellWidget(int idx) {
@@ -41,7 +41,7 @@ class _NewsChildPageState extends State {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: ThemeColor.black34,
+                        color: ColorUtils.black34,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   )),
@@ -54,7 +54,7 @@ class _NewsChildPageState extends State {
                   Text(
                     "1256",
                     style: TextStyle(
-                        color: ThemeColor.gray153,
+                        color: ColorUtils.gray153,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
@@ -70,4 +70,5 @@ class _NewsChildPageState extends State {
       ),
     );
   }
+  
 }

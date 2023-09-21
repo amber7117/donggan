@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/colors.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 class MePage extends StatefulWidget {
@@ -13,7 +13,7 @@ class MePage extends StatefulWidget {
 }
 
 class _MePageState extends State {
-  final List<MeListItemType> _itemList = [
+  final List _itemList = [
     MeListItemType.pingbi,
     MeListItemType.liulan,
     MeListItemType.huodong,
@@ -25,7 +25,7 @@ class _MePageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColor.gray248,
+      backgroundColor: ColorUtils.gray248,
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -63,7 +63,7 @@ class _MePageState extends State {
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
                 height: 104,
-                color: ThemeColor.gray248,
+                color: ColorUtils.gray248,
                 child: Column(
                   children: [
                     Row(
@@ -177,14 +177,14 @@ class _MePageState extends State {
                 Text(
                   title,
                   style: TextStyle(
-                      color: ThemeColor.black34,
+                      color: ColorUtils.black34,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
                   desc,
                   style: TextStyle(
-                      color: ThemeColor.gray153,
+                      color: ColorUtils.gray153,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
                 ),
@@ -208,7 +208,7 @@ class _MePageState extends State {
               Text(
                 type.title,
                 style: TextStyle(
-                    color: ThemeColor.black34,
+                    color: ColorUtils.black34,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500),
               ),

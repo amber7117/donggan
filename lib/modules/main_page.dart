@@ -27,10 +27,10 @@ class _MainPageState extends State {
 
   List<BottomNavigationBarItem> obtainTabList() {
     return [
-      _createItem('common/tab1'),
-      _createItem('common/tab2'),
-      _createItem('common/tab4'),
-      _createItem('common/tab5'),
+      _buildBarItem('common/tab1'),
+      _buildBarItem('common/tab2'),
+      _buildBarItem('common/tab4'),
+      _buildBarItem('common/tab5'),
     ];
   }
 
@@ -80,7 +80,7 @@ class _MainPageState extends State {
     );
   }
 
-  _createItem(String imgPath) {
+  _buildBarItem(String imgPath) {
     var item = BottomNavigationBarItem(
       label: "",
       icon: JhAssetImage(imgPath, width: _tabW, height: _tabH),
