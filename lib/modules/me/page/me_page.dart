@@ -148,6 +148,7 @@ class _MePageState extends State {
               fontSize: 14.sp,
               fontWeight: FontWeight.w500),
         ),
+        const SizedBox(width: 4),
         Text(
           "关注",
           style: TextStyle(

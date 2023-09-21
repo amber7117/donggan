@@ -34,13 +34,14 @@ class _MainPageState extends State {
     ];
   }
 
-  final PageController _pageController = PageController();
+  late PageController _pageController;
 
   int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
   }
 
   @override
