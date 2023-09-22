@@ -59,4 +59,32 @@ class Routes {
     );
   }
 
+  /// 跳转
+  static void push(BuildContext context, String path,
+      {bool replace = false, bool clearStack = false, Object? arguments}) {
+    // unfocus();
+    router.navigateTo(
+      context,
+      path,
+      replace: replace,
+      clearStack: clearStack,
+      transition: TransitionType.native,
+      routeSettings: RouteSettings(
+        arguments: arguments,
+      ),
+    );
+  }
+
+  /// 返回
+  static void goBack(BuildContext context) {
+    // unfocus();
+    Navigator.pop(context);
+  }
+
+  /// 带参数返回
+  static void goBackWithParams(BuildContext context, Object result) {
+    // unfocus();
+    Navigator.pop<Object>(context, result);
+  }
+
 }

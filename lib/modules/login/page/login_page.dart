@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/modules/news/provider/news_tab_provider.dart';
@@ -58,7 +59,21 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: ScreenUtil().statusBarHeight + 59),
+                SizedBox(height: ScreenUtil().statusBarHeight),
+                InkWell(
+                  child: Padding(
+                      padding: const EdgeInsets.all(11),
+                      child: Image(
+                        image:
+                            JhImageUtils.getAssetImage("login/iconDengluBack"),
+                        width: 22,
+                        height: 22,
+                      )),
+                      onTap: () {
+                        Routes.goBack(context);
+                      },
+                ),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.only(left: 34),
                   child: Text(
