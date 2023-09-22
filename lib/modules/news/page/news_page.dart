@@ -44,12 +44,11 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<NewsTabProvider>(
-      create: (context) => provider,
-      child: Scaffold(
+        create: (context) => provider,
+        child: Scaffold(
           body: Column(
             children: [
               Container(
@@ -67,15 +66,15 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
                       const EdgeInsets.only(left: 10.0, top: 25.0, right: 10.0),
                   // color: Colors.yellow,
                   child: TabBar(
-                    onTap: (index) {
-                      if (!mounted) return;
-                      _pageController.jumpToPage(index);
-                    },
-                    isScrollable: true,
-                    controller: _tabController,
-                    indicator: const BoxDecoration(),
-                    labelPadding: EdgeInsets.zero,
-                    tabs: const <Widget>[
+                      onTap: (index) {
+                        if (!mounted) return;
+                        _pageController.jumpToPage(index);
+                      },
+                      isScrollable: true,
+                      controller: _tabController,
+                      indicator: const BoxDecoration(),
+                      labelPadding: EdgeInsets.zero,
+                      tabs: const <Widget>[
                         NewsTabbarItemWidget(
                           tabName: 'aaaaa',
                           index: 0,
@@ -88,8 +87,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
                           tabName: '222222',
                           index: 2,
                         ),
-                      ]
-                  ),
+                      ]),
                 ),
               ),
               Expanded(
@@ -103,9 +101,10 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
                       }))
             ],
           ),
-        )
-    );
+        ));
   }
+
+  
 
   void _onPageChange(int index) {
     provider.setIndex(index);

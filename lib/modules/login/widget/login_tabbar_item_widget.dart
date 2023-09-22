@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -6,23 +7,21 @@ import 'package:wzty/modules/news/provider/news_tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class NewsTabbarItemWidget extends StatelessWidget {
+class LoginTabbarItemWidget extends StatelessWidget {
 
   final String tabName;
 
   final int index;
 
-  const NewsTabbarItemWidget({super.key, required this.tabName, required this.index});
+  const LoginTabbarItemWidget({super.key, required this.tabName, required this.index});
   
   @override
   Widget build(BuildContext context) {
     return Tab(
       child: Consumer<NewsTabProvider>(builder: (context, provider, child) {
         return Container(
-            margin: const EdgeInsets.only(left: 2, right: 2),
-            padding: const EdgeInsets.only(top: 10),
-            width: 60.0,
-            height: 40.0,
+            width: 169.5,
+            height: 48.0,
             decoration: provider.index == index
                 ? const BoxDecoration(
                     gradient: LinearGradient(
@@ -54,5 +53,5 @@ class NewsTabbarItemWidget extends StatelessWidget {
       }),
     );
   }
-}
 
+}

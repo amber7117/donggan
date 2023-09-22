@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -48,7 +49,13 @@ class _MePageState extends State {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildFansWidget(),
+                      InkWell(
+                        child: _buildFansWidget(),
+                        onTap: () {
+                          Routes.goLoginPage(context);
+                        },
+                      ),
+                     
                       _buildFansWidget(),
                     ],
                   )
@@ -69,7 +76,14 @@ class _MePageState extends State {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildCardWidget("me/iconMessage", "消息通知", "0条未读"),
+                        InkWell(
+                          child: _buildCardWidget(
+                              "me/iconMessage", "消息通知", "0条未读"),
+                          onTap: () {
+                            Routes.goLoginPage(context);
+                          },
+                        ),
+                        
                         const SizedBox(width: 10),
                         _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
                       ],
@@ -110,8 +124,13 @@ class _MePageState extends State {
       children: [
         Row(
           children: [
-            const JhAssetImage("common/iconTouxiang",
-                width: 62.0, height: 62.0),
+            InkWell(
+              child: const JhAssetImage("common/iconTouxiang",
+                  width: 62.0, height: 62.0),
+              onTap: () {
+                Routes.goLoginPage(context);
+              },
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

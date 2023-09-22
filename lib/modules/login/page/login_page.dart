@@ -1,4 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
+import 'package:wzty/modules/news/page/news_child_page.dart';
+import 'package:wzty/modules/news/provider/news_tab_provider.dart';
+import 'package:wzty/modules/news/widget/news_tabbar_item_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,9 +18,110 @@ class LoginPage extends StatefulWidget {
   }
 }
 
-class _LoginPageState extends State {
+class _LoginPageState extends State with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;
+  late PageController _pageController;
+
+  NewsTabProvider provider = NewsTabProvider();
+
+  final List tabs = ["登录", "注册"];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: tabs.length, vsync: this);
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _pageController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(height: double.infinity, width: double.infinity);
+    return ChangeNotifierProvider<NewsTabProvider>(
+        create: (context) => provider,
+        child: Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  alignment: Alignment.topCenter,
+                  image: JhImageUtils.getAssetImage("login/imgDengluBg"),
+                  fit: BoxFit.fitWidth),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: ScreenUtil().statusBarHeight + 59),
+                Padding(
+                  padding: const EdgeInsets.only(left: 34),
+                  child: Text(
+                    "您好，",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 36.sp,
+                        fontWeight: TextStyleUtils.semibold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 34),
+                  child: Text(
+                    "欢迎使用王者体育",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.sp,
+                        fontWeight: TextStyleUtils.semibold),
+                  ),
+                ),
+                SizedBox(height: 32),
+                Container(
+                  child: Column(
+                    children: [
+                      TabBar(
+                          onTap: (index) {
+                            if (!mounted) return;
+                            _pageController.jumpToPage(index);
+                          },
+                          isScrollable: true,
+                          controller: _tabController,
+                          indicator: const BoxDecoration(),
+                          labelPadding: EdgeInsets.zero,
+                          tabs: const <Widget>[
+                            LoginTabbarItemWidget(tabName: '登录', index: 0),
+                            LoginTabbarItemWidget(tabName: '注册', index: 1),
+                          ]),
+                      SizedBox(
+                          height: 200,
+                          child: PageView.builder(
+                              key: const Key('pageView'),
+                              itemCount: 2,
+                              onPageChanged: _onPageChange,
+                              controller: _pageController,
+                              itemBuilder: (_, int index) {
+                                return Container(
+                                  color: Colors.yellow,
+                                );
+                              }))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+
+
+  void _onPageChange(int index) {
+    provider.setIndex(index);
+    _tabController.animateTo(index);
   }
 }

@@ -1,6 +1,8 @@
 
 
 import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
@@ -49,6 +51,12 @@ class Routes {
     }));
   }
 
-
+  static goLoginPage(BuildContext context) {
+    return router.navigateTo(
+      context,
+      Routes.login,
+      transition: TransitionType.cupertinoFullScreenDialog,
+    );
+  }
 
 }
