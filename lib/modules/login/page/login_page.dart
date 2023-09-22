@@ -29,6 +29,9 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
   final List tabs = ["登录", "注册"];
 
+
+  
+
   @override
   void initState() {
     super.initState();
@@ -119,7 +122,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                             LoginTabbarItemWidget(tabName: '注册', index: 1),
                           ]),
                       SizedBox(
-                          height: 220, //208
+                          height: 250, //208
                           child: PageView.builder(
                               key: const Key('pageView'),
                               itemCount: 2,
@@ -150,7 +153,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                           ),
                         ),
                         onTap: () {
-                          
+
                         },
                       )
                     ],
