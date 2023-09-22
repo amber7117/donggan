@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/modules/login/page/login_content_widget.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/modules/news/provider/news_tab_provider.dart';
@@ -69,9 +70,9 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                         width: 22,
                         height: 22,
                       )),
-                      onTap: () {
-                        Routes.goBack(context);
-                      },
+                  onTap: () {
+                    Routes.goBack(context);
+                  },
                 ),
                 const SizedBox(height: 15),
                 Padding(
@@ -96,8 +97,12 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                         fontWeight: TextStyleUtils.semibold),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 18),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
                   child: Column(
                     children: [
                       TabBar(
@@ -114,17 +119,40 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                             LoginTabbarItemWidget(tabName: '注册', index: 1),
                           ]),
                       SizedBox(
-                          height: 200,
+                          height: 220, //208
                           child: PageView.builder(
                               key: const Key('pageView'),
                               itemCount: 2,
                               onPageChanged: _onPageChange,
                               controller: _pageController,
                               itemBuilder: (_, int index) {
-                                return Container(
-                                  color: Colors.yellow,
-                                );
-                              }))
+                                return const LoginContentWidget(
+                                    type: LoginContentType.verifyCode);
+                              })),
+                      InkWell(
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          margin: const EdgeInsets.only(
+                              top: 20, left: 54, right: 54, bottom: 20),
+                          padding: const EdgeInsets.only(top: 6),
+                          decoration: const BoxDecoration(
+                              color: ColorUtils.red235,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(24))),
+                          child: Text(
+                            "登录",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.sp,
+                                fontWeight: TextStyleUtils.bold),
+                          ),
+                        ),
+                        onTap: () {
+                          
+                        },
+                      )
                     ],
                   ),
                 )
