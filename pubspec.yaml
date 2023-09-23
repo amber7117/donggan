@@ -60,7 +60,8 @@ dependencies:
   easy_refresh: ^3.3.2+1
   #加密
   crypto: ^3.0.3
-
+  #event
+  event_bus: ^2.0.0
 
   
 dev_dependencies:

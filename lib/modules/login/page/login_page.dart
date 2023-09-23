@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/eventBus/event_bus_business_event.dart';
+import 'package:wzty/common/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/login/page/login_content_widget.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
@@ -24,8 +29,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State with SingleTickerProviderStateMixin {
+  
   late TabController _tabController;
   late PageController _pageController;
+  late StreamSubscription _loginStatusSub; //评论通知
 
   NewsTabProvider provider = NewsTabProvider();
 
@@ -37,12 +44,18 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
     _tabController = TabController(length: tabs.length, vsync: this);
     _pageController = PageController();
+
+    _loginStatusSub = eventBusManager.on<LoginEnableEvent>((event) {
+        logger.i("-----------------");
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     _pageController.dispose();
+
+    eventBusManager.off(_loginStatusSub);
 
     super.dispose();
   }

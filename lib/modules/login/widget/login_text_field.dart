@@ -188,8 +188,8 @@ class LoginTextFieldState extends State<LoginTextField> {
           image: JhImageUtils.getAssetImage(_isShowPwd
               ? "login/iconDengluChakan1"
               : "login/iconDengluChakan2"),
-          width: 18.0,
-          height: 40.0,
+          width: 20.0,
+          height: 20.0,
         ),
         onTap: () {
           setState(() {
@@ -206,9 +206,9 @@ class LoginTextFieldState extends State<LoginTextField> {
       hint: '清空输入框',
       child: GestureDetector(
         child: Image(
-            image: JhImageUtils.loadImage("iconDengluChakan2"),
-            width: 18,
-            height: 40),
+            image: JhImageUtils.getAssetImage("login/iconDengluChakan2"),
+            width: 20,
+            height: 20),
         onTap: () => widget.controller.text = '',
       ),
     );
