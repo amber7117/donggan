@@ -186,8 +186,8 @@ class LoginTextFieldState extends State<LoginTextField> {
       child: GestureDetector(
         child: Image(
           image: JhImageUtils.getAssetImage(_isShowPwd
-              ? "login/iconDengluChakan2"
-              : "login/iconDengluChakan1"),
+              ? "login/iconDengluChakan1"
+              : "login/iconDengluChakan2"),
           width: 18.0,
           height: 40.0,
         ),

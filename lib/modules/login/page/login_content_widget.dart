@@ -70,7 +70,7 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
         _buildPhoneWidget(),
         widget.type == LoginContentType.verifyCode
             ? _buildVCodeWidget()
-            : _buildPwdWidget,
+            : _buildPwdWidget(),
       ],
     );
   }
@@ -89,14 +89,13 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
                 fontSize: 18.sp,
                 fontWeight: TextStyleUtils.bold),
           ),
-          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image(
                 image: JhImageUtils.getAssetImage("login/iconDengluShoujihao"),
-                width: 22,
-                height: 22,
+                width: 20,
+                height: 20,
               ),
               const SizedBox(width: 4),
               Text(
@@ -119,7 +118,6 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
               )
             ],
           ),
-          const SizedBox(height: 10),
           Divider(color: ColorUtils.rgb(216, 216, 216), height: 0.5),
         ],
       ),
@@ -140,13 +138,12 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
                 fontSize: 18.sp,
                 fontWeight: TextStyleUtils.bold),
           ),
-          const SizedBox(height: 10),
           Row(
             children: [
               Image(
                 image: JhImageUtils.getAssetImage("login/iconDengluShoujihao"),
-                width: 22,
-                height: 22,
+                width: 20,
+                height: 20,
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -160,7 +157,6 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
               )
             ],
           ),
-          const SizedBox(height: 10),
           Divider(color: ColorUtils.rgb(216, 216, 216), height: 0.5),
         ],
       ),
@@ -181,13 +177,12 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
                 fontSize: 18.sp,
                 fontWeight: TextStyleUtils.bold),
           ),
-          const SizedBox(height: 10),
           Row(
             children: [
               Image(
                 image: JhImageUtils.getAssetImage("login/iconDengluShoujihao"),
-                width: 22,
-                height: 22,
+                width: 20,
+                height: 20,
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -195,13 +190,13 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
                   focusNode: _nodeText3,
                   controller: _pwdController,
                   maxLength: 11,
-                  keyboardType: TextInputType.phone,
+                  isInputPwd: true,
+                  keyboardType: TextInputType.text,
                   hintText: "请输入密码",
                 ),
               )
             ],
           ),
-          const SizedBox(height: 10),
           Divider(color: ColorUtils.rgb(216, 216, 216), height: 0.5),
         ],
       ),

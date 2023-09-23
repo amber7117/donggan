@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
@@ -21,16 +22,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State with SingleTickerProviderStateMixin {
-
   late TabController _tabController;
   late PageController _pageController;
 
   NewsTabProvider provider = NewsTabProvider();
 
   final List tabs = ["登录", "注册"];
-
-
-  
 
   @override
   void initState() {
@@ -53,7 +50,12 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
     return ChangeNotifierProvider<NewsTabProvider>(
         create: (context) => provider,
         child: Scaffold(
-          body: Container(
+          resizeToAvoidBottomInset: false,
+          body: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
                   alignment: Alignment.topCenter,
@@ -105,7 +107,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                   margin: const EdgeInsets.symmetric(horizontal: 18),
                   decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(22))),
                   child: Column(
                     children: [
                       TabBar(
@@ -129,8 +132,13 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                               onPageChanged: _onPageChange,
                               controller: _pageController,
                               itemBuilder: (_, int index) {
-                                return const LoginContentWidget(
-                                    type: LoginContentType.verifyCode);
+                                if (index == 0) {
+                                  return const LoginContentWidget(
+                                      type: LoginContentType.verifyCode);
+                                } else {
+                                  return const LoginContentWidget(
+                                      type: LoginContentType.pwd);
+                                }
                               })),
                       InkWell(
                         child: Container(
@@ -152,9 +160,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                 fontWeight: TextStyleUtils.bold),
                           ),
                         ),
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                       )
                     ],
                   ),
@@ -162,9 +168,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
               ],
             ),
           ),
-        ));
+        )));
   }
-
 
   void _onPageChange(int index) {
     provider.setIndex(index);
