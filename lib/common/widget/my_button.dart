@@ -34,7 +34,6 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bool isDark = false;
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
