@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,14 +57,15 @@ class _MyAppState extends State {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = ThemeData();
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (context, child) {
         return MaterialApp(
-          title: "test",
+          title: "王者体育",
           debugShowCheckedModeBanner: false,
           onGenerateRoute: router.generator,
+          builder: EasyLoading.init(),
         );
       },
     );

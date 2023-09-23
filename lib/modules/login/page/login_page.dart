@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
@@ -11,6 +12,7 @@ import 'package:wzty/modules/news/widget/news_tabbar_item_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,6 +45,10 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
     _pageController.dispose();
 
     super.dispose();
+  }
+
+  void _login() {
+    ToastUtils.showLoading();
   }
 
   @override
@@ -160,7 +166,9 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                 fontWeight: TextStyleUtils.bold),
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          _login();
+                        },
                       )
                     ],
                   ),

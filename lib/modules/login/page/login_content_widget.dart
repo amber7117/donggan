@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/modules/login/widget/login_text_field.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -60,6 +61,7 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
       // setState(() {
       //   _clickable = clickable;
       // });
+      // Provider.of(context)
     }
   }
 

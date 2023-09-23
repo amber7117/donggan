@@ -42,14 +42,14 @@ dependencies:
   connectivity_plus: ^4.0.2
   #路由
   fluro: ^2.0.5
-  #loading
-  flutter_spinkit: ^5.2.0
   #状态管理
   provider: ^6.0.5
   #log
   logger: ^2.0.2
   #Toast
   fluttertoast: ^8.2.2
+  #Toast
+  flutter_easyloading: ^3.0.5
   #图片相关
   cached_network_image: ^3.2.3
   #key
