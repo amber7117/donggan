@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
-import 'package:wzty/common/eventBus/event_bus_business_event.dart';
+import 'package:wzty/common/eventBus/event_bus_event.dart';
 import 'package:wzty/common/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/login/page/login_content_widget.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';

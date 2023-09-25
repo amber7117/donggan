@@ -1,24 +1,25 @@
 import 'dart:async';
 
 import 'package:event_bus/event_bus.dart';
+import 'package:wzty/app/app.dart';
 
 /// 全局的 EventBus
 /// https://www.cnblogs.com/liuys635/p/14670967.html
-/// 
+///
 typedef EventCallback<T> = void Function(T event);
 
 class EventBusManager {
+
+  factory EventBusManager() => _getInstance;
+
+  static EventBusManager get instance => _getInstance;
+
+  static final EventBusManager _getInstance = EventBusManager._internal();
   
-  static final EventBusManager _instance = EventBusManager._internal();
-
-  static EventBusManager get instance => _instance;
-
-  factory EventBusManager() => _instance;
-
   //初始化eventBus
   late EventBus _eventBus;
-
   EventBusManager._internal() {
+    logger.i("EventBusManager._internal()");
     _eventBus = EventBus();
   }
 
