@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/main/domain/domain_manager.dart';
 
 void main() {
   // 不加这个强制横/竖屏会报错
@@ -32,6 +33,8 @@ void main() {
   //   user = UserInfoEntity.fromJson(await SpUtil.getJSON(SpKeys.USERINFO));
   //   logger.v('load user from sp: ${user.toJson()}');
   // }
+
+  DomainManager.instance.createDomain();
 
   runApp(const MyApp());
 }

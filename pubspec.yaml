@@ -59,7 +59,9 @@ dependencies:
   #刷新
   easy_refresh: ^3.3.2+1
   #加密
-  crypto: ^3.0.3
+  # crypto: ^3.0.3
+  encrypt: ^5.0.3
+  
   #event
   event_bus: ^2.0.0
 

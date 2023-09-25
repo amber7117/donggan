@@ -47,4 +47,4 @@ class EventBusManager {
   }
 }
 
-var eventBusManager = EventBusManager.instance;
+EventBusManager eventBusManager = EventBusManager.instance;
