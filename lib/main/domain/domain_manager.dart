@@ -16,20 +16,39 @@ class DomainManager {
     logger.i("EventBusManager._internal()");
   }
 
-  List<DomainEntity> _domainList = [];
-  
+  final List<DomainEntity> _domainList = [];
+  int _domainIdx = 0;
+
+  DomainEntity? currentDomain() {
+    if (_domainList.isEmpty) {
+      return null;
+    }
+    if (_domainIdx >= _domainList.length) {
+      _domainIdx = 0;
+    }
+
+    DomainEntity domain = _domainList[_domainIdx];
+    _domainIdx++;
+
+    return domain;
+  }
+
+  removeDomain() {
+
+  }
+
   createDomain() {
-    _domainList.addAll(obtainDomainFromLocal());
+    _domainList.addAll(_obtainDomainFromLocal());
     if (appTest) {
     //   _domainList.removeRange(0, _domainList.length);
     }
   }
 
-  obtainDomainFromCache() {
+  _obtainDomainFromCache() {
 
   }
 
-  obtainDomainFromLocal() {
+  _obtainDomainFromLocal() {
     if (appTest) {
       DomainEntity domain1 = DomainEntity.local(
           "dsWZu9x7TALaTWz0zgz8m0ou1qh0RzqsUkkjctCmAaQ=",

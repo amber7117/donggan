@@ -8,8 +8,6 @@ const aesKEY = "8930ba380e7fdadf";
 ///定义偏移量
 const aesIV = "510cf0fcbdc4d20f";
 
-//128的keysize=16，192keysize=24，256keysize=32
-
 class JhEncryptUtils {
 //  //Base64编码
 //  static String encodeBase64(String data) {
