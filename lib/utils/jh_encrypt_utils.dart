@@ -47,7 +47,7 @@ class JhEncryptUtils {
      final key = Key.fromUtf8(aesKEY);
      final iv = IV.fromUtf8(aesIV);
      final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
-     final decrypted = encrypter.decrypt16(encrypted, iv: iv);
+     final decrypted = encrypter.decrypt64(encrypted, iv: iv);
      return decrypted;
    } catch (err) {
      logger.i("aes decode error:$err");

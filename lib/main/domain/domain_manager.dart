@@ -12,10 +12,8 @@ class DomainManager {
   static final DomainManager _getInstance = DomainManager._internal();
   
   //初始化eventBus
-  late DomainManager _domainMgr;
   DomainManager._internal() {
     logger.i("EventBusManager._internal()");
-    _domainMgr = DomainManager();
   }
 
   List<DomainEntity> _domainList = [];
