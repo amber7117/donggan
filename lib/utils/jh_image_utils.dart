@@ -39,7 +39,7 @@ class JhImageUtils {
       return AssetImage(obtainImgPath(placeholder));
     }
     return CachedNetworkImageProvider(imageUrl,
-        errorListener: () => print('图片加载失败！'));
+        errorListener: (data) => print('图片加载失败！'));
   }
 
   /// 获取图片路径

@@ -6,8 +6,8 @@ class AppUtils {
   static String generateTouristId() {
     List<String> numArr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     StringBuffer sb = StringBuffer();
-    var random = Random();
-    for (var i = 0; i < 5; i++) {
+    Random random = Random();
+    for (int i = 0; i < 5; i++) {
       int idx = random.nextInt(numArr.length);
       sb.write(numArr[idx]);
     }
