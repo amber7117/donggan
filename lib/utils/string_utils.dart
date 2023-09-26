@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:crypto/crypto.dart';
 import 'package:wzty/utils/date_utils.dart';
 
+const signMD5 = "9e304d4e8df1b74cfa009913198428ab";
+
 class StringUtils {
   static String generateRandomString(int length) {
     const charset =
@@ -116,7 +118,7 @@ class StringUtils {
     }
 
     /// 时间戳
-    int timeInterval = DateUtils.currentTimeMillis() ~/ 1000;
+    int timeInterval = WZDateUtils.currentTimeMillis() ~/ 1000;
 
     if (typeValue != 3) {
       timeInterval += 3600; // 一小时后过期

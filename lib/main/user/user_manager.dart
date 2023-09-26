@@ -1,15 +1,15 @@
 import 'package:wzty/main/user/user_entity.dart';
 
-class DomainManager {
+class USerManager {
 
-  factory DomainManager() => _getInstance;
+  factory USerManager() => _getInstance;
 
-  static DomainManager get instance => _getInstance;
+  static USerManager get instance => _getInstance;
 
-  static final DomainManager _getInstance = DomainManager._internal();
+  static final USerManager _getInstance = USerManager._internal();
   
   //初始化eventBus
-  DomainManager._internal() {
+  USerManager._internal() {
   }
 
   isLogin() {

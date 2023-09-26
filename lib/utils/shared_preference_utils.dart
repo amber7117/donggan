@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SpKeys {
+  static const String uuid = 'uuid';
+
   // static const String userInfo = 'userInfo';
   static const String token = 'token';
   static const String uid = 'uid'; 

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:wzty/utils/shared_preference_utils.dart';
 
 class AppUtils {
   static String generateTouristId() {
@@ -32,7 +33,12 @@ class AppUtils {
   }
 
   // 获取设备的唯一标识 uuid
-  static Future<String> get platformUid async {
+  static Future<String> getPlatformUid() async {
+    String uuid = await SpUtils.getString(SpKeys.uuid);
+    if (uuid.isNotEmpty) {
+      return uuid;
+    }
+
     var data = await getDeviceInfo();
     if (data == null) {
       return "";
@@ -44,6 +50,11 @@ class AppUtils {
     } else if (Platform.isAndroid) {
       res = data!.androidId;
     }
+
+    if (res.isNotEmpty) {
+      await SpUtils.save(SpKeys.uuid, res);
+    }
+
     return res;
   }
 }

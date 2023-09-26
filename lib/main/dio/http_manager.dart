@@ -1,10 +1,16 @@
 
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import 'package:wzty/main/domain/domain_entity.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
+import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/utils/app_utils.dart';
+import 'package:wzty/utils/date_utils.dart';
+import 'package:wzty/utils/string_utils.dart';
 
 enum HttpMethod {
   get(value: "get"),
@@ -68,7 +74,8 @@ class HttpManager {
     return dio!;
   }
 
-  static Map<String, dynamic> getHeader() {
+  static Future<Map<String, dynamic>> getHeader(
+      Map<String, dynamic> params, HttpMethod method) async {
     Map<String, dynamic> headers = {};
     headers["Content-Type"] = "application/json";
 
@@ -79,8 +86,31 @@ class HttpManager {
     headers["channel"] = "ZQTY";
     headers["channelApp"] = "ZQTY";
 
+    if (USerManager.instance.isLogin()) {
+      headers["Authorization"] = "Bearer ${USerManager.instance.token}";
+      headers["x-user-header"] = "{\"uid\":${USerManager.instance.uid}}";
+    } else {
+      headers["Authorization"] = "Basic YXBwOmFwcA==";
+      headers["x-user-header"] = "{\"uid\":0}";
+    }
 
+    String deveiceID = await AppUtils.getPlatformUid();
+    headers["deviceId"] = deveiceID;
+
+    String milliseconds = "${WZDateUtils.currentTimeMillis()}";
+    headers["t"] = milliseconds;
     
+    String signValue = "";
+    if (method == HttpMethod.get) {
+      signValue = StringUtils.signGetRequest(params, signMD5, milliseconds);
+    } else {
+      signValue = StringUtils.signPostRequest(params, signMD5, milliseconds);
+    }
+    headers["sign"] = signValue;
+
+    String randomStr = StringUtils.generateRandomString(20);
+    headers["r"] = randomStr;
+
     return headers;
   }
 
