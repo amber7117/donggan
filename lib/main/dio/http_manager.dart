@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -21,17 +20,17 @@ enum HttpMethod {
   final String value;
 }
 
+typedef CompleteCallback<T> = void Function(bool success, T? data);
+
 class HttpManager {
   static Dio? dio;
 
-  static requestWithCallback(
+  /// 业务请求
+  static Future request(
     String path,
     HttpMethod method, {
     params,
-    Function? onSuccess,
-    Function? onFail,
   }) async {
-
     DomainEntity? domain = DomainManager.instance.currentDomain();
     if (domain == null) {
       return;
@@ -48,8 +47,8 @@ class HttpManager {
 
     Map<String, dynamic> headers = await getHeader(params, method);
     try {
-      Response response =
-          await instance.request(urlString, options: Options(method: method.value, headers: headers));
+      Response response = await instance.request(urlString,
+          options: Options(method: method.value, headers: headers));
       debugPrint('response: ${json.encode(response.data)}');
       return response.data;
     } on DioException catch (e) {
@@ -57,6 +56,35 @@ class HttpManager {
     }
   }
 
+  /// 请求ping
+  static Future pingWithCB(
+      DomainEntity domain, CompleteCallback complete) async {
+    String urlString = '${domain.domain}/ping';
+
+    Dio instance = getInstance();
+
+    try {
+      Response response = await instance.request(urlString,
+          options: Options(method: HttpMethod.get.value));
+      debugPrint('response: ${json.encode(response.data)}');
+      complete(true, "");
+    } on DioException {
+      complete(false, "");
+    }
+  }
+
+  /// 请求cdn domain
+  static Future requestCDNData(String urlString) async {
+    Dio instance = getInstance();
+
+    try {
+      Response response = await instance.request(urlString);
+      debugPrint('response: ${json.encode(response.data)}');
+      return response.data;
+    } on DioException catch (e) {
+      debugPrint('request error:${e.toString()} ${e.response?.data}');
+    }
+  }
 
   /// 创建 dio 实例对象
   static Dio getInstance() {
@@ -99,7 +127,7 @@ class HttpManager {
 
     String milliseconds = "${WZDateUtils.currentTimeMillis()}";
     headers["t"] = milliseconds;
-    
+
     String signValue = "";
     if (method == HttpMethod.get) {
       signValue = StringUtils.signGetRequest(params, signMD5, milliseconds);
@@ -113,5 +141,4 @@ class HttpManager {
 
     return headers;
   }
-
 }

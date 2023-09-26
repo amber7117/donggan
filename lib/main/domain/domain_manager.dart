@@ -1,20 +1,25 @@
+import 'dart:convert';
 
-
+import 'package:wzty/app/api.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/dio/http_manager.dart';
+import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/domain/domain_entity.dart';
+import 'package:wzty/utils/shared_preference_utils.dart';
+
+enum DomainPullFrom { local, server, cdn, npm }
 
 class DomainManager {
-
   factory DomainManager() => _getInstance;
 
   static DomainManager get instance => _getInstance;
 
   static final DomainManager _getInstance = DomainManager._internal();
-  
+
   //初始化eventBus
   DomainManager._internal();
 
-  final List<DomainEntity> _domainList = [];
+  List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
 
   DomainEntity? currentDomain() {
@@ -31,22 +36,22 @@ class DomainManager {
     return domain;
   }
 
-  removeDomain() {
+  removeDomain() {}
 
-  }
-
-  createDomain() {
-    _domainList.addAll(_obtainDomainFromLocal());
+  createDomain() async {
+    List<DomainEntity> domianList = await getDomainFromCache();
     if (appTest) {
-    //   _domainList.removeRange(0, _domainList.length);
+      domianList.clear();
     }
+    if (domianList.isEmpty) {
+      domianList = _getDomainFromLocal();
+    }
+
+    _domainList = domianList;
+    checkDomainList(domianList, DomainPullFrom.local);
   }
 
-  _obtainDomainFromCache() {
-
-  }
-
-  _obtainDomainFromLocal() {
+  _getDomainFromLocal() {
     if (appTest) {
       DomainEntity domain1 = DomainEntity.local(
           "dsWZu9x7TALaTWz0zgz8m0ou1qh0RzqsUkkjctCmAaQ=",
@@ -73,8 +78,119 @@ class DomainManager {
         signType: "A");
 
     return [domain1, domain3, domain4];
-
-
   }
 
+  void pullDomainFromServer() async {
+    HttpResultBean result = await HttpManager.request(DomainApi.pullServer, HttpMethod.get);
+    if (result.isSuccess()) {
+      checkDomainList(result.data, DomainPullFrom.server);
+    }
+  }
+
+  void pullDomainFromCDN() {}
+
+  void pullDomainFromNPM() {}
+
+  void checkDomainList(
+      List<DomainEntity> domainList, DomainPullFrom domainFrom) {
+    List<DomainEntity> retArr = [];
+
+    List<Future> group = [];
+    for (DomainEntity model in domainList) {
+      Future future = HttpManager.pingWithCB(model, (success, data) {
+        if (success) {
+          retArr.add(model);
+        }
+      });
+      group.add(future);
+    }
+
+    Future.wait(group).then((value) {
+      handleDomainList(retArr, domainFrom);
+    });
+  }
+
+  void handleDomainList(List<DomainEntity> retArr, DomainPullFrom domainFrom) {
+    if (domainFrom == DomainPullFrom.local) {
+      _domainList = retArr;
+
+      if (retArr.isEmpty) {
+        pullDomainFromCDN();
+      } else {
+        pullDomainFromServer();
+
+        // notifyDomainAvaliable(modelList: _domainList);
+      }
+    } else {
+      _domainList = removeRepeatedDomain(retArr);
+
+      cacheDomainArr(_domainList);
+
+      // notifyDomainAvaliable(modelList: _domainList);
+    }
+
+    if (domainFrom == DomainPullFrom.server && retArr.length < 2) {
+      // cdn 拉取
+      pullDomainFromCDN();
+    }
+
+    if (domainFrom == DomainPullFrom.cdn && retArr.length < 2) {
+      // 去npm 拉取
+      pullDomainFromNPM();
+    }
+  }
+
+  List<DomainEntity> removeRepeatedDomain(List<DomainEntity> serverDomainArr) {
+    if (_domainList.isEmpty) {
+      return serverDomainArr;
+    }
+
+    List<DomainEntity> serverDomainRet = [];
+
+    for (DomainEntity modelServer in serverDomainArr) {
+      DomainEntity? modelTmp;
+      for (DomainEntity modelLocal in _domainList) {
+        if (modelServer.domain == modelLocal.domain) {
+          modelTmp = null;
+          break;
+        }
+        modelTmp = modelServer;
+      }
+
+      if (modelTmp != null) {
+        serverDomainRet.add(modelTmp);
+      }
+    }
+
+    if (serverDomainRet.isEmpty) {
+      return _domainList;
+    }
+
+    List<DomainEntity> tmpArr = [];
+    tmpArr.addAll(_domainList);
+    tmpArr.addAll(serverDomainRet);
+
+    return tmpArr;
+  }
+
+  Future<List<DomainEntity>> getDomainFromCache() async {
+    String domainStr = await SpUtils.getString(SpKeys.domain);
+
+    List<dynamic> domainMapList;
+    try {
+      domainMapList = jsonDecode(domainStr);
+    } catch (err) {
+      domainMapList = [];
+    }
+
+    List<DomainEntity> domianList =
+        domainMapList.map((userMap) => DomainEntity.fromJson(userMap)).toList();
+
+    return domianList;
+  }
+
+  void cacheDomainArr(List<DomainEntity> modelArr) {
+    String domainStr = jsonEncode(modelArr);
+    SpUtils.save(SpKeys.domain, domainStr);
+  }
 }

@@ -26,3 +26,11 @@ class LoginApi {
   static String modifyPwd = '/qiutx-usercenter/v2/app/findpwd/reset';
 
 }
+
+class DomainApi {
+
+  static String ping = '/ping';
+
+  static String pullServer = '/qiutx-support/domains/v2/pull';
+
+}
