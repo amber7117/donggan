@@ -46,9 +46,10 @@ class HttpManager {
 
     Dio instance = getInstance();
 
+    Map<String, dynamic> headers = await getHeader(params, method);
     try {
       Response response =
-          await instance.request(urlString, options: Options(method: method.value));
+          await instance.request(urlString, options: Options(method: method.value, headers: headers));
       debugPrint('response: ${json.encode(response.data)}');
       return response.data;
     } on DioException catch (e) {

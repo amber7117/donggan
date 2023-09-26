@@ -7,6 +7,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
+import 'package:wzty/main/user/user_manager.dart';
 
 void main() {
   // 不加这个强制横/竖屏会报错

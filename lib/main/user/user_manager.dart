@@ -11,7 +11,9 @@ class UserManager {
   static final UserManager _getInstance = UserManager._internal();
   
   //初始化eventBus
-  UserManager._internal();
+  UserManager._internal() {
+    createUser();
+  }
 
   createUser() async {
     token = await SpUtils.getString(SpKeys.token);
