@@ -12,9 +12,7 @@ class DomainManager {
   static final DomainManager _getInstance = DomainManager._internal();
   
   //初始化eventBus
-  DomainManager._internal() {
-    logger.i("EventBusManager._internal()");
-  }
+  DomainManager._internal();
 
   final List<DomainEntity> _domainList = [];
   int _domainIdx = 0;

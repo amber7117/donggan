@@ -32,11 +32,6 @@ class DomainEntity {
     this.signType = "",
   }) {
     domain = JhEncryptUtils.aesDecrypt(domain);
-    token = token;
-    cdn = cdn;
-    openFlag = openFlag;
-    weight = weight;
-    signType = signType;
   }
 
   factory DomainEntity.fromJson(Map<String, dynamic> json) => DomainEntity(

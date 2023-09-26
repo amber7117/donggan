@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -86,9 +85,9 @@ class HttpManager {
     headers["channel"] = "ZQTY";
     headers["channelApp"] = "ZQTY";
 
-    if (USerManager.instance.isLogin()) {
-      headers["Authorization"] = "Bearer ${USerManager.instance.token}";
-      headers["x-user-header"] = "{\"uid\":${USerManager.instance.uid}}";
+    if (UserManager.instance.isLogin()) {
+      headers["Authorization"] = "Bearer ${UserManager.instance.token}";
+      headers["x-user-header"] = "{\"uid\":${UserManager.instance.uid}}";
     } else {
       headers["Authorization"] = "Basic YXBwOmFwcA==";
       headers["x-user-header"] = "{\"uid\":0}";
