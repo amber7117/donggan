@@ -6,6 +6,11 @@ const domainCDNH = "aHc=";
 const domainCDNT = "dGVuY2VudA==";
 const domainCDNF = "ZnVubnVsbA==";
 
+
+const domainType = "domainType";
+const domainToken = "domainToken";
+const domainSignType = "domainSignType";
+
 class DomainEntity {
   String domain;
   String token;
@@ -13,6 +18,7 @@ class DomainEntity {
   bool openFlag;
   int weight;
   String signType;
+  int domainType = 0;
 
   DomainEntity({
     required this.domain,
@@ -21,7 +27,7 @@ class DomainEntity {
     this.openFlag = true,
     this.weight = 0,
     this.signType = "",
-  });
+  }) : domainType = getDomainCDNType(cdn);
 
   DomainEntity.local(
     this.domain,
@@ -32,6 +38,7 @@ class DomainEntity {
     this.signType = "",
   }) {
     domain = JhEncryptUtils.aesDecrypt(domain);
+    domainType = getDomainCDNType(cdn);
   }
 
   factory DomainEntity.fromJson(Map<String, dynamic> json) => DomainEntity(
@@ -51,4 +58,15 @@ class DomainEntity {
         "weight": weight,
         "signType": signType,
       };
+
+  static int getDomainCDNType(String cdn) {
+    if (cdn == domainCDNA) {
+      return 1;
+    } else if (cdn == domainCDNH) {
+      return 2;
+    } else if (cdn == domainCDNT) {
+      return 3;
+    }
+    return 0;
+  }
 }

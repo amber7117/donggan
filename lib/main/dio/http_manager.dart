@@ -51,6 +51,11 @@ class HttpManager {
     params ??= {};
 
     Map<String, dynamic> headers = await getHeader(params, method);
+
+    headers[domainType] = domain.domainType;
+    headers[domainToken] = domain.token;
+    headers[domainSignType] = domain.signType;
+
     try {
       Response response = await instance.request(urlString,
           options: Options(method: method.value, headers: headers));
@@ -69,9 +74,15 @@ class HttpManager {
 
     Dio instance = getInstance();
 
+    Map<String, dynamic> headers = {};
+
+    headers[domainType] = domain.domainType;
+    headers[domainToken] = domain.token;
+    headers[domainSignType] = domain.signType;
+
     try {
       Response response = await instance.request(urlString,
-          options: Options(method: HttpMethod.get.value));
+          options: Options(method: HttpMethod.get.value, headers: headers));
       HttpResultBean result = HttpConfig.handleResponseData(response);
       complete(result);
     } catch (exception) {
@@ -106,6 +117,30 @@ class HttpManager {
 
       dio = Dio(options);
       dio?.interceptors.add(LogInterceptor());
+      dio?.interceptors.add(InterceptorsWrapper(onRequest:
+          (RequestOptions options, RequestInterceptorHandler handler) async { 
+        int typeValue = options.headers[domainType] ?? 0;
+        if (typeValue > 0) {
+          String urlStr = options.uri.toString();
+
+          String signTypeValue = options.headers[domainSignType];
+          String tokenValue = options.headers[domainToken];
+
+          if (signTypeValue == "B") {
+            urlStr = StringUtils.signTypeB(urlStr, tokenValue, typeValue);
+          } else {
+            urlStr = StringUtils.signTypeA(urlStr, tokenValue, typeValue);
+          }
+          
+          options.path = urlStr;
+
+          if (options.method == HttpMethod.get.value) {
+            options.queryParameters = {};
+          }
+
+        }
+        return handler.next(options);
+      }));
     }
     return dio!;
   }

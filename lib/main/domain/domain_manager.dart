@@ -40,7 +40,7 @@ class DomainManager {
 
   createDomain() async {
     List<DomainEntity> domianList = await getDomainFromCache();
-    if (appTest) {
+    if (appDebug) {
       domianList.clear();
     }
     if (domianList.isEmpty) {
