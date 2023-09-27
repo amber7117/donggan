@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
+import 'package:wzty/main/dio/http_config.dart';
+import 'package:wzty/main/dio/http_result_bean.dart';
 
 import 'package:wzty/main/domain/domain_entity.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
@@ -20,20 +23,20 @@ enum HttpMethod {
   final String value;
 }
 
-typedef CompleteCallback<T> = void Function(bool success, T? data);
+typedef CompleteCallback = void Function(HttpResultBean result);
 
 class HttpManager {
   static Dio? dio;
 
   /// 业务请求
-  static Future request(
+  static Future<HttpResultBean> request(
     String path,
     HttpMethod method, {
-    params,
+    Map<String, dynamic>? params,
   }) async {
     DomainEntity? domain = DomainManager.instance.currentDomain();
     if (domain == null) {
-      return;
+      return HttpConfig.handleDomianErr();
     }
 
     String urlString;
@@ -45,14 +48,17 @@ class HttpManager {
 
     Dio instance = getInstance();
 
+    params ??= {};
+
     Map<String, dynamic> headers = await getHeader(params, method);
     try {
       Response response = await instance.request(urlString,
           options: Options(method: method.value, headers: headers));
-      debugPrint('response: ${json.encode(response.data)}');
-      return response.data;
-    } on DioException catch (e) {
-      debugPrint('request error:${e.toString()} ${e.response?.data}');
+      // logger.i(response.data);
+      return HttpConfig.handleResponseData(response);
+    } catch (exception) {
+      logger.e("----catch--请求错误-----$exception");
+      return HttpConfig.handleResponseErr();
     }
   }
 
@@ -66,23 +72,25 @@ class HttpManager {
     try {
       Response response = await instance.request(urlString,
           options: Options(method: HttpMethod.get.value));
-      debugPrint('response: ${json.encode(response.data)}');
-      complete(true, "");
-    } on DioException {
-      complete(false, "");
+      HttpResultBean result = HttpConfig.handleResponseData(response);
+      complete(result);
+    } catch (exception) {
+      logger.e("----catch--请求错误-----$exception");
+      HttpResultBean result = HttpConfig.handleResponseErr();
+      complete(result);
     }
   }
 
   /// 请求cdn domain
-  static Future requestCDNData(String urlString) async {
+  static Future<HttpResultBean> requestCDNData(String urlString) async {
     Dio instance = getInstance();
 
     try {
       Response response = await instance.request(urlString);
-      debugPrint('response: ${json.encode(response.data)}');
-      return response.data;
-    } on DioException catch (e) {
-      debugPrint('request error:${e.toString()} ${e.response?.data}');
+      return HttpConfig.handleResponseData(response);
+    } catch (exception) {
+      logger.e("----catch--请求错误-----$exception");
+      return HttpConfig.handleResponseErr();
     }
   }
 

@@ -40,7 +40,7 @@ class DomainEntity {
         cdn: json["cdn"],
         openFlag: json["openFlag"],
         weight: json["weight"],
-        signType: json["signType"],
+        signType: json["signType"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

@@ -83,7 +83,9 @@ class DomainManager {
   void pullDomainFromServer() async {
     HttpResultBean result = await HttpManager.request(DomainApi.pullServer, HttpMethod.get);
     if (result.isSuccess()) {
-      checkDomainList(result.data, DomainPullFrom.server);
+      List retList = result.data;
+      List<DomainEntity> domianList = retList.map((userMap) => DomainEntity.fromJson(userMap)).toList();
+      checkDomainList(domianList, DomainPullFrom.server);
     }
   }
 
@@ -97,8 +99,8 @@ class DomainManager {
 
     List<Future> group = [];
     for (DomainEntity model in domainList) {
-      Future future = HttpManager.pingWithCB(model, (success, data) {
-        if (success) {
+      Future future = HttpManager.pingWithCB(model, (result) {
+        if (result.isSuccess()) {
           retArr.add(model);
         }
       });
