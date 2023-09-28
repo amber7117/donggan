@@ -7,7 +7,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
-import 'package:wzty/modules/login/page/login_content_widget.dart';
+import 'package:wzty/modules/login/widget/login_content_widget.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
 import 'package:wzty/modules/news/provider/news_tab_provider.dart';
@@ -92,6 +92,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    
     return ChangeNotifierProvider<NewsTabProvider>(
         create: (context) => provider,
         child: Scaffold(
@@ -148,75 +149,89 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 18),
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(22))),
-                      child: Column(
-                        children: [
-                          TabBar(
-                              onTap: (index) {
-                                if (!mounted) return;
-                                _pageController.jumpToPage(index);
-                              },
-                              isScrollable: true,
-                              controller: _tabController,
-                              indicator: const BoxDecoration(),
-                              labelPadding: EdgeInsets.zero,
-                              tabs: const <Widget>[
-                                LoginTabbarItemWidget(tabName: '登录', index: 0),
-                                LoginTabbarItemWidget(tabName: '注册', index: 1),
-                              ]),
-                          SizedBox(
-                              height: 250, //208
-                              child: PageView.builder(
-                                  key: const Key('pageView'),
-                                  itemCount: 2,
-                                  onPageChanged: _onPageChange,
-                                  controller: _pageController,
-                                  itemBuilder: (_, int index) {
-                                    if (index == 0) {
-                                      return const LoginContentWidget(
-                                          type: LoginContentType.verifyCode);
-                                    } else {
-                                      return const LoginContentWidget(
-                                          type: LoginContentType.pwd);
-                                    }
-                                  })),
-                          StatefulBuilder(builder: (context, setState) {
-                            _loginBtnSetter = setState;
-                            return InkWell(
-                              child: Container(
-                                width: double.infinity,
-                                height: 48,
-                                margin: const EdgeInsets.only(
-                                    top: 20, left: 54, right: 54, bottom: 20),
-                                padding: const EdgeInsets.only(top: 6),
-                                decoration: BoxDecoration(
-                                    color: _clickable
-                                        ? ColorUtils.red235
-                                        : ColorUtils.red235.withOpacity(0.5),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(24))),
-                                child: Text(
-                                  "登录",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.sp,
-                                      fontWeight: TextStyleUtils.bold),
-                                ),
+                    
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 18),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(131, 1, 20, 0.36), // 阴影颜色
+                                spreadRadius: 4, // 阴影扩散程度
+                                blurRadius: 18, // 阴影模糊程度
+                                offset: Offset(0, 10), // 阴影偏移量
                               ),
-                              onTap: () {
-                                _login();
-                              },
-                            );
-                          })
-                        ],
+                            ],
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(22))),
+                            
+                        child: Column(
+                          children: [
+                            TabBar(
+                                onTap: (index) {
+                                  if (!mounted) return;
+                                  _pageController.jumpToPage(index);
+                                },
+                                isScrollable: true,
+                                controller: _tabController,
+                                indicator: const BoxDecoration(),
+                                labelPadding: EdgeInsets.zero,
+                                tabs: const <Widget>[
+                                  LoginTabbarItemWidget(
+                                      tabName: '登录', index: 0),
+                                  LoginTabbarItemWidget(
+                                      tabName: '注册', index: 1),
+                                ]),
+                            SizedBox(
+                                height: 250, //208
+                                child: PageView.builder(
+                                    key: const Key('pageView'),
+                                    itemCount: 2,
+                                    onPageChanged: _onPageChange,
+                                    controller: _pageController,
+                                    itemBuilder: (_, int index) {
+                                      if (index == 0) {
+                                        return const LoginContentWidget(
+                                            type: LoginContentType.verifyCode);
+                                      } else {
+                                        return const LoginContentWidget(
+                                            type: LoginContentType.pwd);
+                                      }
+                                    })),
+                            StatefulBuilder(builder: (context, setState) {
+                              _loginBtnSetter = setState;
+                              return InkWell(
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 48,
+                                  margin: const EdgeInsets.only(
+                                      top: 20, left: 54, right: 54, bottom: 20),
+                                  padding: const EdgeInsets.only(top: 6),
+                                  decoration: BoxDecoration(
+                                      color: _clickable
+                                          ? ColorUtils.red235
+                                          : ColorUtils.red235.withOpacity(0.5),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(24))),
+                                  child: Text(
+                                    "登录",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.sp,
+                                        fontWeight: TextStyleUtils.bold),
+                                  ),
+                                ),
+                                onTap: () {
+                                  _login();
+                                },
+                              );
+                            })
+                          ],
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
