@@ -28,7 +28,7 @@ class LoginService {
     if (result.isSuccess()) {
       complete("");
     } else {
-      complete(result.data);
+      complete(result.data ?? result.msg);
     }
       
       

@@ -1,5 +1,8 @@
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_config.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
@@ -47,18 +50,24 @@ class HttpManager {
 
     Dio instance = getInstance();
 
+    // 空值处理
     params ??= {};
+
+    // post参数处理
+    Map<String, dynamic> data = {};
+    if (method == HttpMethod.post) {
+      data = params;
+      params = {};
+    } 
 
     Map<String, dynamic> headers = await getHeader(params, method);
 
-    headers[domainType] = domain.domainType;
-    headers[domainToken] = domain.token;
-    headers[domainSignType] = domain.signType;
+    headers.addDomainValue(domain);
 
     try {
-      Response response = await instance.request(urlString,
+      Response response = await instance.request(urlString, data: data,
+          queryParameters: params,
           options: Options(method: method.value, headers: headers));
-      // logger.i(response.data);
       return HttpConfig.handleResponseData(response);
     } catch (exception) {
       logger.e("----catch--请求错误-----$exception");
@@ -75,9 +84,7 @@ class HttpManager {
 
     Map<String, dynamic> headers = {};
 
-    headers[domainType] = domain.domainType;
-    headers[domainToken] = domain.token;
-    headers[domainSignType] = domain.signType;
+    headers.addDomainValue(domain);
 
     try {
       Response response = await instance.request(urlString,
@@ -138,11 +145,25 @@ class HttpManager {
             options.queryParameters = {};
           }
 
-          options.headers[domainSignType] = "";
-          options.headers[domainToken] = "";
+          options.headers.removeDomainValue();
         }
         return handler.next(options);
       }));
+      
+      // 抓包代码
+      if (appDebug) {
+        (dio?.httpClientAdapter as DefaultHttpClientAdapter)
+            .onHttpClientCreate = (HttpClient client) {
+          client.idleTimeout = const Duration(seconds: 5);
+          client.findProxy = (uri) {
+            return "PROXY 192.168.10.143:8888";
+          };
+          // 代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+          return null;
+        };
+      }
     }
     return dio!;
   }
@@ -185,5 +206,20 @@ class HttpManager {
     headers["r"] = randomStr;
 
     return headers;
+  }
+}
+
+
+extension Domain on Map {
+  addDomainValue(DomainEntity domain) {
+    this[domainType] = domain.domainType;
+    this[domainToken] = domain.token;
+    this[domainSignType] = domain.signType;
+  }
+
+  removeDomainValue() {
+    remove(domainType);
+    remove(domainSignType);
+    remove(domainToken);
   }
 }

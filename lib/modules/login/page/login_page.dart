@@ -85,7 +85,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
       if (result.isEmpty) {
         ToastUtils.showSuccess("发送成功");
       } else {
-        ToastUtils.showSuccess(result);
+        ToastUtils.showError(result);
       }
     });
   }

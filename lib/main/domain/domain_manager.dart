@@ -107,9 +107,13 @@ class DomainManager {
       group.add(future);
     }
 
-    Future.wait(group).then((value) {
+    try {
+      Future.wait(group).then((value) {
+        handleDomainList(retArr, domainFrom);
+      });
+    } catch (e) {
       handleDomainList(retArr, domainFrom);
-    });
+    }
   }
 
   void handleDomainList(List<DomainEntity> retArr, DomainPullFrom domainFrom) {

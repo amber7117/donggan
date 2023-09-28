@@ -16,7 +16,7 @@ class HttpConfig {
   }
 
   static HttpResultBean handleResponseErr() {
-    return HttpResultBean(code: 404, msg: "网络超时");
+    return HttpResultBean(code: 400, msg: "请求异常");
   }
 
   static HttpResultBean handleDomianErr() {
@@ -24,3 +24,4 @@ class HttpConfig {
   }
 
 }
+
