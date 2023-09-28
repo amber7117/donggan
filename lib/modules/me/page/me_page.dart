@@ -27,50 +27,26 @@ class _MePageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Container(
-              padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-              height: 280.h,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.topCenter,
-                      image: JhImageUtils.getAssetImage("me/bgMeHead"))),
-              child: Column(
-                children: [
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.settings)),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
-                    child: _buildInfoWidget(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        child: _buildFansWidget(),
-                        onTap: () {
-                          Routes.goLoginPage(context);
-                        },
-                      ),
-                     
-                      _buildFansWidget(),
-                    ],
-                  )
-                ],
-              )),
-          Column(
+      body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.topCenter,
+                  image: JhImageUtils.getAssetImage("me/bgMeHead"))),
+          child: Column(
             children: [
-              Container(
-                  color: Colors.transparent,
-                  padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-                  height: 220.h),
+              SizedBox(height: ScreenUtil().statusBarHeight),
+              SizedBox(
+                height: 220,
+                child: _buildHeadWidget(),
+              ),
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
                 height: 104,
-                color: ColorUtils.gray248,
+                decoration: const BoxDecoration(
+                    color: ColorUtils.gray248,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10))),
                 child: Column(
                   children: [
                     Row(
@@ -83,7 +59,6 @@ class _MePageState extends State {
                             Routes.goLoginPage(context);
                           },
                         ),
-                        
                         const SizedBox(width: 10),
                         _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
                       ],
@@ -92,7 +67,7 @@ class _MePageState extends State {
                 ),
               ),
               Container(
-                height: 64.0*6,
+                height: 64.0 * 6,
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -112,9 +87,31 @@ class _MePageState extends State {
                 ),
               )
             ],
-          )
-        ],
-      ),
+          )),
+    );
+  }
+
+  _buildHeadWidget() {
+    return Column(
+      children: [
+        IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+          child: _buildInfoWidget(),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            InkWell(
+              child: _buildFansWidget(),
+              onTap: () {
+                Routes.goLoginPage(context);
+              },
+            ),
+            _buildFansWidget(),
+          ],
+        )
+      ],
     );
   }
 

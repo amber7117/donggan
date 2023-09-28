@@ -151,7 +151,7 @@ class HttpManager {
       }));
       
       // 抓包代码
-      if (appDebug) {
+      if (appProxy) {
         (dio?.httpClientAdapter as DefaultHttpClientAdapter)
             .onHttpClientCreate = (HttpClient client) {
           client.idleTimeout = const Duration(seconds: 5);
