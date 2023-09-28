@@ -5,7 +5,17 @@ class MatchApi {
 class AnchorApi {}
 
 
-class NewsApi {}
+class NewsApi {
+  static String label = "/qiutx-news/app/custom/lables";
+
+  static String hotList = "/qiutx-news/app/index";
+
+  static String typeList = "/qiutx-news/app/news/page";
+
+  static String detail = "/qiutx-news/app/news/###";
+
+
+}
 
 
 class MeApi {
