@@ -19,7 +19,6 @@ class EventBusManager {
   //初始化eventBus
   late EventBus _eventBus;
   EventBusManager._internal() {
-    logger.i("EventBusManager._internal()");
     _eventBus = EventBus();
   }
 

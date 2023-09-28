@@ -8,6 +8,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/login/page/login_content_widget.dart';
+import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
 import 'package:wzty/modules/news/provider/news_tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -34,9 +35,9 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
   final List tabs = ["登录", "注册"];
 
-  late String phone;
-  late String pwd;
-  late bool isPwdLogin;
+  late String _phone;
+  late String _pwd;
+  late bool _isPwdLogin;
 
   bool _clickable = false;  
 
@@ -51,13 +52,13 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
     _loginStatusSub = eventBusManager.on<LoginEnableEvent>((event) {
       logger.i("-----------------");
-      phone = event.phone;
-      pwd = event.pwd;
-      isPwdLogin = event.isPwdLogin;
+      _phone = event.phone;
+      _pwd = event.pwd;
+      _isPwdLogin = event.isPwdLogin;
 
       if (!_clickable) {
         _loginBtnSetter(() {
-          
+            _clickable = true;
         });
       }
     });
@@ -78,6 +79,15 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
       return;
     }
     ToastUtils.showLoading();
+
+    LoginService.requestVerifyCode(_phone, VerifyCodeType.login, (result) {
+      ToastUtils.hideLoading();
+      if (result.isEmpty) {
+        ToastUtils.showSuccess("发送成功");
+      } else {
+        ToastUtils.showSuccess(result);
+      }
+    });
   }
 
   @override

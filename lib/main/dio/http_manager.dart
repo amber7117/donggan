@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_config.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
@@ -24,6 +22,7 @@ enum HttpMethod {
 }
 
 typedef CompleteCallback = void Function(HttpResultBean result);
+typedef BusinessSuccess<T> = void Function(T result);
 
 class HttpManager {
   static Dio? dio;
@@ -68,7 +67,7 @@ class HttpManager {
   }
 
   /// 请求ping
-  static Future pingWithCB(
+  static Future<void> pingWithCB(
       DomainEntity domain, CompleteCallback complete) async {
     String urlString = '${domain.domain}/ping';
 
@@ -119,6 +118,7 @@ class HttpManager {
       dio?.interceptors.add(LogInterceptor());
       dio?.interceptors.add(InterceptorsWrapper(onRequest:
           (RequestOptions options, RequestInterceptorHandler handler) async { 
+
         int typeValue = options.headers[domainType] ?? 0;
         if (typeValue > 0) {
           String urlStr = options.uri.toString();
@@ -138,6 +138,8 @@ class HttpManager {
             options.queryParameters = {};
           }
 
+          options.headers[domainSignType] = "";
+          options.headers[domainToken] = "";
         }
         return handler.next(options);
       }));
