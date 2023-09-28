@@ -7,6 +7,8 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class SetPwdPage extends StatefulWidget {
+  const SetPwdPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _SetPwdPageState();
@@ -62,7 +64,7 @@ class SetPwdPage extends StatefulWidget {
     return Container(
       color: Colors.black.withOpacity(0.5),
       child: Container(
-        height: 225.sh,
+        height: 225.h,
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 30),
         decoration: const BoxDecoration(

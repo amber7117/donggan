@@ -1,5 +1,5 @@
 class UserEntity {
-  int uid;
+  String uid;
   String userLevel;
   String ticket;
   String headImg;

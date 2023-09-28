@@ -8,6 +8,8 @@ const appProxy = false;
 typedef VoidCallback<T> = void Function();
 typedef AnyCallback<T> = void Function(T data);
 
+const pageSize = 100;
+const apiPlaceholder = "###";
 
 // 日志
 final logger = Logger();

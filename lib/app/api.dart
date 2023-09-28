@@ -8,7 +8,21 @@ class AnchorApi {}
 class NewsApi {}
 
 
-class MeApi {}
+class MeApi {
+  static String userInfo = "/qiutx-news/app/post/author/space/###";
+
+  static String modifyUserInfo = "/qiutx-usercenter/v1/user/personal/###";
+
+
+  static String followList = "/qiutx-news/app/post/space/focus/new";
+
+  static String fansList = "/qiutx-news/app/post/space/focus/fans";
+
+  static String userFocus = "/qiutx-news/app/post/attention/###";
+
+  static String userFocusCancel = "qiutx-news/app/post/attention/###/cancel";
+
+}
 
 
 class LoginApi {

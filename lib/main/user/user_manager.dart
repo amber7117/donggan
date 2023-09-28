@@ -17,7 +17,7 @@ class UserManager {
 
   createUser() async {
     token = await SpUtils.getString(SpKeys.token);
-    uid = await SpUtils.getInt(SpKeys.uid);
+    uid = await SpUtils.getString(SpKeys.uid);
     headImg = await SpUtils.getString(SpKeys.headImg);
     nickName = await SpUtils.getString(SpKeys.nickName);
     mobile = await SpUtils.getString(SpKeys.mobile);
@@ -26,14 +26,14 @@ class UserManager {
   }
 
   isLogin() {
-    if (token.isNotEmpty && uid > 0) {
+    if (token.isNotEmpty && uid.isNotEmpty) {
       return true;
     }
     return false;
   }
 
   Future<String> obtainUseridOrDeviceid() async {
-    if (uid > 0) {
+    if (uid.isNotEmpty) {
       return uid.toString();
     } else {
       return await AppUtils.getPlatformUid();
@@ -78,7 +78,7 @@ class UserManager {
     SpUtils.save(SpKeys.personalDesc, personalDesc);
   }
 
-  updateUserInfo(UserEntity model) {
+  saveUserInfo(UserEntity model) {
     token = model.token;
     uid = model.uid;
     headImg = model.headImg;
@@ -93,7 +93,7 @@ class UserManager {
 
   removeUserInfo(UserEntity model) {
     token = "";
-    uid = 0;
+    uid = "";
     headImg = "";
     nickName = "";
     mobile = "";
@@ -110,7 +110,7 @@ class UserManager {
 
   String token = "";
 
-  int uid = 0;
+  String uid = "";
 
   String headImg = "";
 
