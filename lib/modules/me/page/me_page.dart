@@ -37,12 +37,12 @@ class _MePageState extends State {
             children: [
               SizedBox(height: ScreenUtil().statusBarHeight),
               SizedBox(
-                height: 220,
+                height: 220.sh,
                 child: _buildHeadWidget(),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                height: 104,
+                height: 104.sh,
                 decoration: const BoxDecoration(
                     color: ColorUtils.gray248,
                     borderRadius:

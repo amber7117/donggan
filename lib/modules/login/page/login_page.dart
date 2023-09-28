@@ -29,7 +29,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   
   late TabController _tabController;
   late PageController _pageController;
-  late StreamSubscription _loginStatusSub; //评论通知
+  late StreamSubscription _loginStatusSub; 
 
   NewsTabProvider provider = NewsTabProvider();
 
