@@ -37,12 +37,12 @@ class _MePageState extends State {
             children: [
               SizedBox(height: ScreenUtil().statusBarHeight),
               SizedBox(
-                height: 220.h,
+                height: 186.h,
                 child: _buildHeadWidget(),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                height: 104.h,
+                height: 104,
                 decoration: const BoxDecoration(
                     color: ColorUtils.gray248,
                     borderRadius:
@@ -93,8 +93,13 @@ class _MePageState extends State {
 
   _buildHeadWidget() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: IconButton(
+                onPressed: () {},
+                icon: const JhAssetImage("me/iconSet", width: 24, height: 24))),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
           child: _buildInfoWidget(),
@@ -128,25 +133,27 @@ class _MePageState extends State {
                 Routes.goLoginPage(context);
               },
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "用户昵称",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  "个性签名个性签名个性签名…",
-                  style: TextStyle(
-                      color: const Color.fromRGBO(255, 255, 255, 0.6),
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
+            Padding(
+                padding: const EdgeInsets.only(left: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "用户昵称",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "个性签名个性签名个性签名…",
+                      style: TextStyle(
+                          color: const Color.fromRGBO(255, 255, 255, 0.6),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )),
           ],
         ),
         const JhAssetImage("me/iconMeJiantou2", width: 16.0, height: 16.0),
