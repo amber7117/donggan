@@ -18,6 +18,7 @@ class JCImageButton extends StatelessWidget {
   late final EdgeInsetsGeometry padding;
 
   JCImageButton({
+    super.key,
     // 背景颜色  圆角
     this.bgColor = Colors.blue,
     this.cornerRadius = 2,
@@ -40,34 +41,30 @@ class JCImageButton extends StatelessWidget {
     this.possiton = JCImagePossition.left,
     VoidCallback? callBack, // 回调
   }) {
-    this.padding = padding ?? EdgeInsets.fromLTRB(72, 8, 72, 8);
-    this.callBack = callBack ??
-        () {
-          print("默认回调");
-        };
+    this.padding = padding ?? EdgeInsets.zero;
+    this.callBack = callBack ?? () {};
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: this.padding,
+      padding: padding,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(this.cornerRadius),
-        color: this.bgColor,
+        borderRadius: BorderRadius.circular(cornerRadius),
+        color: bgColor,
       ),
       child: TextButton(
           style: ButtonStyle(
               overlayColor: MaterialStateProperty.all(Colors.transparent)),
           onPressed: () {
-            this.callBack();
+            callBack();
           },
-          child: (this.possiton == JCImagePossition.top ||
-                  this.possiton == JCImagePossition.bottom)
-              ? _getTopAndBottomPosstionWidget(
-                  this.possiton == JCImagePossition.top)
+          child: (possiton == JCImagePossition.top ||
+                  possiton == JCImagePossition.bottom)
+              ? _getTopAndBottomPosstionWidget(possiton == JCImagePossition.top)
               : _getLeftAndRightPosstionWidget(
-                  this.possiton == JCImagePossition.left)),
+                  possiton == JCImagePossition.left)),
     );
   }
 
@@ -101,19 +98,17 @@ class JCImageButton extends StatelessWidget {
 
   Widget _getImage() {
     return Image.asset(
-      '${imageAssets}',
-      width: this.imageSize,
-      height: this.imageSize,
+      imageAssets,
+      width: imageSize,
+      height: imageSize,
     );
   }
 
   Widget _getTitle() {
     return Text(
-      '${this.titleString}',
+      titleString,
       style: TextStyle(
-          color: this.titleColor,
-          fontSize: this.titleSize,
-          fontWeight: this.fontweight),
+          color: titleColor, fontSize: titleSize, fontWeight: fontweight),
     );
   }
 }

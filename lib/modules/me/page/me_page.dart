@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
@@ -14,14 +15,6 @@ class MePage extends StatefulWidget {
 }
 
 class _MePageState extends State {
-  final List _itemList = [
-    MeListItemType.pingbi,
-    MeListItemType.liulan,
-    MeListItemType.huodong,
-    MeListItemType.wenti,
-    MeListItemType.kefu,
-    MeListItemType.women,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +88,11 @@ class _MePageState extends State {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: IconButton(
-                onPressed: () {},
-                icon: const JhAssetImage("me/iconSet", width: 24, height: 24))),
+        TextButton(
+            child: const JhAssetImage("me/iconSet", width: 24, height: 24),
+            onPressed: () {
+              Routes.push(context, Routes.appSet);
+            }),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
           child: _buildInfoWidget(),
@@ -108,12 +101,17 @@ class _MePageState extends State {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             InkWell(
-              child: _buildFansWidget(),
+              child: _buildFansWidget(true),
               onTap: () {
                 Routes.goLoginPage(context);
               },
             ),
-            _buildFansWidget(),
+            Container(
+              width: 1,
+              height: 26,
+              color: Colors.white.withOpacity(0.2),
+            ),
+            _buildFansWidget(false),
           ],
         )
       ],
@@ -148,7 +146,7 @@ class _MePageState extends State {
                     Text(
                       "个性签名个性签名个性签名…",
                       style: TextStyle(
-                          color: const Color.fromRGBO(255, 255, 255, 0.6),
+                          color: Colors.white.withOpacity(0.6),
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500),
                     ),
@@ -161,7 +159,7 @@ class _MePageState extends State {
     );
   }
 
-  _buildFansWidget() {
+  _buildFansWidget(bool isFollow) {
     return Row(
       children: [
         Text(
@@ -173,9 +171,9 @@ class _MePageState extends State {
         ),
         const SizedBox(width: 4),
         Text(
-          "关注",
+          isFollow ? "关注" : "粉丝",
           style: TextStyle(
-              color: const Color.fromRGBO(255, 255, 255, 0.6),
+              color: Colors.white.withOpacity(0.6),
               fontSize: 12.sp,
               fontWeight: FontWeight.w500),
         ),
@@ -225,17 +223,17 @@ class _MePageState extends State {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              JhAssetImage(type.imgPath, width: 24.0, height: 24.0),
-              Text(
-                type.title,
-                style: TextStyle(
-                    color: ColorUtils.black34,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
+          JhAssetImage(type.imgPath, width: 24.0, height: 24.0),
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Text(
+                  type.title,
+                  style: TextStyle(
+                      color: ColorUtils.black34,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500),
+                )),
           ),
           const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
         ],

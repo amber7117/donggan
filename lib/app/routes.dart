@@ -7,6 +7,7 @@ import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
+import 'package:wzty/modules/me/page/app_set_page.dart';
 import 'package:wzty/modules/me/page/me_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 
@@ -21,6 +22,8 @@ class Routes {
   static String news = "/news";
 
   static String me = "/me";
+
+  static String appSet = "/appSet";
 
   static String login = "/login";
 
@@ -44,6 +47,10 @@ class Routes {
 
     router.define(me, handler: Handler(handlerFunc: (context, params) {
       return const MePage();
+    }));
+
+    router.define(appSet, handler: Handler(handlerFunc: (context, params) {
+      return const AppSetPage();
     }));
 
     router.define(login, handler: Handler(handlerFunc: (context, params) {
