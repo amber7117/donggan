@@ -24,13 +24,13 @@ AppBar buildAppBar({
         ? null
         : leading ??
             IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: backIconColor ?? ColorUtils.black34,
-                  ),
-                  iconSize: 24,
-                  onPressed: onBackPressed ?? () => Navigator.maybePop(context),
-                ),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: backIconColor ?? ColorUtils.black34,
+              ),
+              iconSize: 24,
+              onPressed: onBackPressed ?? () => Navigator.maybePop(context),
+            ),
     title: title ??
         Text(
           titleText ?? '',

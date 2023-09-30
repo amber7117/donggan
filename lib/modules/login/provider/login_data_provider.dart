@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
 
-class NewsTabProvider extends ChangeNotifier {
+class LoginDataProvider extends ChangeNotifier {
   
+  String phone = "";
+
+  String verifyCode = "";
+
+  String pwd = "";
+
   bool isPwdLogin = false;
 
+  checkLoginStatue() {
+    if (isPwdLogin) {
+      if (phone.length == 11 && pwd.length > 6) {
+        setCanLogin(true);
+      } else {
+        setCanLogin(false);
+      }
+    } else {
+      if (phone.length == 11 && pwd.length == 6) {
+        setCanLogin(true);
+      } else {
+        setCanLogin(false);
+      }
+    }
+  }
 
-  int _index = 0;
-  int get index => _index;
+  bool _canLogin = false;
+  bool get canLogin => _canLogin;
+  void setCanLogin(bool value) {
+    _canLogin = value;
+    notifyListeners();
+  }
 
   void refresh() {
     notifyListeners();
   }
 
-  void setIndex(int index) {
-    _index = index;
-    notifyListeners();
-  }
 }

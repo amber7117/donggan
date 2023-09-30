@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
-import 'package:wzty/main/eventBus/event_bus_event.dart';
-import 'package:wzty/main/eventBus/event_bus_manager.dart';
+import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/login/widget/login_text_field.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
-import 'package:wzty/common/notifier/change_notifier_mixin.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class LoginContentWidget extends StatefulWidget {
@@ -23,7 +22,7 @@ class LoginContentWidget extends StatefulWidget {
   }
 }
 
-class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMixin<LoginContentWidget>  {
+class _LoginContentState extends State<LoginContentWidget>  {
 
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _pwdController = TextEditingController();
@@ -31,42 +30,34 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
   final FocusNode _nodeText2 = FocusNode();
 
   @override
-  Map<ChangeNotifier, List<VoidCallback>?>? changeNotifier() {
-    final List<VoidCallback> callbacks = <VoidCallback>[_verify];
+  void initState() {
+    super.initState();
 
-    return <ChangeNotifier, List<VoidCallback>?>{
-      _phoneController: callbacks,
-      _pwdController: callbacks
-    };
+    _phoneController.addListener(_phoneVerify);
+    _pwdController.addListener(_codeVerify);
+  }
+  
+  @override
+  void dispose() {
+    _phoneController.removeListener(_phoneVerify);
+    _pwdController.removeListener(_codeVerify);
 
+    super.dispose();
   }
 
-  void _verify() {
-    final String phone = _phoneController.text;
-  
-    bool clickable = false;  
-
-    if (widget.type == LoginContentType.verifyCode) {
-      final String pwd = _pwdController.text;
-
-      if (phone.length == 11 && pwd.length == 6) {
-        clickable = true;
-      }
-      if (clickable) {
-        eventBusManager.emit(
-            LoginEnableEvent(phone: phone, pwd: pwd, isPwdLogin: false));
-      }
+  void _phoneVerify() {
+    context.read<LoginDataProvider>().phone = _phoneController.text;
+  }
+  void _codeVerify() {
+    LoginDataProvider loginProvider = context.read<LoginDataProvider>();
+    if (widget.type == LoginContentType.pwd) {
+      loginProvider.isPwdLogin = true;
+      loginProvider.pwd = _pwdController.text;
     } else {
-      final String pwd = _pwdController.text;
-
-      if (phone.length == 11 && pwd.length > 6) {
-        clickable = true;
-      }
-      if (clickable) {
-        eventBusManager.emit(
-            LoginEnableEvent(phone: phone, pwd: pwd, isPwdLogin: true));
-      }
+      loginProvider.verifyCode = _pwdController.text;
     }
+
+    loginProvider.checkLoginStatue();
   }
 
   Future<bool> _requestVerifyCode() async {

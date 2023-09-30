@@ -18,17 +18,17 @@ class LoginTabbarItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Consumer<NewsTabProvider>(builder: (context, provider, child) {
-        return Container(
+        child: Container(
             width: 169.5,
             height: 48.0,
-            decoration: provider.index == index
+            decoration: context.watch<NewsTabProvider>().index == index
                 ? const BoxDecoration(
                     color: Color.fromRGBO(255, 234, 234, 1.0),
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(10)))
                 : const BoxDecoration(),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   tabName,
@@ -41,13 +41,10 @@ class LoginTabbarItemWidget extends StatelessWidget {
                 const DecoratedBox(
                     decoration: BoxDecoration(
                         color: ColorUtils.red235,
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(2))),
+                        borderRadius: BorderRadius.all(Radius.circular(2))),
                     child: SizedBox(height: 4, width: 16))
               ],
-            ));
-      }),
-    );
+            )));
   }
 
 }
