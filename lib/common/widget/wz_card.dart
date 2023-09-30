@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MyCard extends StatelessWidget {
+class WZCard extends StatelessWidget {
 
-  const MyCard({
+  const WZCard({
     super.key,
     required this.child,
     this.color,

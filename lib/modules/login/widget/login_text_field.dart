@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/widget/my_button.dart';
+import 'package:wzty/common/widget/wz_button.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -195,7 +195,7 @@ class LoginTextFieldState extends State<LoginTextField> {
   }
 
   _buildVCodeButton() {
-    return MyButton(
+    return WZButton(
       key: const Key('getVerificationCode'),
       onPressed: _clickable ? _getVCode : null,
       text: _clickable ? '获取验证码' : '（$_currentSecond s）',

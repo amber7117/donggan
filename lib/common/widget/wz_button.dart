@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// 默认字号18，白字蓝底，高度48
-class MyButton extends StatelessWidget {
+class WZButton extends StatelessWidget {
 
-  const MyButton({
+  const WZButton({
     super.key,
     this.text = '',
     this.fontSize = 18,
