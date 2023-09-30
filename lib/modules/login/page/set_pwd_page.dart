@@ -91,10 +91,9 @@ class SetPwdPage extends StatefulWidget {
             ),
             Expanded(
               child: LoginTextField(
-                focusNode: _nodeText1,
+                textType: LoginTextFieldType.phone,
                 controller: _pwdController,
-                maxLength: 11,
-                keyboardType: TextInputType.phone,
+                focusNode: _nodeText1,
                 hintText: "请输入手机号",
               ),
             ),

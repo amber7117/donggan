@@ -114,10 +114,9 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
               const SizedBox(width: 14),
               Expanded(
                 child: LoginTextField(
-                  focusNode: _nodeText1,
+                  textType: LoginTextFieldType.phone,
                   controller: _phoneController,
-                  maxLength: 11,
-                  keyboardType: TextInputType.phone,
+                  focusNode: _nodeText1,
                   hintText: "请输入手机号",
                 ),
               )
@@ -146,17 +145,16 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
           Row(
             children: [
               Image(
-                image: JhImageUtils.getAssetImage("login/iconDengluShoujihao"),
+                image: JhImageUtils.getAssetImage("login/iconDengluYanzhengma"),
                 width: 20,
                 height: 20,
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: LoginTextField(
-                  focusNode: _nodeText2,
+                  textType: LoginTextFieldType.verifyCode,
                   controller: _pwdController,
-                  maxLength: 6,
-                  keyboardType: TextInputType.phone,
+                  focusNode: _nodeText2,
                   hintText: "请输入验证码",
                 ),
               )
@@ -185,18 +183,16 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
           Row(
             children: [
               Image(
-                image: JhImageUtils.getAssetImage("login/iconDengluShoujihao"),
+                image: JhImageUtils.getAssetImage("login/iconDengluMima"),
                 width: 20,
                 height: 20,
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: LoginTextField(
-                  focusNode: _nodeText2,
+                  textType: LoginTextFieldType.pwd,
                   controller: _pwdController,
-                  maxLength: 11,
-                  isInputPwd: true,
-                  keyboardType: TextInputType.text,
+                  focusNode: _nodeText2,
                   hintText: "请输入密码",
                 ),
               )

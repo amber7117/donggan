@@ -6,35 +6,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/my_button.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
+
+
+enum LoginTextFieldType {
+  phone, verifyCode, pwd
+}
 
 class LoginTextField extends StatefulWidget {
 
+  final LoginTextFieldType textType;
   final TextEditingController controller;
-  final int maxLength;
   final bool autoFocus;
-  final TextInputType keyboardType;
   final String hintText;
-  final bool isInputPwd;
+  
   final FocusNode? focusNode;
   final Future<bool> Function()? getVCode;
 
   const LoginTextField(
       {super.key,
+      required this.textType,
       required this.controller,
-      this.maxLength = 11,
-      this.autoFocus = false,
-      this.keyboardType = TextInputType.text,
-      this.hintText = '',
-      this.isInputPwd = false,
       this.focusNode,
+      this.autoFocus = false,
+      this.hintText = '',
       this.getVCode});
   
   @override
   State<StatefulWidget> createState() {
     return LoginTextFieldState();
   }
-
 }
 
 class LoginTextFieldState extends State<LoginTextField> {
@@ -98,6 +101,30 @@ class LoginTextFieldState extends State<LoginTextField> {
     }
   }
 
+  _isTextVerifyCode() {
+    return widget.textType == LoginTextFieldType.verifyCode;
+  }
+
+  _isTextPwd() {
+    return widget.textType == LoginTextFieldType.pwd;
+  }
+
+  _textMaxLength() {
+    if (widget.textType == LoginTextFieldType.phone) {
+      return 11;
+    } else if (widget.textType == LoginTextFieldType.verifyCode) {
+      return 6;
+    }
+    return 20;
+  }
+
+  _textKeyboardType() {
+    if (widget.textType == LoginTextFieldType.pwd) {
+      return TextInputType.text;
+    }
+    return TextInputType.phone;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -113,10 +140,10 @@ class LoginTextFieldState extends State<LoginTextField> {
               visible: _isShowDelete,
               child: _buildClearButton() ?? const SizedBox(),
             ),
-            if (widget.isInputPwd) const SizedBox(height: 15),
-            if (widget.isInputPwd) _buildPwdEyeButton(),
-            if (widget.getVCode != null) const SizedBox(height: 15),
-            if (widget.getVCode != null) _buildVCodeButton(),
+            if (_isTextPwd()) const SizedBox(height: 15),
+            if (_isTextPwd()) _buildPwdEyeButton(),
+            if (_isTextVerifyCode()) const SizedBox(height: 20),
+            if (_isTextVerifyCode()) _buildVCodeButton(),
           ],
         )
       ],
@@ -126,32 +153,41 @@ class LoginTextFieldState extends State<LoginTextField> {
 
   _buildTextField() {
     return TextField(
-      focusNode: widget.focusNode,
-      maxLength: widget.maxLength,
-      obscureText: widget.isInputPwd && !_isShowPwd,
-      autofocus: widget.autoFocus,
+      style: TextStyle(
+        color: ColorUtils.black51,
+        fontSize: 16.sp,
+        fontWeight: TextStyleUtils.regual,
+      ),
       controller: widget.controller,
+      focusNode: widget.focusNode,
+      autofocus: widget.autoFocus,
+      maxLength: _textMaxLength(),
+      obscureText: _isTextPwd() && !_isShowPwd,
       textInputAction: TextInputAction.done,
-      keyboardType: widget.keyboardType,
+      keyboardType: _textKeyboardType(),
       // 数字、手机号限制格式为0到9， 密码限制不包含汉字
-      inputFormatters: (widget.keyboardType == TextInputType.number ||
-              widget.keyboardType == TextInputType.phone)
-          ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))]
-          : [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))],
+      inputFormatters: _isTextPwd()
+          ? [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))]
+          : [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,
+        hintStyle: TextStyle(
+          color: ColorUtils.rgb(202, 184, 184),
+          fontSize: 16.sp,
+          fontWeight: TextStyleUtils.regual,
+        ),
         counterText: '',
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white,
-            width: 0.8,
+            width: 0.5,
           ),
         ),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white,
-            width: 0.8,
+            width: 0.5,
           ),
         ),
       ),
@@ -162,19 +198,19 @@ class LoginTextFieldState extends State<LoginTextField> {
     return MyButton(
       key: const Key('getVerificationCode'),
       onPressed: _clickable ? _getVCode : null,
-      fontSize: 12.sp,
       text: _clickable ? '获取验证码' : '（$_currentSecond s）',
-      textColor: Colors.white,
-      disabledTextColor: Colors.white,
+      fontSize: 10.sp,
+      textColor: ColorUtils.red235,
+      disabledTextColor: ColorUtils.rgb(186, 195, 216),
       backgroundColor: Colors.transparent,
       disabledBackgroundColor: Colors.white,
-      radius: 1.0,
-      minHeight: 26.0,
-      minWidth: 76.0,
+      radius: 10.0,
+      minHeight: 22.0,
+      minWidth: 72.0,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       side: BorderSide(
-        color: _clickable ? Colors.white : Colors.transparent,
-        width: 0.8,
+        color: _clickable ? ColorUtils.red235 : ColorUtils.rgb(186, 195, 216),
+        width: 1.0,
       ),
     );
   }
@@ -206,7 +242,7 @@ class LoginTextFieldState extends State<LoginTextField> {
       hint: '清空输入框',
       child: GestureDetector(
         child: Image(
-            image: JhImageUtils.getAssetImage("login/iconDengluChakan2"),
+            image: JhImageUtils.getAssetImage("login/iconDengluGuanbi"),
             width: 20,
             height: 20),
         onTap: () => widget.controller.text = '',
