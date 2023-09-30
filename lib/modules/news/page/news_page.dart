@@ -45,7 +45,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<NewsTabProvider>(
-        create: (context) => provider,
+        create: (context2) => provider,
         child: Scaffold(
           body: Column(
             children: [

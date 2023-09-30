@@ -51,8 +51,8 @@ class UserManager {
     return touristId;
   }
 
-  static bool isSelf(int uid) {
-    if (uid == 0) {
+  static bool isSelf(String uid) {
+    if (uid.isEmpty) {
       return false;
     }
     return UserManager.instance.uid == uid;

@@ -108,11 +108,8 @@ class _LoginContentState extends State<LoginContentWidget>  {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image(
-                image: JhImageUtils.getAssetImage("login/iconDengluShoujihao"),
-                width: 20,
-                height: 20,
-              ),
+              const JhAssetImage("login/iconDengluShoujihao",
+                  width: 20, height: 20),
               const SizedBox(width: 4),
               Text(
                 "+86",
@@ -196,11 +193,8 @@ class _LoginContentState extends State<LoginContentWidget>  {
           ),
           Row(
             children: [
-              Image(
-                image: JhImageUtils.getAssetImage("login/iconDengluMima"),
-                width: 20,
-                height: 20,
-              ),
+              const JhAssetImage("login/iconDengluMima",
+                  width: 20, height: 20),
               const SizedBox(width: 14),
               Expanded(
                 child: LoginTextField(

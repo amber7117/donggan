@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/widget/login_content_widget.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
@@ -61,6 +61,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
         (success, result) {
       ToastUtils.hideLoading();
       if (result.isEmpty) {
+        context.read<UserProvider>().setIsLogin(true);
         Routes.goBack(context);
       } else {
         ToastUtils.showError(result);
@@ -93,14 +94,10 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                 children: [
                   SizedBox(height: ScreenUtil().statusBarHeight),
                   InkWell(
-                    child: Padding(
-                        padding: const EdgeInsets.all(11),
-                        child: Image(
-                          image: JhImageUtils.getAssetImage(
-                              "login/iconDengluBack"),
-                          width: 22,
-                          height: 22,
-                        )),
+                    child: const Padding(
+                        padding: EdgeInsets.all(11),
+                        child: JhAssetImage("login/iconDengluBack",
+                            width: 22, height: 22)),
                     onTap: () {
                       Routes.goBack(context);
                     },
@@ -176,7 +173,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                     }
                                   })),
                           Consumer<LoginDataProvider>(
-                              builder: (context, provider, child) {
+                              builder: (context2, provider, child) {
                             return InkWell(
                               child: Container(
                                 width: double.infinity,

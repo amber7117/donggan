@@ -33,9 +33,8 @@ class JhImageUtils {
   }
 
   /// 加载本地或者URL图片
-  static ImageProvider loadImage(String imageUrl,
-      {String placeholder = 'ic_placeholder'}) {
-    if (imageUrl.isEmpty) {
+  static ImageProvider getNetImage(String imageUrl, {String? placeholder}) {
+    if (imageUrl.isEmpty && placeholder != null) {
       return AssetImage(obtainImgPath(placeholder));
     }
     return CachedNetworkImageProvider(imageUrl,
@@ -47,6 +46,21 @@ class JhImageUtils {
       {ImageFormat format = ImageFormat.png}) {
     return 'assets/images/$name@2x.${_methodValues[format]}';
   }
+}
+
+/// 加载本地或者URL图片
+buildNetImage(String imageUrl,
+    {required double width, required double height, String? placeholder}) {
+  return CachedNetworkImage(
+      imageUrl: imageUrl,
+      placeholder: (context, url) {
+        return placeholder == null
+            ? const CircularProgressIndicator()
+            : JhAssetImage(placeholder, width: width, height: height);
+      },
+      errorWidget: (context, url, error) {
+        return const Icon(Icons.error);
+      });
 }
 
 /// 加载本地图片

@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/main/user/user_provider.dart';
 
 void main() {
   // 不加这个强制横/竖屏会报错
@@ -65,12 +67,16 @@ class _MyAppState extends State {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (context, child) {
-        return MaterialApp(
-          title: "王者体育",
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: router.generator,
-          builder: EasyLoading.init(),
-        );
+        return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => UserProvider()),
+            ],
+            child: MaterialApp(
+              title: "王者体育",
+              debugShowCheckedModeBanner: false,
+              onGenerateRoute: router.generator,
+              builder: EasyLoading.init(),
+            ));
       },
     );
     

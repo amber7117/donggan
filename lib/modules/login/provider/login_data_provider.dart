@@ -12,7 +12,7 @@ class LoginDataProvider extends ChangeNotifier {
 
   checkLoginStatue() {
     if (isPwdLogin) {
-      if (phone.length == 11 && pwd.length > 6) {
+      if (phone.length == 11 && pwd.length > 5) {
         setCanLogin(true);
       } else {
         setCanLogin(false);

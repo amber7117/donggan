@@ -220,13 +220,10 @@ class LoginTextFieldState extends State<LoginTextField> {
       label: '密码可见开关',
       hint: '密码是否可见',
       child: GestureDetector(
-        child: Image(
-          image: JhImageUtils.getAssetImage(_isShowPwd
-              ? "login/iconDengluChakan1"
-              : "login/iconDengluChakan2"),
-          width: 20.0,
-          height: 20.0,
-        ),
+        child: JhAssetImage(
+            _isShowPwd ? "login/iconDengluChakan1" : "login/iconDengluChakan2",
+            width: 20,
+            height: 20),
         onTap: () {
           setState(() {
             _isShowPwd = !_isShowPwd;
@@ -241,10 +238,8 @@ class LoginTextFieldState extends State<LoginTextField> {
       label: '清空',
       hint: '清空输入框',
       child: GestureDetector(
-        child: Image(
-            image: JhImageUtils.getAssetImage("login/iconDengluGuanbi"),
-            width: 20,
-            height: 20),
+        child:
+            const JhAssetImage("login/iconDengluGuanbi", width: 20, height: 20),
         onTap: () => widget.controller.text = '',
       ),
     );

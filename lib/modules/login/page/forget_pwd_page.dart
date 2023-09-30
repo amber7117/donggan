@@ -72,14 +72,10 @@ class _ForgetPwdPageState extends State {
               children: [
                 SizedBox(height: ScreenUtil().statusBarHeight),
                 InkWell(
-                  child: Padding(
-                      padding: const EdgeInsets.all(11),
-                      child: Image(
-                        image:
-                            JhImageUtils.getAssetImage("login/iconDengluBack"),
-                        width: 22,
-                        height: 22,
-                      )),
+                  child: const Padding(
+                      padding: EdgeInsets.all(11),
+                      child: JhAssetImage("login/iconDengluBack",
+                          width: 22, height: 22)),
                   onTap: () {
                     Routes.goBack(context);
                   },

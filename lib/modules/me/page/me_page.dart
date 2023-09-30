@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 class MePage extends StatefulWidget {
   const MePage({super.key});
@@ -14,7 +18,7 @@ class MePage extends StatefulWidget {
 }
 
 class _MePageState extends State {
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +88,7 @@ class _MePageState extends State {
   }
 
   _buildHeadWidget() {
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -118,44 +123,53 @@ class _MePageState extends State {
   }
 
   _buildInfoWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
+    return Consumer<UserProvider>(builder: (context2, provider, child) {
+      return InkWell(
+        onTap: () {
+          Routes.goLoginPage(context);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            InkWell(
-              child: const JhAssetImage("common/iconTouxiang",
-                  width: 62.0, height: 62.0),
-              onTap: () {
-                Routes.goLoginPage(context);
-              },
+            CircleAvatar(
+                radius: 31.0,
+                child: provider.isLogin
+                    ? buildNetImage(UserManager.instance.headImg,
+                        width: 62.0,
+                        height: 62.0,
+                        placeholder: "common/iconTouxiang")
+                    : const JhAssetImage("common/iconTouxiang",
+                        width: 62.0, height: 62.0)),
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        provider.isLogin ? UserManager.instance.nickName : "登录",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: TextStyleUtils.bold),
+                      ),
+                      Text(
+                        provider.isLogin
+                            ? UserManager.instance.personalDesc
+                            : "您还没有登录，请登录",
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontWeight: TextStyleUtils.regual),
+                      ),
+                    ],
+                  )),
             ),
-            Padding(
-                padding: const EdgeInsets.only(left: 14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "用户昵称",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "个性签名个性签名个性签名…",
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                )),
+            const JhAssetImage("me/iconMeJiantou2", width: 16.0, height: 16.0),
           ],
         ),
-        const JhAssetImage("me/iconMeJiantou2", width: 16.0, height: 16.0),
-      ],
-    );
+      );
+    });
   }
 
   _buildFansWidget(bool isFollow) {

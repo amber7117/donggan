@@ -17,13 +17,12 @@ class NewsTabbarItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Consumer<NewsTabProvider>(builder: (context, provider, child) {
-        return Container(
+        child: Container(
             margin: const EdgeInsets.only(left: 2, right: 2),
             padding: const EdgeInsets.only(top: 10),
             width: 60.0,
             height: 40.0,
-            decoration: provider.index == index
+            decoration: context.watch<NewsTabProvider>().index == index
                 ? const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -50,9 +49,7 @@ class NewsTabbarItemWidget extends StatelessWidget {
                     decoration: BoxDecoration(color: ColorUtils.red235),
                     child: SizedBox(height: 2, width: 30))
               ],
-            ));
-      }),
-    );
+            )));
   }
 }
 

@@ -1,6 +1,5 @@
 class UserEntity {
   String uid;
-  String userLevel;
   String ticket;
   String headImg;
   String nickName;
@@ -8,13 +7,11 @@ class UserEntity {
   String mobile;
   String username;
   int isRes;
-  String agentName;
   String token;
   String? personalDesc;
 
   UserEntity({
     required this.uid,
-    required this.userLevel,
     required this.ticket,
     required this.headImg,
     required this.nickName,
@@ -22,27 +19,23 @@ class UserEntity {
     required this.mobile,
     required this.username,
     required this.isRes,
-    required this.agentName,
     required this.token,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
-        uid: json["uid"],
-        userLevel: json["userLevel"],
-        ticket: json["ticket"],
-        headImg: json["headImg"],
-        nickName: json["nickName"],
-        inviteUrl: json["inviteUrl"],
-        mobile: json["mobile"],
-        username: json["username"],
-        isRes: json["isRes"],
-        agentName: json["agentName"],
-        token: json["token"],
+        uid: json["uid"].toString(),
+        ticket: json["ticket"] ?? "",
+        headImg: json["headImg"] ?? "",
+        nickName: json["nickName"] ?? "",
+        inviteUrl: json["inviteUrl"] ?? "",
+        mobile: json["mobile"] ?? "",
+        username: json["username"] ?? "",
+        isRes: json["isRes"] ?? 0,
+        token: json["token"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
-        "userLevel": userLevel,
         "ticket": ticket,
         "headImg": headImg,
         "nickName": nickName,
@@ -50,7 +43,6 @@ class UserEntity {
         "mobile": mobile,
         "username": username,
         "isRes": isRes,
-        "agentName": agentName,
         "token": token,
       };
 
