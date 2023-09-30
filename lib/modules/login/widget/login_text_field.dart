@@ -47,7 +47,7 @@ class LoginTextFieldState extends State<LoginTextField> {
   bool _clickable = true;
 
   /// 倒计时秒数
-  final int _second = 30;
+  final int _second = 60;
 
   /// 当前秒数
   late int _currentSecond;
@@ -173,7 +173,7 @@ class LoginTextFieldState extends State<LoginTextField> {
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,
         hintStyle: TextStyle(
-          color: ColorUtils.rgb(202, 184, 184),
+          color: const Color.fromRGBO(202, 184, 184, 1.0),
           fontSize: 16.sp,
           fontWeight: TextStyleUtils.regual,
         ),
@@ -198,18 +198,18 @@ class LoginTextFieldState extends State<LoginTextField> {
     return WZButton(
       key: const Key('getVerificationCode'),
       onPressed: _clickable ? _getVCode : null,
-      text: _clickable ? '获取验证码' : '（$_currentSecond s）',
+      text: _clickable ? '获取验证码' : '$_currentSecond秒后重发',
       fontSize: 10.sp,
       textColor: ColorUtils.red235,
-      disabledTextColor: ColorUtils.rgb(186, 195, 216),
-      backgroundColor: Colors.transparent,
+      disabledTextColor: const Color.fromRGBO(186, 195, 216, 1.0),
+      backgroundColor: Colors.white,
       disabledBackgroundColor: Colors.white,
       radius: 10.0,
       minHeight: 22.0,
       minWidth: 72.0,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       side: BorderSide(
-        color: _clickable ? ColorUtils.red235 : ColorUtils.rgb(186, 195, 216),
+        color: _clickable ? ColorUtils.red235 : const Color.fromRGBO(186, 195, 216, 1.0),
         width: 1.0,
       ),
     );

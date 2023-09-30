@@ -37,19 +37,19 @@ class _ForgetPwdPageState extends State {
   }
 
   void _login() {
-    if (!_clickable) {
-      return;
-    }
-    ToastUtils.showLoading();
+    // if (!_clickable) {
+    //   return;
+    // }
+    // ToastUtils.showLoading();
 
-    LoginService.requestVerifyCode(_phone, VerifyCodeType.login, (result) {
-      ToastUtils.hideLoading();
-      if (result.isEmpty) {
-        ToastUtils.showSuccess("发送成功");
-      } else {
-        ToastUtils.showError(result);
-      }
-    });
+    // LoginService.requestVerifyCode(_phone, VerifyCodeType.login, (result) {
+    //   ToastUtils.hideLoading();
+    //   if (result.isEmpty) {
+    //     ToastUtils.showSuccess("发送成功");
+    //   } else {
+    //     ToastUtils.showError(result);
+    //   }
+    // });
   }
 
   @override

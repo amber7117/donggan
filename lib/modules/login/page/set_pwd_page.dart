@@ -44,19 +44,19 @@ class SetPwdPage extends StatefulWidget {
   }
 
   void _login() {
-    if (!_clickable) {
-      return;
-    }
-    ToastUtils.showLoading();
+    // if (!_clickable) {
+    //   return;
+    // }
+    // ToastUtils.showLoading();
 
-    LoginService.requestVerifyCode(_pwd, VerifyCodeType.login, (result) {
-      ToastUtils.hideLoading();
-      if (result.isEmpty) {
-        ToastUtils.showSuccess("发送成功");
-      } else {
-        ToastUtils.showError(result);
-      }
-    });
+    // LoginService.requestVerifyCode(_pwd, VerifyCodeType.login, (result) {
+    //   ToastUtils.hideLoading();
+    //   if (result.isEmpty) {
+    //     ToastUtils.showSuccess("发送成功");
+    //   } else {
+    //     ToastUtils.showError(result);
+    //   }
+    // });
   }
 
   @override

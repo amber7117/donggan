@@ -18,7 +18,7 @@ enum VerifyCodeType {
 
 class LoginService {
 
-  static Future<void> requestVerifyCode(String phone, VerifyCodeType type, BusinessSuccess<String> complete) async {
+  static Future<HttpResultBean> requestVerifyCode(String phone, VerifyCodeType type) async {
     Map<String, dynamic> params = {
       "type": type.value,
       "areaNo": "86",
@@ -30,15 +30,11 @@ class LoginService {
         LoginApi.verifyCode, HttpMethod.post,
         params: params);
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
-    } 
-    complete(msg);
+    return result;
   }
 
   static Future<void> requestLogin(String phone, String code, bool isPwd,
-      BusinessSuccess<String> complete) async {
+      BusinessCallback<String> complete) async {
     Map<String, dynamic> params = {};
     if (isPwd) {
       params = {
@@ -65,14 +61,14 @@ class LoginService {
       UserEntity user = UserEntity.fromJson(result.data);
       UserManager.instance.saveUserInfo(user);
 
-      complete("");
+      complete(true, "");
     } else {
-      complete(result.data ?? result.msg);
+      complete(false, result.data ?? result.msg);
     }
   }
 
   static Future<void> requestSetPwdTicket(String phone, String code,
-      BusinessSuccess<String> complete) async {
+      BusinessCallback<String> complete) async {
     Map<String, dynamic> params = {
       "type": "iOS",
       "areaNo": "86",
@@ -89,11 +85,11 @@ class LoginService {
     if (result.isSuccess()) {
       ticket = result.data["ticket"];
     }
-    complete(ticket);
+    complete(result.isSuccess(), ticket);
   }
 
   static Future<void> requestSetPwd(String phone, String pwd, String ticketS,
-      BusinessSuccess<String> complete) async {
+      BusinessCallback<String> complete) async {
     Map<String, dynamic> params = {
       "userName": phone,
       "areaNo": "86",
@@ -109,13 +105,13 @@ class LoginService {
       UserEntity user = UserEntity.fromJson(result.data);
       UserManager.instance.saveUserInfo(user);
 
-      complete("");
+      complete(true, "");
     } else {
-      complete(result.data ?? result.msg);
+      complete(false, result.data ?? result.msg);
     }
   }
 
-  static Future<void> requestLogout(BusinessSuccess<String> complete) async {
+  static Future<void> requestLogout(BusinessCallback<String> complete) async {
     Map<String, dynamic> params = {"userId": UserManager.instance.uid};
 
     HttpResultBean result = await HttpManager.request(
@@ -126,7 +122,7 @@ class LoginService {
     if (!result.isSuccess()) {
       msg = result.data ?? result.msg;
     }
-    complete(msg);
+    complete(result.isSuccess(), msg);
   }
   
 

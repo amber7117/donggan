@@ -24,14 +24,7 @@ class LoginTabbarItemWidget extends StatelessWidget {
             height: 48.0,
             decoration: provider.index == index
                 ? const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(252, 230, 230, 1.0),
-                        Color.fromRGBO(255, 255, 255, 1.0)
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+                    color: Color.fromRGBO(255, 234, 234, 1.0),
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(10)))
                 : const BoxDecoration(),
@@ -46,8 +39,11 @@ class LoginTabbarItemWidget extends StatelessWidget {
                       fontWeight: TextStyleUtils.semibold),
                 ),
                 const DecoratedBox(
-                    decoration: BoxDecoration(color: ColorUtils.red235),
-                    child: SizedBox(height: 2, width: 30))
+                    decoration: BoxDecoration(
+                        color: ColorUtils.red235,
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(2))),
+                    child: SizedBox(height: 4, width: 16))
               ],
             ));
       }),

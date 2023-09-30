@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
+import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/login/widget/login_text_field.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/common/notifier/change_notifier_mixin.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class LoginContentWidget extends StatefulWidget {
 
@@ -33,9 +36,7 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
 
     return <ChangeNotifier, List<VoidCallback>?>{
       _phoneController: callbacks,
-      _pwdController: callbacks,
-      _nodeText1: null,
-      _nodeText2: null,
+      _pwdController: callbacks
     };
 
   }
@@ -66,6 +67,25 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
             LoginEnableEvent(phone: phone, pwd: pwd, isPwdLogin: true));
       }
     }
+  }
+
+  Future<bool> _requestVerifyCode() async {
+    String phone = _phoneController.text;
+    if (phone.isEmpty) {
+      return false;
+    }
+
+    ToastUtils.showLoading();
+
+    HttpResultBean result =
+        await LoginService.requestVerifyCode(phone, VerifyCodeType.login);
+
+    ToastUtils.hideLoading();
+    if (!result.isSuccess()) {
+      ToastUtils.showError(result.data ?? result.msg);
+    }
+
+    return result.isSuccess();
   }
 
   @override
@@ -122,7 +142,7 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
               )
             ],
           ),
-          Divider(color: ColorUtils.rgb(216, 216, 216), height: 0.5),
+          const Divider(color: ColorUtils.gray216, height: 0.5),
         ],
       ),
     );
@@ -156,11 +176,14 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
                   controller: _pwdController,
                   focusNode: _nodeText2,
                   hintText: "请输入验证码",
+                  getVCode: () async {
+                    return await _requestVerifyCode();
+                  },
                 ),
               )
             ],
           ),
-          Divider(color: ColorUtils.rgb(216, 216, 216), height: 0.5),
+          const Divider(color: ColorUtils.gray216, height: 0.5),
         ],
       ),
     );
@@ -198,7 +221,7 @@ class _LoginContentState extends State<LoginContentWidget> with ChangeNotifierMi
               )
             ],
           ),
-          Divider(color: ColorUtils.rgb(216, 216, 216), height: 0.5),
+          const Divider(color: ColorUtils.gray216, height: 0.5),
         ],
       ),
     );
