@@ -18,7 +18,17 @@ class MePage extends StatefulWidget {
 }
 
 class _MePageState extends State {
-  
+  List<Widget> _buildListItemWidgetArr() {
+    return [
+      _buildListItemWidget(MeListItemType.pingbi),
+      _buildListItemWidget(MeListItemType.liulan),
+      _buildListItemWidget(MeListItemType.huodong),
+      _buildListItemWidget(MeListItemType.wenti),
+      _buildListItemWidget(MeListItemType.kefu),
+      _buildListItemWidget(MeListItemType.women),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,14 +82,7 @@ class _MePageState extends State {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
                   itemExtent: 64.0,
-                  children: [
-                    _buildListItemWidget(MeListItemType.pingbi),
-                    _buildListItemWidget(MeListItemType.liulan),
-                    _buildListItemWidget(MeListItemType.huodong),
-                    _buildListItemWidget(MeListItemType.wenti),
-                    _buildListItemWidget(MeListItemType.kefu),
-                    _buildListItemWidget(MeListItemType.women),
-                  ],
+                  children: _buildListItemWidgetArr(),
                 ),
               )
             ],
@@ -88,7 +91,6 @@ class _MePageState extends State {
   }
 
   _buildHeadWidget() {
-    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -238,7 +240,7 @@ class _MePageState extends State {
 
   _buildListItemWidget(MeListItemType type) {
     return Container(
-      padding: const EdgeInsets.only(top: 20, left: 16, bottom: 20, right: 16),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

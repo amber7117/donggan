@@ -13,7 +13,6 @@ class AppSetPage extends StatefulWidget {
 }
 
 class _AppSetPageState extends State<AppSetPage> {
-
   final List<SetListItemType> dataArr = [
     SetListItemType.appUpdate,
     SetListItemType.cleanCache
@@ -60,14 +59,11 @@ class _AppSetPageState extends State<AppSetPage> {
       onTap: () {
         if (type == SetListItemType.appUpdate) {
           ToastUtils.showInfo("当前已是最新版本");
-        } else if (type == SetListItemType.cleanCache) {
-          
-        }
+        } else if (type == SetListItemType.cleanCache) {}
       },
     );
   }
 }
-
 
 enum SetListItemType {
   appUpdate(idx: 0, title: "检查更新"),
