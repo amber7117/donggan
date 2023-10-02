@@ -59,6 +59,7 @@ class _MeInfoPageState extends State<MeInfoPage> {
           SizedBox(
             height: 54.0 * dataArr.length,
             child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: dataArr.length,
               separatorBuilder: (BuildContext context, int index) =>
                   const Divider(

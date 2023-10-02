@@ -17,30 +17,32 @@ AppBar buildAppBar({
   required BuildContext context,
 }) {
   return AppBar(
-    leadingWidth: leadingWidth,
-    backgroundColor: backgroundColor ?? Colors.white,
-    elevation: 0,
-    leading: leadingNull == true
-        ? null
-        : leading ??
-            IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: backIconColor ?? ColorUtils.black34,
+      leadingWidth: leadingWidth,
+      backgroundColor: backgroundColor ?? Colors.white,
+      elevation: 0,
+      leading: leadingNull == true
+          ? null
+          : leading ??
+              IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: backIconColor ?? ColorUtils.black34,
+                ),
+                iconSize: 24,
+                onPressed: onBackPressed ?? () => Navigator.maybePop(context),
               ),
-              iconSize: 24,
-              onPressed: onBackPressed ?? () => Navigator.maybePop(context),
+      title: title ??
+          Text(
+            titleText ?? '',
+            style: TextStyle(
+              color: titleTextColor ?? ColorUtils.black34,
+              fontSize: titleTextFontSize ?? 16.sp,
+              fontWeight: TextStyleUtils.bold,
             ),
-    title: title ??
-        Text(
-          titleText ?? '',
-          style: TextStyle(
-            color: titleTextColor ?? ColorUtils.black34,
-            fontSize: titleTextFontSize ?? 16.sp,
-            fontWeight: TextStyleUtils.bold,
           ),
-        ),
-  );
+      bottom:  PreferredSize(
+          preferredSize: const Size(double.infinity, 0.5),
+          child: Container(color: ColorUtils.gray248, height: 0.5)));
 }
 
 Widget buildCustomAppBar({
