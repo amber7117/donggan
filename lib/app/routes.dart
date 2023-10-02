@@ -8,6 +8,7 @@ import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
+import 'package:wzty/modules/me/page/me_info_page.dart';
 import 'package:wzty/modules/me/page/me_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 
@@ -23,35 +24,46 @@ class Routes {
 
   static String me = "/me";
 
+  static String meInfo = "/me/info";
+
   static String appSet = "/appSet";
 
   static String login = "/login";
 
 
   static void configureRoutes(FluroRouter router) {
+
     router.define(main, handler: Handler(handlerFunc: (context, params) {
       return const MainPage();
     }));
+
 
     router.define(match, handler: Handler(handlerFunc: (context, params) {
       return const MatchPage();
     }));
 
+
     router.define(anchor, handler: Handler(handlerFunc: (context, params) {
       return const AnchorPage();
     }));
+
 
     router.define(news, handler: Handler(handlerFunc: (context, params) {
       return const NewsPage();
     }));
 
+
     router.define(me, handler: Handler(handlerFunc: (context, params) {
       return const MePage();
+    }));
+    router.define(meInfo, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
     }));
 
     router.define(appSet, handler: Handler(handlerFunc: (context, params) {
       return const AppSetPage();
     }));
+
 
     router.define(login, handler: Handler(handlerFunc: (context, params) {
       return const LoginPage();

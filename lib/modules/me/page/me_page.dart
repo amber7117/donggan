@@ -126,7 +126,11 @@ class _MePageState extends State {
     return Consumer<UserProvider>(builder: (context2, provider, child) {
       return InkWell(
         onTap: () {
-          Routes.goLoginPage(context);
+          if (UserManager.instance.isLogin()) {
+            Routes.push(context, Routes.meInfo);
+          } else {
+            Routes.goLoginPage(context);
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
