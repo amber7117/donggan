@@ -29,6 +29,35 @@ class _MePageState extends State {
     ];
   }
 
+  _handleEvent(MeEvent event) {
+    if (event == MeEvent.set) {
+      Routes.push(context, Routes.appSet);
+    }
+
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+    }
+
+    if (event == MeEvent.info) {
+      Routes.push(context, Routes.meInfo);
+
+    } else if (event == MeEvent.follow) {
+      Routes.push(context, Routes.meFollow);
+
+    } else if (event == MeEvent.fans) {
+      Routes.push(context, Routes.meFans);
+
+    } else if (event == MeEvent.msg) {
+      Routes.push(context, Routes.meMsg);
+
+    } else if (event == MeEvent.collect) {
+      Routes.push(context, Routes.meCollect);
+
+    }  
+  }
+
+  _handleListEvent(MeListItemType type) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +91,16 @@ class _MePageState extends State {
                           child: _buildCardWidget(
                               "me/iconMessage", "消息通知", "0条未读"),
                           onTap: () {
-                            Routes.goLoginPage(context);
+                            _handleEvent(MeEvent.msg);
                           },
                         ),
                         const SizedBox(width: 10),
-                        _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
+                        InkWell(
+                          child: _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
+                          onTap: () {
+                            _handleEvent(MeEvent.collect);
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -97,11 +131,16 @@ class _MePageState extends State {
         TextButton(
             child: const JhAssetImage("me/iconSet", width: 24, height: 24),
             onPressed: () {
-              Routes.push(context, Routes.appSet);
+              _handleEvent(MeEvent.set);
             }),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
-          child: _buildInfoWidget(),
+          child: InkWell(
+            child: _buildInfoWidget(),
+            onTap: () {
+               _handleEvent(MeEvent.info);
+            },
+          )
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -109,7 +148,7 @@ class _MePageState extends State {
             InkWell(
               child: _buildFansWidget(true),
               onTap: () {
-                Routes.goLoginPage(context);
+                _handleEvent(MeEvent.follow);
               },
             ),
             Container(
@@ -117,7 +156,12 @@ class _MePageState extends State {
               height: 26,
               color: Colors.white.withOpacity(0.2),
             ),
-            _buildFansWidget(false),
+            InkWell(
+              child: _buildFansWidget(false),
+              onTap: () {
+                _handleEvent(MeEvent.fans);
+              },
+            ),
           ],
         )
       ],
@@ -126,56 +170,47 @@ class _MePageState extends State {
 
   _buildInfoWidget() {
     return Consumer<UserProvider>(builder: (context2, provider, child) {
-      return InkWell(
-        onTap: () {
-          if (UserManager.instance.isLogin()) {
-            Routes.push(context, Routes.meInfo);
-          } else {
-            Routes.goLoginPage(context);
-          }
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ClipOval(
-                child: SizedBox(
-                    width: 62,
-                    height: 62,
-                    child: provider.isLogin
-                        ? buildNetImage(UserManager.instance.headImg,
-                            width: 62.0,
-                            height: 62.0,
-                            fit: BoxFit.cover,
-                            placeholder: "common/iconTouxiang")
-                        : const JhAssetImage("common/iconTouxiang"))),
-            Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 14),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        provider.isLogin ? UserManager.instance.nickName : "登录",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: TextStyleUtils.bold),
-                      ),
-                      Text(
-                        provider.isLogin
-                            ? UserManager.instance.personalDesc
-                            : "您还没有登录，请登录",
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                            fontSize: 12.sp,
-                            fontWeight: TextStyleUtils.regual),
-                      ),
-                    ],
-                  )),
-            ),
-            const JhAssetImage("me/iconMeJiantou2", width: 16.0, height: 16.0),
-          ],
-        ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ClipOval(
+              child: SizedBox(
+                  width: 62,
+                  height: 62,
+                  child: provider.isLogin
+                      ? buildNetImage(UserManager.instance.headImg,
+                          width: 62.0,
+                          height: 62.0,
+                          fit: BoxFit.cover,
+                          placeholder: "common/iconTouxiang")
+                      : const JhAssetImage("common/iconTouxiang"))),
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.only(left: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      provider.isLogin ? UserManager.instance.nickName : "登录",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontWeight: TextStyleUtils.bold),
+                    ),
+                    Text(
+                      provider.isLogin
+                          ? UserManager.instance.personalDesc
+                          : "您还没有登录，请登录",
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 12.sp,
+                          fontWeight: TextStyleUtils.regual),
+                    ),
+                  ],
+                )),
+          ),
+          const JhAssetImage("me/iconMeJiantou2", width: 16.0, height: 16.0),
+        ],
       );
     });
   }
@@ -239,25 +274,30 @@ class _MePageState extends State {
   }
 
   _buildListItemWidget(MeListItemType type) {
-    return Container(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          JhAssetImage(type.imgPath, width: 24.0, height: 24.0),
-          Expanded(
-            child: Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: Text(
-                  type.title,
-                  style: TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500),
-                )),
-          ),
-          const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
-        ],
+    return InkWell(
+      onTap: () {
+        _handleListEvent(type);
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            JhAssetImage(type.imgPath, width: 24.0, height: 24.0),
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: Text(
+                    type.title,
+                    style: TextStyle(
+                        color: ColorUtils.black34,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500),
+                  )),
+            ),
+            const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
+          ],
+        ),
       ),
     );
   }
@@ -280,4 +320,8 @@ enum MeListItemType {
   final int idx;
   final String imgPath;
   final String title;
+}
+
+enum MeEvent {
+  set, info, follow, fans, msg, collect
 }

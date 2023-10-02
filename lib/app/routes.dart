@@ -8,8 +8,13 @@ import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
+import 'package:wzty/modules/me/page/me_collect_page.dart';
+import 'package:wzty/modules/me/page/me_fans_page.dart';
+import 'package:wzty/modules/me/page/me_follow_page.dart';
 import 'package:wzty/modules/me/page/me_info_page.dart';
+import 'package:wzty/modules/me/page/me_msg_page.dart';
 import 'package:wzty/modules/me/page/me_page.dart';
+import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 
 class Routes {
@@ -23,8 +28,17 @@ class Routes {
   static String news = "/news";
 
   static String me = "/me";
-
   static String meInfo = "/me/info";
+  static String meFollow = "/me/follow";
+  static String meFans = "/me/fans";
+  static String meMsg = "/me/msg";
+  static String meCollect = "/me/collect";
+  static String mePingbi = "/me/mePingbi";
+  static String meJilu = "/me/meJilu";
+  static String meHuodong = "/me/meHuodong";
+  static String meWenti = "/me/meWenti";
+  static String meKefu = "/me/meKefu";
+  static String meGuangyu = "/me/meGuangyu";
 
   static String appSet = "/appSet";
 
@@ -57,6 +71,37 @@ class Routes {
       return const MePage();
     }));
     router.define(meInfo, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
+    }));
+    router.define(meFollow, handler: Handler(handlerFunc: (context, params) {
+      return const MeFollowPage();
+    }));
+    router.define(meFans, handler: Handler(handlerFunc: (context, params) {
+      return const MeFansPage();
+    }));
+    router.define(meMsg, handler: Handler(handlerFunc: (context, params) {
+      return const MeMsgPage();
+    }));
+    router.define(meCollect, handler: Handler(handlerFunc: (context, params) {
+      return const MeCollectPage();
+    }));
+
+    router.define(mePingbi, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
+    }));
+    router.define(meJilu, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
+    }));
+    router.define(meHuodong, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
+    }));
+    router.define(meWenti, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
+    }));
+    router.define(meKefu, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoPage();
+    }));
+    router.define(meGuangyu, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoPage();
     }));
 

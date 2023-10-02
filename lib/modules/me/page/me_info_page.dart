@@ -39,15 +39,22 @@ class _MeInfoPageState extends State<MeInfoPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipOval(
-                      child: SizedBox(
-                          width: 62,
-                          height: 62,
-                          child: buildNetImage(UserManager.instance.headImg,
-                              width: 62.0,
-                              height: 62.0,
-                              fit: BoxFit.cover,
-                              placeholder: "common/iconTouxiang"))),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipOval(
+                        child: SizedBox(
+                            width: 62,
+                            height: 62,
+                            child: buildNetImage(UserManager.instance.headImg,
+                                width: 62.0,
+                                height: 62.0,
+                                fit: BoxFit.cover,
+                                placeholder: "common/iconTouxiang")),
+                      ),
+                      const JhAssetImage("me/iconXiangji", width: 28),
+                    ],
+                  ),
                   const SizedBox(height: 16),
                   Text('点击更换头像',
                       style: TextStyle(

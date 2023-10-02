@@ -93,8 +93,8 @@ class JhAssetImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       JhImageUtils.obtainImgPath(image, format: format),
-      height: height,
       width: width,
+      height: height ?? width,
       fit: fit,
       cacheWidth: cacheWidth,
       cacheHeight: cacheHeight,

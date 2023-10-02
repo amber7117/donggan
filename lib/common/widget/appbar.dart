@@ -40,7 +40,7 @@ AppBar buildAppBar({
               fontWeight: TextStyleUtils.bold,
             ),
           ),
-      bottom:  PreferredSize(
+      bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 0.5),
           child: Container(color: ColorUtils.gray248, height: 0.5)));
 }
