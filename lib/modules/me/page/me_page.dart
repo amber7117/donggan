@@ -131,15 +131,17 @@ class _MePageState extends State {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CircleAvatar(
-                radius: 31.0,
-                child: provider.isLogin
-                    ? buildNetImage(UserManager.instance.headImg,
-                        width: 62.0,
-                        height: 62.0,
-                        placeholder: "common/iconTouxiang")
-                    : const JhAssetImage("common/iconTouxiang",
-                        width: 62.0, height: 62.0)),
+            ClipOval(
+                child: SizedBox(
+                    width: 62,
+                    height: 62,
+                    child: provider.isLogin
+                        ? buildNetImage(UserManager.instance.headImg,
+                            width: 62.0,
+                            height: 62.0,
+                            fit: BoxFit.cover,
+                            placeholder: "common/iconTouxiang")
+                        : const JhAssetImage("common/iconTouxiang"))),
             Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(left: 14),

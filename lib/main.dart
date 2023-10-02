@@ -69,7 +69,7 @@ class _MyAppState extends State {
       builder: (context, child) {
         return MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => UserProvider()),
+              ChangeNotifierProvider(create: (_) => UserProvider(UserManager.instance.isLogin())),
             ],
             child: MaterialApp(
               title: "王者体育",

@@ -50,9 +50,13 @@ class JhImageUtils {
 
 /// 加载本地或者URL图片
 buildNetImage(String imageUrl,
-    {required double width, required double height, String? placeholder}) {
+    {required double width,
+    required double height,
+    BoxFit? fit,
+    String? placeholder}) {
   return CachedNetworkImage(
       imageUrl: imageUrl,
+      fit: fit,
       placeholder: (context, url) {
         return placeholder == null
             ? const CircularProgressIndicator()

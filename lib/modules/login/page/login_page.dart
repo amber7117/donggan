@@ -29,13 +29,11 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   NewsTabProvider tabProvider = NewsTabProvider();
   LoginDataProvider loginProvider = LoginDataProvider();
 
-  final List tabs = ["登录", "注册"];
-
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _pageController = PageController();
   }
 
@@ -153,8 +151,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                               indicator: const BoxDecoration(),
                               labelPadding: EdgeInsets.zero,
                               tabs: const <Widget>[
-                                LoginTabbarItemWidget(tabName: '登录', index: 0),
-                                LoginTabbarItemWidget(tabName: '注册', index: 1),
+                                LoginTabbarItemWidget(tabName: '手机登录', index: 0),
+                                LoginTabbarItemWidget(tabName: '密码登录', index: 1),
                               ]),
                           SizedBox(
                               height: 250, //208
