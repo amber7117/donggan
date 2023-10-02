@@ -118,9 +118,9 @@ class HttpManager {
     if (dio == null) {
       /// 全局属性：请求前缀、连接超时时间、响应超时时间
       BaseOptions options = BaseOptions(
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        sendTimeout: const Duration(seconds: 10),
+        connectTimeout: const Duration(seconds: 12),
+        receiveTimeout: const Duration(seconds: 102),
+        sendTimeout: const Duration(seconds: 12),
       );
 
       dio = Dio(options);
@@ -158,7 +158,7 @@ class HttpManager {
             .onHttpClientCreate = (HttpClient client) {
           client.idleTimeout = const Duration(seconds: 5);
           client.findProxy = (uri) {
-            return "PROXY 192.168.10.143:8888";
+            return "PROXY 192.168.10.150:8888";
           };
           // 代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
           client.badCertificateCallback =

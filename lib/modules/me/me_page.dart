@@ -72,12 +72,12 @@ class _MePageState extends State {
             children: [
               SizedBox(height: ScreenUtil().statusBarHeight),
               SizedBox(
-                height: 186.h,
+                height: 190.h,
                 child: _buildHeadWidget(),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                height: 104,
+                height: 104.h,
                 decoration: const BoxDecoration(
                     color: ColorUtils.gray248,
                     borderRadius:
@@ -106,7 +106,7 @@ class _MePageState extends State {
                 ),
               ),
               Container(
-                height: 64.0 * 6,
+                height: 64.h * 6,
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -114,7 +114,7 @@ class _MePageState extends State {
                 child: ListView(
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
-                  itemExtent: 64.0,
+                  itemExtent: 64.h,
                   children: _buildListItemWidgetArr(),
                 ),
               )
@@ -133,7 +133,7 @@ class _MePageState extends State {
               _handleEvent(MeEvent.set);
             }),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 18, 16),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 18, bottom: 16),
           child: InkWell(
             child: _buildInfoWidget(),
             onTap: () {
@@ -174,12 +174,11 @@ class _MePageState extends State {
         children: [
           ClipOval(
               child: SizedBox(
-                  width: 62,
-                  height: 62,
+                  width: 62.w,
                   child: provider.isLogin
                       ? buildNetImage(UserManager.instance.headImg,
-                          width: 62.0,
-                          height: 62.0,
+                          width: 62.w,
+                          height: 62.w,
                           fit: BoxFit.cover,
                           placeholder: "common/iconTouxiang")
                       : const JhAssetImage("common/iconTouxiang"))),
@@ -217,7 +216,7 @@ class _MePageState extends State {
   _buildFansWidget(bool isFollow) {
     return SizedBox(
       width: 175.w,
-      height: 44,
+      height: 44.h,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -244,7 +243,7 @@ class _MePageState extends State {
   _buildCardWidget(String imgPath, String title, String desc) {
     return Container(
       width: 171.w,
-      height: 84,
+      height: 84.h,
       padding: const EdgeInsets.only(left: 20),
       decoration: const BoxDecoration(
           color: Colors.white,

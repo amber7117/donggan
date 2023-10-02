@@ -4,10 +4,10 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class FollowBtn extends StatefulWidget {
-  const FollowBtn({super.key, this.getFollow, required this.followed});
+  const FollowBtn({super.key, this.handleFollow, required this.followed});
 
   final bool followed;
-  final Future<bool> Function()? getFollow;
+  final Future<bool> Function()? handleFollow;
 
   @override
   State<StatefulWidget> createState() {
@@ -24,8 +24,8 @@ class FollowBtnState extends State<FollowBtn> {
     _isFollowd = widget.followed;
   }
 
-  Future<void> _getFollow() async {
-    bool isSuccess = await widget.getFollow!();
+  Future<void> _handleTap() async {
+    bool isSuccess = await widget.handleFollow!();
     if (!isSuccess) return;
 
     setState(() {
@@ -36,7 +36,7 @@ class FollowBtnState extends State<FollowBtn> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _getFollow,
+      onTap: _handleTap,
       child: Container(
         width: 60,
         height: 24,

@@ -13,7 +13,7 @@ import 'package:wzty/modules/me/page/me_fans_page.dart';
 import 'package:wzty/modules/me/page/me_follow_page.dart';
 import 'package:wzty/modules/me/page/me_info_page.dart';
 import 'package:wzty/modules/me/page/me_msg_page.dart';
-import 'package:wzty/modules/me/page/me_page.dart';
+import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 

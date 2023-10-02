@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/follow_button.dart';
+import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -16,6 +17,20 @@ class MeFollowPage extends StatefulWidget {
 }
 
 class _MeFollowPageState extends State {
+
+  @override
+  void initState() {
+    super.initState();
+
+
+  }
+
+  _requestData() {
+    MeService.requestFollowList(FollowListType.anchor, (result) {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +40,8 @@ class _MeFollowPageState extends State {
             padding: EdgeInsets.zero,
             itemCount: 10,
             separatorBuilder: (context, index) {
-              return const Divider(height: 0.5, color: ColorUtils.gray248, indent: 12);
+              return const Divider(
+                  height: 0.5, color: ColorUtils.gray248, indent: 12);
             },
             itemBuilder: (context, index) {
               return _buildCellWidget(index);
@@ -73,8 +89,9 @@ class _MeFollowPageState extends State {
               ],
             ),
           )),
-          FollowBtn(followed: true, onTap: () {}),
-          
+          // FollowBtn(followed: true, handleFollow: () async {
+
+          // }),
         ],
       ),
     );

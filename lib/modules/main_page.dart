@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
-import 'package:wzty/modules/me/page/me_page.dart';
+import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -62,21 +63,24 @@ class _MainPageState extends State {
   }
 
   _buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      backgroundColor: Colors.white,
-      items: obtainTabList(),
-      // 配置对应的索引值选中
-      currentIndex: _currentIndex,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      // 配置对应的索引值选中
-      onTap: (int index) {
-        setState(() {
-          // 改变状态
-          _currentIndex = index;
-          _pageController.jumpToPage(index);
-        });
-      },
+    return SizedBox(
+      height: 82,
+      child: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        items: obtainTabList(),
+        // 配置对应的索引值选中
+        currentIndex: _currentIndex,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        // 配置对应的索引值选中
+        onTap: (int index) {
+          setState(() {
+            // 改变状态
+            _currentIndex = index;
+            _pageController.jumpToPage(index);
+          });
+        },
+      ),
     );
   }
 

@@ -82,23 +82,23 @@ class LoginTextFieldState extends State<LoginTextField> {
     super.dispose();
   }
 
-  Future<dynamic> _getVCode() async {
-    final bool isSuccess = await widget.getVCode!();
-    if (isSuccess) {
+  Future<void> _handleTap() async {
+    bool isSuccess = await widget.getVCode!();
+    if (!isSuccess) return;
+
+    setState(() {
+      _currentSecond = _second;
+      _clickable = false;
+    });
+
+    Duration interval = const Duration(seconds: 1);
+    _subscription =
+        Stream.periodic(interval, (int i) => i).take(_second).listen((int i) {
       setState(() {
-        _currentSecond = _second;
-        _clickable = false;
+        _currentSecond = _second - i - 1;
+        _clickable = _currentSecond < 1;
       });
-      Duration interval = const Duration(seconds: 1);
-      _subscription = Stream.periodic(interval, (int i) => i)
-          .take(_second)
-          .listen((int i) {
-        setState(() {
-          _currentSecond = _second - i - 1;
-          _clickable = _currentSecond < 1;
-        });
-      });
-    }
+    });
   }
 
   _isTextVerifyCode() {
@@ -197,7 +197,7 @@ class LoginTextFieldState extends State<LoginTextField> {
   _buildVCodeButton() {
     return WZButton(
       key: const Key('getVerificationCode'),
-      onPressed: _clickable ? _getVCode : null,
+      onPressed: _clickable ? _handleTap : null,
       text: _clickable ? '获取验证码' : '$_currentSecond秒后重发',
       fontSize: 10.sp,
       textColor: ColorUtils.red235,

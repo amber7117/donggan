@@ -4,6 +4,15 @@ import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 
+enum FollowListType {
+  anchor(value: 2),
+  author(value: 4);
+
+  const FollowListType({required this.value});
+
+  final int value;
+}
+
 class MeService {
   static Future<void> requestUserInfo(
       String uid, BusinessSuccess<String> complete) async {
@@ -18,10 +27,18 @@ class MeService {
     complete(msg);
   }
 
-  static Future<void> requestFollowList(
+  static Future<void> requestFollowList(FollowListType type,
       BusinessSuccess<String> complete) async {
+
+    Map<String, dynamic> params = {
+      "pageNum": 1,
+      "pageSize": pageSize,
+      "focusUserId": UserManager.instance.uid,
+      "type": type.value
+    };
+
     HttpResultBean result =
-        await HttpManager.request(MeApi.followList, HttpMethod.post);
+        await HttpManager.request(MeApi.followList, HttpMethod.get, params: params);
 
     String msg = "";
     if (!result.isSuccess()) {
