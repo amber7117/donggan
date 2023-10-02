@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/modules/news/provider/news_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
-import 'package:wzty/modules/news/widget/news_tabbar_item_widget.dart';
+import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
 

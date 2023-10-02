@@ -94,7 +94,6 @@ class _MePageState extends State {
                             _handleEvent(MeEvent.msg);
                           },
                         ),
-                        const SizedBox(width: 10),
                         InkWell(
                           child: _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
                           onTap: () {
@@ -134,7 +133,7 @@ class _MePageState extends State {
               _handleEvent(MeEvent.set);
             }),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+          padding: const EdgeInsets.fromLTRB(20, 20, 18, 16),
           child: InkWell(
             child: _buildInfoWidget(),
             onTap: () {
@@ -216,57 +215,65 @@ class _MePageState extends State {
   }
 
   _buildFansWidget(bool isFollow) {
-    return Row(
-      children: [
-        Text(
-          "1566",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: TextStyleUtils.medium),
-        ),
-        const SizedBox(width: 4),
-        Text(
-          isFollow ? "关注" : "粉丝",
-          style: TextStyle(
-              color: Colors.white.withOpacity(0.6),
-              fontSize: 12.sp,
-              fontWeight: TextStyleUtils.medium),
-        ),
-      ],
+    return SizedBox(
+      width: 175.w,
+      height: 44,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "1566",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: TextStyleUtils.medium),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            isFollow ? "关注" : "粉丝",
+            style: TextStyle(
+                color: Colors.white.withOpacity(0.6),
+                fontSize: 12.sp,
+                fontWeight: TextStyleUtils.medium),
+          ),
+        ],
+      ),
     );
   }
 
   _buildCardWidget(String imgPath, String title, String desc) {
     return Container(
-      padding: const EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 40),
+      width: 171.w,
+      height: 84,
+      padding: const EdgeInsets.only(left: 20),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           JhAssetImage(imgPath, width: 44.0, height: 44.0),
-          Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 14.sp,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-                Text(
-                  desc,
-                  style: TextStyle(
-                      color: ColorUtils.gray153,
-                      fontSize: 12.sp,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-              ],
-            ),
+          const SizedBox(width: 10),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 14.sp,
+                    fontWeight: TextStyleUtils.medium),
+              ),
+              Text(
+                desc,
+                style: TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 12.sp,
+                    fontWeight: TextStyleUtils.medium),
+              ),
+            ],
           )
         ],
       ),

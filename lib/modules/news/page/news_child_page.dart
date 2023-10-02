@@ -20,7 +20,7 @@ class _NewsChildPageState extends State {
     return ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: 10,
-        // itemExtent: 68,
+        itemExtent: 100,
         itemBuilder: (context, index) {
           return _buildCellWidget(index);
         });
@@ -63,9 +63,7 @@ class _NewsChildPageState extends State {
               ),
             ],
           ),
-          const Expanded(child: JhAssetImage("common/imgZixunMoren",
-                width: 94.0, height: 70.0),
-          ),
+          const JhAssetImage("common/imgZixunMoren", width: 94.0, height: 70.0),
           
         ],
       ),

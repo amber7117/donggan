@@ -7,7 +7,7 @@ import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/widget/login_content_widget.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/login/widget/login_tabbar_item_widget.dart';
-import 'package:wzty/modules/news/provider/news_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
