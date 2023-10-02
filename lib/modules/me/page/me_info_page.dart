@@ -27,7 +27,7 @@ class _MeInfoPageState extends State<MeInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
-      appBar: buildAppBar(titleText: "编辑资料", context: context),
+      appBar: buildAppBar(context: context, titleText: "编辑资料"),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -96,7 +96,7 @@ class _MeInfoPageState extends State<MeInfoPage> {
                 style: TextStyle(
                     color: ColorUtils.black34,
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: TextStyleUtils.medium),
               )),
           const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
         ],

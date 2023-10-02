@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 class MeFollowPage extends StatefulWidget {
   const MeFollowPage({super.key});
@@ -15,45 +17,55 @@ class MeFollowPage extends StatefulWidget {
 }
 
 class _MeFollowPageState extends State {
-
+  
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Scaffold(
+      appBar: buildAppBar(context: context, titleText: "我的关注"),
+      backgroundColor: ColorUtils.gray248,
+      body: ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: 10,
         // itemExtent: 68,
         itemBuilder: (context, index) {
           return _buildCellWidget(index);
-        });
+        })
+    );
   }
 
   _buildCellWidget(int idx) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 14),
+      // height: 64,
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 12, right: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const JhAssetImage("news/iconMessage", width: 16.0, height: 16.0),
+          ClipOval(
+              child: SizedBox(
+                  width: 36,
+                  height: 36,
+                  child: buildNetImage("",
+                          width: 36.0,
+                          height: 36.0,
+                          fit: BoxFit.cover,
+                          placeholder: "common/iconTouxiang"))),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                  width: 240.w,
-                  child: Text(
-                    "卡尔作为西甲大使发言梅西仍有也！卡尔作为西甲大使发言梅西仍有也！",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: ColorUtils.black34,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
-                  )),
               Text(
-                "1256",
+                "夏日清晨",
                 style: TextStyle(
-                    color: ColorUtils.gray153,
+                    color: const Color.fromRGBO(58, 58, 60, 1.0),
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: TextStyleUtils.medium),
+              ),
+              Text(
+                "粉丝数  2.9w",
+                style: TextStyle(
+                    color: ColorUtils.gray149,
+                    fontSize: 11.sp,
+                    fontWeight: TextStyleUtils.regual),
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 class NewsChildPage extends StatefulWidget {
   const NewsChildPage({super.key});
@@ -43,7 +44,7 @@ class _NewsChildPageState extends State {
                     style: TextStyle(
                         color: ColorUtils.black34,
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: TextStyleUtils.medium),
                   )),
               const SizedBox(height: 12),
               Row(
@@ -56,7 +57,7 @@ class _NewsChildPageState extends State {
                     style: TextStyle(
                         color: ColorUtils.gray153,
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: TextStyleUtils.regual),
                   ),
                 ],
               ),

@@ -223,7 +223,7 @@ class _MePageState extends State {
           style: TextStyle(
               color: Colors.white,
               fontSize: 14.sp,
-              fontWeight: FontWeight.w500),
+              fontWeight: TextStyleUtils.medium),
         ),
         const SizedBox(width: 4),
         Text(
@@ -231,7 +231,7 @@ class _MePageState extends State {
           style: TextStyle(
               color: Colors.white.withOpacity(0.6),
               fontSize: 12.sp,
-              fontWeight: FontWeight.w500),
+              fontWeight: TextStyleUtils.medium),
         ),
       ],
     );
@@ -256,14 +256,14 @@ class _MePageState extends State {
                   style: TextStyle(
                       color: ColorUtils.black34,
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: TextStyleUtils.medium),
                 ),
                 Text(
                   desc,
                   style: TextStyle(
                       color: ColorUtils.gray153,
                       fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: TextStyleUtils.medium),
                 ),
               ],
             ),
@@ -292,7 +292,7 @@ class _MePageState extends State {
                     style: TextStyle(
                         color: ColorUtils.black34,
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: TextStyleUtils.medium),
                   )),
             ),
             const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),

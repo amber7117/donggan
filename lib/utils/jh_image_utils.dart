@@ -54,6 +54,9 @@ buildNetImage(String imageUrl,
     required double height,
     BoxFit? fit,
     String? placeholder}) {
+  if (imageUrl.isEmpty && placeholder != null) {
+    return JhAssetImage(placeholder, width: width, height: height);
+  }
   return CachedNetworkImage(
       imageUrl: imageUrl,
       fit: fit,

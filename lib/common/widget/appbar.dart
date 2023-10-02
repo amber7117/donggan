@@ -4,6 +4,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 AppBar buildAppBar({
+  required BuildContext context,
   final Color? backIconColor,
   final Widget? leading,
   final double? leadingWidth,
@@ -14,7 +15,6 @@ AppBar buildAppBar({
   final Color? titleTextColor,
   final Color? backgroundColor,
   final VoidCallback? onBackPressed,
-  required BuildContext context,
 }) {
   return AppBar(
       leadingWidth: leadingWidth,

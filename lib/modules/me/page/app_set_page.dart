@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class AppSetPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AppSetPageState extends State<AppSetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(titleText: "设置", context: context),
+        appBar: buildAppBar(context: context, titleText: "设置"),
         body: ListView.separated(
           itemCount: dataArr.length,
           padding: const EdgeInsets.only(top: 10),
@@ -50,7 +51,7 @@ class _AppSetPageState extends State<AppSetPage> {
                   style: TextStyle(
                       color: ColorUtils.black34,
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: TextStyleUtils.regual),
                 )),
             const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
           ],
