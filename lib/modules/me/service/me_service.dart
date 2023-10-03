@@ -3,6 +3,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
 
 enum FollowListType {
@@ -99,4 +100,20 @@ class MeService {
     }
     complete(msg);
   }
+
+  static Future<void> requestSysMsgList(
+      BusinessCallback<List<SysMsgModel>> complete) async {
+    HttpResultBean result = await HttpManager.request(
+        MeApi.sysMsgList, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data;
+      List<SysMsgModel> retList =
+          tmpList.map((dataMap) => SysMsgModel.fromJson(dataMap)).toList();
+      complete(true, retList);
+    } else {
+      complete(false, []);
+    }
+  }
+
 }

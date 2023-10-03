@@ -32,6 +32,8 @@ class MeApi {
 
   static String userFocusCancel = "qiutx-news/app/post/attention/###/cancel";
 
+  static String sysMsgList = "/qiutx-sms/user/message/listNew";
+
 }
 
 

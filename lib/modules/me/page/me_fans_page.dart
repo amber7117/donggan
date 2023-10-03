@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/appbar.dart';
-import 'package:wzty/common/widget/follow_button.dart';
 import 'package:wzty/common/widget/load_state_widget.dart';
-import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -32,7 +30,9 @@ class _MeFansPageState extends State {
   }
 
   _requestData() {
+    ToastUtils.showLoading();
     MeService.requestFansList((success, result) {
+      ToastUtils.hideLoading();
       if (success) {
         if (result.isNotEmpty) {
           _dataArr = result;
