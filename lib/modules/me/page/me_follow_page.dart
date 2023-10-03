@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/follow_button.dart';
 import 'package:wzty/common/widget/load_state_widget.dart';
+import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class MeFollowPage extends StatefulWidget {
   const MeFollowPage({super.key});
@@ -46,6 +48,21 @@ class _MeFollowPageState extends State {
         
       });
     });
+  }
+
+  Future<bool> _requestFollowUser(UserInfoEntity model) async {
+    bool isFollow = !model.isAttention;
+
+    ToastUtils.showLoading();
+
+    HttpResultBean result = await MeService.requestUserFocus(model.userId, isFollow);
+
+    ToastUtils.hideLoading();
+    if (!result.isSuccess()) {
+      ToastUtils.showError(result.data ?? result.msg);
+    }
+
+    return result.isSuccess();
   }
 
   @override
@@ -100,7 +117,7 @@ class _MeFollowPageState extends State {
                       fontWeight: TextStyleUtils.medium),
                 ),
                 Text(
-                  "粉丝数  2.9w",
+                  "粉丝数  ${model.fansCount}",
                   style: TextStyle(
                       color: ColorUtils.gray149,
                       fontSize: 11.sp,
@@ -109,9 +126,9 @@ class _MeFollowPageState extends State {
               ],
             ),
           )),
-          // FollowBtn(followed: true, handleFollow: () async {
-
-          // }),
+          FollowBtn(followed: true, handleFollow: () async {
+            return _requestFollowUser(model);
+          }),
         ],
       ),
     );

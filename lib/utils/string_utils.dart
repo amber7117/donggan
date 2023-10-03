@@ -90,7 +90,7 @@ class StringUtils {
     String uriPath = "";
 
     if (urlStr.contains(":")) {
-      Uri uri = Uri.tryParse(urlStr) ?? Uri();
+      Uri uri = Uri.parse(urlStr);
       if (uri.host.isEmpty) {
         return urlStr;
       }
@@ -108,12 +108,12 @@ class StringUtils {
     }
 
     // 随机字符串
-    String randomStr = generateRandomString(20);
-    randomStr = randomStr.toLowerCase();
+    String randomStr = "0";
 
     // 阿里authkey 随机字符串用0表示，同步安卓
-    if (typeValue == 1) {
-      randomStr = "0";
+    if (typeValue != 1) {
+      randomStr = generateRandomString(20);
+      randomStr = randomStr.toLowerCase();
     }
 
     /// 时间戳

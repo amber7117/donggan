@@ -91,7 +91,7 @@ class UserManager {
     SpUtils.save(SpKeys.mobile, mobile);
   }
 
-  removeUserInfo(UserEntity model) {
+  removeUserInfo() {
     token = "";
     uid = "";
     headImg = "";

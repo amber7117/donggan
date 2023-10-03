@@ -40,18 +40,22 @@ class FollowBtnState extends State<FollowBtn> {
       child: Container(
         width: 60,
         height: 24,
-        decoration: BoxDecoration(
-            gradient: _isFollowd
-                ? null
-                : const LinearGradient(
-                    colors: [
-                      Color.fromRGBO(233, 78, 78, 1.0),
-                      Color.fromRGBO(217, 52, 52, 1.0),
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-            borderRadius: const BorderRadius.all(Radius.circular(4))),
+        decoration: _isFollowd
+            ? BoxDecoration(
+                border: Border.all(
+                    width: 1.0,
+                    color: const Color.fromRGBO(216, 216, 216, 1.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(4)))
+            : const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(233, 78, 78, 1.0),
+                    Color.fromRGBO(217, 52, 52, 1.0),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -60,7 +64,9 @@ class FollowBtnState extends State<FollowBtn> {
                 : const JhAssetImage("common/iconGuanzhuJH", width: 16),
             Text('关注',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: _isFollowd
+                        ? const Color.fromRGBO(216, 216, 216, 1.0)
+                        : Colors.white,
                     fontSize: 12.sp,
                     fontWeight: TextStyleUtils.regual))
           ],

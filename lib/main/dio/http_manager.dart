@@ -56,7 +56,7 @@ class HttpManager {
     params ??= {};
 
     // post参数处理
-    Map<String, dynamic> data = {};
+    Map<String, dynamic>? data;
     if (method == HttpMethod.post) {
       data = params;
       params = {};

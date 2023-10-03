@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
+import 'package:wzty/common/widget/login_sure_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/main/user/user_provider.dart';
+import 'package:wzty/modules/login/provider/login_data_provider.dart';
+import 'package:wzty/modules/login/service/login_service.dart';
+import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -23,13 +30,23 @@ class _MeInfoPageState extends State<MeInfoPage> {
     InfoListItemType.cancelAccount,
   ];
 
+  _handleLogout() {
+    LoginService.requestLogout((success, result) {
+      
+    });
+    UserManager.instance.removeUserInfo();
+    context.read<UserProvider>().setIsLogin(false);
+
+    Routes.goBack(context);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
       appBar: buildAppBar(context: context, titleText: "编辑资料"),
       body: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
               width: double.infinity,
@@ -76,6 +93,8 @@ class _MeInfoPageState extends State<MeInfoPage> {
               },
             ),
           ),
+          SizedBox(height: 140.h),
+          LoginSureButton(title: "退出登录", handleTap: _handleLogout),
         ],
       ),
     );

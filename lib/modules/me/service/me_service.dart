@@ -62,8 +62,8 @@ class MeService {
     complete(msg);
   }
 
-  static Future<void> requestUserFocus(
-      String uid, bool isFocus, BusinessSuccess<String> complete) async {
+  static Future<HttpResultBean> requestUserFocus(
+      String uid, bool isFocus) async {
     String path;
     if (isFocus) {
       path = MeApi.userFocus.replaceAll(apiPlaceholder, uid);
@@ -73,11 +73,7 @@ class MeService {
 
     HttpResultBean result = await HttpManager.request(path, HttpMethod.post);
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
-    }
-    complete(msg);
+    return result;
   }
 
   static Future<void> modifyUserInfo(BusinessSuccess<String> complete) async {
