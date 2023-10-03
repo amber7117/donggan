@@ -155,7 +155,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                 LoginTabbarItemWidget(tabName: '密码登录', index: 1),
                               ]),
                           SizedBox(
-                              height: 250, //208
+                              height: 234, 
                               child: PageView.builder(
                                   key: const Key('pageView'),
                                   itemCount: 2,
@@ -174,11 +174,9 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                               builder: (context2, provider, child) {
                             return InkWell(
                               child: Container(
-                                width: double.infinity,
+                                width: ScreenUtil().screenWidth-72*2,
                                 height: 48,
-                                margin: const EdgeInsets.only(
-                                    top: 20, left: 54, right: 54, bottom: 20),
-                                padding: const EdgeInsets.only(top: 6),
+                                alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     color: provider.canLogin
                                         ? ColorUtils.red235

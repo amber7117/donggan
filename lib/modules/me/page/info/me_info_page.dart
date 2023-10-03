@@ -3,12 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
-import 'package:wzty/common/widget/login_sure_button.dart';
+import 'package:wzty/common/widget/sure_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
-import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
-import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -21,7 +19,6 @@ class MeInfoPage extends StatefulWidget {
 }
 
 class _MeInfoPageState extends State<MeInfoPage> {
-  
   final List<InfoListItemType> dataArr = [
     InfoListItemType.nickName,
     InfoListItemType.personalDesc,
@@ -30,16 +27,17 @@ class _MeInfoPageState extends State<MeInfoPage> {
     InfoListItemType.cancelAccount,
   ];
 
+  _handleListEvent(InfoListItemType type) {
+
+  }
+
   _handleLogout() {
-    LoginService.requestLogout((success, result) {
-      
-    });
+    LoginService.requestLogout((success, result) {});
     UserManager.instance.removeUserInfo();
     context.read<UserProvider>().setIsLogin(false);
 
     Routes.goBack(context);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,38 +46,12 @@ class _MeInfoPageState extends State<MeInfoPage> {
       appBar: buildAppBar(context: context, titleText: "编辑资料"),
       body: Column(
         children: [
-          Container(
-              width: double.infinity,
-              height: 190.h,
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ClipOval(
-                        child: SizedBox(
-                            width: 62,
-                            height: 62,
-                            child: buildNetImage(UserManager.instance.headImg,
-                                width: 62.0,
-                                height: 62.0,
-                                fit: BoxFit.cover,
-                                placeholder: "common/iconTouxiang")),
-                      ),
-                      const JhAssetImage("me/iconXiangji", width: 28),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text('点击更换头像',
-                      style: TextStyle(
-                          color: ColorUtils.gray153,
-                          fontSize: 12.sp,
-                          fontWeight: TextStyleUtils.regual)),
-                ],
-              )),
+          InkWell(
+            onTap: () {
+              Routes.push(context, Routes.meInfoAvatar);
+            },
+            child: _buildHeadWidget(),
+          ),
           SizedBox(
             height: 54.0 * dataArr.length,
             child: ListView.separated(
@@ -94,10 +66,45 @@ class _MeInfoPageState extends State<MeInfoPage> {
             ),
           ),
           SizedBox(height: 140.h),
-          LoginSureButton(title: "退出登录", handleTap: _handleLogout),
+          SureButton(title: "退出登录", handleTap: _handleLogout),
         ],
       ),
     );
+  }
+
+  _buildHeadWidget() {
+    return Container(
+        width: double.infinity,
+        height: 190.h,
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipOval(
+                  child: SizedBox(
+                      width: 62,
+                      height: 62,
+                      child: buildNetImage(UserManager.instance.headImg,
+                          width: 62.0,
+                          height: 62.0,
+                          fit: BoxFit.cover,
+                          placeholder: "common/iconTouxiang")),
+                ),
+                const JhAssetImage("me/iconXiangji", width: 28),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text('点击更换头像',
+                style: TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 12.sp,
+                    fontWeight: TextStyleUtils.regual)),
+          ],
+        ));
   }
 
   _buildListItemWidget(InfoListItemType type) {
@@ -139,3 +146,4 @@ enum InfoListItemType {
   final int idx;
   final String title;
 }
+

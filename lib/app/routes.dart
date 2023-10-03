@@ -8,13 +8,13 @@ import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
+import 'package:wzty/modules/me/page/info/me_info_avatar_page.dart';
 import 'package:wzty/modules/me/page/me_collect_page.dart';
 import 'package:wzty/modules/me/page/me_fans_page.dart';
 import 'package:wzty/modules/me/page/me_follow_page.dart';
-import 'package:wzty/modules/me/page/me_info_page.dart';
+import 'package:wzty/modules/me/page/info/me_info_page.dart';
 import 'package:wzty/modules/me/page/me_msg_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
-import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 
 class Routes {
@@ -29,6 +29,12 @@ class Routes {
 
   static String me = "/me";
   static String meInfo = "/me/info";
+  static String meInfoAvatar = "/me/info/avatar";
+  static String meInfoName = "/me/info/name";
+  static String meInfoDesc = "/me/info/desc";
+  static String meInfoMobile = "/me/info/mobile";
+  static String meInfoPwd = "/me/info/wwd";
+  static String meInfoAccount = "/me/info/account";
   static String meFollow = "/me/follow";
   static String meFans = "/me/fans";
   static String meMsg = "/me/msg";
@@ -72,6 +78,9 @@ class Routes {
     }));
     router.define(meInfo, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoPage();
+    }));
+    router.define(meInfoAvatar, handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoAvatarPage();
     }));
     router.define(meFollow, handler: Handler(handlerFunc: (context, params) {
       return const MeFollowPage();
