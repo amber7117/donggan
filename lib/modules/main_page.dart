@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
-const double _tabW = 75.0;
-const double _tabH = 48.0;
+const double _tabW = 44.0;
+const double _tabH = 44.0;
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -28,10 +27,10 @@ class _MainPageState extends State {
 
   List<BottomNavigationBarItem> obtainTabList() {
     return [
-      _buildBarItem('common/tab1'),
-      _buildBarItem('common/tab2'),
-      _buildBarItem('common/tab4'),
-      _buildBarItem('common/tab5'),
+      _buildBarItem('tab/iconZhibo'),
+      _buildBarItem('tab/iconLanqiu'),
+      _buildBarItem('tab/iconZixun'),
+      _buildBarItem('tab/iconWode'),
     ];
   }
 
@@ -63,24 +62,25 @@ class _MainPageState extends State {
   }
 
   _buildBottomNavigationBar() {
-    return SizedBox(
-      height: 82,
-      child: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: obtainTabList(),
-        // 配置对应的索引值选中
-        currentIndex: _currentIndex,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        // 配置对应的索引值选中
-        onTap: (int index) {
-          setState(() {
-            // 改变状态
-            _currentIndex = index;
-            _pageController.jumpToPage(index);
-          });
-        },
-      ),
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      items: obtainTabList(),
+      // 配置对应的索引值选中
+      currentIndex: _currentIndex,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      iconSize: _tabW,
+      unselectedFontSize: 0,
+      selectedFontSize: 0,
+      // 配置对应的索引值选中
+      onTap: (int index) {
+        setState(() {
+          // 改变状态
+          _currentIndex = index;
+          _pageController.jumpToPage(index);
+        });
+      },
     );
   }
 
