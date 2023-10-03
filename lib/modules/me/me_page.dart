@@ -36,6 +36,7 @@ class _MePageState extends State {
 
     if (!UserManager.instance.isLogin()) {
       Routes.goLoginPage(context);
+      return;
     }
 
     if (event == MeEvent.info) {

@@ -22,17 +22,16 @@ class StringUtils {
   }
 
   static String signGetRequest(
-      dynamic param, String md5Key, String milliseconds) {
+      Map<String, dynamic> param, String md5Key, String milliseconds) {
     List<String> keyValues = [];
 
-    if (param is Map<String, dynamic>) {
+    if (param.isNotEmpty) {
       List<String> allKeyArray = param.keys.toList();
       List<String> afterSortKeyArray = allKeyArray..sort();
 
-      List<String> valueArray = [];
+      List<dynamic> valueArray = [];
       for (String sortedString in afterSortKeyArray) {
-        String valueString = (param[sortedString] as String?) ?? "";
-        valueArray.add(valueString);
+        valueArray.add(param[sortedString]);
       }
 
       for (int idx = 0; idx < afterSortKeyArray.length; idx++) {
@@ -55,10 +54,10 @@ class StringUtils {
   }
 
   static String signPostRequest(
-      dynamic param, String md5Key, String milliseconds) {
+      Map<String, dynamic> param, String md5Key, String milliseconds) {
     String keyValueStr = "";
 
-    if (param is Map<String, dynamic>) {
+    if (param.isNotEmpty) {
       keyValueStr = param.toString();
       keyValueStr = "$keyValueStr&key=$md5Key";
     } else {

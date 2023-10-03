@@ -81,10 +81,12 @@ class DomainManager {
   }
 
   void pullDomainFromServer() async {
-    HttpResultBean result = await HttpManager.request(DomainApi.pullServer, HttpMethod.get);
+    HttpResultBean result =
+        await HttpManager.request(DomainApi.pullServer, HttpMethod.get);
     if (result.isSuccess()) {
       List retList = result.data;
-      List<DomainEntity> domianList = retList.map((userMap) => DomainEntity.fromJson(userMap)).toList();
+      List<DomainEntity> domianList =
+          retList.map((dataMap) => DomainEntity.fromJson(dataMap)).toList();
       checkDomainList(domianList, DomainPullFrom.server);
     }
   }

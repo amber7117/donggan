@@ -15,9 +15,9 @@ import 'package:wzty/utils/date_utils.dart';
 import 'package:wzty/utils/string_utils.dart';
 
 enum HttpMethod {
-  get(value: "get"),
-  post(value: "post"),
-  upload(value: "upload");
+  get(value: "GET"),
+  post(value: "POST"),
+  upload(value: "UPLOAD");
 
   const HttpMethod({required this.value});
 

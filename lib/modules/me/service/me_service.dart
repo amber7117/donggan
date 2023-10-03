@@ -3,6 +3,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/modules/me/entity/user_info_entity.dart';
 
 enum FollowListType {
   anchor(value: 2),
@@ -28,8 +29,7 @@ class MeService {
   }
 
   static Future<void> requestFollowList(FollowListType type,
-      BusinessSuccess<String> complete) async {
-
+      BusinessCallback<List<UserInfoEntity>> complete) async {
     Map<String, dynamic> params = {
       "pageNum": 1,
       "pageSize": pageSize,
@@ -37,14 +37,18 @@ class MeService {
       "type": type.value
     };
 
-    HttpResultBean result =
-        await HttpManager.request(MeApi.followList, HttpMethod.get, params: params);
+    HttpResultBean result = await HttpManager.request(
+        MeApi.followList, HttpMethod.get,
+        params: params);
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
+    if (result.isSuccess()) {
+      List tmpList = result.data["list"];
+      List<UserInfoEntity> retList =
+          tmpList.map((dataMap) => UserInfoEntity.fromJson(dataMap)).toList();
+      complete(true, retList);
+    } else {
+      complete(false, []);
     }
-    complete(msg);
   }
 
   static Future<void> requestFansList(BusinessSuccess<String> complete) async {

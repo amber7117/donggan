@@ -22,12 +22,14 @@ class _MeFollowPageState extends State {
   void initState() {
     super.initState();
 
-
+    _requestData();
   }
 
   _requestData() {
-    MeService.requestFollowList(FollowListType.anchor, (result) {
-      
+    MeService.requestFollowList(FollowListType.anchor, (success, result) {
+      if (success) {
+        
+      }
     });
   }
 
