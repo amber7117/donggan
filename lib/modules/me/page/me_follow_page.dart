@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/follow_button.dart';
+import 'package:wzty/common/widget/load_state_widget.dart';
+import 'package:wzty/modules/me/entity/user_info_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -18,6 +20,9 @@ class MeFollowPage extends StatefulWidget {
 
 class _MeFollowPageState extends State {
 
+  LoadStatusType _layoutState = LoadStatusType.loading;
+  List<UserInfoEntity> _dataArr = [];
+
   @override
   void initState() {
     super.initState();
@@ -28,8 +33,18 @@ class _MeFollowPageState extends State {
   _requestData() {
     MeService.requestFollowList(FollowListType.anchor, (success, result) {
       if (success) {
-        
+        if (result.isNotEmpty) {
+          _dataArr = result;
+          _layoutState = LoadStatusType.success;
+        } else {
+          _layoutState = LoadStatusType.empty;
+        }
+      } else {
+        _layoutState = LoadStatusType.failure;
       }
+      setState(() {
+        
+      });
     });
   }
 
@@ -38,19 +53,22 @@ class _MeFollowPageState extends State {
     return Scaffold(
         appBar: buildAppBar(context: context, titleText: "我的关注"),
         backgroundColor: ColorUtils.gray248,
-        body: ListView.separated(
-            padding: EdgeInsets.zero,
-            itemCount: 10,
-            separatorBuilder: (context, index) {
-              return const Divider(
-                  height: 0.5, color: ColorUtils.gray248, indent: 12);
-            },
-            itemBuilder: (context, index) {
-              return _buildCellWidget(index);
-            }));
+        body: LoadStateWidget(
+            state: _layoutState,
+            successWidget: ListView.separated(
+                padding: EdgeInsets.zero,
+                itemCount: _dataArr.length,
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                      height: 0.5, color: ColorUtils.gray248, indent: 12);
+                },
+                itemBuilder: (context, index) {
+                  return _buildCellWidget(index);
+                })));
   }
 
   _buildCellWidget(int idx) {
+    UserInfoEntity model = _dataArr[idx];
     return Container(
       height: 64,
       color: Colors.white,
@@ -62,7 +80,7 @@ class _MeFollowPageState extends State {
               child: SizedBox(
                   width: 36,
                   height: 36,
-                  child: buildNetImage("",
+                  child: buildNetImage(model.headImgUrl,
                       width: 36.0,
                       height: 36.0,
                       fit: BoxFit.cover,
@@ -75,7 +93,7 @@ class _MeFollowPageState extends State {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "夏日清晨",
+                  model.nickname,
                   style: TextStyle(
                       color: const Color.fromRGBO(58, 58, 60, 1.0),
                       fontSize: 14.sp,
