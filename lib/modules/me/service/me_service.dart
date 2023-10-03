@@ -51,15 +51,26 @@ class MeService {
     }
   }
 
-  static Future<void> requestFansList(BusinessSuccess<String> complete) async {
-    HttpResultBean result =
-        await HttpManager.request(MeApi.fansList, HttpMethod.post);
+  static Future<void> requestFansList(
+      BusinessCallback<List<UserInfoEntity>> complete) async {
+    Map<String, dynamic> params = {
+      "pageNum": 1,
+      "pageSize": pageSize,
+      "userId": UserManager.instance.uid,
+    };
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
+    HttpResultBean result = await HttpManager.request(
+        MeApi.fansList, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data["list"];
+      List<UserInfoEntity> retList =
+          tmpList.map((dataMap) => UserInfoEntity.fromJson(dataMap)).toList();
+      complete(true, retList);
+    } else {
+      complete(false, []);
     }
-    complete(msg);
   }
 
   static Future<HttpResultBean> requestUserFocus(

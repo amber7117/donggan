@@ -11,7 +11,7 @@ const appProxy = true;
 typedef VoidCallback<T> = void Function();
 typedef AnyCallback<T> = void Function(T data);
 
-const pageSize = 100;
+const pageSize = 50;
 const apiPlaceholder = "###";
 
 // 日志
