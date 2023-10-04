@@ -27,14 +27,13 @@ class _MeInfoPageState extends State<MeInfoPage> {
     InfoListItemType.cancelAccount,
   ];
 
-  _handleListEvent(InfoListItemType type) {
-
-  }
+  _handleListEvent(InfoListItemType type) {}
 
   _handleLogout() {
     LoginService.requestLogout((success, result) {});
-    UserManager.instance.removeUserInfo();
-    context.read<UserProvider>().setIsLogin(false);
+    UserManager.instance.removeUser();
+    
+    context.read<UserProvider>().updateUserInfo(null);
 
     Routes.goBack(context);
   }
@@ -88,11 +87,14 @@ class _MeInfoPageState extends State<MeInfoPage> {
                   child: SizedBox(
                       width: 62,
                       height: 62,
-                      child: buildNetImage(UserManager.instance.headImg,
-                          width: 62.0,
-                          height: 62.0,
-                          fit: BoxFit.cover,
-                          placeholder: "common/iconTouxiang")),
+                      child: Consumer<UserProvider>(
+                          builder: (context, provider, child) {
+                        return buildNetImage(provider.user?.headImg ?? "",
+                            width: 62.0,
+                            height: 62.0,
+                            fit: BoxFit.cover,
+                            placeholder: "common/iconTouxiang");
+                      })),
                 ),
                 const JhAssetImage("me/iconXiangji", width: 28),
               ],
@@ -146,4 +148,3 @@ enum InfoListItemType {
   final int idx;
   final String title;
 }
-

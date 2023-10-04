@@ -16,13 +16,12 @@ class UserManager {
   }
 
   createUser() async {
+    Map<String, dynamic>? jsonMap = await SpUtils.getJSON(SpKeys.user);
+    if (jsonMap != null) {
+       user = UserEntity.fromJson(jsonMap);
+    }
     token = await SpUtils.getString(SpKeys.token);
     uid = await SpUtils.getString(SpKeys.uid);
-    headImg = await SpUtils.getString(SpKeys.headImg);
-    nickName = await SpUtils.getString(SpKeys.nickName);
-    mobile = await SpUtils.getString(SpKeys.mobile);
-
-    personalDesc = await SpUtils.getString(SpKeys.personalDesc);
   }
 
   isLogin() {
@@ -58,66 +57,52 @@ class UserManager {
     return UserManager.instance.uid == uid;
   }
 
-  updateUserMobile(String mobile) {
-    this.mobile = mobile;
-    SpUtils.save(SpKeys.mobile, mobile);
+  updateUserHeadImg(String headImg) {
+    user!.headImg = headImg;
+    SpUtils.setJSON(SpKeys.user, user!.toJson());
   }
 
   updateUserNickName(String nickName) {
-    this.nickName = nickName;
-    SpUtils.save(SpKeys.nickName, nickName);
+    user!.nickName = nickName;
+    SpUtils.setJSON(SpKeys.user, user!.toJson());
   }
 
-  updateUserHeadImg(String headImg) {
-    this.headImg = headImg;
-    SpUtils.save(SpKeys.headImg, headImg);
+  updateUserMobile(String mobile) {
+    user!.mobile = mobile;
+    SpUtils.setJSON(SpKeys.user, user!.toJson());
   }
 
   updateUserPersonalDesc(String personalDesc) {
-    this.personalDesc = personalDesc;
-    SpUtils.save(SpKeys.personalDesc, personalDesc);
+    user!.personalDesc = personalDesc;
+    SpUtils.setJSON(SpKeys.user, user!.toJson());
   }
 
-  saveUserInfo(UserEntity model) {
+  saveUser(UserEntity model) {
+    user = model;
+    SpUtils.setJSON(SpKeys.user, model.toJson());
+
     token = model.token;
     uid = model.uid;
-    headImg = model.headImg;
-    nickName = model.nickName;
-    mobile = model.mobile;
+  
     SpUtils.save(SpKeys.token, token);
     SpUtils.save(SpKeys.uid, uid);
-    SpUtils.save(SpKeys.headImg, headImg);
-    SpUtils.save(SpKeys.nickName, nickName);
-    SpUtils.save(SpKeys.mobile, mobile);
   }
 
-  removeUserInfo() {
+  removeUser() {
+    user = null;
+    SpUtils.remove(SpKeys.user);
+
     token = "";
     uid = "";
-    headImg = "";
-    nickName = "";
-    mobile = "";
+
     SpUtils.remove(SpKeys.token);
     SpUtils.remove(SpKeys.uid);
-    SpUtils.remove(SpKeys.headImg);
-    SpUtils.remove(SpKeys.nickName);
-    SpUtils.remove(SpKeys.mobile);
   }
-    
-  
 
-  // UserEntity? user;
+  UserEntity? user;
 
   String token = "";
 
   String uid = "";
-
-  String headImg = "";
-
-  String nickName = "";
-
-  String personalDesc = "";
-
-  String mobile = "";
 
 }

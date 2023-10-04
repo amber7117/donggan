@@ -34,7 +34,7 @@ class LoginService {
   }
 
   static Future<void> requestLogin(String phone, String code, bool isPwd,
-      BusinessCallback<String> complete) async {
+      BusinessCallback<dynamic> complete) async {
     Map<String, dynamic> params = {};
     if (isPwd) {
       params = {
@@ -59,9 +59,9 @@ class LoginService {
 
     if (result.isSuccess()) {
       UserEntity user = UserEntity.fromJson(result.data);
-      UserManager.instance.saveUserInfo(user);
+      UserManager.instance.saveUser(user);
 
-      complete(true, "");
+      complete(true, user);
     } else {
       complete(false, result.data ?? result.msg);
     }
@@ -103,7 +103,7 @@ class LoginService {
 
     if (result.isSuccess()) {
       UserEntity user = UserEntity.fromJson(result.data);
-      UserManager.instance.saveUserInfo(user);
+      UserManager.instance.saveUser(user);
 
       complete(true, "");
     } else {

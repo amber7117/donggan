@@ -27,7 +27,6 @@ enum HttpMethod {
 typedef CompleteCallback = void Function(HttpResultBean result);
 
 typedef BusinessCallback<T> = void Function(bool success, T result);
-typedef BusinessSuccess<T> = void Function(T result);
 
 class HttpManager {
   static Dio? dio;

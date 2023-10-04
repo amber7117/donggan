@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/load_state_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -18,6 +21,10 @@ class MeInfoAvatarPage extends StatefulWidget {
 class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<String> _dataArr = [];
+
+  String _avatarUrl = UserManager.instance.user?.headImg ?? "";
+
+  int _selectIdx = -1;
 
   @override
   void initState() {
@@ -44,6 +51,31 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
     });
   }
 
+  _requestSaveInfo() {
+    Map<String, dynamic> params = {
+      "headImg": _avatarUrl,
+    };
+
+    ToastUtils.showLoading();
+    MeService.requestModifyUserInfo(params, (success, result) {
+      ToastUtils.hideLoading();
+
+      if (success) {
+        ToastUtils.showSuccess("保存成功");
+
+        UserManager.instance.updateUserHeadImg(_avatarUrl);
+
+        context.read<UserProvider>().updateUserInfoPart(headImg: _avatarUrl);
+
+        Future.delayed(const Duration(seconds: 1), () {
+          Routes.goBack(context);
+        });
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,8 +96,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
                 width: 88,
                 height: 88,
                 child: CircleAvatar(
-                    backgroundImage: JhImageUtils.getNetImage(
-                        UserManager.instance.headImg))),
+                    backgroundImage: JhImageUtils.getNetImage(_avatarUrl))),
           ),
           Expanded(
             child: Container(
@@ -88,16 +119,13 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
                                     mainAxisSpacing: 25,
                                     crossAxisSpacing: 35),
                             itemBuilder: (context, index) {
-                              String urlStr = _dataArr[index];
-                              return CircleAvatar(
-                                backgroundImage:
-                                    JhImageUtils.getNetImage(urlStr),
-                              );
+                              return _buildCellWidget(index);
                             })),
                     const SizedBox(height: 50),
                     WZSureButton(
+                      enable: _selectIdx >= 0,
                       title: "保存",
-                      handleTap: () {},
+                      handleTap: _requestSaveInfo,
                     ),
                     SizedBox(height: ScreenUtil().bottomBarHeight + 43),
                   ],
@@ -105,6 +133,40 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  _buildCellWidget(int idx) {
+    String urlStr = _dataArr[idx];
+    return InkWell(
+      onTap: () {
+        _selectIdx = idx;
+        _avatarUrl = _dataArr[idx];
+        setState(() {});
+      },
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Container(
+            decoration: _selectIdx == idx
+                ? BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: const Color.fromRGBO(233, 78, 78, 1.0),
+                      width: 2.0,
+                    ),
+                  )
+                : null,
+            child: ClipOval(
+              child: buildNetImage(urlStr),
+            ),
+          ),
+          Visibility(
+              visible: _selectIdx == idx,
+              child:
+                  const JhAssetImage("me/iconWodeTxxz", width: 16, height: 16)),
         ],
       ),
     );

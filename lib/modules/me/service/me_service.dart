@@ -17,16 +17,16 @@ enum FollowListType {
 
 class MeService {
   static Future<void> requestUserInfo(
-      String uid, BusinessSuccess<String> complete) async {
+      String uid, BusinessCallback<String> complete) async {
     String path = MeApi.userInfo.replaceAll(apiPlaceholder, uid);
 
     HttpResultBean result = await HttpManager.request(path, HttpMethod.post);
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.data ?? result.msg);
     }
-    complete(msg);
   }
 
   static Future<void> requestFollowList(FollowListType type,
@@ -88,17 +88,18 @@ class MeService {
     return result;
   }
 
-  static Future<void> modifyUserInfo(BusinessSuccess<String> complete) async {
+  static Future<void> requestModifyUserInfo(
+      Map<String, dynamic> params, BusinessCallback<String> complete) async {
     String path = MeApi.modifyUserInfo
         .replaceAll(apiPlaceholder, UserManager.instance.uid);
 
     HttpResultBean result = await HttpManager.request(path, HttpMethod.get);
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.data ?? result.msg);
     }
-    complete(msg);
   }
 
   static Future<void> requestAvatarList(

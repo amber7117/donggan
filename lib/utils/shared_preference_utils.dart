@@ -7,14 +7,12 @@ class SpKeys {
 
   static const String domain = 'domain';
 
-  // static const String userInfo = 'userInfo';
+  static const String touristId = 'touristId';
+
+  static const String user = 'user';
   static const String token = 'token';
   static const String uid = 'uid'; 
-  static const String headImg = 'headImg';
-  static const String nickName = 'nickName';
-  static const String personalDesc = 'personalDesc';
-  static const String mobile = 'mobile';
-  static const String touristId = 'touristId';
+  
 
 
 }

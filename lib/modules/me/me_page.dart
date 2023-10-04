@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -170,14 +171,16 @@ class _MePageState extends State {
 
   _buildInfoWidget() {
     return Consumer<UserProvider>(builder: (context2, provider, child) {
+      UserEntity? user = provider.user;
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ClipOval(
               child: SizedBox(
                   width: 62.w,
-                  child: provider.isLogin
-                      ? buildNetImage(UserManager.instance.headImg,
+                  height: 62.w,
+                  child: user != null 
+                      ? buildNetImage(user.headImg,
                           width: 62.w,
                           height: 62.w,
                           fit: BoxFit.cover,
@@ -190,15 +193,15 @@ class _MePageState extends State {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      provider.isLogin ? UserManager.instance.nickName : "登录",
+                      user != null  ? user.nickName : "登录",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: TextStyleUtils.bold),
                     ),
                     Text(
-                      provider.isLogin
-                          ? UserManager.instance.personalDesc
+                      user != null 
+                          ? (user.personalDesc ?? "")
                           : "您还没有登录，请登录",
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.6),
