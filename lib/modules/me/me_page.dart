@@ -60,21 +60,23 @@ class _MePageState extends State {
 
   _handleListEvent(MeListItemType type) {
     if (type == MeListItemType.pingbi) {
-
-    } else if (type == MeListItemType.pingbi) {
+      Routes.push(context, Routes.mePingbi);
 
     } else if (type == MeListItemType.jilu) {
+      Routes.push(context, Routes.meJilu);
 
     } else if (type == MeListItemType.huodong) {
+      Routes.push(context, Routes.meHuodong);
 
     } else if (type == MeListItemType.wenti) {
+      Routes.push(context, Routes.meWenti);
 
     } else if (type == MeListItemType.kefu) {
-
+      Routes.push(context, Routes.meKefu);
+      
     } else {
       Routes.push(context, Routes.meAbout);
     }
-    
   }
 
   @override

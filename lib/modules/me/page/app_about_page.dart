@@ -64,7 +64,20 @@ class _AppAboutPageState extends State<AppAboutPage> {
                     fontWeight: TextStyleUtils.regual),
               ),
             ],
-          )
+          ),
+          SizedBox(height: 14.h),
+          SizedBox(
+            width: 186,
+            child: Text(
+              "Copyright@2019-2020\n广西牧民科技有限公司 版权所有",
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorUtils.gray153,
+                  fontSize: 12.sp,
+                  fontWeight: TextStyleUtils.regual),
+            ),
+          ),
         ],
       ),
     );

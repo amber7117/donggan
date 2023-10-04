@@ -8,14 +8,19 @@ import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
+import 'package:wzty/modules/me/page/app_act_page.dart';
+import 'package:wzty/modules/me/page/app_kefu_page.dart';
+import 'package:wzty/modules/me/page/app_problem_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_avatar_page.dart';
+import 'package:wzty/modules/me/page/me_block_page.dart';
 import 'package:wzty/modules/me/page/me_collect_page.dart';
 import 'package:wzty/modules/me/page/me_fans_page.dart';
 import 'package:wzty/modules/me/page/me_follow_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_page.dart';
 import 'package:wzty/modules/me/page/me_msg_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
+import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 
 class Routes {
@@ -98,19 +103,19 @@ class Routes {
     }));
 
     router.define(mePingbi, handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoPage();
+      return const MeBlockPage();
     }));
     router.define(meJilu, handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoPage();
+      return const MeRecordPage();
     }));
     router.define(meHuodong, handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoPage();
+      return const AppActPage();
     }));
     router.define(meWenti, handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoPage();
+      return const AppProblemPage();
     }));
     router.define(meKefu, handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoPage();
+      return const AppKefuPage();
     }));
     router.define(meAbout, handler: Handler(handlerFunc: (context, params) {
       return const AppAboutPage();
