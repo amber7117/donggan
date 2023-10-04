@@ -22,7 +22,7 @@ class _MePageState extends State {
   List<Widget> _buildListItemWidgetArr() {
     return [
       _buildListItemWidget(MeListItemType.pingbi),
-      _buildListItemWidget(MeListItemType.liulan),
+      _buildListItemWidget(MeListItemType.jilu),
       _buildListItemWidget(MeListItemType.huodong),
       _buildListItemWidget(MeListItemType.wenti),
       _buildListItemWidget(MeListItemType.kefu),
@@ -58,7 +58,24 @@ class _MePageState extends State {
     }  
   }
 
-  _handleListEvent(MeListItemType type) {}
+  _handleListEvent(MeListItemType type) {
+    if (type == MeListItemType.pingbi) {
+
+    } else if (type == MeListItemType.pingbi) {
+
+    } else if (type == MeListItemType.jilu) {
+
+    } else if (type == MeListItemType.huodong) {
+
+    } else if (type == MeListItemType.wenti) {
+
+    } else if (type == MeListItemType.kefu) {
+
+    } else {
+      Routes.push(context, Routes.meAbout);
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -314,20 +331,18 @@ class _MePageState extends State {
 }
 
 enum MeListItemType {
-  pingbi(idx: 0, imgPath: "me/iconPingbi", title: "我的屏蔽"),
-  liulan(idx: 1, imgPath: "me/iconJilu", title: "浏览记录"),
-  huodong(idx: 2, imgPath: "me/iconGuangchang", title: "活动广场"),
-  wenti(idx: 3, imgPath: "me/iconWenti", title: "常见问题"),
-  kefu(idx: 4, imgPath: "me/iconKefu", title: "在线客服"),
-  women(idx: 5, imgPath: "me/iconWomen", title: "关于我们");
+  pingbi(imgPath: "me/iconPingbi", title: "我的屏蔽"),
+  jilu(imgPath: "me/iconJilu", title: "浏览记录"),
+  huodong(imgPath: "me/iconGuangchang", title: "活动广场"),
+  wenti(imgPath: "me/iconWenti", title: "常见问题"),
+  kefu(imgPath: "me/iconKefu", title: "在线客服"),
+  women(imgPath: "me/iconWomen", title: "关于我们");
 
   const MeListItemType({
-    required this.idx,
     required this.imgPath,
     required this.title,
   });
 
-  final int idx;
   final String imgPath;
   final String title;
 }

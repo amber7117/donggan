@@ -67,14 +67,12 @@ class _AppSetPageState extends State<AppSetPage> {
 }
 
 enum SetListItemType {
-  appUpdate(idx: 0, title: "检查更新"),
-  cleanCache(idx: 1, title: "清除缓存");
+  appUpdate(title: "检查更新"),
+  cleanCache(title: "清除缓存");
 
   const SetListItemType({
-    required this.idx,
     required this.title,
   });
 
-  final int idx;
   final String title;
 }

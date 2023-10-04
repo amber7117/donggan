@@ -1,15 +1,129 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/common/widget/appbar.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class AppAboutPage extends StatefulWidget {
+  const AppAboutPage({Key? key}) : super(key: key);
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State createState() => _AppAboutPageState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _AppAboutPageState extends State<AppAboutPage> {
+  final List<AboutListItemType> dataArr = [
+    AboutListItemType.versionInfo,
+    AboutListItemType.kefuQQ
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: ColorUtils.gray248,
+      appBar: buildAppBar(context: context, titleText: "关于我们"),
+      body: Column(
+        children: [
+          _buildHeadWidget(),
+          SizedBox(
+            height: 55.h * 2,
+            child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
+                      color: ColorUtils.gray240, indent: 12, height: 0.5),
+              itemBuilder: (BuildContext context, int index) {
+                return _buildListItemWidget(dataArr[index]);
+              },
+            ),
+          ),
+          SizedBox(height: 310.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "用户协议",
+                style: TextStyle(
+                    color: const Color.fromRGBO(91, 162, 214, 1.0),
+                    fontSize: 13.sp,
+                    fontWeight: TextStyleUtils.regual),
+              ),
+              const SizedBox(width: 10.0),
+              Container(
+                  width: 1.0,
+                  height: 14.h,
+                  color: const Color.fromRGBO(91, 162, 214, 1.0)),
+              const SizedBox(width: 10.0),
+              Text(
+                "隐私政策",
+                style: TextStyle(
+                    color: const Color.fromRGBO(91, 162, 214, 1.0),
+                    fontSize: 13.sp,
+                    fontWeight: TextStyleUtils.regual),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
+
+  _buildHeadWidget() {
+    return SizedBox(
+        width: double.infinity,
+        height: 200.h,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const JhAssetImage("common/logo80", width: 80),
+            const SizedBox(height: 15),
+            Text('王者体育1.0.0',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: TextStyleUtils.regual)),
+          ],
+        ));
+  }
+
+  _buildListItemWidget(AboutListItemType type) {
+    return Container(
+      color: Colors.white,
+      height: 55.h,
+      padding: const EdgeInsets.only(left: 12, right: 36),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            type.title,
+            style: TextStyle(
+                color: ColorUtils.black34,
+                fontSize: 14.sp,
+                fontWeight: TextStyleUtils.regual),
+          ),
+          Text(
+            type.title,
+            style: TextStyle(
+                color: const Color.fromRGBO(179, 179, 179, 1.0),
+                fontSize: 15.sp,
+                fontWeight: TextStyleUtils.regual),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+enum AboutListItemType {
+  versionInfo(title: "版本信息"),
+  kefuQQ(title: "客服QQ");
+
+  const AboutListItemType({
+    required this.title,
+  });
+
+  final String title;
 }

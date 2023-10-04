@@ -40,6 +40,14 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
       if (success) {
         if (result.isNotEmpty) {
           _dataArr = result;
+
+          for (var i = 0; i < _dataArr.length; i++) {
+            if (_avatarUrl == _dataArr[i]) {
+              _selectIdx = i;
+              break;
+            }
+          }
+          
           _layoutState = LoadStatusType.success;
         } else {
           _layoutState = LoadStatusType.empty;

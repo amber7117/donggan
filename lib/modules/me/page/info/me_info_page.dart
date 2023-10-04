@@ -134,17 +134,15 @@ class _MeInfoPageState extends State<MeInfoPage> {
 }
 
 enum InfoListItemType {
-  nickName(idx: 0, title: "我的昵称"),
-  personalDesc(idx: 0, title: "个人简介"),
-  modifyMobile(idx: 0, title: "手机号码"),
-  modifyPwd(idx: 0, title: "修改密码"),
-  cancelAccount(idx: 1, title: "注销账号");
+  nickName(title: "我的昵称"),
+  personalDesc(title: "个人简介"),
+  modifyMobile(title: "手机号码"),
+  modifyPwd(title: "修改密码"),
+  cancelAccount(title: "注销账号");
 
   const InfoListItemType({
-    required this.idx,
     required this.title,
   });
 
-  final int idx;
   final String title;
 }

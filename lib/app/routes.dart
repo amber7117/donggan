@@ -7,6 +7,7 @@ import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/match_page.dart';
+import 'package:wzty/modules/me/page/app_about_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_avatar_page.dart';
 import 'package:wzty/modules/me/page/me_collect_page.dart';
@@ -35,6 +36,7 @@ class Routes {
   static String meInfoMobile = "/me/info/mobile";
   static String meInfoPwd = "/me/info/wwd";
   static String meInfoAccount = "/me/info/account";
+
   static String meFollow = "/me/follow";
   static String meFans = "/me/fans";
   static String meMsg = "/me/msg";
@@ -44,7 +46,7 @@ class Routes {
   static String meHuodong = "/me/meHuodong";
   static String meWenti = "/me/meWenti";
   static String meKefu = "/me/meKefu";
-  static String meGuangyu = "/me/meGuangyu";
+  static String meAbout = "/me/meAbout";
 
   static String appSet = "/appSet";
 
@@ -110,8 +112,8 @@ class Routes {
     router.define(meKefu, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoPage();
     }));
-    router.define(meGuangyu, handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoPage();
+    router.define(meAbout, handler: Handler(handlerFunc: (context, params) {
+      return const AppAboutPage();
     }));
 
     router.define(appSet, handler: Handler(handlerFunc: (context, params) {
