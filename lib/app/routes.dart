@@ -13,6 +13,7 @@ import 'package:wzty/modules/me/page/app_kefu_page.dart';
 import 'package:wzty/modules/me/page/app_problem_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_avatar_page.dart';
+import 'package:wzty/modules/me/page/info/me_info_name_page.dart';
 import 'package:wzty/modules/me/page/me_block_page.dart';
 import 'package:wzty/modules/me/page/me_collect_page.dart';
 import 'package:wzty/modules/me/page/me_fans_page.dart';
@@ -89,6 +90,27 @@ class Routes {
     router.define(meInfoAvatar, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoAvatarPage();
     }));
+    router.define(meInfoName,
+        handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoNamePage();
+    }));
+    router.define(meInfoDesc,
+        handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoAvatarPage();
+    }));
+    router.define(meInfoMobile,
+        handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoAvatarPage();
+    }));
+    router.define(meInfoPwd,
+        handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoAvatarPage();
+    }));
+    router.define(meInfoAccount,
+        handler: Handler(handlerFunc: (context, params) {
+      return const MeInfoAvatarPage();
+    }));
+
     router.define(meFollow, handler: Handler(handlerFunc: (context, params) {
       return const MeFollowPage();
     }));

@@ -27,7 +27,11 @@ class _MeInfoPageState extends State<MeInfoPage> {
     InfoListItemType.cancelAccount,
   ];
 
-  _handleListEvent(InfoListItemType type) {}
+  _handleListEvent(InfoListItemType type) {
+    if (type == InfoListItemType.nickName) {
+      Routes.push(context, Routes.meInfoName);
+    }
+  }
 
   _handleLogout() {
     LoginService.requestLogout((success, result) {});
@@ -110,24 +114,29 @@ class _MeInfoPageState extends State<MeInfoPage> {
   }
 
   _buildListItemWidget(InfoListItemType type) {
-    return Container(
-      color: Colors.white,
-      height: 54.0,
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(left: 6),
-              child: Text(
-                type.title,
-                style: TextStyle(
-                    color: ColorUtils.black34,
-                    fontSize: 14.sp,
-                    fontWeight: TextStyleUtils.medium),
-              )),
-          const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
-        ],
+    return InkWell(
+      onTap:() {
+        _handleListEvent(type);
+      },
+      child: Container(
+        color: Colors.white,
+        height: 54.0,
+        padding: const EdgeInsets.only(left: 12, right: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Text(
+                  type.title,
+                  style: TextStyle(
+                      color: ColorUtils.black34,
+                      fontSize: 14.sp,
+                      fontWeight: TextStyleUtils.medium),
+                )),
+            const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
+          ],
+        ),
       ),
     );
   }
