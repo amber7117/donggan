@@ -22,7 +22,7 @@ class MeApi {
   static String userInfo = "/qiutx-news/app/post/author/space/###";
 
   static String modifyUserInfo = "/qiutx-usercenter/v1/user/personal/###";
-
+  static String avatarList = "/qiutx-usercenter/user/default/avatar/list";
 
   static String followList = "/qiutx-news/app/post/space/focus/new";
 
@@ -33,7 +33,6 @@ class MeApi {
   static String userFocusCancel = "qiutx-news/app/post/attention/###/cancel";
 
   static String sysMsgList = "/qiutx-sms/user/message/listNew";
-
 }
 
 

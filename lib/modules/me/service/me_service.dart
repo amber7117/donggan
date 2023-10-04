@@ -101,6 +101,20 @@ class MeService {
     complete(msg);
   }
 
+  static Future<void> requestAvatarList(
+      BusinessCallback<List<String>> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(MeApi.avatarList, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data;
+      List<String> retList = tmpList.map((data) => data.toString()).toList();
+      complete(true, retList);
+    } else {
+      complete(false, []);
+    }
+  }
+
   static Future<void> requestSysMsgList(
       BusinessCallback<List<SysMsgModel>> complete) async {
     HttpResultBean result = await HttpManager.request(

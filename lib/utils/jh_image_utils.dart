@@ -33,10 +33,7 @@ class JhImageUtils {
   }
 
   /// 加载本地或者URL图片
-  static ImageProvider getNetImage(String imageUrl, {String? placeholder}) {
-    if (imageUrl.isEmpty && placeholder != null) {
-      return AssetImage(obtainImgPath(placeholder));
-    }
+  static ImageProvider getNetImage(String imageUrl) {
     return CachedNetworkImageProvider(imageUrl,
         errorListener: (data) => print('图片加载失败！'));
   }
