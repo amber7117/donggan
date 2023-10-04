@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
-import 'package:wzty/common/widget/sure_button.dart';
+import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
@@ -66,7 +66,7 @@ class _MeInfoPageState extends State<MeInfoPage> {
             ),
           ),
           SizedBox(height: 140.h),
-          SureButton(title: "退出登录", handleTap: _handleLogout),
+          WZSureButton(title: "退出登录", handleTap: _handleLogout),
         ],
       ),
     );

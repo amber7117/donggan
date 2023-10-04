@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -24,15 +24,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: ScreenUtil().statusBarHeight),
-          InkWell(
-            child: const Padding(
-                padding: EdgeInsets.all(11),
-                child: JhAssetImage("login/iconDengluBack",
-                    width: 22, height: 22)),
-            onTap: () {
-              Routes.goBack(context);
-            },
-          ),
+          const WZBackButton(),
           Container(
               color: Colors.yellow,
               height: 142,

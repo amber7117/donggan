@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class SureButton extends StatelessWidget {
+class WZSureButton extends StatelessWidget {
   final String title;
   final VoidCallback handleTap;
 
-  const SureButton(
+  const WZSureButton(
       {super.key, required this.title, required this.handleTap});
 
   @override

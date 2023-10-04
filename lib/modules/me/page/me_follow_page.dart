@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/appbar.dart';
-import 'package:wzty/common/widget/follow_button.dart';
+import 'package:wzty/common/widget/wz_follow_button.dart';
 import 'package:wzty/common/widget/load_state_widget.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
@@ -128,7 +128,7 @@ class _MeFollowPageState extends State {
               ],
             ),
           )),
-          FollowBtn(followed: true, handleFollow: () async {
+          WZFollowBtn(followed: true, handleFollow: () async {
             return _requestFollowUser(model);
           }),
         ],

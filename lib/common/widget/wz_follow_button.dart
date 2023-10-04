@@ -3,19 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class FollowBtn extends StatefulWidget {
-  const FollowBtn({super.key, this.handleFollow, required this.followed});
+class WZFollowBtn extends StatefulWidget {
+  const WZFollowBtn({super.key, this.handleFollow, required this.followed});
 
   final bool followed;
   final Future<bool> Function()? handleFollow;
 
   @override
   State<StatefulWidget> createState() {
-    return FollowBtnState();
+    return WZFollowBtnState();
   }
 }
 
-class FollowBtnState extends State<FollowBtn> {
+class WZFollowBtnState extends State<WZFollowBtn> {
   late bool _isFollowd;
 
   @override

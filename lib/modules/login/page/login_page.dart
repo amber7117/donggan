@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/widget/login_content_widget.dart';
@@ -91,15 +92,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: ScreenUtil().statusBarHeight),
-                  InkWell(
-                    child: const Padding(
-                        padding: EdgeInsets.all(11),
-                        child: JhAssetImage("login/iconDengluBack",
-                            width: 22, height: 22)),
-                    onTap: () {
-                      Routes.goBack(context);
-                    },
-                  ),
+                  const WZBackButton(),
                   const SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.only(left: 34),
