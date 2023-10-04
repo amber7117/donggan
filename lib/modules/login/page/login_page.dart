@@ -80,7 +80,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
           resizeToAvoidBottomInset: false,
           body: GestureDetector(
             onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
+              Routes.unfocus();
             },
             child: Container(
               decoration: BoxDecoration(

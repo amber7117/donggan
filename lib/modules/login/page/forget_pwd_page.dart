@@ -58,7 +58,7 @@ class _ForgetPwdPageState extends State {
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
           onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
+            Routes.unfocus();
           },
           child: Container(
             decoration: BoxDecoration(

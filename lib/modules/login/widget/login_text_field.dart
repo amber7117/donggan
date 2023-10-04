@@ -12,7 +12,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 
 enum LoginTextFieldType {
-  phone, verifyCode, pwd
+  phone, verifyCode, pwd, nickName
 }
 
 class LoginTextField extends StatefulWidget {
@@ -101,11 +101,11 @@ class LoginTextFieldState extends State<LoginTextField> {
     });
   }
 
-  _isTextVerifyCode() {
+  _isVerifyCodeText() {
     return widget.textType == LoginTextFieldType.verifyCode;
   }
 
-  _isTextPwd() {
+  _isPwdText() {
     return widget.textType == LoginTextFieldType.pwd;
   }
 
@@ -114,13 +114,29 @@ class LoginTextFieldState extends State<LoginTextField> {
       return 11;
     } else if (widget.textType == LoginTextFieldType.verifyCode) {
       return 6;
+    } else if (widget.textType == LoginTextFieldType.nickName) {
+      return 12;
     }
     return 20;
+  }
+
+  _textFormatters() {
+    if (widget.textType == LoginTextFieldType.pwd) {
+      return [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))];
+
+    } else if (widget.textType == LoginTextFieldType.nickName) {
+      return null;
+      
+    } else {
+      return [FilteringTextInputFormatter.allow(RegExp('[0-9]'))];
+    }
   }
 
   _textKeyboardType() {
     if (widget.textType == LoginTextFieldType.pwd) {
       return TextInputType.text;
+    } else if (widget.textType == LoginTextFieldType.nickName) {
+      return TextInputType.name;
     }
     return TextInputType.phone;
   }
@@ -140,10 +156,10 @@ class LoginTextFieldState extends State<LoginTextField> {
               visible: _isShowDelete,
               child: _buildClearButton() ?? const SizedBox(),
             ),
-            if (_isTextPwd()) const SizedBox(height: 15),
-            if (_isTextPwd()) _buildPwdEyeButton(),
-            if (_isTextVerifyCode()) const SizedBox(height: 20),
-            if (_isTextVerifyCode()) _buildVCodeButton(),
+            if (_isPwdText()) const SizedBox(height: 15),
+            if (_isPwdText()) _buildPwdEyeButton(),
+            if (_isVerifyCodeText()) const SizedBox(height: 20),
+            if (_isVerifyCodeText()) _buildVCodeButton(),
           ],
         )
       ],
@@ -162,13 +178,11 @@ class LoginTextFieldState extends State<LoginTextField> {
       focusNode: widget.focusNode,
       autofocus: widget.autoFocus,
       maxLength: _textMaxLength(),
-      obscureText: _isTextPwd() && !_isShowPwd,
+      obscureText: _isPwdText() && !_isShowPwd,
       textInputAction: TextInputAction.done,
       keyboardType: _textKeyboardType(),
       // 数字、手机号限制格式为0到9， 密码限制不包含汉字
-      inputFormatters: _isTextPwd()
-          ? [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))]
-          : [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+      inputFormatters: _textFormatters(),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,

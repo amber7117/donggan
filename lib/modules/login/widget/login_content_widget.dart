@@ -48,6 +48,7 @@ class _LoginContentState extends State<LoginContentWidget>  {
   void _phoneVerify() {
     context.read<LoginDataProvider>().phone = _phoneController.text;
   }
+  
   void _codeVerify() {
     LoginDataProvider loginProvider = context.read<LoginDataProvider>();
     if (widget.type == LoginContentType.pwd) {
