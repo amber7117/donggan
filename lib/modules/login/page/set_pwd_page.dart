@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
-import 'package:wzty/modules/login/widget/login_text_field.dart';
+import 'package:wzty/common/widget/wz_text_field.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -90,8 +90,8 @@ class SetPwdPage extends StatefulWidget {
                   fontWeight: TextStyleUtils.regual),
             ),
             Expanded(
-              child: LoginTextField(
-                textType: LoginTextFieldType.phone,
+              child: WZTextField(
+                textType: WZTextFieldType.phone,
                 controller: _pwdController,
                 focusNode: _nodeText1,
                 hintText: "请输入手机号",

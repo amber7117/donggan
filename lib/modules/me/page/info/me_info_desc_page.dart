@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
+import 'package:wzty/common/widget/wz_text_view.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
-import 'package:wzty/modules/login/widget/login_text_field.dart';
+import 'package:wzty/common/widget/wz_text_field.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -22,6 +23,8 @@ class MeInfoDescPage extends StatefulWidget {
 class _MeInfoDescPageState extends State<MeInfoDescPage> {
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
+
+  final ScrollController _scrollController = ScrollController();
 
   String _name = UserManager.instance.user?.nickName ?? "";
   late StateSetter _btnSetter;
@@ -89,45 +92,17 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
             children: [
               const SizedBox(height: 16),
               Container(
-                height: 68,
+                height: 160,
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.yellow,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "当前昵称",
-                      style: TextStyle(
-                          color: ColorUtils.black34,
-                          fontSize: 16.sp,
-                          fontWeight: TextStyleUtils.regual),
-                    ),
-                    Text(
-                      _name,
-                      style: TextStyle(
-                          color: ColorUtils.gray149,
-                          fontSize: 16.sp,
-                          fontWeight: TextStyleUtils.regual),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                height: 68,
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: LoginTextField(
-                  textType: LoginTextFieldType.nickName,
+                child: WZTextView(
+                  textType: WZTextViewType.personalDesc,
                   controller: _nameController,
                   focusNode: _nodeText1,
-                  hintText: "请输入新昵称，昵称最长为24个字符",
+                  hintText: "请输入您的个人简介",
                 ),
               ),
               SizedBox(height: 445.h, width: double.infinity),

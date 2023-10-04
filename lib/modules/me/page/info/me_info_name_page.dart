@@ -6,7 +6,7 @@ import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
-import 'package:wzty/modules/login/widget/login_text_field.dart';
+import 'package:wzty/common/widget/wz_text_field.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -123,8 +123,8 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: LoginTextField(
-                  textType: LoginTextFieldType.nickName,
+                child: WZTextField(
+                  textType: WZTextFieldType.nickName,
                   controller: _nameController,
                   focusNode: _nodeText1,
                   hintText: "请输入新昵称，昵称最长为24个字符",

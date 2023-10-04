@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-enum JCImagePossition { left, right, top, bottom }
+enum WZImagePosition { left, right, top, bottom }
 
-class JCImageButton extends StatelessWidget {
+class WZImageButton extends StatelessWidget {
   final String imageAssets;
   final String titleString;
   final Color bgColor;
@@ -12,12 +12,12 @@ class JCImageButton extends StatelessWidget {
   final Color titleColor;
   final double titleSize;
   final FontWeight fontweight;
-  final JCImagePossition possiton;
+  final WZImagePosition possiton;
 
   late final VoidCallback callBack;
   late final EdgeInsetsGeometry padding;
 
-  JCImageButton({
+  WZImageButton({
     super.key,
     // 背景颜色  圆角
     this.bgColor = Colors.blue,
@@ -38,7 +38,7 @@ class JCImageButton extends StatelessWidget {
     EdgeInsetsGeometry? padding,
 
     // 位置 回调
-    this.possiton = JCImagePossition.left,
+    this.possiton = WZImagePosition.left,
     VoidCallback? callBack, // 回调
   }) {
     this.padding = padding ?? EdgeInsets.zero;
@@ -60,11 +60,11 @@ class JCImageButton extends StatelessWidget {
           onPressed: () {
             callBack();
           },
-          child: (possiton == JCImagePossition.top ||
-                  possiton == JCImagePossition.bottom)
-              ? _getTopAndBottomPosstionWidget(possiton == JCImagePossition.top)
+          child: (possiton == WZImagePosition.top ||
+                  possiton == WZImagePosition.bottom)
+              ? _getTopAndBottomPosstionWidget(possiton == WZImagePosition.top)
               : _getLeftAndRightPosstionWidget(
-                  possiton == JCImagePossition.left)),
+                  possiton == WZImagePosition.left)),
     );
   }
 

@@ -11,13 +11,13 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 
-enum LoginTextFieldType {
+enum WZTextFieldType {
   phone, verifyCode, pwd, nickName
 }
 
-class LoginTextField extends StatefulWidget {
+class WZTextField extends StatefulWidget {
 
-  final LoginTextFieldType textType;
+  final WZTextFieldType textType;
   final TextEditingController controller;
   final bool autoFocus;
   final String hintText;
@@ -25,7 +25,7 @@ class LoginTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final Future<bool> Function()? getVCode;
 
-  const LoginTextField(
+  const WZTextField(
       {super.key,
       required this.textType,
       required this.controller,
@@ -36,11 +36,11 @@ class LoginTextField extends StatefulWidget {
   
   @override
   State<StatefulWidget> createState() {
-    return LoginTextFieldState();
+    return WZTextFieldState();
   }
 }
 
-class LoginTextFieldState extends State<LoginTextField> {
+class WZTextFieldState extends State<WZTextField> {
 
   bool _isShowPwd = false;
   bool _isShowDelete = false;
@@ -102,29 +102,29 @@ class LoginTextFieldState extends State<LoginTextField> {
   }
 
   _isVerifyCodeText() {
-    return widget.textType == LoginTextFieldType.verifyCode;
+    return widget.textType == WZTextFieldType.verifyCode;
   }
 
   _isPwdText() {
-    return widget.textType == LoginTextFieldType.pwd;
+    return widget.textType == WZTextFieldType.pwd;
   }
 
   _textMaxLength() {
-    if (widget.textType == LoginTextFieldType.phone) {
+    if (widget.textType == WZTextFieldType.phone) {
       return 11;
-    } else if (widget.textType == LoginTextFieldType.verifyCode) {
+    } else if (widget.textType == WZTextFieldType.verifyCode) {
       return 6;
-    } else if (widget.textType == LoginTextFieldType.nickName) {
+    } else if (widget.textType == WZTextFieldType.nickName) {
       return 12;
     }
     return 20;
   }
 
   _textFormatters() {
-    if (widget.textType == LoginTextFieldType.pwd) {
+    if (widget.textType == WZTextFieldType.pwd) {
       return [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))];
 
-    } else if (widget.textType == LoginTextFieldType.nickName) {
+    } else if (widget.textType == WZTextFieldType.nickName) {
       return null;
       
     } else {
@@ -133,9 +133,9 @@ class LoginTextFieldState extends State<LoginTextField> {
   }
 
   _textKeyboardType() {
-    if (widget.textType == LoginTextFieldType.pwd) {
+    if (widget.textType == WZTextFieldType.pwd) {
       return TextInputType.text;
-    } else if (widget.textType == LoginTextFieldType.nickName) {
+    } else if (widget.textType == WZTextFieldType.nickName) {
       return TextInputType.name;
     }
     return TextInputType.phone;

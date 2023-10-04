@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
-import 'package:wzty/modules/login/widget/login_text_field.dart';
+import 'package:wzty/common/widget/wz_text_field.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -122,8 +122,8 @@ class _LoginContentState extends State<LoginContentWidget>  {
               ),
               const SizedBox(width: 14),
               Expanded(
-                child: LoginTextField(
-                  textType: LoginTextFieldType.phone,
+                child: WZTextField(
+                  textType: WZTextFieldType.phone,
                   controller: _phoneController,
                   focusNode: _nodeText1,
                   hintText: "请输入手机号",
@@ -160,8 +160,8 @@ class _LoginContentState extends State<LoginContentWidget>  {
               ),
               const SizedBox(width: 14),
               Expanded(
-                child: LoginTextField(
-                  textType: LoginTextFieldType.verifyCode,
+                child: WZTextField(
+                  textType: WZTextFieldType.verifyCode,
                   controller: _pwdController,
                   focusNode: _nodeText2,
                   hintText: "请输入验证码",
@@ -198,8 +198,8 @@ class _LoginContentState extends State<LoginContentWidget>  {
                   width: 20, height: 20),
               const SizedBox(width: 14),
               Expanded(
-                child: LoginTextField(
-                  textType: LoginTextFieldType.pwd,
+                child: WZTextField(
+                  textType: WZTextFieldType.pwd,
                   controller: _pwdController,
                   focusNode: _nodeText2,
                   hintText: "请输入密码",
