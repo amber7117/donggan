@@ -81,6 +81,7 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
         backgroundColor: ColorUtils.gray248,
         appBar: buildAppBar(context: context, titleText: "修改昵称"),
         body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             Routes.unfocus();
           },
@@ -129,7 +130,7 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
                   hintText: "请输入新昵称，昵称最长为24个字符",
                 ),
               ),
-              SizedBox(height: 445.h),
+              SizedBox(height: 445.h, width: double.infinity),
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(

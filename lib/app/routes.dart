@@ -13,6 +13,7 @@ import 'package:wzty/modules/me/page/app_kefu_page.dart';
 import 'package:wzty/modules/me/page/app_problem_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_avatar_page.dart';
+import 'package:wzty/modules/me/page/info/me_info_desc_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_name_page.dart';
 import 'package:wzty/modules/me/page/me_block_page.dart';
 import 'package:wzty/modules/me/page/me_collect_page.dart';
@@ -96,7 +97,7 @@ class Routes {
     }));
     router.define(meInfoDesc,
         handler: Handler(handlerFunc: (context, params) {
-      return const MeInfoAvatarPage();
+      return const MeInfoDescPage();
     }));
     router.define(meInfoMobile,
         handler: Handler(handlerFunc: (context, params) {
@@ -164,7 +165,6 @@ class Routes {
   /// 跳转
   static void push(BuildContext context, String path,
       {bool replace = false, bool clearStack = false, Object? arguments}) {
-    // unfocus();
     router.navigateTo(
       context,
       path,
@@ -179,13 +179,13 @@ class Routes {
 
   /// 返回
   static void goBack(BuildContext context) {
-    // unfocus();
+    unfocus();
     Navigator.pop(context);
   }
 
   /// 带参数返回
   static void goBackWithParams(BuildContext context, Object result) {
-    // unfocus();
+    unfocus();
     Navigator.pop<Object>(context, result);
   }
 

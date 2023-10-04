@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
+import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
@@ -30,13 +31,15 @@ class _MeInfoPageState extends State<MeInfoPage> {
   _handleListEvent(InfoListItemType type) {
     if (type == InfoListItemType.nickName) {
       Routes.push(context, Routes.meInfoName);
+    } else if (type == InfoListItemType.personalDesc) {
+      Routes.push(context, Routes.meInfoDesc);
     }
   }
 
   _handleLogout() {
     LoginService.requestLogout((success, result) {});
     UserManager.instance.removeUser();
-    
+
     context.read<UserProvider>().updateUserInfo(null);
 
     Routes.goBack(context);
@@ -57,16 +60,19 @@ class _MeInfoPageState extends State<MeInfoPage> {
           ),
           SizedBox(
             height: 54.0 * dataArr.length,
-            child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: dataArr.length,
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(
-                      color: ColorUtils.gray240, indent: 12, height: 0.5),
-              itemBuilder: (BuildContext context, int index) {
-                return _buildListItemWidget(dataArr[index]);
-              },
-            ),
+            child: Consumer<UserProvider>(builder: (context, provider, child) {
+              UserEntity user = provider.user!;
+              return ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: dataArr.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                        color: ColorUtils.gray240, indent: 12, height: 0.5),
+                itemBuilder: (BuildContext context, int index) {
+                  return _buildListItemWidget(dataArr[index], user);
+                },
+              );
+            }),
           ),
           SizedBox(height: 140.h),
           WZSureButton(title: "退出登录", handleTap: _handleLogout),
@@ -113,9 +119,17 @@ class _MeInfoPageState extends State<MeInfoPage> {
         ));
   }
 
-  _buildListItemWidget(InfoListItemType type) {
+  _buildListItemWidget(InfoListItemType type, UserEntity user) {
+    String vaule = "";
+    if (type == InfoListItemType.nickName) {
+      vaule = user.nickName;
+    } else if (type == InfoListItemType.personalDesc) {
+      vaule = user.personalDesc ?? "";
+    } else if (type == InfoListItemType.modifyMobile) {
+      vaule = user.getMobileDisplay();
+    }
     return InkWell(
-      onTap:() {
+      onTap: () {
         _handleListEvent(type);
       },
       child: Container(
@@ -125,15 +139,27 @@ class _MeInfoPageState extends State<MeInfoPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-                padding: const EdgeInsets.only(left: 6),
+            Expanded(
                 child: Text(
-                  type.title,
-                  style: TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 14.sp,
-                      fontWeight: TextStyleUtils.medium),
-                )),
+              type.title,
+              style: TextStyle(
+                  color: ColorUtils.black34,
+                  fontSize: 14.sp,
+                  fontWeight: TextStyleUtils.regual),
+            )),
+            SizedBox(
+              width: 230.w,
+              child: Text(
+                vaule,
+                textAlign: TextAlign.right,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: ColorUtils.gray179,
+                    fontSize: 13.sp,
+                    fontWeight: TextStyleUtils.regual),
+              ),
+            ),
+            const SizedBox(width: 6),
             const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
           ],
         ),

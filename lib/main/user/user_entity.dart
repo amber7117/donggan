@@ -48,7 +48,7 @@ class UserEntity {
 
   getMobileDisplay() {
     if (mobile.length > 7) {
-      return mobile.replaceRange(3, 4, "****");
+      return mobile.replaceRange(3, 7, "****");
     }
     return mobile;
   }

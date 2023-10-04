@@ -120,7 +120,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
           Text(
             type.title,
             style: TextStyle(
-                color: const Color.fromRGBO(179, 179, 179, 1.0),
+                color: ColorUtils.gray179,
                 fontSize: 15.sp,
                 fontWeight: TextStyleUtils.regual),
           ),
