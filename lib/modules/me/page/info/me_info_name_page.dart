@@ -59,6 +59,8 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
       ToastUtils.hideLoading();
 
       if (success) {
+        Routes.unfocus();
+
         ToastUtils.showSuccess("保存成功");
 
         UserManager.instance.updateUserNickName(_name);
@@ -87,11 +89,11 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
           },
           child: Column(
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Container(
                 height: 68,
-                padding: const EdgeInsets.only(left: 16, right: 16),
                 margin: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -115,11 +117,11 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Container(
                 height: 68,
-                padding: const EdgeInsets.only(left: 16, right: 16),
                 margin: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10))),

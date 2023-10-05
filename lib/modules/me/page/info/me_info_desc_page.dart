@@ -62,6 +62,8 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
       ToastUtils.hideLoading();
 
       if (success) {
+        Routes.unfocus();
+
         ToastUtils.showSuccess("保存成功");
 
         UserManager.instance.updateUserPersonalDesc(_desc);
@@ -90,11 +92,11 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
           },
           child: Column(
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Container(
                 height: 160,
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                margin: const EdgeInsets.symmetric(horizontal: 12),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.only(left: 12, right: 12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -125,7 +127,7 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 445.h, width: double.infinity),
+              SizedBox(height: 432.h, width: double.infinity),
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(

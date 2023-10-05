@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -49,8 +50,8 @@ class WZFollowBtnState extends State<WZFollowBtn> {
             : const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color.fromRGBO(233, 78, 78, 1.0),
-                    Color.fromRGBO(217, 52, 52, 1.0),
+                    ColorUtils.red233,
+                    ColorUtils.red217,
                   ],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,

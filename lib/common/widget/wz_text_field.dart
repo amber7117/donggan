@@ -12,7 +12,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 
 enum WZTextFieldType {
-  phone, verifyCode, pwd, nickName
+  phone, verifyCode, pwd, nickName, mobile,
 }
 
 class WZTextField extends StatefulWidget {
@@ -110,7 +110,8 @@ class WZTextFieldState extends State<WZTextField> {
   }
 
   _textMaxLength() {
-    if (widget.textType == WZTextFieldType.phone) {
+    if (widget.textType == WZTextFieldType.phone ||
+        widget.textType == WZTextFieldType.mobile) {
       return 11;
     } else if (widget.textType == WZTextFieldType.verifyCode) {
       return 6;
@@ -118,6 +119,13 @@ class WZTextFieldState extends State<WZTextField> {
       return 12;
     }
     return 20;
+  }
+
+  _textAlign() {
+    if (widget.textType == WZTextFieldType.mobile) {
+      return TextAlign.right;
+    } 
+    return TextAlign.start;
   }
 
   _textFormatters() {
@@ -146,7 +154,12 @@ class WZTextFieldState extends State<WZTextField> {
     return Stack(
       alignment: Alignment.centerRight,
       children: <Widget>[
-        _buildTextField(),
+        Padding(
+          padding: widget.textType != WZTextFieldType.mobile
+              ? EdgeInsets.zero
+              : const EdgeInsets.only(right: 25),
+          child: _buildTextField(),
+        ),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -158,8 +171,8 @@ class WZTextFieldState extends State<WZTextField> {
             ),
             if (_isPwdText()) const SizedBox(height: 15),
             if (_isPwdText()) _buildPwdEyeButton(),
-            if (_isVerifyCodeText()) const SizedBox(height: 20),
-            if (_isVerifyCodeText()) _buildVCodeButton(),
+            if (widget.getVCode != null) const SizedBox(height: 20),
+            if (widget.getVCode != null) _buildVCodeButton(),
           ],
         )
       ],
@@ -174,6 +187,7 @@ class WZTextFieldState extends State<WZTextField> {
         fontSize: 16.sp,
         fontWeight: TextStyleUtils.regual,
       ),
+      textAlign: _textAlign(),
       controller: widget.controller,
       focusNode: widget.focusNode,
       autofocus: widget.autoFocus,

@@ -11,6 +11,7 @@ class WZTextView extends StatefulWidget {
   final FocusNode? focusNode;
   final bool autoFocus;
   final String hintText;
+  final int maxLength;
 
   const WZTextView(
       {super.key,
@@ -18,7 +19,8 @@ class WZTextView extends StatefulWidget {
       required this.controller,
       this.focusNode,
       this.autoFocus = false,
-      this.hintText = ''});
+      this.hintText = '',  
+      this.maxLength = 200});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +29,7 @@ class WZTextView extends StatefulWidget {
 }
 
 class WZTextViewState extends State<WZTextView> {
-  _textMaxLength() {
-    if (widget.textType == WZTextViewType.personalDesc) {
-      return 200;
-    }
-    return 20;
-  }
-
-  _textFormatters() {
-    return null;
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -49,12 +41,12 @@ class WZTextViewState extends State<WZTextView> {
       controller: widget.controller,
       focusNode: widget.focusNode,
       autofocus: widget.autoFocus,
-      maxLength: _textMaxLength(),
+      maxLength: widget.maxLength,
       maxLines: null,
       obscureText: false,
       textInputAction: TextInputAction.done,
       keyboardType: TextInputType.multiline,
-      inputFormatters: _textFormatters(),
+      inputFormatters: null,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,

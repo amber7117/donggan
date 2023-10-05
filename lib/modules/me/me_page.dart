@@ -35,7 +35,7 @@ class _MePageState extends State {
       Routes.push(context, Routes.appSet);
     }
 
-    if (!UserManager.instance.isLogin()) {
+    if (context.read<UserProvider>().user == null) {
       Routes.goLoginPage(context);
       return;
     }

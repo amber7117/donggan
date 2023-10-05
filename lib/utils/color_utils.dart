@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 class ColorUtils {
 
+  static const Color red217 = Color.fromRGBO(217, 52, 52, 1.0);
+  static const Color red233 = Color.fromRGBO(233, 78, 78, 1.0);
   static const Color red235 = Color.fromRGBO(235, 77, 77, 1.0);
 
   static const Color black34 = Color.fromRGBO(34, 34, 34, 1.0);

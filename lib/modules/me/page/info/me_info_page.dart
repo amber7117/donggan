@@ -31,8 +31,19 @@ class _MeInfoPageState extends State<MeInfoPage> {
   _handleListEvent(InfoListItemType type) {
     if (type == InfoListItemType.nickName) {
       Routes.push(context, Routes.meInfoName);
+
     } else if (type == InfoListItemType.personalDesc) {
       Routes.push(context, Routes.meInfoDesc);
+
+    } else if (type == InfoListItemType.modifyMobile) {
+      Routes.push(context, Routes.meInfoMobile);
+
+    } else if (type == InfoListItemType.modifyPwd) {
+      Routes.push(context, Routes.meInfoPwd);
+
+    } else if (type == InfoListItemType.cancelAccount) {
+      Routes.push(context, Routes.meInfoAccount);
+      
     }
   }
 

@@ -8,6 +8,7 @@ import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -162,7 +163,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
                 ? BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color.fromRGBO(233, 78, 78, 1.0),
+                      color: ColorUtils.red233,
                       width: 2.0,
                     ),
                   )

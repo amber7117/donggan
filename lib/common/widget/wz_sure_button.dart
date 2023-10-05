@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class WZSureButton extends StatelessWidget {
@@ -25,12 +26,12 @@ class WZSureButton extends StatelessWidget {
             gradient: LinearGradient(
               colors: enable
                   ? [
-                      const Color.fromRGBO(233, 78, 78, 1.0),
-                      const Color.fromRGBO(217, 52, 52, 1.0),
+                      ColorUtils.red233,
+                      ColorUtils.red217,
                     ]
                   : [
-                      const Color.fromRGBO(233, 78, 78, 0.5),
-                      const Color.fromRGBO(217, 52, 52, 0.5),
+                      ColorUtils.red233.withOpacity(0.5),
+                      ColorUtils.red217.withOpacity(0.5),
                     ],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
