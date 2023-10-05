@@ -23,8 +23,9 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
 
-  String _name = UserManager.instance.user?.nickName ?? "";
+  String _desc = UserManager.instance.user?.personalDesc ?? "";
   late StateSetter _btnSetter;
+  late StateSetter _hintTextSetter;
 
   @override
   void initState() {
@@ -41,17 +42,19 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
   }
 
   void _nameVerify() {
-    // if (_nameController.text.length > 12) {
-    //   _nameController.text = _nameController.text.substring(0, 12);
-    // }
-    // _name = _nameController.text;
+    _desc = _nameController.text;
 
-    // _btnSetter(() {});
+    _hintTextSetter(() {
+      
+    });
+    _btnSetter(() {
+
+    });
   }
 
   _requestSaveInfo() {
     Map<String, dynamic> params = {
-      "nickName": _name,
+      "personalDesc": _desc,
     };
 
     ToastUtils.showLoading();
@@ -61,9 +64,9 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
       if (success) {
         ToastUtils.showSuccess("保存成功");
 
-        UserManager.instance.updateUserNickName(_name);
+        UserManager.instance.updateUserPersonalDesc(_desc);
 
-        context.read<UserProvider>().updateUserInfoPart(nickName: _name);
+        context.read<UserProvider>().updateUserInfoPart(personalDesc: _desc);
 
         Future.delayed(const Duration(seconds: 1), () {
           Routes.goBack(context);
@@ -93,7 +96,7 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: const BoxDecoration(
-                    color: Colors.yellow,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(
                   children: [
@@ -108,12 +111,15 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
                     const SizedBox(height: 5),
                     SizedBox(
                       width: double.infinity,
-                      child: Text("42/200",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              color: ColorUtils.gray149,
-                              fontSize: 15.sp,
-                              fontWeight: TextStyleUtils.regual)),
+                      child: StatefulBuilder(builder: (context, setState) {
+                        _hintTextSetter = setState;
+                        return Text("${_nameController.text.length}/200",
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                color: ColorUtils.gray149,
+                                fontSize: 15.sp,
+                                fontWeight: TextStyleUtils.regual));
+                      }),
                     ),
                     const SizedBox(height: 5),
                   ],

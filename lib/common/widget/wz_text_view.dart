@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum WZTextViewType {
-  personalDesc
-}
+enum WZTextViewType { personalDesc }
 
 class WZTextView extends StatefulWidget {
-
   final WZTextViewType textType;
   final TextEditingController controller;
   final FocusNode? focusNode;
@@ -32,49 +27,23 @@ class WZTextView extends StatefulWidget {
 }
 
 class WZTextViewState extends State<WZTextView> {
-  bool _isShowDelete = false;
-
-  @override
-  void initState() {
-    /// 获取初始化值
-    _isShowDelete = widget.controller.text.isNotEmpty;
-
-    /// 监听输入改变
-    widget.controller.addListener(isEmpty);
-    super.initState();
-  }
-
-  void isEmpty() {
-
-  }
-
-  @override
-  void dispose() {
-    widget.controller.removeListener(isEmpty);
-    
-    super.dispose();
-  }
-
   _textMaxLength() {
     if (widget.textType == WZTextViewType.personalDesc) {
       return 200;
-    } 
+    }
     return 20;
   }
 
   _textFormatters() {
     return null;
   }
+
   @override
   Widget build(BuildContext context) {
-    return _buildTextField();
-  }
-
-  _buildTextField() {
     return TextField(
       style: TextStyle(
-        color: ColorUtils.black51,
-        fontSize: 16.sp,
+        color: ColorUtils.black34,
+        fontSize: 14.sp,
         fontWeight: TextStyleUtils.regual,
       ),
       controller: widget.controller,
@@ -90,8 +59,8 @@ class WZTextViewState extends State<WZTextView> {
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,
         hintStyle: TextStyle(
-          color: const Color.fromRGBO(202, 184, 184, 1.0),
-          fontSize: 16.sp,
+          color: ColorUtils.gray149,
+          fontSize: 14.sp,
           fontWeight: TextStyleUtils.regual,
         ),
         counterText: '',
@@ -107,19 +76,6 @@ class WZTextViewState extends State<WZTextView> {
             width: 0.5,
           ),
         ),
-      ),
-    );
-  }
-
-  
-  _buildClearButton() {
-    return Semantics(
-      label: '清空',
-      hint: '清空输入框',
-      child: GestureDetector(
-        child:
-            const JhAssetImage("login/iconDengluGuanbi", width: 20, height: 20),
-        onTap: () => widget.controller.text = '',
       ),
     );
   }
