@@ -31,17 +31,17 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
   void initState() {
     super.initState();
 
-    _nameController.addListener(_nameVerify);
+    _nameController.addListener(_textVerify);
   }
 
   @override
   void dispose() {
-    _nameController.removeListener(_nameVerify);
+    _nameController.removeListener(_textVerify);
 
     super.dispose();
   }
 
-  void _nameVerify() {
+  void _textVerify() {
     _desc = _nameController.text;
 
     _hintTextSetter(() {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/common/widget/wz_text_field_right.dart';
+import 'package:wzty/common/widget/wz_verify_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
@@ -28,39 +31,40 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
 
-  String _mobile = UserManager.instance.user?.getMobileDisplay();
-
-  bool _verifyclickable = true;
-  late StateSetter _verifyBtnSetter;
-
+  final String _mobile = UserManager.instance.user?.getMobileDisplay();
+  
+  bool _btnEnable = false;
   late StateSetter _btnSetter;
 
   @override
   void initState() {
     super.initState();
 
-    _mobileController.addListener(_mobileVerify);
+    _mobileController.addListener(_textVerify);
+    _codeController.addListener(_textVerify);
   }
 
   @override
   void dispose() {
-    _mobileController.removeListener(_mobileVerify);
+    _mobileController.removeListener(_textVerify);
+    _codeController.addListener(_textVerify);
 
     super.dispose();
   }
 
-  void _mobileVerify() {
-    if (_mobileController.text.length > 12) {
-      _mobileController.text = _mobileController.text.substring(0, 12);
+  void _textVerify() {
+    if (_mobileController.text.isNotEmpty && _codeController.text.isNotEmpty) {
+      _btnEnable = true;
+    } else {
+      _btnEnable = false;
     }
-    _mobile = _mobileController.text;
 
     _btnSetter(() {});
   }
 
-  Future<void> _requestVerifyCode() async {
-    String phone = _mobileController.text;
-    if (phone.isEmpty) return;
+  Future<bool> _requestVerifyCode() async {
+    String phone = _mobile;
+    if (phone.isEmpty) return false;
 
     ToastUtils.showLoading();
 
@@ -70,9 +74,8 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
     ToastUtils.hideLoading();
     if (!result.isSuccess()) {
       ToastUtils.showError(result.data ?? result.msg);
-    } else {
-      _verifyclickable = false;
     }
+    return result.isSuccess();
   }
 
   _requestSaveInfo() {
@@ -137,7 +140,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                               fontWeight: TextStyleUtils.regual),
                         ),
                         Text(
-                          UserManager.instance.user?.getMobileDisplay(),
+                          _mobile,
                           style: TextStyle(
                               color: ColorUtils.gray149,
                               fontSize: 16.sp,
@@ -205,27 +208,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                               fontSize: 12.sp,
                               fontWeight: TextStyleUtils.regual),
                         ),
-                        StatefulBuilder(builder: (context, setState) {
-                          _verifyBtnSetter = setState;
-                          return InkWell(
-                            onTap: _verifyclickable ? _requestVerifyCode : null,
-                            child: _verifyclickable
-                                ? Text(
-                                    "获取验证码",
-                                    style: TextStyle(
-                                        color: ColorUtils.red233,
-                                        fontSize: 14.sp,
-                                        fontWeight: TextStyleUtils.regual),
-                                  )
-                                : Text(
-                                    "重新发送",
-                                    style: TextStyle(
-                                        color: ColorUtils.gray149,
-                                        fontSize: 14.sp,
-                                        fontWeight: TextStyleUtils.regual),
-                                  ),
-                          );
-                        }),
+                        WZVerifyBtn(handleVerify: _requestVerifyCode),
                       ],
                     )
                   ],
@@ -237,7 +220,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                 return WZSureButton(
                     title: "保存",
                     handleTap: _requestSaveInfo,
-                    enable: _mobileController.text.isNotEmpty);
+                    enable: _btnEnable);
               })
             ],
           ),

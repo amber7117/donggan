@@ -51,9 +51,9 @@ class _MeInfoPageState extends State<MeInfoPage> {
     LoginService.requestLogout((success, result) {});
     UserManager.instance.removeUser();
 
-    context.read<UserProvider>().updateUserInfo(null);
-
     Routes.goBack(context);
+
+    context.read<UserProvider>().updateUserInfo(null);
   }
 
   @override

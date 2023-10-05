@@ -38,29 +38,30 @@ class WZTextFieldRightState extends State<WZTextFieldRight> {
 
   @override
   void initState() {
-    /// 获取初始化值
+    super.initState();
+
     _isShowDelete = widget.controller.text.isNotEmpty;
 
     /// 监听输入改变
     widget.controller.addListener(isEmpty);
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(isEmpty);
+
+    super.dispose();
   }
 
   void isEmpty() {
     bool isNotEmpty = widget.controller.text.isNotEmpty;
 
     /// 状态不一样在刷新，避免重复不必要的setState
-    if (isNotEmpty == _isShowDelete) return;
+    if (_isShowDelete == isNotEmpty) return;
 
     setState(() {
       _isShowDelete = isNotEmpty;
     });
-  }
-
-  @override
-  void dispose() {
-    widget.controller.removeListener(isEmpty);
-    super.dispose();
   }
 
   _textMaxLength() {

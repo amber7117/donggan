@@ -41,9 +41,6 @@ class _MeInfoPwdPageState extends State<MeInfoPwdPage> {
   }
 
   void _nameVerify() {
-    if (_nameController.text.length > 12) {
-      _nameController.text = _nameController.text.substring(0, 12);
-    }
     _name = _nameController.text;
 
     _btnSetter(() {});
