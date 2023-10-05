@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/widget/appbar.dart';
-import 'package:wzty/common/widget/load_state_widget.dart';
+import 'package:wzty/main/lib/appbar.dart';
+import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';

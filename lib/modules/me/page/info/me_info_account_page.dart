@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
-import 'package:wzty/common/widget/appbar.dart';
+import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/common/widget/wz_verify_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/common/widget/wz_text_field.dart';
+import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -89,7 +91,11 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
       if (success) {
         Routes.unfocus();
 
-        ToastUtils.showSuccess("修改成功");
+        ToastUtils.showSuccess("注销成功");
+
+        UserManager.instance.removeUser();
+
+        context.read<UserProvider>().updateUserInfo(null);
 
         Future.delayed(const Duration(seconds: 1), () {
           Routes.goBack(context);

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
-import 'package:wzty/common/widget/appbar.dart';
+import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/common/widget/wz_verify_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';

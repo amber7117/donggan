@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/user/user_entity.dart';
-import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
+import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class MePage extends StatefulWidget {
   const MePage({super.key});
@@ -28,6 +29,28 @@ class _MePageState extends State {
       _buildListItemWidget(MeListItemType.kefu),
       _buildListItemWidget(MeListItemType.women),
     ];
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+
+   
+  }
+
+  _requestData() {
+    // if (provider.user)
+    // ToastUtils.showLoading();
+    // MeService.requestUserInfo(uid, (success, result) { })
+    // MeService.requestSysMsgList((success, result) {
+    //   ToastUtils.hideLoading();
+    //   if (success) {
+        
+    //   } else {
+        
+    //   }
+    //   setState(() {});
+    // });
   }
 
   _handleEvent(MeEvent event) {

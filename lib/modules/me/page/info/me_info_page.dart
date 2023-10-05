@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
-import 'package:wzty/common/widget/appbar.dart';
+import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_manager.dart';
