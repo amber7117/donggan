@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -10,19 +8,20 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-
 enum WZTextFieldType {
-  phone, verifyCode, pwd, nickName, mobile,
+  phone,
+  verifyCode,
+  pwd,
+  nickName,
 }
 
 class WZTextField extends StatefulWidget {
-
   final WZTextFieldType textType;
   final TextEditingController controller;
   final FocusNode? focusNode;
   final bool autoFocus;
   final String hintText;
-  
+
   final Future<bool> Function()? getVCode;
 
   const WZTextField(
@@ -33,7 +32,7 @@ class WZTextField extends StatefulWidget {
       this.autoFocus = false,
       this.hintText = '',
       this.getVCode});
-  
+
   @override
   State<StatefulWidget> createState() {
     return WZTextFieldState();
@@ -41,10 +40,9 @@ class WZTextField extends StatefulWidget {
 }
 
 class WZTextFieldState extends State<WZTextField> {
-
   bool _isShowPwd = false;
   bool _isShowDelete = false;
-  bool _clickable = true;
+  bool _verifyclickable = true;
 
   /// 倒计时秒数
   final int _second = 60;
@@ -53,7 +51,7 @@ class WZTextFieldState extends State<WZTextField> {
   late int _currentSecond;
 
   StreamSubscription<dynamic>? _subscription;
-  
+
   @override
   void initState() {
     /// 获取初始化值
@@ -65,14 +63,14 @@ class WZTextFieldState extends State<WZTextField> {
   }
 
   void isEmpty() {
-    final bool isNotEmpty = widget.controller.text.isNotEmpty;
+    bool isNotEmpty = widget.controller.text.isNotEmpty;
 
     /// 状态不一样在刷新，避免重复不必要的setState
-    if (isNotEmpty != _isShowDelete) {
-      setState(() {
-        _isShowDelete = isNotEmpty;
-      });
-    }
+    if (isNotEmpty == _isShowDelete) return;
+
+    setState(() {
+      _isShowDelete = isNotEmpty;
+    });
   }
 
   @override
@@ -88,7 +86,7 @@ class WZTextFieldState extends State<WZTextField> {
 
     setState(() {
       _currentSecond = _second;
-      _clickable = false;
+      _verifyclickable = false;
     });
 
     Duration interval = const Duration(seconds: 1);
@@ -96,7 +94,7 @@ class WZTextFieldState extends State<WZTextField> {
         Stream.periodic(interval, (int i) => i).take(_second).listen((int i) {
       setState(() {
         _currentSecond = _second - i - 1;
-        _clickable = _currentSecond < 1;
+        _verifyclickable = _currentSecond < 1;
       });
     });
   }
@@ -110,8 +108,7 @@ class WZTextFieldState extends State<WZTextField> {
   }
 
   _textMaxLength() {
-    if (widget.textType == WZTextFieldType.phone ||
-        widget.textType == WZTextFieldType.mobile) {
+    if (widget.textType == WZTextFieldType.phone) {
       return 11;
     } else if (widget.textType == WZTextFieldType.verifyCode) {
       return 6;
@@ -121,20 +118,11 @@ class WZTextFieldState extends State<WZTextField> {
     return 20;
   }
 
-  _textAlign() {
-    if (widget.textType == WZTextFieldType.mobile) {
-      return TextAlign.right;
-    } 
-    return TextAlign.start;
-  }
-
   _textFormatters() {
     if (widget.textType == WZTextFieldType.pwd) {
       return [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))];
-
     } else if (widget.textType == WZTextFieldType.nickName) {
       return null;
-      
     } else {
       return [FilteringTextInputFormatter.allow(RegExp('[0-9]'))];
     }
@@ -154,12 +142,7 @@ class WZTextFieldState extends State<WZTextField> {
     return Stack(
       alignment: Alignment.centerRight,
       children: <Widget>[
-        Padding(
-          padding: widget.textType != WZTextFieldType.mobile
-              ? EdgeInsets.zero
-              : const EdgeInsets.only(right: 25),
-          child: _buildTextField(),
-        ),
+        _buildTextField(),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -179,7 +162,6 @@ class WZTextFieldState extends State<WZTextField> {
     );
   }
 
-
   _buildTextField() {
     return TextField(
       style: TextStyle(
@@ -187,7 +169,7 @@ class WZTextFieldState extends State<WZTextField> {
         fontSize: 16.sp,
         fontWeight: TextStyleUtils.regual,
       ),
-      textAlign: _textAlign(),
+      textAlign: TextAlign.left,
       controller: widget.controller,
       focusNode: widget.focusNode,
       autofocus: widget.autoFocus,
@@ -224,8 +206,8 @@ class WZTextFieldState extends State<WZTextField> {
   _buildVCodeButton() {
     return WZButton(
       key: const Key('getVerificationCode'),
-      onPressed: _clickable ? _handleTap : null,
-      text: _clickable ? '获取验证码' : '$_currentSecond秒后重发',
+      onPressed: _verifyclickable ? _handleTap : null,
+      text: _verifyclickable ? '获取验证码' : '$_currentSecond秒后重发',
       fontSize: 10.sp,
       textColor: ColorUtils.red235,
       disabledTextColor: const Color.fromRGBO(186, 195, 216, 1.0),
@@ -236,7 +218,9 @@ class WZTextFieldState extends State<WZTextField> {
       minWidth: 72.0,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       side: BorderSide(
-        color: _clickable ? ColorUtils.red235 : const Color.fromRGBO(186, 195, 216, 1.0),
+        color: _verifyclickable
+            ? ColorUtils.red235
+            : const Color.fromRGBO(186, 195, 216, 1.0),
         width: 1.0,
       ),
     );
@@ -271,5 +255,4 @@ class WZTextFieldState extends State<WZTextField> {
       ),
     );
   }
-
 }

@@ -4,9 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
+import 'package:wzty/common/widget/wz_text_field_right.dart';
+import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/common/widget/wz_text_field.dart';
+import 'package:wzty/modules/login/service/login_service.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -26,6 +29,10 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
   final FocusNode _nodeText2 = FocusNode();
 
   String _mobile = UserManager.instance.user?.getMobileDisplay();
+
+  bool _verifyclickable = true;
+  late StateSetter _verifyBtnSetter;
+
   late StateSetter _btnSetter;
 
   @override
@@ -51,11 +58,28 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
     _btnSetter(() {});
   }
 
+  Future<void> _requestVerifyCode() async {
+    String phone = _mobileController.text;
+    if (phone.isEmpty) return;
+
+    ToastUtils.showLoading();
+
+    HttpResultBean result =
+        await LoginService.requestVerifyCode(phone, VerifyCodeType.modifyInfo);
+
+    ToastUtils.hideLoading();
+    if (!result.isSuccess()) {
+      ToastUtils.showError(result.data ?? result.msg);
+    } else {
+      _verifyclickable = false;
+    }
+  }
+
   _requestSaveInfo() {
     Map<String, dynamic> params = {
       "nickName": _mobile,
     };
-    
+
     ToastUtils.showLoading();
     MeService.requestModifyUserInfo(params, (success, result) {
       ToastUtils.hideLoading();
@@ -113,7 +137,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                               fontWeight: TextStyleUtils.regual),
                         ),
                         Text(
-                          _mobile,
+                          UserManager.instance.user?.getMobileDisplay(),
                           style: TextStyle(
                               color: ColorUtils.gray149,
                               fontSize: 16.sp,
@@ -133,8 +157,8 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                         ),
                         SizedBox(
                           width: 200,
-                          child: WZTextField(
-                            textType: WZTextFieldType.mobile,
+                          child: WZTextFieldRight(
+                            textType: WZTextFieldRightType.mobile,
                             controller: _mobileController,
                             focusNode: _nodeText1,
                             hintText: "请输入手机号",
@@ -181,13 +205,27 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                               fontSize: 12.sp,
                               fontWeight: TextStyleUtils.regual),
                         ),
-                        Text(
-                          "获取验证码",
-                          style: TextStyle(
-                              color: ColorUtils.red233,
-                              fontSize: 12.sp,
-                              fontWeight: TextStyleUtils.regual),
-                        ),
+                        StatefulBuilder(builder: (context, setState) {
+                          _verifyBtnSetter = setState;
+                          return InkWell(
+                            onTap: _verifyclickable ? _requestVerifyCode : null,
+                            child: _verifyclickable
+                                ? Text(
+                                    "获取验证码",
+                                    style: TextStyle(
+                                        color: ColorUtils.red233,
+                                        fontSize: 14.sp,
+                                        fontWeight: TextStyleUtils.regual),
+                                  )
+                                : Text(
+                                    "重新发送",
+                                    style: TextStyle(
+                                        color: ColorUtils.gray149,
+                                        fontSize: 14.sp,
+                                        fontWeight: TextStyleUtils.regual),
+                                  ),
+                          );
+                        }),
                       ],
                     )
                   ],
