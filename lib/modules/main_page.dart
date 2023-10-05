@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
-import 'package:wzty/modules/match/page/match_page.dart';
+import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
-import 'package:wzty/modules/news/page/news_page.dart';
+import 'package:wzty/modules/news/news_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 const double _tabW = 44.0;

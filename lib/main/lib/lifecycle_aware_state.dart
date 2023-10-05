@@ -12,7 +12,7 @@ RouteObserver<PageRoute> getRouteObserver() {
 // didPop: 当B页面关闭时，B页面调起该方法；
 // didPushNext: 当从B页面打开C页面时，该方法被调起。
 
-abstract class LifecycleAwareWidget<T extends StatefulWidget> extends State<T> with RouteAware {
+abstract class LifecycleAwareState<T extends StatefulWidget> extends State<T> with RouteAware {
   @override
   void initState() {
     super.initState();

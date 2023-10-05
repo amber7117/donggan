@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
@@ -19,7 +20,7 @@ class MePage extends StatefulWidget {
   }
 }
 
-class _MePageState extends State {
+class _MePageState extends BaseWidgetState {
   List<Widget> _buildListItemWidgetArr() {
     return [
       _buildListItemWidget(MeListItemType.pingbi),
@@ -103,7 +104,12 @@ class _MePageState extends State {
   }
 
   @override
-  Widget build(BuildContext context) {
+  bool isAutomaticKeepAlive() {
+    return true;
+  }
+  
+  @override
+  Widget buildWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
       body: Container(
@@ -353,6 +359,7 @@ class _MePageState extends State {
       ),
     );
   }
+  
 }
 
 enum MeListItemType {

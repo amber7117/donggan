@@ -6,7 +6,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
-import 'package:wzty/modules/match/page/match_page.dart';
+import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
 import 'package:wzty/modules/me/page/app_act_page.dart';
 import 'package:wzty/modules/me/page/app_kefu_page.dart';
@@ -26,7 +26,7 @@ import 'package:wzty/modules/me/page/info/me_info_page.dart';
 import 'package:wzty/modules/me/page/me_msg_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/me/page/me_record_page.dart';
-import 'package:wzty/modules/news/page/news_page.dart';
+import 'package:wzty/modules/news/news_page.dart';
 
 class Routes {
 
