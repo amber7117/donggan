@@ -72,7 +72,10 @@ class _MeInfoPageState extends State<MeInfoPage> {
           SizedBox(
             height: 54.0 * dataArr.length,
             child: Consumer<UserProvider>(builder: (context, provider, child) {
-              UserEntity user = provider.user!;
+              UserEntity? user = provider.user;
+              if (user == null) {
+                return const SizedBox();
+              }
               return ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: dataArr.length,

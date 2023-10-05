@@ -12,7 +12,7 @@ class NewsService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -24,7 +24,7 @@ class NewsService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -36,7 +36,7 @@ class NewsService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -48,7 +48,7 @@ class NewsService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 }

@@ -63,7 +63,7 @@ class LoginService {
 
       complete(true, user);
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -107,7 +107,7 @@ class LoginService {
 
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -120,7 +120,7 @@ class LoginService {
 
     String msg = "";
     if (!result.isSuccess()) {
-      msg = result.data ?? result.msg;
+      msg = result.msg ?? result.data;
     }
     complete(result.isSuccess(), msg);
   }

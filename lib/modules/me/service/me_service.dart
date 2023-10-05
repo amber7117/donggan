@@ -25,7 +25,7 @@ class MeService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -98,7 +98,7 @@ class MeService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -109,7 +109,7 @@ class MeService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -122,7 +122,7 @@ class MeService {
     if (result.isSuccess()) {
       complete(true, "");
     } else {
-      complete(false, result.data ?? result.msg);
+      complete(false, result.msg ?? result.data);
     }
   }
 

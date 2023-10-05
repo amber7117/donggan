@@ -74,7 +74,7 @@ class _LoginContentState extends State<LoginContentWidget>  {
 
     ToastUtils.hideLoading();
     if (!result.isSuccess()) {
-      ToastUtils.showError(result.data ?? result.msg);
+      ToastUtils.showError(result.msg ?? result.data);
     }
 
     return result.isSuccess();

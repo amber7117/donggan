@@ -155,6 +155,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                   itemCount: 2,
                                   onPageChanged: _onPageChange,
                                   controller: _pageController,
+                                  allowImplicitScrolling: true,
                                   itemBuilder: (_, int index) {
                                     if (index == 0) {
                                       return const LoginContentWidget(
