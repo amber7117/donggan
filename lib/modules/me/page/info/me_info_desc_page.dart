@@ -127,7 +127,7 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 432.h, width: double.infinity),
+              SizedBox(height: 432.h),
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(

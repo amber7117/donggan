@@ -129,7 +129,7 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
                   hintText: "请输入新昵称，昵称最长为24个字符",
                 ),
               ),
-              SizedBox(height: 445.h, width: double.infinity),
+              SizedBox(height: 445.h),
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(

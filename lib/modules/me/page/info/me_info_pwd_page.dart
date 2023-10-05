@@ -205,7 +205,7 @@ class _MeInfoPwdPageState extends State<MeInfoPwdPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 292.h, width: double.infinity),
+              SizedBox(height: 292.h),
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(

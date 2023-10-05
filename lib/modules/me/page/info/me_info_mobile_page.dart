@@ -228,7 +228,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 333.h, width: double.infinity),
+              SizedBox(height: 333.h),
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(
