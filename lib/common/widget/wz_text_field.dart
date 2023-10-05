@@ -79,10 +79,12 @@ class WZTextFieldState extends State<WZTextField> {
       return 11;
     } else if (widget.textType == WZTextFieldType.verifyCode) {
       return 6;
+    } else if (widget.textType == WZTextFieldType.pwd) {
+      return 16;
     } else if (widget.textType == WZTextFieldType.nickName) {
       return 12;
     }
-    return 20;
+    return 0;
   }
 
   _textFormatters() {

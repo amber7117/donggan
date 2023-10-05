@@ -93,7 +93,31 @@ class MeService {
     String path = MeApi.modifyUserInfo
         .replaceAll(apiPlaceholder, UserManager.instance.uid);
 
-    HttpResultBean result = await HttpManager.request(path, HttpMethod.get);
+    HttpResultBean result = await HttpManager.request(path, HttpMethod.get, params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.data ?? result.msg);
+    }
+  }
+
+  static Future<void> requestModifyUserMobile(
+      Map<String, dynamic> params, BusinessCallback<String> complete) async {
+    HttpResultBean result = await HttpManager.request(MeApi.modifyUserMobile, HttpMethod.post, params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.data ?? result.msg);
+    }
+  }
+
+  static Future<void> requestModifyUserPwd(
+      Map<String, dynamic> params, BusinessCallback<String> complete) async {
+    HttpResultBean result = await HttpManager.request(
+        MeApi.modifyUserPwd, HttpMethod.get,
+        params: params);
 
     if (result.isSuccess()) {
       complete(true, "");

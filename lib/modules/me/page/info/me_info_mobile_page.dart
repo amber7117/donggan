@@ -31,7 +31,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
 
-  final String _mobile = UserManager.instance.user?.getMobileDisplay();
+  final String _mobileOld = UserManager.instance.user?.getMobileDisplay();
   
   bool _btnEnable = false;
   late StateSetter _btnSetter;
@@ -63,7 +63,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
   }
 
   Future<bool> _requestVerifyCode() async {
-    String phone = _mobile;
+    String phone = UserManager.instance.user?.mobile ?? "";
     if (phone.isEmpty) return false;
 
     ToastUtils.showLoading();
@@ -79,22 +79,36 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
   }
 
   _requestSaveInfo() {
+    String phone = _mobileController.text;
+    String code = _codeController.text;
+
+    if (phone.length < 11) {
+      ToastUtils.showInfo("请输入11位的手机号");
+      return;
+    }
+    if (code.length > 6 || code.isEmpty) {
+      ToastUtils.showInfo("请输入正确的验证码");
+      return;
+    }
+
     Map<String, dynamic> params = {
-      "nickName": _mobile,
+      "areaNo": "86",
+      "mobile": phone,
+      "code": code
     };
 
     ToastUtils.showLoading();
-    MeService.requestModifyUserInfo(params, (success, result) {
+    MeService.requestModifyUserMobile(params, (success, result) {
       ToastUtils.hideLoading();
 
       if (success) {
         Routes.unfocus();
 
-        ToastUtils.showSuccess("保存成功");
+        ToastUtils.showSuccess("修改成功");
 
-        UserManager.instance.updateUserNickName(_mobile);
+        UserManager.instance.updateUserMobile(phone);
 
-        context.read<UserProvider>().updateUserInfoPart(nickName: _mobile);
+        context.read<UserProvider>().updateUserInfoPart(mobile: phone);
 
         Future.delayed(const Duration(seconds: 1), () {
           Routes.goBack(context);
@@ -140,7 +154,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                               fontWeight: TextStyleUtils.regual),
                         ),
                         Text(
-                          _mobile,
+                          _mobileOld,
                           style: TextStyle(
                               color: ColorUtils.gray149,
                               fontSize: 16.sp,
@@ -202,7 +216,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "验证码将发送到您手机：$_mobile",
+                          "验证码将发送到您手机：$_mobileOld",
                           style: TextStyle(
                               color: ColorUtils.black34,
                               fontSize: 12.sp,
@@ -218,7 +232,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
               StatefulBuilder(builder: (context, setState) {
                 _btnSetter = setState;
                 return WZSureButton(
-                    title: "保存",
+                    title: "确定",
                     handleTap: _requestSaveInfo,
                     enable: _btnEnable);
               })
