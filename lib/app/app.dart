@@ -6,7 +6,7 @@ const appTest = false;
 // Debug开关
 const appDebug = true;
 // 代理开关
-const appProxy = true;
+const appProxy = false;
 
 typedef VoidCallback<T> = void Function();
 typedef AnyCallback<T> = void Function(T data);

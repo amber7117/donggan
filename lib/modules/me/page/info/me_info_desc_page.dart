@@ -7,7 +7,6 @@ import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/common/widget/wz_text_view.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
-import 'package:wzty/common/widget/wz_text_field.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -23,8 +22,6 @@ class MeInfoDescPage extends StatefulWidget {
 class _MeInfoDescPageState extends State<MeInfoDescPage> {
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
-
-  final ScrollController _scrollController = ScrollController();
 
   String _name = UserManager.instance.user?.nickName ?? "";
   late StateSetter _btnSetter;
@@ -44,12 +41,12 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
   }
 
   void _nameVerify() {
-    if (_nameController.text.length > 12) {
-      _nameController.text = _nameController.text.substring(0, 12);
-    }
-    _name = _nameController.text;
+    // if (_nameController.text.length > 12) {
+    //   _nameController.text = _nameController.text.substring(0, 12);
+    // }
+    // _name = _nameController.text;
 
-    _btnSetter(() {});
+    // _btnSetter(() {});
   }
 
   _requestSaveInfo() {
@@ -98,11 +95,28 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
                 decoration: const BoxDecoration(
                     color: Colors.yellow,
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: WZTextView(
-                  textType: WZTextViewType.personalDesc,
-                  controller: _nameController,
-                  focusNode: _nodeText1,
-                  hintText: "请输入您的个人简介",
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: WZTextView(
+                        textType: WZTextViewType.personalDesc,
+                        controller: _nameController,
+                        focusNode: _nodeText1,
+                        hintText: "请输入您的个人简介",
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text("42/200",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: ColorUtils.gray149,
+                              fontSize: 15.sp,
+                              fontWeight: TextStyleUtils.regual)),
+                    ),
+                    const SizedBox(height: 5),
+                  ],
                 ),
               ),
               SizedBox(height: 445.h, width: double.infinity),

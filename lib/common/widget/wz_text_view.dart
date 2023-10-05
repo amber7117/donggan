@@ -13,11 +13,9 @@ class WZTextView extends StatefulWidget {
 
   final WZTextViewType textType;
   final TextEditingController controller;
+  final FocusNode? focusNode;
   final bool autoFocus;
   final String hintText;
-
-  final FocusNode? focusNode;
-  final Future<bool> Function()? getVCode;
 
   const WZTextView(
       {super.key,
@@ -25,8 +23,7 @@ class WZTextView extends StatefulWidget {
       required this.controller,
       this.focusNode,
       this.autoFocus = false,
-      this.hintText = '',
-      this.getVCode});
+      this.hintText = ''});
 
   @override
   State<StatefulWidget> createState() {
@@ -48,19 +45,13 @@ class WZTextViewState extends State<WZTextView> {
   }
 
   void isEmpty() {
-    final bool isNotEmpty = widget.controller.text.isNotEmpty;
 
-    /// 状态不一样在刷新，避免重复不必要的setState
-    if (isNotEmpty != _isShowDelete) {
-      setState(() {
-        _isShowDelete = isNotEmpty;
-      });
-    }
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(isEmpty);
+    
     super.dispose();
   }
 
@@ -72,11 +63,7 @@ class WZTextViewState extends State<WZTextView> {
   }
 
   _textFormatters() {
-    if (widget.textType == WZTextViewType.personalDesc) {
-      return [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))];
-    } else {
-      return null;
-    }
+    return null;
   }
   @override
   Widget build(BuildContext context) {
@@ -98,7 +85,6 @@ class WZTextViewState extends State<WZTextView> {
       obscureText: false,
       textInputAction: TextInputAction.done,
       keyboardType: TextInputType.multiline,
-      // 数字、手机号限制格式为0到9， 密码限制不包含汉字
       inputFormatters: _textFormatters(),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),

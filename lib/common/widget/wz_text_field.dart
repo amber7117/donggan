@@ -19,10 +19,10 @@ class WZTextField extends StatefulWidget {
 
   final WZTextFieldType textType;
   final TextEditingController controller;
+  final FocusNode? focusNode;
   final bool autoFocus;
   final String hintText;
   
-  final FocusNode? focusNode;
   final Future<bool> Function()? getVCode;
 
   const WZTextField(
@@ -181,7 +181,6 @@ class WZTextFieldState extends State<WZTextField> {
       obscureText: _isPwdText() && !_isShowPwd,
       textInputAction: TextInputAction.done,
       keyboardType: _textKeyboardType(),
-      // 数字、手机号限制格式为0到9， 密码限制不包含汉字
       inputFormatters: _textFormatters(),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
