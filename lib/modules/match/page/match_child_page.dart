@@ -26,7 +26,7 @@ class _MatchChildPageState extends BaseWidgetState {
     return ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: 10,
-        itemExtent: 100,
+        itemExtent: 99,
         itemBuilder: (context, index) {
           return _buildCellWidget(index);
         });
@@ -34,42 +34,41 @@ class _MatchChildPageState extends BaseWidgetState {
 
   _buildCellWidget(int idx) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      height: 99,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+      padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8))
+      ),
+      child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                  width: 240.w,
-                  child: Text(
-                    "卡尔作为西甲大使发言梅西仍有也！卡尔作为西甲大使发言梅西仍有也！",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: ColorUtils.black34,
-                        fontSize: 14.sp,
-                        fontWeight: TextStyleUtils.medium),
-                  )),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  const JhAssetImage("news/iconMessage",
-                      width: 16.0, height: 16.0),
-                  const SizedBox(width: 2),
-                  Text(
-                    "1256",
-                    style: TextStyle(
-                        color: ColorUtils.gray153,
-                        fontSize: 14.sp,
-                        fontWeight: TextStyleUtils.regual),
-                  ),
-                ],
+              Text(
+                "赛事名称",
+                style: TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 10.sp,
+                    fontWeight: TextStyleUtils.medium),
+              ),
+              Text(
+                "未",
+                style: TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 10.sp,
+                    fontWeight: TextStyleUtils.medium),
+              ),
+              Text(
+                "02:30",
+                style: TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 10.sp,
+                    fontWeight: TextStyleUtils.medium),
               ),
             ],
-          ),
-          const JhAssetImage("common/imgZixunMoren", width: 94.0, height: 70.0),
+          )
         ],
       ),
     );

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/modules/match/page/match_child_page.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +52,7 @@ class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixi
     return ChangeNotifierProvider<NewsTabProvider>(
         create: (context2) => provider,
         child: Scaffold(
+          backgroundColor: ColorUtils.gray248,
           body: Column(
             children: [
               Container(
@@ -102,7 +105,7 @@ class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixi
                       onPageChanged: _onPageChange,
                       controller: _pageController,
                       itemBuilder: (_, int index) {
-                        return const NewsChildPage();
+                        return const MatchChildPage();
                       }))
             ],
           ),
