@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-class NewsTabProvider extends ChangeNotifier {
+class HomeTabProvider extends ChangeNotifier {
   
   /// Tab的下标
   int _index = 0;

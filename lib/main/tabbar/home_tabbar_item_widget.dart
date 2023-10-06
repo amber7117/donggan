@@ -1,13 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class HomeTabbarItemWidget extends StatelessWidget {
-
   final String tabName;
 
   final double tabWidth;
@@ -19,7 +17,7 @@ class HomeTabbarItemWidget extends StatelessWidget {
       required this.tabName,
       required this.tabWidth,
       required this.index});
-  
+
   @override
   Widget build(BuildContext context) {
     return Tab(
@@ -28,7 +26,7 @@ class HomeTabbarItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             width: 60.0,
             height: 40.0,
-            decoration: context.watch<NewsTabProvider>().index == index
+            decoration: context.watch<HomeTabProvider>().index == index
                 ? const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -51,11 +49,12 @@ class HomeTabbarItemWidget extends StatelessWidget {
                       fontSize: 14.sp,
                       fontWeight: TextStyleUtils.semibold),
                 ),
-                const DecoratedBox(
-                    decoration: BoxDecoration(color: ColorUtils.red235),
-                    child: SizedBox(height: 2, width: 30))
+                context.watch<HomeTabProvider>().index == index
+                    ? const DecoratedBox(
+                        decoration: BoxDecoration(color: ColorUtils.red235),
+                        child: SizedBox(height: 2, width: 32))
+                    : const SizedBox()
               ],
             )));
   }
 }
-

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
-import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -22,7 +22,7 @@ class _MatchPageState extends BaseWidgetState
   late TabController _tabController;
   late PageController _pageController;
 
-  NewsTabProvider provider = NewsTabProvider();
+  HomeTabProvider provider = HomeTabProvider();
 
   final List<Widget> _tabs = [
     const HomeTabbarItemWidget(
@@ -73,7 +73,7 @@ class _MatchPageState extends BaseWidgetState
     double tabbarPadding = (ScreenUtil().screenWidth - _tabs.length*56) / (_tabs.length+1);
     tabbarPadding = tabbarPadding*0.5;
 
-    return ChangeNotifierProvider<NewsTabProvider>(
+    return ChangeNotifierProvider<HomeTabProvider>(
         create: (context2) => provider,
         child: Scaffold(
           backgroundColor: ColorUtils.gray248,
