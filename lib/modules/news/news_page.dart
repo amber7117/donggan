@@ -13,26 +13,39 @@ class NewsPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _NewsPageState();
   }
-
 }
 
 class _NewsPageState extends State with SingleTickerProviderStateMixin {
-
   late TabController _tabController;
   late PageController _pageController;
 
   NewsTabProvider provider = NewsTabProvider();
 
-  final List tabs = ["关注", "足球", "篮球"];
+  final List<Widget> _tabs = [
+    const HomeTabbarItemWidget(
+      tabName: '及时',
+      tabWidth: 56,
+      index: 0,
+    ),
+    const HomeTabbarItemWidget(
+      tabName: '赛程',
+      tabWidth: 56,
+      index: 1,
+    ),
+    const HomeTabbarItemWidget(
+      tabName: '赛果',
+      tabWidth: 56,
+      index: 2,
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
   }
-
 
   @override
   void dispose() {
@@ -72,20 +85,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
                       controller: _tabController,
                       indicator: const BoxDecoration(),
                       labelPadding: EdgeInsets.zero,
-                      tabs: const <Widget>[
-                        NewsTabbarItemWidget(
-                          tabName: 'aaaaa',
-                          index: 0,
-                        ),
-                        NewsTabbarItemWidget(
-                          tabName: '1111',
-                          index: 1,
-                        ),
-                        NewsTabbarItemWidget(
-                          tabName: '222222',
-                          index: 2,
-                        ),
-                      ]),
+                      tabs: _tabs),
                 ),
               ),
               Expanded(
@@ -102,11 +102,8 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
         ));
   }
 
-  
-
   void _onPageChange(int index) {
     provider.setIndex(index);
     _tabController.animateTo(index);
   }
-
 }

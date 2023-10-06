@@ -6,13 +6,19 @@ import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class NewsTabbarItemWidget extends StatelessWidget {
+class HomeTabbarItemWidget extends StatelessWidget {
 
   final String tabName;
 
+  final double tabWidth;
+
   final int index;
 
-  const NewsTabbarItemWidget({super.key, required this.tabName, required this.index});
+  const HomeTabbarItemWidget(
+      {super.key,
+      required this.tabName,
+      required this.tabWidth,
+      required this.index});
   
   @override
   Widget build(BuildContext context) {

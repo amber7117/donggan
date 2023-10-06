@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
-import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -18,19 +17,41 @@ class MatchPage extends StatefulWidget {
   }
 }
 
-class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixin {
+class _MatchPageState extends BaseWidgetState
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
 
   NewsTabProvider provider = NewsTabProvider();
 
-  final List tabs = ["及时", "赛程", "赛果", "收藏"];
+  final List<Widget> _tabs = [
+    const HomeTabbarItemWidget(
+      tabName: '及时',
+      tabWidth: 56,
+      index: 0,
+    ),
+    const HomeTabbarItemWidget(
+      tabName: '赛程',
+      tabWidth: 56,
+      index: 1,
+    ),
+    const HomeTabbarItemWidget(
+      tabName: '赛果',
+      tabWidth: 56,
+      index: 2,
+    ),
+    const HomeTabbarItemWidget(
+      tabName: '收藏',
+      tabWidth: 56,
+      index: 3,
+    )
+  ];
 
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
   }
 
@@ -49,6 +70,9 @@ class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixi
 
   @override
   Widget buildWidget(BuildContext context) {
+    double tabbarPadding = (ScreenUtil().screenWidth - _tabs.length*56) / (_tabs.length+1);
+    tabbarPadding = tabbarPadding*0.5;
+
     return ChangeNotifierProvider<NewsTabProvider>(
         create: (context2) => provider,
         child: Scaffold(
@@ -57,7 +81,7 @@ class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixi
             children: [
               Container(
                 width: ScreenUtil().screenWidth,
-                height: ScreenUtil().statusBarHeight + 65.0,
+                height: ScreenUtil().statusBarHeight + 88.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: JhImageUtils.getAssetImage("common/bgHomeTop"),
@@ -67,7 +91,7 @@ class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixi
                   width: double.infinity,
                   margin: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
                   padding:
-                      const EdgeInsets.only(left: 10.0, top: 25.0, right: 10.0),
+                      const EdgeInsets.only(top: 48.0),
                   // color: Colors.yellow,
                   child: TabBar(
                       onTap: (index) {
@@ -77,25 +101,8 @@ class _MatchPageState extends BaseWidgetState with SingleTickerProviderStateMixi
                       isScrollable: true,
                       controller: _tabController,
                       indicator: const BoxDecoration(),
-                      labelPadding: EdgeInsets.zero,
-                      tabs: const <Widget>[
-                        NewsTabbarItemWidget(
-                          tabName: 'aaaaa',
-                          index: 0,
-                        ),
-                        NewsTabbarItemWidget(
-                          tabName: '1111',
-                          index: 1,
-                        ),
-                        NewsTabbarItemWidget(
-                          tabName: '222222',
-                          index: 2,
-                        ),
-                        NewsTabbarItemWidget(
-                          tabName: '222222',
-                          index: 3,
-                        ),
-                      ]),
+                      labelPadding: EdgeInsets.only(left: tabbarPadding, right: tabbarPadding),
+                      tabs: _tabs),
                 ),
               ),
               Expanded(
