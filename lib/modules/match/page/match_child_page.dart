@@ -23,7 +23,7 @@ class _MatchChildPageState extends BaseWidgetState {
   @override
   Widget buildWidget(BuildContext context) {
     return ListView.builder(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.only(top: 3),
         itemCount: 10,
         itemExtent: 105,
         itemBuilder: (context, index) {

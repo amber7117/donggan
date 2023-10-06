@@ -41,14 +41,23 @@ class HomeTabbarItemWidget extends StatelessWidget {
                 : const BoxDecoration(),
             child: Column(
               children: [
-                Text(
-                  tabName,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 14.sp,
-                      fontWeight: TextStyleUtils.semibold),
-                ),
+                context.watch<HomeTabProvider>().index == index
+                    ? Text(
+                        tabName,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: ColorUtils.black34,
+                            fontSize: 14.sp,
+                            fontWeight: TextStyleUtils.semibold),
+                      )
+                    : Text(
+                        tabName,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: const Color.fromRGBO(248, 135, 152, 1.0),
+                            fontSize: 14.sp,
+                            fontWeight: TextStyleUtils.medium),
+                      ),
                 context.watch<HomeTabProvider>().index == index
                     ? const DecoratedBox(
                         decoration: BoxDecoration(color: ColorUtils.red235),

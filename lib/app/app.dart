@@ -15,7 +15,7 @@ const pageSize = 50;
 const apiPlaceholder = "###";
 
 // 日志
-final logger = Logger();
+final logger = Logger(level: Level.debug);
 
 // Router
 final router = FluroRouter();
