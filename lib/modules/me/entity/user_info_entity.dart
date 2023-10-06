@@ -28,16 +28,16 @@ class UserInfoEntity {
   factory UserInfoEntity.fromJson(Map<String, dynamic> json) {
     return UserInfoEntity(
       userId: json['userId'].toString(),
-      anchorId: json['anchorId'],
-      nickname: json['nickname'],
-      headImgUrl: json['headImgUrl'],
+      anchorId: json['anchorId'] ?? "",
+      nickname: json['nickname'] ?? "",
+      headImgUrl: json['headImgUrl'] ?? "",
       personalDesc: json['personalDesc'] ?? "",
       fansCount: json['fansCount'] ?? 0,
       focusCount: json['focusCount'] ?? 0,
-      isAttention: json['isAttention'],
-      isFans: json['isFans'],
-      isAnchor: json['isAnchor'],
-      isAuthor: json['isAuthor'],
+      isAttention: json['isAttention'] ?? false,
+      isFans: json['isFans'] ?? false,
+      isAnchor: json['isAnchor'] ?? false,
+      isAuthor: json['isAuthor'] ?? false,
     );
   }
 

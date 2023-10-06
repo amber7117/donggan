@@ -11,8 +11,8 @@ import 'package:wzty/main/domain/domain_entity.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/utils/app_utils.dart';
-import 'package:wzty/utils/date_utils.dart';
-import 'package:wzty/utils/string_utils.dart';
+import 'package:wzty/utils/wz_date_utils.dart';
+import 'package:wzty/utils/wz_string_utils.dart';
 
 enum HttpMethod {
   get(value: "GET"),
@@ -135,9 +135,9 @@ class HttpManager {
           String tokenValue = options.headers[domainToken];
 
           if (signTypeValue == "B") {
-            urlStr = StringUtils.signTypeB(urlStr, tokenValue, typeValue);
+            urlStr = WZStringUtils.signTypeB(urlStr, tokenValue, typeValue);
           } else {
-            urlStr = StringUtils.signTypeA(urlStr, tokenValue, typeValue);
+            urlStr = WZStringUtils.signTypeA(urlStr, tokenValue, typeValue);
           }
           
           options.path = urlStr;
@@ -197,13 +197,13 @@ class HttpManager {
 
     String signValue = "";
     if (method == HttpMethod.get) {
-      signValue = StringUtils.signGetRequest(params, signMD5, milliseconds);
+      signValue = WZStringUtils.signGetRequest(params, signMD5, milliseconds);
     } else {
-      signValue = StringUtils.signPostRequest(params, signMD5, milliseconds);
+      signValue = WZStringUtils.signPostRequest(params, signMD5, milliseconds);
     }
     headers["sign"] = signValue;
 
-    String randomStr = StringUtils.generateRandomString(20);
+    String randomStr = WZStringUtils.generateRandomString(20);
     headers["r"] = randomStr;
 
     return headers;

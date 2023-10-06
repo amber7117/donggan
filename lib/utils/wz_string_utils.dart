@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:crypto/crypto.dart';
-import 'package:wzty/utils/date_utils.dart';
+import 'package:wzty/utils/wz_date_utils.dart';
 
 const signMD5 = "9e304d4e8df1b74cfa009913198428ab";
 
-class StringUtils {
+class WZStringUtils {
   static String generateRandomString(int length) {
     const charset =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

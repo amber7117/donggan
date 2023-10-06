@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
@@ -112,7 +113,15 @@ class _MatchPageState extends BaseWidgetState
                       onPageChanged: _onPageChange,
                       controller: _pageController,
                       itemBuilder: (_, int index) {
-                        return const MatchChildPage();
+                        MatchStatus status = MatchStatus.unknown;
+                        if (index == 0) {
+                          status = MatchStatus.going;
+                        } else if (index == 1) {
+                          status = MatchStatus.uncoming;
+                        } else if (index == 2) {
+                          status = MatchStatus.finished;
+                        }
+                        return MatchChildPage(sportType: SportType.football, matchStatus: status);
                       }))
             ],
           ),
