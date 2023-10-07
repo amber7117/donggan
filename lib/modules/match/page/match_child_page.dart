@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
@@ -286,14 +287,14 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    JhAssetImage("match/iconMatchVideo", width: 24.w),
-                    SizedBox(width: 10.w),
+                    _animateWidget(model),
+                    const SizedBox(width: 10),
                     Container(
                         width: 1,
                         height: 26,
                         color: Colors.black.withOpacity(0.1)),
-                    SizedBox(width: 10.w),
-                    JhAssetImage("match/iconMatchCollect", width: 20.w),
+                    const SizedBox(width: 10),
+                    _collectWidget(matchStatus, model),
                   ],
                 ),
               ),
@@ -337,6 +338,29 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
           color: ColorUtils.gray153,
           fontSize: 12.sp,
           fontWeight: TextStyleUtils.regual);
+    }
+  }
+
+  _animateWidget(MatchInfoModel model) {
+    if (ConfigManager.instance.videoOk &&
+        (model.hasVid > 0 && model.hasLive > 0)) {
+      return const JhAssetImage("match/iconMatchVideo", width: 24);
+    } else if (ConfigManager.instance.animateOk && model.lmtMode > 0) {
+      return const JhAssetImage("match/iconMatchAnimate", width: 24);
+    } else {
+      return const SizedBox(width: 24);
+    }
+  }
+
+  _collectWidget(MatchStatus matchStatus, MatchInfoModel model) {
+    if (matchStatus != MatchStatus.finished) {
+      if (model.focus) {
+        return const JhAssetImage("match/iconMatchCollectS", width: 20);
+      } else {
+        return const JhAssetImage("match/iconMatchCollect", width: 20);
+      }
+    } else {
+      return const SizedBox(width: 20);
     }
   }
 }
