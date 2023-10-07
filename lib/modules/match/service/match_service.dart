@@ -43,4 +43,25 @@ class MatchService {
       complete(false, []);
     }
   }
+
+  static Future<void> requestMatchCollect(SportType sportType, int matchId,
+      bool isAdd, BusinessCallback<String> complete) async {
+    String userId = await UserManager.instance.obtainUseridOrDeviceid();
+    Map<String, dynamic> params = {
+      "matchType": sportType.value,
+      "matchId": matchId,
+      "userId": userId
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        isAdd ? MatchApi.matchCollect : MatchApi.matchCollectCancel,
+        HttpMethod.post,
+        params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
 }
