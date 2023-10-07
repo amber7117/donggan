@@ -42,22 +42,5 @@ class LoadEmptyWidget extends StatelessWidget {
         ),
       ),
     );
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 5.h),
-        alignment: Alignment.center,
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              JhAssetImage(imageAsset, width: imageWidth, height: imageHeight),
-              Container(
-                child: Text(
-                  hintText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                ),
-              )
-            ]));
   }
 }

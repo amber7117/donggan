@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/widget/home_search_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/modules/match/page/match_child_collect_page.dart';
@@ -92,22 +93,28 @@ class _MatchPageState extends BaseWidgetState
                       image: JhImageUtils.getAssetImage("common/bgHomeTop"),
                       fit: BoxFit.fitWidth),
                 ),
-                child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-                  padding: const EdgeInsets.only(top: 48.0),
-                  // color: Colors.yellow,
-                  child: TabBar(
-                      onTap: (index) {
-                        if (!mounted) return;
-                        _pageController.jumpToPage(index);
-                      },
-                      isScrollable: false,
-                      controller: _tabController,
-                      indicator: const BoxDecoration(),
-                      labelPadding: EdgeInsets.only(
-                          left: tabbarPadding, right: tabbarPadding),
-                      tabs: _tabs),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: ScreenUtil().statusBarHeight),
+                    HomeSearchWidget(handleTap: () {
+                      
+                    }),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TabBar(
+                          onTap: (index) {
+                            if (!mounted) return;
+                            _pageController.jumpToPage(index);
+                          },
+                          isScrollable: false,
+                          controller: _tabController,
+                          indicator: const BoxDecoration(),
+                          labelPadding: EdgeInsets.only(
+                              left: tabbarPadding, right: tabbarPadding),
+                          tabs: _tabs),
+                    )
+                  ],
                 ),
               ),
               Expanded(

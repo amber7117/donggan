@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/text_style_utils.dart';
 
 class WZSureButton extends StatelessWidget {
   final String title;
@@ -38,10 +37,10 @@ class WZSureButton extends StatelessWidget {
             ),
             borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Text(title,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white,
-                fontSize: 12.sp,
-                fontWeight: TextStyleUtils.regual)),
+                fontSize: 12,
+                fontWeight: FontWeight.normal)),
       ),
     );
   }
