@@ -102,7 +102,7 @@ class _MatchPageState extends BaseWidgetState
                         if (!mounted) return;
                         _pageController.jumpToPage(index);
                       },
-                      isScrollable: true,
+                      isScrollable: false,
                       controller: _tabController,
                       indicator: const BoxDecoration(),
                       labelPadding: EdgeInsets.only(

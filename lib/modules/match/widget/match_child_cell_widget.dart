@@ -60,7 +60,6 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
     bool showScore = (matchStatus == MatchStatus.going ||
         matchStatus == MatchStatus.finished);
     bool matchGoing = matchStatus == MatchStatus.going;
-    bool matchFinished = matchStatus == MatchStatus.finished;
 
     return InkWell(
         onTap: () {
@@ -170,20 +169,8 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
                     width: _teamW,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: (widget.isCollectCell || !matchFinished)
-                            ? [
-                                _animateWidget(model),
-                                const SizedBox(width: 10),
-                                Container(
-                                    width: 1,
-                                    height: 26,
-                                    color: Colors.black.withOpacity(0.1)),
-                                const SizedBox(width: 10),
-                                _collectWidget(model.focus),
-                              ]
-                            : [
-                                _animateWidget(model),
-                              ]),
+                        children:
+                            _buildAnimateCollectWidget(matchStatus, model)),
                   ),
                 ],
               )
@@ -228,6 +215,28 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
     }
   }
 
+  List<Widget> _buildAnimateCollectWidget(
+      MatchStatus matchStatus, MatchInfoModel model) {
+    if (widget.isCollectCell || matchStatus != MatchStatus.finished) {
+      return [
+        _animateWidget(model),
+        const SizedBox(width: 10),
+        Container(width: 1, height: 26, color: Colors.black.withOpacity(0.1)),
+        const SizedBox(width: 10),
+        InkWell(
+          onTap: _requestMatchCollect,
+          child: model.focus
+              ? const JhAssetImage("match/iconMatchCollectS", width: 20)
+              : const JhAssetImage("match/iconMatchCollect", width: 20),
+        ),
+      ];
+    } else {
+      return [
+        _animateWidget(model),
+      ];
+    }
+  }
+
   _animateWidget(MatchInfoModel model) {
     if (ConfigManager.instance.videoOk &&
         (model.hasVid > 0 && model.hasLive > 0)) {
@@ -236,20 +245,6 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
       return const JhAssetImage("match/iconMatchAnimate", width: 24);
     } else {
       return const SizedBox(width: 24);
-    }
-  }
-
-  _collectWidget(bool focus) {
-    if (focus) {
-      return InkWell(
-        onTap: _requestMatchCollect,
-        child: const JhAssetImage("match/iconMatchCollectS", width: 20),
-      );
-    } else {
-      return InkWell(
-        onTap: _requestMatchCollect,
-        child: const JhAssetImage("match/iconMatchCollect", width: 20),
-      );
     }
   }
 }

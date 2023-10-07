@@ -36,8 +36,9 @@ class MatchService {
 
     if (result.isSuccess()) {
       List retList = result.data;
-      List<MatchInfoModel> matchList =
-          retList.map((dataMap) => MatchInfoModel.fromJson(dataMap)).toList();
+      List<MatchInfoModel> matchList = retList
+          .map((dataMap) => MatchInfoModel.fromJson(dataMap)..focus = true)
+          .toList();
       complete(true, matchList);
     } else {
       complete(false, []);
