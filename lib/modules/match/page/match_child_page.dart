@@ -13,6 +13,8 @@ import 'package:wzty/utils/wz_date_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+const double _teamW = 120.0;
+
 class MatchChildPage extends StatefulWidget {
   final SportType sportType;
   final MatchStatus matchStatus;
@@ -112,7 +114,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
     }
 
     // if (widget.matchStatus != MatchStatus.going) {
-      params['status'] = matchStatusToServerValue(widget.matchStatus);
+    params['status'] = matchStatusToServerValue(widget.matchStatus);
     // }
 
     // if (leagueIdArr.isNotEmpty) {
@@ -174,6 +176,10 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
 
   _buildCellWidget(int idx) {
     MatchInfoModel model = _dataArr[idx];
+    MatchStatus matchStatus = matchStatusFromServerValue(model.status);
+    bool showScore = (matchStatus == MatchStatus.going ||
+        matchStatus == MatchStatus.finished);
+
     return Container(
       height: 105,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
@@ -187,7 +193,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 100.w,
+                width: _teamW,
                 child: Text(
                   model.leagueName,
                   style: TextStyle(
@@ -204,7 +210,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
                     fontWeight: TextStyleUtils.medium),
               ),
               SizedBox(
-                width: 100.w,
+                width: _teamW,
                 child: Text(
                   "02:30",
                   textAlign: TextAlign.right,
@@ -235,13 +241,16 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 100.w,
+                width: _teamW,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       model.hostTeamName,
                       textAlign: TextAlign.left,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: ColorUtils.black34,
                           fontSize: 12.sp,
@@ -250,6 +259,8 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
                     Text(
                       model.guestTeamName,
                       textAlign: TextAlign.left,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: ColorUtils.black34,
                           fontSize: 12.sp,
@@ -260,24 +271,16 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
               ),
               Column(
                 children: [
-                  Text(
-                    "-",
-                    style: TextStyle(
-                        color: ColorUtils.gray153,
-                        fontSize: 10.sp,
-                        fontWeight: TextStyleUtils.medium),
-                  ),
-                  Text(
-                    "-",
-                    style: TextStyle(
-                        color: ColorUtils.gray153,
-                        fontSize: 10.sp,
-                        fontWeight: TextStyleUtils.medium),
-                  ),
+                  Text(showScore ? "${model.hostTeamScore}" : "-",
+                      style: _scoreLabelStyle(matchStatus,
+                          model.hostTeamScore > model.guestTeamScore)),
+                  Text(showScore ? "${model.guestTeamScore}" : "-",
+                      style: _scoreLabelStyle(matchStatus,
+                          model.hostTeamScore > model.guestTeamScore)),
                 ],
               ),
               SizedBox(
-                width: 100.w,
+                width: _teamW,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -297,5 +300,31 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
         ],
       ),
     );
+  }
+
+  _scoreLabelStyle(MatchStatus matchStatus, bool winner) {
+    if (matchStatus == MatchStatus.going) {
+      return TextStyle(
+          color: ColorUtils.red233,
+          fontSize: 12.sp,
+          fontWeight: TextStyleUtils.semibold);
+    } else if (matchStatus == MatchStatus.finished) {
+      if (winner) {
+        return TextStyle(
+            color: ColorUtils.red233,
+            fontSize: 12.sp,
+            fontWeight: TextStyleUtils.semibold);
+      } else {
+        return TextStyle(
+            color: ColorUtils.black34,
+            fontSize: 12.sp,
+            fontWeight: TextStyleUtils.semibold);
+      }
+    } else {
+      return TextStyle(
+          color: ColorUtils.gray153,
+          fontSize: 12.sp,
+          fontWeight: TextStyleUtils.regual);
+    }
   }
 }
