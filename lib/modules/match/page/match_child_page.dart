@@ -14,6 +14,7 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 const double _teamW = 120.0;
+const double _textW = 26.0;
 
 class MatchChildPage extends StatefulWidget {
   final SportType sportType;

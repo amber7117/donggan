@@ -7,11 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 
-void main() {
+void main() async {
   // 不加这个强制横/竖屏会报错
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -37,7 +38,8 @@ void main() {
   //   logger.v('load user from sp: ${user.toJson()}');
   // }
 
-  DomainManager.instance.createDomain();
+  await DomainManager.instance.requestDomain();
+  ConfigManager.instance.requestConfig();
 
   runApp(const MyApp());
 }

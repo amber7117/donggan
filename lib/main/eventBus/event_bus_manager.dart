@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:event_bus/event_bus.dart';
-import 'package:wzty/app/app.dart';
 
 /// 全局的 EventBus
 /// https://www.cnblogs.com/liuys635/p/14670967.html
@@ -16,6 +15,9 @@ class EventBusManager {
 
   static final EventBusManager _getInstance = EventBusManager._internal();
   
+  //---------------------------------------------
+
+
   //初始化eventBus
   late EventBus _eventBus;
   EventBusManager._internal() {

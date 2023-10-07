@@ -63,3 +63,21 @@ class DomainApi {
 
   static String pullServer = '/qiutx-support/domains/v2/pull';
 }
+
+
+class ConfigApi {
+  static String liveBlock = "/qiutx-usercenter/user/resources";
+
+  static String systemNotice = "/qiutx-support/cms/config/system/notice";
+
+  static String animateFlag = "/live-product/anonymous/showAnimation/flagForAppStore";
+
+  static String videoFlag = "/live-product/anonymous/showVideo/flag";
+
+  static String liveFlag = "/live-product/anonymous/show/switch/live";
+
+  static String configInfo = "/qiutx-support/cms/config/list";
+
+  static String channelInfo = "/live-product/anonymous/v1/get/channel/info";
+
+}

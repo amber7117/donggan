@@ -16,9 +16,11 @@ class DomainManager {
 
   static final DomainManager _getInstance = DomainManager._internal();
 
-  //初始化eventBus
   DomainManager._internal();
 
+  //---------------------------------------------
+  
+  
   List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
 
@@ -38,7 +40,7 @@ class DomainManager {
 
   removeDomain() {}
 
-  createDomain() async {
+  requestDomain() async {
     List<DomainEntity> domianList = await getDomainFromCache();
     if (appDebug) {
       domianList.clear();

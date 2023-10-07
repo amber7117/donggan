@@ -10,10 +10,12 @@ class UserManager {
 
   static final UserManager _getInstance = UserManager._internal();
   
-  //初始化eventBus
   UserManager._internal() {
     createUser();
   }
+
+  //---------------------------------------------
+
 
   createUser() async {
     Map<String, dynamic>? jsonMap = await SpUtils.getJSON(SpKeys.user);

@@ -1,0 +1,105 @@
+import 'dart:async';
+
+import 'package:wzty/app/app.dart';
+import 'package:wzty/main/config/config_service.dart';
+import 'package:wzty/main/config/live_block_entity.dart';
+import 'package:wzty/modules/match/manager/match_collect_manager.dart';
+import 'package:wzty/modules/match/service/match_service.dart';
+
+class ConfigManager {
+  factory ConfigManager() => _getInstance;
+
+  static ConfigManager get instance => _getInstance;
+
+  static final ConfigManager _getInstance = ConfigManager._internal();
+
+  ConfigManager._internal();
+
+  //---------------------------------------------
+
+  LiveBlockModel? liveBlockData;
+
+  String systemNotice = "";
+
+  bool animateOk = false;
+
+  bool videoOk = false;
+
+  bool liveOk = false;
+
+  String contactQQ = "";
+
+  String onlineKefu = "";
+
+  bool activeUser = false;
+
+  Timer? userTimer;
+  Timer? userReportTimer;
+
+  //---------------------------------------------
+  
+  requestConfig() {
+    ConfigService.requestLiveBlock((success, result) {
+      if (success) {
+        liveBlockData = result;
+      }
+    });
+
+    ConfigService.requestSystemNotice((success, result) {
+      if (success) {
+        systemNotice = result!;
+      }
+    });
+
+    ConfigService.requestAnimateStatus((success, result) {
+      if (success) {
+        animateOk = result!;
+        if (appDebug) {
+          animateOk = true;
+        }
+      }
+    });
+
+    ConfigService.requestVideoStatus((success, result) {
+      if (success) {
+        videoOk = result!;
+        if (appDebug) {
+          videoOk = true;
+        }
+      }
+    });
+
+    ConfigService.requestLiveStatus((success, result) {
+      if (success) {
+        liveOk = result!;
+        if (appDebug) {
+          liveOk = true;
+        }
+      }
+    });
+
+    MatchService.requestMatchListAttr(SportType.football, (success, result) {
+      if (success) {
+        MatchCollectManager.instance.setCollectData(SportType.football, result);
+      }
+    });
+
+     MatchService.requestMatchListAttr(SportType.basketball, (success, result) {
+      if (success) {
+        MatchCollectManager.instance.setCollectData(SportType.basketball, result);
+      }
+    });
+
+    ConfigService.requestConfigInfo((success, result) {
+      if (success) {
+        contactQQ = result ?? "";
+      }
+    });
+
+    ConfigService.requestChannelInfo((success, result) {
+      if (success) {
+        onlineKefu = result ?? "";
+      }
+    });
+  }
+}
