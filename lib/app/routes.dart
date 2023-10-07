@@ -1,5 +1,3 @@
-
-
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
@@ -7,6 +5,7 @@ import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/match_page.dart';
+import 'package:wzty/modules/match/page/match_detail_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
 import 'package:wzty/modules/me/page/app_act_page.dart';
 import 'package:wzty/modules/me/page/app_kefu_page.dart';
@@ -29,14 +28,22 @@ import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/news_page.dart';
 
 class Routes {
-
   static String main = '/';
 
+  //---------------------------------------------
+
   static String match = "/match";
+  static String matchDetail = "/match/detail";
+
+  //---------------------------------------------
 
   static String anchor = "/anchor";
 
+  //---------------------------------------------
+
   static String news = "/news";
+
+  //---------------------------------------------
 
   static String me = "/me";
   static String meInfo = "/me/info";
@@ -50,40 +57,49 @@ class Routes {
   static String meFollow = "/me/follow";
   static String meFans = "/me/fans";
   static String meMsg = "/me/msg";
+
   static String meCollect = "/me/collect";
-  static String mePingbi = "/me/mePingbi";
-  static String meJilu = "/me/meJilu";
-  static String meHuodong = "/me/meHuodong";
-  static String meWenti = "/me/meWenti";
-  static String meKefu = "/me/meKefu";
-  static String meAbout = "/me/meAbout";
+  static String mePingbi = "/me/pingbi";
+  static String meJilu = "/me/jilu";
+  static String meHuodong = "/me/huodong";
+  static String meWenti = "/me/wenti";
+  static String meKefu = "/me/kefu";
+  static String meAbout = "/me/about";
 
   static String appSet = "/appSet";
 
+  //---------------------------------------------
+
   static String login = "/login";
 
-
   static void configureRoutes(FluroRouter router) {
-
     router.define(main, handler: Handler(handlerFunc: (context, params) {
       return const MainPage();
     }));
 
+    //---------------------------------------------
 
     router.define(match, handler: Handler(handlerFunc: (context, params) {
       return const MatchPage();
     }));
+    router.define(matchDetail, handler: Handler(handlerFunc: (context, params) {
+      var args = context?.settings?.arguments as int;
+      return MatchDetailPage(matchId: args);
+    }));
 
+    //---------------------------------------------
 
     router.define(anchor, handler: Handler(handlerFunc: (context, params) {
       return const AnchorPage();
     }));
 
+    //---------------------------------------------
 
     router.define(news, handler: Handler(handlerFunc: (context, params) {
       return const NewsPage();
     }));
 
+    //---------------------------------------------
 
     router.define(me, handler: Handler(handlerFunc: (context, params) {
       return const MePage();
@@ -91,23 +107,21 @@ class Routes {
     router.define(meInfo, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoPage();
     }));
-    router.define(meInfoAvatar, handler: Handler(handlerFunc: (context, params) {
+    router.define(meInfoAvatar,
+        handler: Handler(handlerFunc: (context, params) {
       return const MeInfoAvatarPage();
     }));
-    router.define(meInfoName,
-        handler: Handler(handlerFunc: (context, params) {
+    router.define(meInfoName, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoNamePage();
     }));
-    router.define(meInfoDesc,
-        handler: Handler(handlerFunc: (context, params) {
+    router.define(meInfoDesc, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoDescPage();
     }));
     router.define(meInfoMobile,
         handler: Handler(handlerFunc: (context, params) {
       return const MeInfoMobilePage();
     }));
-    router.define(meInfoPwd,
-        handler: Handler(handlerFunc: (context, params) {
+    router.define(meInfoPwd, handler: Handler(handlerFunc: (context, params) {
       return const MeInfoPwdPage();
     }));
     router.define(meInfoAccount,
@@ -151,6 +165,7 @@ class Routes {
       return const AppSetPage();
     }));
 
+    //---------------------------------------------
 
     router.define(login, handler: Handler(handlerFunc: (context, params) {
       return const LoginPage();
@@ -198,5 +213,4 @@ class Routes {
     // https://github.com/flutter/flutter/issues/47128#issuecomment-627551073
     FocusManager.instance.primaryFocus?.unfocus();
   }
-
 }

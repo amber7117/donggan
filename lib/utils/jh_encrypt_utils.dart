@@ -34,7 +34,7 @@ class JhEncryptUtils {
      final encrypted = encrypter.encrypt(plainText, iv: iv);
      return encrypted.base16;
    } catch (err) {
-     logger.i("aes encode error:$err");
+     logger.e("aes encode error:$err");
      return plainText;
    }
  }
@@ -48,7 +48,7 @@ class JhEncryptUtils {
      final decrypted = encrypter.decrypt64(encrypted, iv: iv);
      return decrypted;
    } catch (err) {
-     logger.i("aes decode error:$err");
+     logger.e("aes decode error:$err");
      return encrypted;
    }
  }

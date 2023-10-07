@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/config/config_manager.dart';
-import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/match/entity/match_info_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
@@ -18,9 +18,13 @@ const double _textW = 26.0;
 class MatchChildCellWidget extends StatefulWidget {
   final SportType sportType;
   final MatchInfoModel model;
+  final bool isCollectCell;
 
   const MatchChildCellWidget(
-      {super.key, required this.sportType, required this.model});
+      {super.key,
+      required this.sportType,
+      required this.model,
+      this.isCollectCell = false});
 
   @override
   State createState() => _MatchChildCellWidgetState();
@@ -58,129 +62,134 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
     bool matchGoing = matchStatus == MatchStatus.going;
     bool matchFinished = matchStatus == MatchStatus.finished;
 
-    return Container(
-      height: matchChildCellHeight,
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-      padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8))),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return InkWell(
+        onTap: () {
+          Routes.push(context, Routes.matchDetail, arguments: model.matchId);
+        },
+        child: Container(
+          height: matchChildCellHeight,
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          child: Column(
             children: [
-              SizedBox(
-                width: _teamW,
-                child: Text(
-                  model.leagueName,
-                  style: TextStyle(
-                      color: ColorUtils.gray153,
-                      fontSize: 10.sp,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-              ),
-              Text(
-                _statusLabelText(matchStatus, model.timePlayed),
-                style: TextStyle(
-                    color: matchGoing ? ColorUtils.red235 : ColorUtils.gray153,
-                    fontSize: 10.sp,
-                    fontWeight: TextStyleUtils.medium),
-              ),
-              SizedBox(
-                width: _teamW,
-                child: Text(
-                  model.matchTimeNew,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      color: ColorUtils.gray153,
-                      fontSize: 10.sp,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(
-            height: 0.5,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(253, 192, 200, 1.0),
-                  Color.fromRGBO(200, 221, 253, 1.0),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-            ),
-          ),
-          const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: _teamW,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      model.hostTeamName,
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: ColorUtils.black34,
-                          fontSize: 12.sp,
-                          fontWeight: TextStyleUtils.semibold),
-                    ),
-                    Text(
-                      model.guestTeamName,
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: ColorUtils.black34,
-                          fontSize: 12.sp,
-                          fontWeight: TextStyleUtils.semibold),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(showScore ? "${model.hostTeamScore}" : "-",
-                      style: _scoreLabelStyle(matchStatus,
-                          model.hostTeamScore > model.guestTeamScore)),
-                  Text(showScore ? "${model.guestTeamScore}" : "-",
-                      style: _scoreLabelStyle(matchStatus,
-                          model.hostTeamScore > model.guestTeamScore)),
+                  SizedBox(
+                    width: _teamW,
+                    child: Text(
+                      model.leagueName,
+                      style: TextStyle(
+                          color: ColorUtils.gray153,
+                          fontSize: 10.sp,
+                          fontWeight: TextStyleUtils.medium),
+                    ),
+                  ),
+                  Text(
+                    _statusLabelText(matchStatus, model.timePlayed),
+                    style: TextStyle(
+                        color:
+                            matchGoing ? ColorUtils.red235 : ColorUtils.gray153,
+                        fontSize: 10.sp,
+                        fontWeight: TextStyleUtils.medium),
+                  ),
+                  SizedBox(
+                    width: _teamW,
+                    child: Text(
+                      model.matchTimeNew,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          color: ColorUtils.gray153,
+                          fontSize: 10.sp,
+                          fontWeight: TextStyleUtils.medium),
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(
-                width: _teamW,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: matchFinished
-                        ? [
-                            _animateWidget(model),
-                          ]
-                        : [
-                            _animateWidget(model),
-                            const SizedBox(width: 10),
-                            Container(
-                                width: 1,
-                                height: 26,
-                                color: Colors.black.withOpacity(0.1)),
-                            const SizedBox(width: 10),
-                            _collectWidget(matchStatus, model),
-                          ]),
+              const SizedBox(height: 10),
+              Container(
+                height: 0.5,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(253, 192, 200, 1.0),
+                      Color.fromRGBO(200, 221, 253, 1.0),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
               ),
+              const SizedBox(height: 14),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: _teamW,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.hostTeamName,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: ColorUtils.black34,
+                              fontSize: 12.sp,
+                              fontWeight: TextStyleUtils.semibold),
+                        ),
+                        Text(
+                          model.guestTeamName,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: ColorUtils.black34,
+                              fontSize: 12.sp,
+                              fontWeight: TextStyleUtils.semibold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Text(showScore ? "${model.hostTeamScore}" : "-",
+                          style: _scoreLabelStyle(matchStatus,
+                              model.hostTeamScore > model.guestTeamScore)),
+                      Text(showScore ? "${model.guestTeamScore}" : "-",
+                          style: _scoreLabelStyle(matchStatus,
+                              model.hostTeamScore > model.guestTeamScore)),
+                    ],
+                  ),
+                  SizedBox(
+                    width: _teamW,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: (widget.isCollectCell || !matchFinished)
+                            ? [
+                                _animateWidget(model),
+                                const SizedBox(width: 10),
+                                Container(
+                                    width: 1,
+                                    height: 26,
+                                    color: Colors.black.withOpacity(0.1)),
+                                const SizedBox(width: 10),
+                                _collectWidget(model.focus),
+                              ]
+                            : [
+                                _animateWidget(model),
+                              ]),
+                  ),
+                ],
+              )
             ],
-          )
-        ],
-      ),
-    );
+          ),
+        ));
   }
 
   _statusLabelText(MatchStatus matchStatus, String time) {
@@ -230,21 +239,17 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
     }
   }
 
-  _collectWidget(MatchStatus matchStatus, MatchInfoModel model) {
-    if (matchStatus != MatchStatus.finished) {
-      if (model.focus) {
-        return InkWell(
-          onTap: _requestMatchCollect,
-          child: const JhAssetImage("match/iconMatchCollectS", width: 20),
-        );
-      } else {
-        return InkWell(
-          onTap: _requestMatchCollect,
-          child: const JhAssetImage("match/iconMatchCollect", width: 20),
-        );
-      }
+  _collectWidget(bool focus) {
+    if (focus) {
+      return InkWell(
+        onTap: _requestMatchCollect,
+        child: const JhAssetImage("match/iconMatchCollectS", width: 20),
+      );
     } else {
-      return const SizedBox(width: 20);
+      return InkWell(
+        onTap: _requestMatchCollect,
+        child: const JhAssetImage("match/iconMatchCollect", width: 20),
+      );
     }
   }
 }

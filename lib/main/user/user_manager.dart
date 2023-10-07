@@ -10,9 +10,7 @@ class UserManager {
 
   static final UserManager _getInstance = UserManager._internal();
   
-  UserManager._internal() {
-    createUser();
-  }
+  UserManager._internal();
 
   //---------------------------------------------
 

@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -59,18 +58,19 @@ class HttpManager {
     if (method == HttpMethod.post) {
       data = params;
       params = {};
-    } 
+    }
 
     Map<String, dynamic> headers = await getHeader(params, method);
 
     headers.addDomainValue(domain);
 
     try {
-      Response response = await instance.request(urlString, data: data,
+      Response response = await instance.request(urlString,
+          data: data,
           queryParameters: params,
           options: Options(method: method.value, headers: headers));
       return HttpConfig.handleResponseData(response);
-    } catch (exception) {
+    } on DioException catch (exception) {
       logger.e("----catch--请求错误-----$exception");
       return HttpConfig.handleResponseErr();
     }
@@ -92,7 +92,7 @@ class HttpManager {
           options: Options(method: HttpMethod.get.value, headers: headers));
       HttpResultBean result = HttpConfig.handleResponseData(response);
       complete(result);
-    } catch (exception) {
+    } on DioException catch (exception) {
       logger.e("----catch--请求错误-----$exception");
       HttpResultBean result = HttpConfig.handleResponseErr();
       complete(result);
@@ -106,7 +106,7 @@ class HttpManager {
     try {
       Response response = await instance.request(urlString);
       return HttpConfig.handleResponseData(response);
-    } catch (exception) {
+    } on DioException catch (exception) {
       logger.e("----catch--请求错误-----$exception");
       return HttpConfig.handleResponseErr();
     }
@@ -117,16 +117,17 @@ class HttpManager {
     if (dio == null) {
       /// 全局属性：请求前缀、连接超时时间、响应超时时间
       BaseOptions options = BaseOptions(
-        connectTimeout: const Duration(seconds: 12),
-        receiveTimeout: const Duration(seconds: 102),
-        sendTimeout: const Duration(seconds: 12),
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 20),
+        sendTimeout: const Duration(seconds: 20),
       );
 
       dio = Dio(options);
-      dio?.interceptors.add(LogInterceptor());
+      if (appDebug) {
+        dio?.interceptors.add(LogInterceptor());
+      }
       dio?.interceptors.add(InterceptorsWrapper(onRequest:
-          (RequestOptions options, RequestInterceptorHandler handler) async { 
-
+          (RequestOptions options, RequestInterceptorHandler handler) async {
         int typeValue = options.headers[domainType] ?? 0;
         if (typeValue > 0) {
           String urlStr = options.uri.toString();
@@ -139,7 +140,7 @@ class HttpManager {
           } else {
             urlStr = WZStringUtils.signTypeA(urlStr, tokenValue, typeValue);
           }
-          
+
           options.path = urlStr;
 
           if (options.method == HttpMethod.get.value) {
@@ -150,14 +151,14 @@ class HttpManager {
         }
         return handler.next(options);
       }));
-      
+
       // 抓包代码
       if (appProxy) {
         (dio?.httpClientAdapter as DefaultHttpClientAdapter)
             .onHttpClientCreate = (HttpClient client) {
           client.idleTimeout = const Duration(seconds: 5);
           client.findProxy = (uri) {
-            return "PROXY 192.168.10.150:8888";
+            return "PROXY 192.168.1.7:8888";
           };
           // 代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
           client.badCertificateCallback =
@@ -209,7 +210,6 @@ class HttpManager {
     return headers;
   }
 }
-
 
 extension Domain on Map {
   addDomainValue(DomainEntity domain) {

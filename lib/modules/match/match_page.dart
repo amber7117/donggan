@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/modules/match/page/match_child_collect_page.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -71,8 +74,9 @@ class _MatchPageState extends BaseWidgetState
 
   @override
   Widget buildWidget(BuildContext context) {
-    double tabbarPadding = (ScreenUtil().screenWidth - _tabs.length*56) / (_tabs.length+1);
-    tabbarPadding = tabbarPadding*0.5;
+    double tabbarPadding =
+        (ScreenUtil().screenWidth - _tabs.length * 56) / (_tabs.length + 1);
+    tabbarPadding = tabbarPadding * 0.5;
 
     return ChangeNotifierProvider<HomeTabProvider>(
         create: (context2) => provider,
@@ -91,8 +95,7 @@ class _MatchPageState extends BaseWidgetState
                 child: Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-                  padding:
-                      const EdgeInsets.only(top: 48.0),
+                  padding: const EdgeInsets.only(top: 48.0),
                   // color: Colors.yellow,
                   child: TabBar(
                       onTap: (index) {
@@ -102,7 +105,8 @@ class _MatchPageState extends BaseWidgetState
                       isScrollable: true,
                       controller: _tabController,
                       indicator: const BoxDecoration(),
-                      labelPadding: EdgeInsets.only(left: tabbarPadding, right: tabbarPadding),
+                      labelPadding: EdgeInsets.only(
+                          left: tabbarPadding, right: tabbarPadding),
                       tabs: _tabs),
                 ),
               ),
@@ -114,6 +118,11 @@ class _MatchPageState extends BaseWidgetState
                       controller: _pageController,
                       itemBuilder: (_, int index) {
                         MatchStatus status = MatchStatus.unknown;
+                        if (index > 2) {
+                          return MatchChildCollectPage(
+                              sportType: SportType.football,
+                              matchStatus: status);
+                        }
                         if (index == 0) {
                           status = MatchStatus.going;
                         } else if (index == 1) {
@@ -121,7 +130,8 @@ class _MatchPageState extends BaseWidgetState
                         } else if (index == 2) {
                           status = MatchStatus.finished;
                         }
-                        return MatchChildPage(sportType: SportType.football, matchStatus: status);
+                        return MatchChildPage(
+                            sportType: SportType.football, matchStatus: status);
                       }))
             ],
           ),

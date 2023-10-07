@@ -38,18 +38,9 @@ class MatchCollectManager {
     List<MatchInfoModel> arrTmp = obtainCollectData(type);
 
     if (match.focus) {
-      arrTmp.add(match);
+      arrTmp.insert(0, match);
     } else {
-      int dataIdx = -1;
-      for (int idx = 0; idx < arrTmp.length; idx++) {
-        if (arrTmp[idx].matchId == match.matchId) {
-          dataIdx = idx;
-          break;
-        }
-      }
-      if (dataIdx != -1) {
-        arrTmp.removeAt(dataIdx);
-      }
+      arrTmp.removeWhere((element) => element.matchId == match.matchId);
     }
 
     if (type == SportType.football) {

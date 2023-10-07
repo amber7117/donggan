@@ -31,13 +31,8 @@ void main() async {
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
-  
-  // var user;
-  // if (await SpUtil.getJSON(SpKeys.USERINFO) != null) {
-  //   user = UserInfoEntity.fromJson(await SpUtil.getJSON(SpKeys.USERINFO));
-  //   logger.v('load user from sp: ${user.toJson()}');
-  // }
 
+  await UserManager.instance.createUser();
   await DomainManager.instance.requestDomain();
   ConfigManager.instance.requestConfig();
 
