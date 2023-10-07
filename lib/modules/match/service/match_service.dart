@@ -1,5 +1,4 @@
 import 'package:wzty/app/api.dart';
-import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/match/entity/match_entity.dart';

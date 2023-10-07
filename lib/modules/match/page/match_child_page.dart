@@ -179,6 +179,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
     MatchStatus matchStatus = matchStatusFromServerValue(model.status);
     bool showScore = (matchStatus == MatchStatus.going ||
         matchStatus == MatchStatus.finished);
+    bool matchGoing = matchStatus == MatchStatus.going;
 
     return Container(
       height: 105,
@@ -203,16 +204,16 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
                 ),
               ),
               Text(
-                "未",
+                _statusLabelText(matchStatus, model.timePlayed),
                 style: TextStyle(
-                    color: ColorUtils.gray153,
+                    color: matchGoing ? ColorUtils.red235 : ColorUtils.gray153,
                     fontSize: 10.sp,
                     fontWeight: TextStyleUtils.medium),
               ),
               SizedBox(
                 width: _teamW,
                 child: Text(
-                  "02:30",
+                  model.matchTimeNew,
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       color: ColorUtils.gray153,
@@ -300,6 +301,16 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
         ],
       ),
     );
+  }
+
+  _statusLabelText(MatchStatus matchStatus, String time) {
+    if (matchStatus == MatchStatus.going) {
+      return time;
+    } else if (matchStatus == MatchStatus.finished) {
+      return "完";
+    } else {
+      return "未";
+    }
   }
 
   _scoreLabelStyle(MatchStatus matchStatus, bool winner) {

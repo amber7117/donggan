@@ -4,6 +4,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:wzty/utils/shared_preference_utils.dart';
 
 class AppUtils {
+
+  /// 获取游客id
   static String generateTouristId() {
     List<String> numArr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     StringBuffer sb = StringBuffer();
@@ -15,10 +17,7 @@ class AppUtils {
     return sb.toString();
   }
 
-  /*
-  * @description:  获取设备信息
-  * @return {type} 设备信息
-  */
+  /// 获取设备信息
   static Future<dynamic> getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     BaseDeviceInfo? dataInfo;
@@ -32,7 +31,7 @@ class AppUtils {
     return dataInfo;
   }
 
-  // 获取设备的唯一标识 uuid
+  /// 获取设备的唯一标识 uuid
   static Future<String> getPlatformUid() async {
     String uuid = await SpUtils.getString(SpKeys.uuid);
     if (uuid.isNotEmpty) {

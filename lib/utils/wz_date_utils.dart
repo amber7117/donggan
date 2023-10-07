@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class WZDateUtils {
   static int currentTimeMillis() {
     return DateTime.now().millisecondsSinceEpoch;
@@ -23,4 +25,11 @@ class WZDateUtils {
         return '';
     }
   }
+
+  /// 时间戳转成事件字符串
+  static String getDateString(int timestamp, String format) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return DateFormat(format).format(date);
+  }
+
 }
