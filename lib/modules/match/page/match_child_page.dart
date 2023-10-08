@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wzty/app/app.dart';
@@ -30,6 +31,11 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
   int selectIdx = 0;
   List<String> dateStrArr = [];
 
+  final EasyRefreshController _refreshCtrl = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
+  
   @override
   void initState() {
     super.initState();
@@ -88,7 +94,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
     }
   }
 
-  _requestData({bool loading = false, String calendarDate = ''}) async {
+   _requestData({bool loading = false, String calendarDate = ''}) async {
     // if (!domainOk()) {
     //   return;
     // }
@@ -122,7 +128,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
     MatchStatus matchStatus = widget.matchStatus;
 
     if (loading) ToastUtils.showLoading();
-    
+
     MatchService.requestMatchList(params, (success, result) {
       ToastUtils.hideLoading();
 
@@ -148,6 +154,9 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
       } else {
         _layoutState = LoadStatusType.failure;
       }
+
+      _refreshCtrl.finishRefresh();
+
       setState(() {});
     });
   }
@@ -161,13 +170,18 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
-        successWidget: ListView.builder(
-            padding: const EdgeInsets.only(top: 3),
-            itemCount: _dataArr.length,
-            itemExtent: matchChildCellHeight,
-            itemBuilder: (context, index) {
-              return MatchChildCellWidget(
-                  sportType: widget.sportType, model: _dataArr[index]);
-            }));
+        successWidget: EasyRefresh(
+            controller: _refreshCtrl,
+            onRefresh: () async {
+              _requestData();
+            },
+            child: ListView.builder(
+                padding: const EdgeInsets.only(top: 3),
+                itemCount: _dataArr.length,
+                itemExtent: matchChildCellHeight,
+                itemBuilder: (context, index) {
+                  return MatchChildCellWidget(
+                      sportType: widget.sportType, model: _dataArr[index]);
+                })));
   }
 }
