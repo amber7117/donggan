@@ -8,6 +8,7 @@ import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_info_entity.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_child_cell_widget.dart';
+import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 import 'package:wzty/utils/wz_date_utils.dart';
 
@@ -25,18 +26,18 @@ class MatchChildPage extends StatefulWidget {
 }
 
 class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
-  
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchInfoModel> _dataArr = [];
 
-  int selectIdx = 0;
-  List<String> dateStrArr = [];
+  int _selectIdx = 0;
+  List<String> _titleStrArr = [];
+  List<String> _dateStrArr = [];
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
     controlFinishLoad: true,
   );
-  
+
   @override
   void initState() {
     super.initState();
@@ -51,51 +52,46 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
 
     if (widget.matchStatus == MatchStatus.finished ||
         widget.matchStatus == MatchStatus.uncoming) {
-      List<String> titleArr = [];
-
       if (widget.matchStatus == MatchStatus.uncoming) {
-        titleArr.add('今天');
-        dateStrArr.add(nowDateStr);
+        _titleStrArr.add('今天');
+        _dateStrArr.add(nowDateStr);
       }
 
       DateTime tmpDate;
       String tmpDateStr;
       String tmpWeekStr;
 
-      for (int idx = 1; idx < 7; idx++) {
+      for (int idx = 1; idx < 5; idx++) {
         if (widget.matchStatus == MatchStatus.uncoming) {
           tmpDate = nowDate.add(Duration(days: idx));
         } else {
-          tmpDate = nowDate.add(Duration(days: idx - 7));
+          tmpDate = nowDate.add(Duration(days: idx - 5));
         }
 
         tmpDateStr = DateFormat('yyyy-MM-dd').format(tmpDate);
 
-        dateStrArr.add(tmpDateStr);
+        _dateStrArr.add(tmpDateStr);
 
         String weekDesc = WZDateUtils.getWeekDay(tmpDate);
         tmpWeekStr = '${tmpDateStr.substring(5)}\n$weekDesc';
-        titleArr.add(tmpWeekStr);
+        _titleStrArr.add(tmpWeekStr);
       }
 
-      selectIdx = 0;
+      _selectIdx = 0;
 
       if (widget.matchStatus == MatchStatus.finished) {
-        titleArr.add('今天');
-        dateStrArr.add(nowDateStr);
+        _titleStrArr.add('今天');
+        _dateStrArr.add(nowDateStr);
 
-        selectIdx = titleArr.length - 1;
+        _selectIdx = _titleStrArr.length - 1;
       }
-
-      // headerView.selectIdx = selectIdx;
-      // headerView.dateArr = titleArr;
     } else {
-      dateStrArr.add(nowDateStr);
-      selectIdx = 0;
+      _dateStrArr.add(nowDateStr);
+      _selectIdx = 0;
     }
   }
 
-   _requestData({bool loading = false, String calendarDate = ''}) async {
+  _requestData({bool loading = false, String calendarDate = ''}) async {
     // if (!domainOk()) {
     //   return;
     // }
@@ -111,8 +107,8 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
 
     if (calendarDate.isNotEmpty) {
       params['date'] = calendarDate;
-    } else if (dateStrArr.isNotEmpty) {
-      params['date'] = dateStrArr[selectIdx];
+    } else if (_dateStrArr.isNotEmpty) {
+      params['date'] = _dateStrArr[_selectIdx];
     }
 
     // if (widget.matchStatus != MatchStatus.going) {
@@ -176,13 +172,35 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
             onRefresh: () async {
               _requestData();
             },
-            child: ListView.builder(
-                padding: const EdgeInsets.only(top: 3),
-                itemCount: _dataArr.length,
-                itemExtent: matchChildCellHeight,
-                itemBuilder: (context, index) {
-                  return MatchChildCellWidget(
-                      sportType: widget.sportType, model: _dataArr[index]);
-                })));
+            child: _buildChildWidget()));
+  }
+
+  _buildChildWidget() {
+    if (widget.matchStatus == MatchStatus.uncoming ||
+        widget.matchStatus == MatchStatus.finished) {
+      return Column(
+        children: [
+          MatchHeadDateWidget(dateArr: _titleStrArr, selectIdx: _selectIdx),
+          Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 3),
+                  itemCount: _dataArr.length,
+                  itemExtent: matchChildCellHeight,
+                  itemBuilder: (context, index) {
+                    return MatchChildCellWidget(
+                        sportType: widget.sportType, model: _dataArr[index]);
+                  }))
+        ],
+      );
+    } else {
+      return ListView.builder(
+          padding: const EdgeInsets.only(top: 3),
+          itemCount: _dataArr.length,
+          itemExtent: matchChildCellHeight,
+          itemBuilder: (context, index) {
+            return MatchChildCellWidget(
+                sportType: widget.sportType, model: _dataArr[index]);
+          });
+    }
   }
 }
