@@ -122,6 +122,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
     MatchStatus matchStatus = widget.matchStatus;
 
     if (loading) ToastUtils.showLoading();
+    
     MatchService.requestMatchList(params, (success, result) {
       ToastUtils.hideLoading();
 

@@ -31,6 +31,7 @@ class _MeFansPageState extends State {
 
   _requestData() {
     ToastUtils.showLoading();
+    
     MeService.requestFansList((success, result) {
       ToastUtils.hideLoading();
       if (success) {

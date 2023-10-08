@@ -36,6 +36,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
 
   _requestData() {
     ToastUtils.showLoading();
+
     MeService.requestAvatarList((success, result) {
       ToastUtils.hideLoading();
       if (success) {
@@ -66,6 +67,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
     };
 
     ToastUtils.showLoading();
+    
     MeService.requestModifyUserInfo(params, (success, result) {
       ToastUtils.hideLoading();
 

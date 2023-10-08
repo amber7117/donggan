@@ -48,6 +48,7 @@ class _MatchChildCollectPageState
 
   _requestData({bool loading = false}) async {
     if (loading) ToastUtils.showLoading();
+    
     MatchService.requestMatchListAttr(widget.sportType, (success, result) {
       ToastUtils.hideLoading();
 

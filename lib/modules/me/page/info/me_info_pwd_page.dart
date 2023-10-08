@@ -105,6 +105,7 @@ class _MeInfoPwdPageState extends State<MeInfoPwdPage> {
     };
 
     ToastUtils.showLoading();
+    
     MeService.requestModifyUserPwd(params, (success, result) {
       ToastUtils.hideLoading();
 

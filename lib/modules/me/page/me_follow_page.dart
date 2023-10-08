@@ -29,6 +29,7 @@ class _MeFollowPageState extends State {
 
   _requestData() {
     ToastUtils.showLoading();
+    
     MeService.requestFollowList(FollowListType.anchor, (success, result) {
       ToastUtils.hideLoading();
       if (success) {

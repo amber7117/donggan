@@ -98,6 +98,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
     };
 
     ToastUtils.showLoading();
+    
     MeService.requestModifyUserMobile(params, (success, result) {
       ToastUtils.hideLoading();
 

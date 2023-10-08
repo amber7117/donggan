@@ -97,9 +97,10 @@ class _MatchPageState extends BaseWidgetState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: ScreenUtil().statusBarHeight),
-                    HomeSearchWidget(handleTap: () {
-                      
-                    }),
+                    HomeSearchWidget(
+                        type: HomeSearchType.match, searchTap: () {
+                          
+                        }),
                     SizedBox(
                       width: double.infinity,
                       child: TabBar(

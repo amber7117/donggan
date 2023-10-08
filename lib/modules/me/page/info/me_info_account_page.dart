@@ -84,7 +84,9 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
       "code": code,
       "type": "6",
     };
+    
     ToastUtils.showLoading();
+
     MeService.requestModifyUserPwd(params, (success, result) {
       ToastUtils.hideLoading();
 

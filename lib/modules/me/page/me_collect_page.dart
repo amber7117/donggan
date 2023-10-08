@@ -31,6 +31,7 @@ class _MeCollectPageState extends State {
 
   _requestData() {
     ToastUtils.showLoading();
+    
     MeService.requestSysMsgList((success, result) {
       ToastUtils.hideLoading();
       if (success) {

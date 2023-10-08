@@ -58,6 +58,7 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
     };
 
     ToastUtils.showLoading();
+    
     MeService.requestModifyUserInfo(params, (success, result) {
       ToastUtils.hideLoading();
 

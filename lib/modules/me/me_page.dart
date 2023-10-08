@@ -42,6 +42,7 @@ class _MePageState extends BaseWidgetState {
   _requestData() {
     // if (provider.user)
     // ToastUtils.showLoading();
+    
     // MeService.requestUserInfo(uid, (success, result) { })
     // MeService.requestSysMsgList((success, result) {
     //   ToastUtils.hideLoading();

@@ -50,7 +50,7 @@ class LoadStateWidget extends StatelessWidget {
       case LoadStatusType.failure:
         return InkWell(
           onTap: errorRetry,
-          child: errorWidget ?? const LoadEmptyWidget(hintText: "加载失败", imageAsset: "common/iconLoadEmpty"),
+          child: errorWidget ?? const LoadEmptyWidget(hintText: "加载失败", imageAsset: "common/iconLoadError"),
         );
       case LoadStatusType.empty:
         return InkWell(
