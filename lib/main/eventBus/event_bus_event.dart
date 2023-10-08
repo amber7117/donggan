@@ -1,10 +1,13 @@
 
-/// 首页红点
+import 'package:wzty/app/app.dart';
 
-class LoginEnableEvent {
-  final String phone;
-  final String pwd;
-  final bool isPwdLogin;
+/// 红点数据
 
-  LoginEnableEvent({this.phone = "", this.pwd = "", this.isPwdLogin = false});
+class MatchCollectDataEvent {
+
+  final SportType sportType;
+
+  final int value;
+
+  MatchCollectDataEvent({required this.sportType, required this.value});
 }

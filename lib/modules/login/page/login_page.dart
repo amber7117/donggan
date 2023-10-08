@@ -28,8 +28,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
 
-  HomeTabProvider tabProvider = HomeTabProvider();
-  LoginDataProvider loginProvider = LoginDataProvider();
+  final HomeTabProvider _tabProvider = HomeTabProvider();
+  final LoginDataProvider _loginProvider = LoginDataProvider();
 
   @override
   void initState() {
@@ -50,14 +50,14 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   void _login() {
     ToastUtils.showLoading();
 
-    String phone = loginProvider.phone;
+    String phone = _loginProvider.phone;
     String code;
-    if (loginProvider.isPwdLogin) {
-      code = loginProvider.pwd;
+    if (_loginProvider.isPwdLogin) {
+      code = _loginProvider.pwd;
     } else {
-      code = loginProvider.pwd;
+      code = _loginProvider.pwd;
     }
-    LoginService.requestLogin(phone, code, loginProvider.isPwdLogin,
+    LoginService.requestLogin(phone, code, _loginProvider.isPwdLogin,
         (success, result) {
       ToastUtils.hideLoading();
       if (success) {
@@ -73,8 +73,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => tabProvider),
-        ChangeNotifierProvider(create: (_) => loginProvider),
+        ChangeNotifierProvider(create: (_) => _tabProvider),
+        ChangeNotifierProvider(create: (_) => _loginProvider),
       ],
       child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -204,7 +204,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   }
 
   void _onPageChange(int index) {
-    tabProvider.setIndex(index);
+    _tabProvider.setIndex(index);
     _tabController.animateTo(index);
   }
 }

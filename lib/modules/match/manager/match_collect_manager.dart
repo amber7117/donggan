@@ -18,12 +18,13 @@ class MatchCollectManager {
 
   //---------------------------------------------
 
-  void setCollectData(SportType type, List<MatchInfoModel> data) {
+  int setCollectData(SportType type, List<MatchInfoModel> data) {
     if (type == SportType.football) {
       collectFBArr = data;
     } else {
       collectBBArr = data;
     }
+    return data.length;
   }
 
   List<MatchInfoModel> obtainCollectData(SportType type) {
@@ -34,7 +35,7 @@ class MatchCollectManager {
     return arrTmp;
   }
 
-  void updateCollectData(SportType type, MatchInfoModel match) {
+  int updateCollectData(SportType type, MatchInfoModel match) {
     List<MatchInfoModel> arrTmp = obtainCollectData(type);
 
     if (match.focus) {
@@ -48,6 +49,8 @@ class MatchCollectManager {
     } else {
       collectBBArr = arrTmp;
     }
+    
+    return arrTmp.length;
   }
 
   int obtainCollectCount(SportType type) {

@@ -1,11 +1,14 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/widget/home_search_widget.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/page/match_child_collect_page.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
@@ -27,25 +30,28 @@ class _MatchPageState extends BaseWidgetState
   late TabController _tabController;
   late PageController _pageController;
 
-  HomeTabProvider provider = HomeTabProvider();
+  final HomeTabDotProvider _tabProvider = HomeTabDotProvider(
+      MatchCollectManager.instance.obtainCollectCount(SportType.football));
 
+  late StreamSubscription _eventSubscp;
+  
   final List<Widget> _tabs = [
-    const HomeTabbarItemWidget(
+    const HomeTabbarDotItemWidget(
       tabName: '及时',
       tabWidth: 56,
       index: 0,
     ),
-    const HomeTabbarItemWidget(
+    const HomeTabbarDotItemWidget(
       tabName: '赛程',
       tabWidth: 56,
       index: 1,
     ),
-    const HomeTabbarItemWidget(
+    const HomeTabbarDotItemWidget(
       tabName: '赛果',
       tabWidth: 56,
       index: 2,
     ),
-    const HomeTabbarItemWidget(
+    const HomeTabbarDotItemWidget(
       tabName: '收藏',
       tabWidth: 56,
       index: 3,
@@ -58,6 +64,12 @@ class _MatchPageState extends BaseWidgetState
 
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
+
+    _eventSubscp = eventBusManager.on<MatchCollectDataEvent>((event) {
+      if (mounted && event.sportType == SportType.football) {
+        _tabProvider.setDotNum(event.value);
+      }
+     });
   }
 
   @override
@@ -65,6 +77,8 @@ class _MatchPageState extends BaseWidgetState
     _tabController.dispose();
     _pageController.dispose();
 
+    eventBusManager.off(_eventSubscp);
+    
     super.dispose();
   }
 
@@ -79,8 +93,8 @@ class _MatchPageState extends BaseWidgetState
         (ScreenUtil().screenWidth - _tabs.length * 56) / (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
 
-    return ChangeNotifierProvider<HomeTabProvider>(
-        create: (context2) => provider,
+    return ChangeNotifierProvider<HomeTabDotProvider>(
+        create: (context2) => _tabProvider,
         child: Scaffold(
           backgroundColor: ColorUtils.gray248,
           body: Column(
@@ -98,9 +112,7 @@ class _MatchPageState extends BaseWidgetState
                   children: [
                     SizedBox(height: ScreenUtil().statusBarHeight),
                     HomeSearchWidget(
-                        type: HomeSearchType.match, searchTap: () {
-                          
-                        }),
+                        type: HomeSearchType.match, searchTap: () {}),
                     SizedBox(
                       width: double.infinity,
                       child: TabBar(
@@ -147,7 +159,7 @@ class _MatchPageState extends BaseWidgetState
   }
 
   void _onPageChange(int index) {
-    provider.setIndex(index);
+    _tabProvider.setIndex(index);
     _tabController.animateTo(index);
   }
 }

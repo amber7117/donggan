@@ -19,7 +19,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
 
-  HomeTabProvider provider = HomeTabProvider();
+  final HomeTabProvider _tabProvider = HomeTabProvider();
 
   final List<Widget> _tabs = [
     const HomeTabbarItemWidget(
@@ -58,7 +58,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeTabProvider>(
-        create: (context2) => provider,
+        create: (context2) => _tabProvider,
         child: Scaffold(
           body: Column(
             children: [
@@ -103,7 +103,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   }
 
   void _onPageChange(int index) {
-    provider.setIndex(index);
+    _tabProvider.setIndex(index);
     _tabController.animateTo(index);
   }
 }

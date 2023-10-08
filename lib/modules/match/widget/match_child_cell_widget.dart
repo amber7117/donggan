@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/modules/match/entity/match_info_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
@@ -44,7 +46,9 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
         ToastUtils.showSuccess(isAdd ? "收藏成功" : "取消收藏成功");
         model.focus = isAdd;
 
-        MatchCollectManager.instance.updateCollectData(widget.sportType, model);
+        int cnt = MatchCollectManager.instance.updateCollectData(widget.sportType, model);
+      
+        context.read<HomeTabDotProvider>().setDotNum(cnt);
 
         setState(() {});
       } else {

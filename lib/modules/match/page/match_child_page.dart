@@ -25,6 +25,7 @@ class MatchChildPage extends StatefulWidget {
 }
 
 class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
+  
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchInfoModel> _dataArr = [];
 

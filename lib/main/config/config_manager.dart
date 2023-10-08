@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/config/config_service.dart';
 import 'package:wzty/main/config/live_block_entity.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 
@@ -80,13 +82,19 @@ class ConfigManager {
 
     MatchService.requestMatchListAttr(SportType.football, (success, result) {
       if (success) {
-        MatchCollectManager.instance.setCollectData(SportType.football, result);
+        int cnt = MatchCollectManager.instance
+            .setCollectData(SportType.football, result);
+        eventBusManager.emit(
+            MatchCollectDataEvent(sportType: SportType.football, value: cnt));
       }
     });
 
-     MatchService.requestMatchListAttr(SportType.basketball, (success, result) {
+    MatchService.requestMatchListAttr(SportType.basketball, (success, result) {
       if (success) {
-        MatchCollectManager.instance.setCollectData(SportType.basketball, result);
+        int cnt = MatchCollectManager.instance
+            .setCollectData(SportType.basketball, result);
+        eventBusManager.emit(
+            MatchCollectDataEvent(sportType: SportType.basketball, value: cnt));
       }
     });
 
