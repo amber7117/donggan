@@ -166,13 +166,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        state: _layoutState,
-        successWidget: EasyRefresh(
-            controller: _refreshCtrl,
-            onRefresh: () async {
-              _requestData();
-            },
-            child: _buildChildWidget()));
+        state: _layoutState, successWidget: _buildChildWidget());
   }
 
   _buildChildWidget() {
@@ -182,25 +176,36 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
         children: [
           MatchHeadDateWidget(dateArr: _titleStrArr, selectIdx: _selectIdx),
           Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.only(top: 3),
-                  itemCount: _dataArr.length,
-                  itemExtent: matchChildCellHeight,
-                  itemBuilder: (context, index) {
-                    return MatchChildCellWidget(
-                        sportType: widget.sportType, model: _dataArr[index]);
-                  }))
+              child: EasyRefresh(
+                  controller: _refreshCtrl,
+                  onRefresh: () async {
+                    _requestData();
+                  },
+                  child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 3),
+                      itemCount: _dataArr.length,
+                      itemExtent: matchChildCellHeight,
+                      itemBuilder: (context, index) {
+                        return MatchChildCellWidget(
+                            sportType: widget.sportType,
+                            model: _dataArr[index]);
+                      })))
         ],
       );
     } else {
-      return ListView.builder(
-          padding: const EdgeInsets.only(top: 3),
-          itemCount: _dataArr.length,
-          itemExtent: matchChildCellHeight,
-          itemBuilder: (context, index) {
-            return MatchChildCellWidget(
-                sportType: widget.sportType, model: _dataArr[index]);
-          });
+      return EasyRefresh(
+          controller: _refreshCtrl,
+          onRefresh: () async {
+            _requestData();
+          },
+          child: ListView.builder(
+              padding: const EdgeInsets.only(top: 3),
+              itemCount: _dataArr.length,
+              itemExtent: matchChildCellHeight,
+              itemBuilder: (context, index) {
+                return MatchChildCellWidget(
+                    sportType: widget.sportType, model: _dataArr[index]);
+              }));
     }
   }
 }
