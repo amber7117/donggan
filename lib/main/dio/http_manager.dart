@@ -158,7 +158,7 @@ class HttpManager {
             .onHttpClientCreate = (HttpClient client) {
           client.idleTimeout = const Duration(seconds: 5);
           client.findProxy = (uri) {
-            return "PROXY 192.168.1.7:8888";
+            return "PROXY 192.168.10.164:8888";
           };
           // 代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
           client.badCertificateCallback =

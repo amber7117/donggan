@@ -6,7 +6,7 @@ const appTest = false;
 // Debug开关
 const appDebug = true;
 // 代理开关
-const appProxy = false;
+const appProxy = true;
 
 // 日志
 final logger = Logger(level: Level.debug);

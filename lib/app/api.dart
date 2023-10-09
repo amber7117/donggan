@@ -11,6 +11,8 @@ class MatchApi {
 
   static String matchBookCancel =
       "/qiutx-score/anonymous/v1/app/appointment/cancel";
+
+  static String matchDetail = "/qiutx-score/v5/match/match";
 }
 
 class AnchorApi {}

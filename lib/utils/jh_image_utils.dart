@@ -48,6 +48,7 @@ class JhImageUtils {
 /// 加载本地或者URL图片
 buildNetImage(String imageUrl,
     {double? width, double? height, BoxFit? fit, String? placeholder}) {
+  height = height ?? width;
   if (imageUrl.isEmpty && placeholder != null) {
     return JhAssetImage(placeholder, width: width, height: height);
   }
