@@ -19,7 +19,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MeInfoMobilePage extends StatefulWidget {
-  const MeInfoMobilePage({Key? key}) : super(key: key);
+  const MeInfoMobilePage({super.key});
 
   @override
   State createState() => _MeInfoMobilePageState();

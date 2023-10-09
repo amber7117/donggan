@@ -18,7 +18,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MeInfoAccountPage extends StatefulWidget {
-  const MeInfoAccountPage({Key? key}) : super(key: key);
+  const MeInfoAccountPage({super.key});
 
   @override
   State createState() => _MeInfoAccountPageState();

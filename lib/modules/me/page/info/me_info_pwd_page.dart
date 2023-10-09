@@ -16,7 +16,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MeInfoPwdPage extends StatefulWidget {
-  const MeInfoPwdPage({Key? key}) : super(key: key);
+  const MeInfoPwdPage({super.key});
 
   @override
   State createState() => _MeInfoPwdPageState();

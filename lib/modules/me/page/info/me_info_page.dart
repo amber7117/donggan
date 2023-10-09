@@ -13,7 +13,7 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MeInfoPage extends StatefulWidget {
-  const MeInfoPage({Key? key}) : super(key: key);
+  const MeInfoPage({super.key});
 
   @override
   State createState() => _MeInfoPageState();

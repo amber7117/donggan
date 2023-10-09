@@ -13,7 +13,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MeInfoNamePage extends StatefulWidget {
-  const MeInfoNamePage({Key? key}) : super(key: key);
+  const MeInfoNamePage({super.key});
 
   @override
   State createState() => _MeInfoNamePageState();

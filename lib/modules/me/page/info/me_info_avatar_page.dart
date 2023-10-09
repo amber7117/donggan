@@ -13,8 +13,8 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MeInfoAvatarPage extends StatefulWidget {
-  const MeInfoAvatarPage({Key? key}) : super(key: key);
-
+  const MeInfoAvatarPage({super.key});
+  
   @override
   State createState() => _MeInfoAvatarPageState();
 }

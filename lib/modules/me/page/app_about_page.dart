@@ -6,7 +6,7 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class AppAboutPage extends StatefulWidget {
-  const AppAboutPage({Key? key}) : super(key: key);
+  const AppAboutPage({super.key});
 
   @override
   State createState() => _AppAboutPageState();
