@@ -5,7 +5,7 @@ import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class HomeTabbarItemWidget extends StatelessWidget {
+class HomeTabbarDotItemWidget extends StatelessWidget {
   final String tabName;
 
   final double tabWidth;
@@ -13,22 +13,25 @@ class HomeTabbarItemWidget extends StatelessWidget {
 
   final int index;
 
-  const HomeTabbarItemWidget(
+  const HomeTabbarDotItemWidget(
       {super.key,
       required this.tabName,
-      this.tabWidth = 60.0,
-      this.tabHeight = 40.0,
+      required this.tabWidth,
+      required this.tabHeight,
       required this.index});
 
   @override
   Widget build(BuildContext context) {
     return Tab(
-        child: Container(
+        child: Stack(
+      alignment: Alignment.topRight,
+      children: [
+        Container(
             margin: const EdgeInsets.only(left: 2, right: 2),
             padding: const EdgeInsets.only(top: 10),
             width: tabWidth,
             height: tabHeight,
-            decoration: context.watch<HomeTabProvider>().index == index
+            decoration: context.watch<HomeTabDotProvider>().index == index
                 ? const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -43,11 +46,14 @@ class HomeTabbarItemWidget extends StatelessWidget {
                 : const BoxDecoration(),
             child: Column(
               children: _buildChildWidget(context),
-            )));
+            )),
+        _buildDotWidget(context),
+      ],
+    ));
   }
 
   _buildChildWidget(BuildContext context) {
-    return context.watch<HomeTabProvider>().index == index
+    return context.watch<HomeTabDotProvider>().index == index
         ? [
             Text(
               tabName,
@@ -72,5 +78,29 @@ class HomeTabbarItemWidget extends StatelessWidget {
             ),
             const SizedBox()
           ];
+  }
+
+  _buildDotWidget(BuildContext context) {
+    HomeTabDotProvider provider = context.read<HomeTabDotProvider>();
+    bool visible =
+        (index == 3 && provider.dotNum > 0 && provider.index != index);
+    return Visibility(
+        visible: visible,
+        child: Container(
+          width: 25,
+          height: 14,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(7))),
+          child: Text(
+            "${context.watch<HomeTabDotProvider>().dotNum}",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorUtils.black34,
+                fontSize: 8.sp,
+                fontWeight: TextStyleUtils.semibold),
+          ),
+        ));
   }
 }

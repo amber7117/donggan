@@ -8,13 +8,17 @@ import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/home_tabbar_dot_item_widget.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/page/match_child_collect_page.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
-import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
+
+
+const _tabWidth = 56.0;
+const _tabHeight = 40.0;
 
 class MatchPage extends StatefulWidget {
   const MatchPage({super.key});
@@ -34,26 +38,30 @@ class _MatchPageState extends BaseWidgetState
       MatchCollectManager.instance.obtainCollectCount(SportType.football));
 
   late StreamSubscription _eventSubscp;
-  
+
   final List<Widget> _tabs = [
     const HomeTabbarDotItemWidget(
       tabName: '及时',
-      tabWidth: 56,
+      tabWidth: _tabWidth,
+      tabHeight: _tabHeight,
       index: 0,
     ),
     const HomeTabbarDotItemWidget(
       tabName: '赛程',
-      tabWidth: 56,
+      tabWidth: _tabWidth,
+      tabHeight: _tabHeight,
       index: 1,
     ),
     const HomeTabbarDotItemWidget(
       tabName: '赛果',
-      tabWidth: 56,
+      tabWidth: _tabWidth,
+      tabHeight: _tabHeight,
       index: 2,
     ),
     const HomeTabbarDotItemWidget(
       tabName: '收藏',
-      tabWidth: 56,
+      tabWidth: _tabWidth,
+      tabHeight: _tabHeight,
       index: 3,
     )
   ];
@@ -69,7 +77,7 @@ class _MatchPageState extends BaseWidgetState
       if (mounted && event.sportType == SportType.football) {
         _tabProvider.setDotNum(event.value);
       }
-     });
+    });
   }
 
   @override
@@ -78,7 +86,7 @@ class _MatchPageState extends BaseWidgetState
     _pageController.dispose();
 
     eventBusManager.off(_eventSubscp);
-    
+
     super.dispose();
   }
 
@@ -90,7 +98,7 @@ class _MatchPageState extends BaseWidgetState
   @override
   Widget buildWidget(BuildContext context) {
     double tabbarPadding =
-        (ScreenUtil().screenWidth - _tabs.length * 56) / (_tabs.length + 1);
+        (ScreenUtil().screenWidth - _tabs.length * _tabWidth) / (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
 
     return ChangeNotifierProvider<HomeTabDotProvider>(
@@ -100,7 +108,7 @@ class _MatchPageState extends BaseWidgetState
           body: Column(
             children: [
               Container(
-                width: ScreenUtil().screenWidth,
+                width: double.infinity,
                 height: ScreenUtil().statusBarHeight + 88.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(

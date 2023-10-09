@@ -19,8 +19,7 @@ class DomainManager {
   DomainManager._internal();
 
   //---------------------------------------------
-  
-  
+
   List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
 
@@ -89,6 +88,9 @@ class DomainManager {
       List retList = result.data;
       List<DomainEntity> domianList =
           retList.map((dataMap) => DomainEntity.fromJson(dataMap)).toList();
+      if (appDebug) {
+        domianList.removeWhere((element) => element.domain.contains("api.dq"));
+      }
       checkDomainList(domianList, DomainPullFrom.server);
     }
   }

@@ -5,7 +5,7 @@ import 'package:wzty/main/tabbar/home_tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class HomeTabbarItemWidget extends StatelessWidget {
+class MatchTabbarItemWidget extends StatelessWidget {
   final String tabName;
 
   final double tabWidth;
@@ -13,10 +13,10 @@ class HomeTabbarItemWidget extends StatelessWidget {
 
   final int index;
 
-  const HomeTabbarItemWidget(
+  const MatchTabbarItemWidget(
       {super.key,
       required this.tabName,
-      this.tabWidth = 60.0,
+      this.tabWidth = 54.0,
       this.tabHeight = 40.0,
       required this.index});
 
@@ -28,19 +28,6 @@ class HomeTabbarItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             width: tabWidth,
             height: tabHeight,
-            decoration: context.watch<HomeTabProvider>().index == index
-                ? const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(252, 230, 230, 1.0),
-                        Color.fromRGBO(255, 255, 255, 1.0)
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10)))
-                : const BoxDecoration(),
             child: Column(
               children: _buildChildWidget(context),
             )));
@@ -53,20 +40,20 @@ class HomeTabbarItemWidget extends StatelessWidget {
               tabName,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: ColorUtils.black34,
+                  color: ColorUtils.red233,
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.semibold),
             ),
             const DecoratedBox(
-                decoration: BoxDecoration(color: ColorUtils.red235),
-                child: SizedBox(height: 2, width: 32))
+                decoration: BoxDecoration(color: ColorUtils.red233),
+                child: SizedBox(height: 3, width: 28))
           ]
         : [
             Text(
               tabName,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: const Color.fromRGBO(248, 135, 152, 1.0),
+                  color: const Color.fromRGBO(102, 102, 102, 1.0),
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.medium),
             ),

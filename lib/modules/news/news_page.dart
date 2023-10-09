@@ -24,17 +24,14 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   final List<Widget> _tabs = [
     const HomeTabbarItemWidget(
       tabName: '及时',
-      tabWidth: 56,
       index: 0,
     ),
     const HomeTabbarItemWidget(
       tabName: '赛程',
-      tabWidth: 56,
       index: 1,
     ),
     const HomeTabbarItemWidget(
       tabName: '赛果',
-      tabWidth: 56,
       index: 2,
     ),
   ];
