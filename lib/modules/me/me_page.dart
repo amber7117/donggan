@@ -118,7 +118,7 @@ class _MePageState extends BaseWidgetState {
               image: DecorationImage(
                   fit: BoxFit.fitWidth,
                   alignment: Alignment.topCenter,
-                  image: JhImageUtils.getAssetImage("me/bgMeHead"))),
+                  image: JhImageUtils.getAssetImage("me/bgMeHead", x2: false))),
           child: Column(
             children: [
               SizedBox(height: ScreenUtil().statusBarHeight),

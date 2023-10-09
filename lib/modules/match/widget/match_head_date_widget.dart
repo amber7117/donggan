@@ -28,7 +28,7 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
           Expanded(
               child: GridView.builder(
                   padding: const EdgeInsets.only(top: 10, left: 12, bottom: 10),
-                  // physics: const NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.dateArr.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 5,

@@ -64,7 +64,7 @@ class _ForgetPwdPageState extends State {
             decoration: BoxDecoration(
               image: DecorationImage(
                   alignment: Alignment.topCenter,
-                  image: JhImageUtils.getAssetImage("login/imgDengluBg"),
+                  image: JhImageUtils.getAssetImage("login/imgDengluBg", x2: false),
                   fit: BoxFit.fitWidth),
             ),
             child: Column(

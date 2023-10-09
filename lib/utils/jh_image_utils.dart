@@ -23,13 +23,9 @@ const _methodValues = {
 
 class JhImageUtils {
   /// 加载本地图片
-  /// image: JhImageUtils.getAssetImage('set')
-  ///
-  /// image: AssetImage('assets/images/set.png')
-  /// widget: Image.asset('assets/images/set.png', fit: BoxFit.cover, width: 50, height: 50.0),
   static ImageProvider getAssetImage(String name,
-      {ImageFormat format = ImageFormat.png}) {
-    return AssetImage(obtainImgPath(name, format: format));
+      {bool x2 = true, ImageFormat format = ImageFormat.png}) {
+    return AssetImage(obtainImgPath(name, x2: x2, format: format));
   }
 
   /// 加载本地或者URL图片
@@ -40,8 +36,12 @@ class JhImageUtils {
 
   /// 获取图片路径
   static String obtainImgPath(String name,
-      {ImageFormat format = ImageFormat.png}) {
-    return 'assets/images/$name@2x.${_methodValues[format]}';
+      {bool x2 = true, ImageFormat format = ImageFormat.png}) {
+    if (x2) {
+      return 'assets/images/$name@2x.${_methodValues[format]}';
+    } else {
+      return 'assets/images/$name.${_methodValues[format]}';
+    }
   }
 }
 
@@ -65,7 +65,7 @@ buildNetImage(String imageUrl,
 }
 
 /// 加载本地图片
-/// JhAssetImage('account/${_bankLogoList[index]}',width: 24.0)
+/// JhAssetImage('common/xxxx',width: 24.0)
 class JhAssetImage extends StatelessWidget {
   const JhAssetImage(
     this.image, {
@@ -75,6 +75,7 @@ class JhAssetImage extends StatelessWidget {
     this.fit,
     this.cacheWidth,
     this.cacheHeight,
+    this.x2 = true,
     this.format = ImageFormat.png,
   }) : super(key: key);
 
@@ -84,12 +85,13 @@ class JhAssetImage extends StatelessWidget {
   final BoxFit? fit;
   final int? cacheWidth;
   final int? cacheHeight;
+  final bool x2;
   final ImageFormat format;
 
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      JhImageUtils.obtainImgPath(image, format: format),
+      JhImageUtils.obtainImgPath(image, x2: x2, format: format),
       width: width,
       height: height ?? width,
       fit: fit,
