@@ -47,13 +47,18 @@ class JhImageUtils {
 
 /// 加载本地或者URL图片
 buildNetImage(String imageUrl,
-    {double? width, double? height, BoxFit? fit, String? placeholder}) {
+    {double? width,
+    double? height,
+    BoxFit fit = BoxFit.cover,
+    String? placeholder}) {
   height = height ?? width;
   if (imageUrl.isEmpty && placeholder != null) {
     return JhAssetImage(placeholder, width: width, height: height);
   }
   return CachedNetworkImage(
       imageUrl: imageUrl,
+      width: width,
+      height: height,
       fit: fit,
       placeholder: (context, url) {
         return placeholder == null

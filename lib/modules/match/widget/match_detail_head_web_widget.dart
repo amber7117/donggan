@@ -34,7 +34,7 @@ class _MatchDetailHeadWebWidgetState extends State<MatchDetailHeadWebWidget> {
               SizedBox(
                 width: double.infinity,
                 height: widget.height,
-                child: WebviewPage(url: widget.urlStr),
+                child: WebviewPage(urlStr: widget.urlStr),
               ),
               const WZBackButton(),
             ],

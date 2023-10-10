@@ -41,10 +41,10 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    super.dispose();
+
     _tabController.dispose();
     _pageController.dispose();
-
-    super.dispose();
   }
 
   void _login() {

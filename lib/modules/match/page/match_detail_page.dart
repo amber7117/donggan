@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:wzty/app/routes.dart';
-import 'package:wzty/main/lib/load_empty_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/common/widget/wz_back_button.dart';
-import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
-import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
-import 'package:wzty/main/user/user_manager.dart';
-import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/match/entity/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
 import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
@@ -18,9 +10,7 @@ import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/match_detail_head_web_widget.dart';
 import 'package:wzty/modules/match/widget/match_detail_head_widget.dart';
-import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 const double _headHeight = 212.0;
@@ -80,10 +70,10 @@ class _MatchDetailPageState extends State<MatchDetailPage>
 
   @override
   void dispose() {
+    super.dispose();
+
     _tabController.dispose();
     _pageController.dispose();
-
-    super.dispose();
   }
 
   _requestData() {
@@ -131,7 +121,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                     height: _headHeight, urlStr: _model!.animUrl);
               } else if (provider.showVideo) {
                 return MatchDetailHeadVideoWidget(
-                    height: _headHeight, model: _model!);
+                    height: _headHeight, urlStr: _model!.obtainFirstVideoUrl());
               } else {
                 return MatchDetailHeadWidget(
                     height: _headHeight, model: _model!);

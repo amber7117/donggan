@@ -82,12 +82,12 @@ class _MatchPageState extends BaseWidgetState
 
   @override
   void dispose() {
+    super.dispose();
+
     _tabController.dispose();
     _pageController.dispose();
 
     eventBusManager.off(_eventSubscp);
-
-    super.dispose();
   }
 
   @override
