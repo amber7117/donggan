@@ -7,7 +7,7 @@ import 'package:wzty/common/widget/home_search_widget.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
-import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/home_tabbar_dot_item_widget.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/page/match_child_collect_page.dart';
@@ -34,7 +34,7 @@ class _MatchPageState extends BaseWidgetState
   late TabController _tabController;
   late PageController _pageController;
 
-  final HomeTabDotProvider _tabProvider = HomeTabDotProvider(
+  final TabDotProvider _tabProvider = TabDotProvider(
       MatchCollectManager.instance.obtainCollectCount(SportType.football));
 
   late StreamSubscription _eventSubscp;
@@ -101,7 +101,7 @@ class _MatchPageState extends BaseWidgetState
         (ScreenUtil().screenWidth - _tabs.length * _tabWidth) / (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
 
-    return ChangeNotifierProvider<HomeTabDotProvider>(
+    return ChangeNotifierProvider<TabDotProvider>(
         create: (context2) => _tabProvider,
         child: Scaffold(
           backgroundColor: ColorUtils.gray248,

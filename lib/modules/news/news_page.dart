@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -19,7 +19,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
 
-  final HomeTabProvider _tabProvider = HomeTabProvider();
+  final TabProvider _tabProvider = TabProvider();
 
   final List<Widget> _tabs = [
     const HomeTabbarItemWidget(
@@ -54,7 +54,7 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeTabProvider>(
+    return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
         child: Scaffold(
           body: Column(

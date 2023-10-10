@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/demo_page.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
@@ -32,6 +33,9 @@ void main() async {
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 
+  runApp(DemoPage());
+  return;
+
   await UserManager.instance.createUser();
   await DomainManager.instance.requestDomain();
   ConfigManager.instance.requestConfig();
@@ -46,11 +50,9 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _MyAppState();
   }
-
 }
 
 class _MyAppState extends State {
-
   @override
   void initState() {
     super.initState();
@@ -60,13 +62,13 @@ class _MyAppState extends State {
 
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (context, child) {
         return MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => UserProvider(UserManager.instance.user)),
+              ChangeNotifierProvider(
+                  create: (_) => UserProvider(UserManager.instance.user)),
             ],
             child: MaterialApp(
               title: "王者体育",
@@ -76,7 +78,5 @@ class _MyAppState extends State {
             ));
       },
     );
-    
   }
-
 }

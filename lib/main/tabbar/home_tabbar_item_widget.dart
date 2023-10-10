@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -28,7 +28,7 @@ class HomeTabbarItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             width: tabWidth,
             height: tabHeight,
-            decoration: context.watch<HomeTabProvider>().index == index
+            decoration: context.watch<TabProvider>().index == index
                 ? const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -47,7 +47,7 @@ class HomeTabbarItemWidget extends StatelessWidget {
   }
 
   _buildChildWidget(BuildContext context) {
-    return context.watch<HomeTabProvider>().index == index
+    return context.watch<TabProvider>().index == index
         ? [
             Text(
               tabName,

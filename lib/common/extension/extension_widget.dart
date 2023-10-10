@@ -8,4 +8,11 @@ extension Style on Widget {
   decorate(BoxDecoration decoration) {
     return DecoratedBox(decoration: decoration, child: this);
   }
+
+  inkWell(VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: this,
+    );
+  }
 }

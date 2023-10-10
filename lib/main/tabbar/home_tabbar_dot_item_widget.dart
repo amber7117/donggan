@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -31,7 +31,7 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             width: tabWidth,
             height: tabHeight,
-            decoration: context.watch<HomeTabDotProvider>().index == index
+            decoration: context.watch<TabDotProvider>().index == index
                 ? const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -53,7 +53,7 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
   }
 
   _buildChildWidget(BuildContext context) {
-    return context.watch<HomeTabDotProvider>().index == index
+    return context.watch<TabDotProvider>().index == index
         ? [
             Text(
               tabName,
@@ -81,7 +81,7 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
   }
 
   _buildDotWidget(BuildContext context) {
-    HomeTabDotProvider provider = context.read<HomeTabDotProvider>();
+    TabDotProvider provider = context.read<TabDotProvider>();
     bool visible =
         (index == 3 && provider.dotNum > 0 && provider.index != index);
     return Visibility(
@@ -94,7 +94,7 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(7))),
           child: Text(
-            "${context.watch<HomeTabDotProvider>().dotNum}",
+            "${context.watch<TabDotProvider>().dotNum}",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: ColorUtils.black34,

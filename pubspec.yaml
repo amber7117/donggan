@@ -67,6 +67,12 @@ dependencies:
   event_bus: ^2.0.0
   #获取设备信息
   device_info_plus: ^9.0.3
+  #webview
+  webview_flutter: ^4.4.1
+  #video
+  # video_player: ^2.7.2
+  # chewie: ^1.7.1
+  fijkplayer: ^0.11.0
 
   
 dev_dependencies:

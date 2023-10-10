@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-class HomeTabProvider extends ChangeNotifier {
+class TabProvider extends ChangeNotifier {
   
   /// Tab的下标
   int _index = 0;
@@ -20,9 +20,9 @@ class HomeTabProvider extends ChangeNotifier {
 
 
 
-class HomeTabDotProvider extends ChangeNotifier {
+class TabDotProvider extends ChangeNotifier {
 
-   HomeTabDotProvider(this._dotNum);
+   TabDotProvider(this._dotNum);
 
   /// Tab的下标
   int _index = 0;

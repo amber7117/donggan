@@ -6,13 +6,14 @@ import 'package:wzty/main/lib/load_empty_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
-import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/match/entity/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
+import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/match_detail_head_widget.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
@@ -34,7 +35,8 @@ class _MatchDetailPageState extends State<MatchDetailPage>
   late TabController _tabController;
   late PageController _pageController;
 
-  final HomeTabProvider _tabProvider = HomeTabProvider();
+  final TabProvider _tabProvider = TabProvider();
+  final MatchDetailProvider _detailProvider = MatchDetailProvider();
 
   final List<Widget> _tabs = [
     const MatchTabbarItemWidget(
@@ -112,11 +114,19 @@ class _MatchDetailPageState extends State<MatchDetailPage>
     if (_model == null) {
       return const SizedBox();
     }
-    return ChangeNotifierProvider<HomeTabProvider>(
-        create: (context2) => _tabProvider,
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context2) => _tabProvider),
+          ChangeNotifierProvider(create: (context2) => _detailProvider),
+        ],
         child: Column(
           children: [
-            MatchDetailHeadWidget(model: _model!),
+            Consumer<MatchDetailProvider>(builder:(context, provider, child) {
+              if (!provider.showAnimate && !provider.showVideo) {
+                return MatchDetailHeadWidget(model: _model!);
+              }
+              return SizedBox(height: 212.h + ScreenUtil().statusBarHeight);
+            }),
             SizedBox(
               width: double.infinity,
               child: TabBar(
@@ -133,7 +143,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
             Expanded(
                 child: PageView.builder(
                     key: const Key('pageView'),
-                    itemCount: 4,
+                    itemCount: 5,
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {

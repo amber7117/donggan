@@ -5,7 +5,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
-import 'package:wzty/main/tabbar/home_tab_provider.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/match_info_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
@@ -50,7 +50,7 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
         int cnt = MatchCollectManager.instance
             .updateCollectData(widget.sportType, model);
 
-        context.read<HomeTabDotProvider>().setDotNum(cnt);
+        context.read<TabDotProvider>().setDotNum(cnt);
 
         setState(() {});
       } else {
