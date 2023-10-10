@@ -9,9 +9,11 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchDetailHeadWidget extends StatefulWidget {
+
+  final double height;
   final MatchDetailModel model;
 
-  const MatchDetailHeadWidget({super.key, required this.model});
+  const MatchDetailHeadWidget({super.key,  required this.height, required this.model});
 
   @override
   State createState() => _MatchDetailHeadWidgetState();
@@ -21,7 +23,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 212.h + ScreenUtil().statusBarHeight,
+      height: widget.height + ScreenUtil().statusBarHeight,
       decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.cover,

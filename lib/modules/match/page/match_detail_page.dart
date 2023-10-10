@@ -15,11 +15,15 @@ import 'package:wzty/modules/match/entity/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
 import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
+import 'package:wzty/modules/match/widget/match_detail_head_video_widget.dart';
+import 'package:wzty/modules/match/widget/match_detail_head_web_widget.dart';
 import 'package:wzty/modules/match/widget/match_detail_head_widget.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
+
+const double _headHeight = 212.0;
 
 class MatchDetailPage extends StatefulWidget {
   final int matchId;
@@ -122,10 +126,16 @@ class _MatchDetailPageState extends State<MatchDetailPage>
         child: Column(
           children: [
             Consumer<MatchDetailProvider>(builder:(context, provider, child) {
-              if (!provider.showAnimate && !provider.showVideo) {
-                return MatchDetailHeadWidget(model: _model!);
+              if (provider.showAnimate) {
+                return MatchDetailHeadWebWidget(
+                    height: _headHeight, urlStr: _model!.animUrl);
+              } else if (provider.showVideo) {
+                return MatchDetailHeadVideoWidget(
+                    height: _headHeight, model: _model!);
+              } else {
+                return MatchDetailHeadWidget(
+                    height: _headHeight, model: _model!);
               }
-              return SizedBox(height: 212.h + ScreenUtil().statusBarHeight);
             }),
             SizedBox(
               width: double.infinity,

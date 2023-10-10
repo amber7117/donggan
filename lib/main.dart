@@ -33,8 +33,8 @@ void main() async {
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 
-  runApp(DemoPage());
-  return;
+  // runApp(DemoPage());
+  // return;
 
   await UserManager.instance.createUser();
   await DomainManager.instance.requestDomain();
