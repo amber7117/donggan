@@ -83,3 +83,14 @@ class ConfigApi {
   static String channelInfo = "/live-product/anonymous/v1/get/channel/info";
 
 }
+
+
+class IMApi {
+  static String initInfo = '/qiutx-support/get/sign/public/key';
+
+  static String tokenInfo = '/qiutx-usercenter/getRongCloud/token';
+
+  static String msgVerify = '/qiutx-news/app/chat/commonFilter';
+
+  
+}

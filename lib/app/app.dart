@@ -13,8 +13,9 @@ final logger = Logger(level: Level.debug);
 // Router
 final router = FluroRouter();
 
-typedef VoidCallback<T> = void Function();
-typedef AnyCallback<T> = void Function(T data);
+typedef WZVoidCallback<T> = void Function();
+typedef WZAnyCallback<T> = void Function(T data);
+typedef WZListCallback<T1, T2> = void Function(T1 data1, T2 data2);
 
 const pageSize = 50;
 const apiPlaceholder = "###";
