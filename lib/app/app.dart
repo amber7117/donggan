@@ -20,6 +20,8 @@ typedef WZListCallback<T1, T2> = void Function(T1 data1, T2 data2);
 const pageSize = 50;
 const apiPlaceholder = "###";
 
+const LiveCellRatio = 171 / 134;
+
 enum SportType {
   football(value: 1),
   basketball(value: 2);

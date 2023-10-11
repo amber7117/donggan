@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wzty/main/chat/im_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
-import 'package:wzty/modules/anchor/page/anchor_page.dart';
+import 'package:wzty/modules/anchor/anchor_page.dart';
 import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/news/news_page.dart';

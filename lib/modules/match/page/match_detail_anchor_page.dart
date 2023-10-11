@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_anchor_entity.dart';
@@ -97,7 +98,7 @@ class _MatchDetailAnchorPageState extends State<MatchDetailAnchorPage> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 1,
+                childAspectRatio: LiveCellRatio,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 9,
               ),

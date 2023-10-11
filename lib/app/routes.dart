@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/modules/anchor/page/anchor_page.dart';
+import 'package:wzty/modules/anchor/anchor_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/match_page.dart';

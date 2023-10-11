@@ -18,6 +18,7 @@ class MatchAnchorCellWidget extends StatefulWidget {
 class _MatchAnchorCellWidgetState extends State<MatchAnchorCellWidget> {
   @override
   Widget build(BuildContext context) {
+    double cellWidth = (ScreenUtil().screenWidth - 24 - 9) * 0.5;
     LiveListModel model = widget.model;
     return Container(
       decoration: const BoxDecoration(
@@ -34,25 +35,29 @@ class _MatchAnchorCellWidgetState extends State<MatchAnchorCellWidget> {
       child: Column(
         children: [
           buildNetImage(model.roomImg,
-              width: 100.w,
-              height: 80.w,
-              placeholder: "common/imgZhiboMoren",
-              fit: BoxFit.fitWidth),
-          Row(
+              width: cellWidth,
+              height: cellWidth / 171 * 96,
+              placeholder: "common/imgZhiboMoren"),
+          Expanded(
+              child: Row(
             children: [
-              // JhAssetImage(model.headImageUrl, width: 18, height: 18),
-              Text(model.nickName,
-                  style: TextStyle(
-                      color: ColorUtils.gray153,
-                      fontSize: 10.sp,
-                      fontWeight: TextStyleUtils.medium)),
+              Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 5, right: 6),
+                  child: buildNetImage(model.headImageUrl,
+                      width: 18, height: 18, placeholder: "common/iconZhubo")),
+              Expanded(
+                  child: Text(model.nickName,
+                      style: TextStyle(
+                          color: ColorUtils.gray153,
+                          fontSize: 10.sp,
+                          fontWeight: TextStyleUtils.medium))),
               Text(AppBusinessUtils.obtainVideoHotDesc(model.anchorHot),
                   style: TextStyle(
                       color: ColorUtils.gray153,
                       fontSize: 10.sp,
                       fontWeight: TextStyleUtils.medium))
             ],
-          )
+          )),
         ],
       ),
     );
