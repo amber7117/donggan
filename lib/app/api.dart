@@ -13,6 +13,10 @@ class MatchApi {
       "/qiutx-score/anonymous/v1/app/appointment/cancel";
 
   static String matchDetail = "/qiutx-score/v5/match/match";
+
+
+  static String matchAnchor = "/live-product/anonymous/app/match/live";
+  
 }
 
 class AnchorApi {}

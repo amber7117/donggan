@@ -5,7 +5,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
-import 'package:wzty/modules/match/entity/match_info_entity.dart';
+import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_child_cell_widget.dart';
 import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
@@ -27,7 +27,7 @@ class MatchChildPage extends StatefulWidget {
 
 class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  List<MatchInfoModel> _dataArr = [];
+  List<MatchListModel> _dataArr = [];
 
   int _selectIdx = 0;
   List<String> _titleStrArr = [];
@@ -131,7 +131,7 @@ class _MatchChildPageState extends BaseWidgetState<MatchChildPage> {
 
       if (success) {
         if (result != null) {
-          var modelArrTmp = <MatchInfoModel>[];
+          var modelArrTmp = <MatchListModel>[];
           if (matchStatus == MatchStatus.uncoming) {
             modelArrTmp = result.uncoming?.matches ?? [];
           } else if (matchStatus == MatchStatus.finished) {

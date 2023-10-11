@@ -4,7 +4,7 @@ import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_entity.dart';
-import 'package:wzty/modules/match/entity/match_info_entity.dart';
+import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
 class MatchService {
   static Future<void> requestMatchList(Map<String, dynamic> params,
@@ -22,7 +22,7 @@ class MatchService {
   }
 
   static Future<void> requestMatchListAttr(SportType sportType,
-      BusinessCallback<List<MatchInfoModel>> complete) async {
+      BusinessCallback<List<MatchListModel>> complete) async {
     String userId = await UserManager.instance.obtainUseridOrDeviceid();
     Map<String, dynamic> params = {
       "sportType": sportType.value,
@@ -36,8 +36,8 @@ class MatchService {
 
     if (result.isSuccess()) {
       List retList = result.data;
-      List<MatchInfoModel> matchList = retList
-          .map((dataMap) => MatchInfoModel.fromJson(dataMap)..focus = true)
+      List<MatchListModel> matchList = retList
+          .map((dataMap) => MatchListModel.fromJson(dataMap)..focus = true)
           .toList();
       complete(true, matchList);
     } else {

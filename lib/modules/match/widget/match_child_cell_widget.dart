@@ -6,7 +6,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
-import 'package:wzty/modules/match/entity/match_info_entity.dart';
+import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -20,7 +20,7 @@ const double _textW = 26.0;
 
 class MatchChildCellWidget extends StatefulWidget {
   final SportType sportType;
-  final MatchInfoModel model;
+  final MatchListModel model;
   final bool isCollectCell;
 
   const MatchChildCellWidget(
@@ -35,7 +35,7 @@ class MatchChildCellWidget extends StatefulWidget {
 
 class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
   _requestMatchCollect() {
-    MatchInfoModel model = widget.model;
+    MatchListModel model = widget.model;
     bool isAdd = !model.focus;
 
     ToastUtils.showLoading();
@@ -61,7 +61,7 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
 
   @override
   Widget build(BuildContext context) {
-    MatchInfoModel model = widget.model;
+    MatchListModel model = widget.model;
     MatchStatus matchStatus = matchStatusFromServerValue(model.status);
     bool showScore = (matchStatus == MatchStatus.going ||
         matchStatus == MatchStatus.finished);
@@ -222,7 +222,7 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
   }
 
   List<Widget> _buildAnimateCollectWidget(
-      MatchStatus matchStatus, MatchInfoModel model) {
+      MatchStatus matchStatus, MatchListModel model) {
     if (widget.isCollectCell || matchStatus != MatchStatus.finished) {
       return [
         _animateWidget(model),
@@ -244,7 +244,7 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
     }
   }
 
-  _animateWidget(MatchInfoModel model) {
+  _animateWidget(MatchListModel model) {
     if (ConfigManager.instance.videoOk &&
         (model.hasVid > 0 && model.hasLive > 0)) {
       return const JhAssetImage("match/iconMatchVideo", width: 24);

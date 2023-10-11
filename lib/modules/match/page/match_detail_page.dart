@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/common/chat/chat_page.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
+import 'package:wzty/modules/match/page/match_detail_status_page.dart';
 import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
-import 'package:wzty/modules/match/widget/match_detail_head_video_widget.dart';
-import 'package:wzty/modules/match/widget/match_detail_head_web_widget.dart';
-import 'package:wzty/modules/match/widget/match_detail_head_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_detail_head_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -115,7 +117,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
         ],
         child: Column(
           children: [
-            Consumer<MatchDetailProvider>(builder:(context, provider, child) {
+            Consumer<MatchDetailProvider>(builder: (context, provider, child) {
               if (provider.showAnimate) {
                 return MatchDetailHeadWebWidget(
                     height: _headHeight, urlStr: _model!.animUrl);
@@ -147,7 +149,12 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {
-                      return MatchDetailAnchorPage();
+                      if (index == 3) {
+                        return MatchDetailAnchorPage(matchId: widget.matchId);
+                      } else if (index == 4) {
+                        return ChatPage();
+                      }
+                      return MatchDetailStatusPage();
                     }))
           ],
         ));

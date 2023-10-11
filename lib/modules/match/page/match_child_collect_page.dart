@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/match/entity/match_info_entity.dart';
+import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_child_cell_widget.dart';
@@ -25,7 +25,7 @@ class MatchChildCollectPage extends StatefulWidget {
 class _MatchChildCollectPageState
     extends BaseWidgetState<MatchChildCollectPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  List<MatchInfoModel> _dataArr = [];
+  List<MatchListModel> _dataArr = [];
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
@@ -36,12 +36,12 @@ class _MatchChildCollectPageState
   void initState() {
     super.initState();
 
-    List<MatchInfoModel> result =
+    List<MatchListModel> result =
         MatchCollectManager.instance.obtainCollectData(widget.sportType);
     _setResultData(result);
   }
 
-  _setResultData(List<MatchInfoModel> result) {
+  _setResultData(List<MatchListModel> result) {
     if (result.isNotEmpty) {
       _dataArr = result;
       _layoutState = LoadStatusType.success;

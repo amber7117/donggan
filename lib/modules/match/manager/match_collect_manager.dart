@@ -1,5 +1,5 @@
 import 'package:wzty/app/app.dart';
-import 'package:wzty/modules/match/entity/match_info_entity.dart';
+import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
 class MatchCollectManager {
   factory MatchCollectManager() => _getInstance;
@@ -13,12 +13,12 @@ class MatchCollectManager {
 
   //---------------------------------------------
 
-  List<MatchInfoModel> collectFBArr = [];
-  List<MatchInfoModel> collectBBArr = [];
+  List<MatchListModel> collectFBArr = [];
+  List<MatchListModel> collectBBArr = [];
 
   //---------------------------------------------
 
-  int setCollectData(SportType type, List<MatchInfoModel> data) {
+  int setCollectData(SportType type, List<MatchListModel> data) {
     if (type == SportType.football) {
       collectFBArr = data;
     } else {
@@ -27,16 +27,16 @@ class MatchCollectManager {
     return data.length;
   }
 
-  List<MatchInfoModel> obtainCollectData(SportType type) {
-    List<MatchInfoModel> arrTmp = collectFBArr;
+  List<MatchListModel> obtainCollectData(SportType type) {
+    List<MatchListModel> arrTmp = collectFBArr;
     if (type == SportType.basketball) {
       arrTmp = collectBBArr;
     }
     return arrTmp;
   }
 
-  int updateCollectData(SportType type, MatchInfoModel match) {
-    List<MatchInfoModel> arrTmp = obtainCollectData(type);
+  int updateCollectData(SportType type, MatchListModel match) {
+    List<MatchListModel> arrTmp = obtainCollectData(type);
 
     if (match.focus) {
       arrTmp.insert(0, match);
@@ -54,15 +54,15 @@ class MatchCollectManager {
   }
 
   int obtainCollectCount(SportType type) {
-    List<MatchInfoModel> arrTmp = obtainCollectData(type);
+    List<MatchListModel> arrTmp = obtainCollectData(type);
     return arrTmp.length;
   }
 
-  bool judgeMatchCollectStatus(SportType type, MatchInfoModel match) {
-    List<MatchInfoModel> arrTmp = obtainCollectData(type);
+  bool judgeMatchCollectStatus(SportType type, MatchListModel match) {
+    List<MatchListModel> arrTmp = obtainCollectData(type);
 
     bool isCollect = false;
-    for (MatchInfoModel model in arrTmp) {
+    for (MatchListModel model in arrTmp) {
       if (model.matchId == match.matchId) {
         isCollect = true;
         break;
