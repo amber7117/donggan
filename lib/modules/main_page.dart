@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:wzty/main/chat/im_manager.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
@@ -35,19 +40,28 @@ class _MainPageState extends State {
   }
 
   late PageController _pageController;
-
   int _currentIndex = 0;
+
+  late StreamSubscription _eventSub;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+
+    _eventSub = eventBusManager.on<DomainStateEvent>((event) {
+      if (event.ok) {
+        IMManager.instance.prepareInitSDK();
+      }
+    });
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
+
+    _pageController.dispose();
+    eventBusManager.off(_eventSub);
   }
 
   @override

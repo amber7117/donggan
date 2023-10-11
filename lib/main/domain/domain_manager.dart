@@ -5,6 +5,8 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/domain/domain_entity.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/utils/shared_preference_utils.dart';
 
 enum DomainPullFrom { local, server, cdn, npm }
@@ -22,6 +24,9 @@ class DomainManager {
 
   List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
+  
+  bool _domainIniting = false;
+  bool _domainInitSuccess = false;
 
   DomainEntity? currentDomain() {
     if (_domainList.isEmpty) {
@@ -95,7 +100,9 @@ class DomainManager {
     }
   }
 
-  void pullDomainFromCDN() {}
+  void pullDomainFromCDN() {
+    
+  }
 
   void pullDomainFromNPM() {}
 
@@ -131,14 +138,14 @@ class DomainManager {
       } else {
         pullDomainFromServer();
 
-        // notifyDomainAvaliable(modelList: _domainList);
+        notifyDomainAvaliable(_domainList);
       }
     } else {
       _domainList = removeRepeatedDomain(retArr);
 
       cacheDomainArr(_domainList);
 
-      // notifyDomainAvaliable(modelList: _domainList);
+      notifyDomainAvaliable(_domainList);
     }
 
     if (domainFrom == DomainPullFrom.server && retArr.length < 2) {
@@ -184,6 +191,23 @@ class DomainManager {
 
     return tmpArr;
   }
+
+  void notifyDomainAvaliable(List<DomainEntity> modelList) {
+    if (modelList.isEmpty) {
+      return;
+    }
+
+    if (_domainInitSuccess) {
+      return;
+    }
+
+    _domainInitSuccess = true;
+    _domainIniting = false;
+
+    eventBusManager.emit(DomainStateEvent(ok: true));
+  }
+
+  //---------------------------------------------
 
   Future<List<DomainEntity>> getDomainFromCache() async {
     String domainStr = await SpUtils.getString(SpKeys.domain);

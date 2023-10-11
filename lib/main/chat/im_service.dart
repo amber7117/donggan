@@ -31,7 +31,7 @@ class IMService {
         params: params);
 
     if (result.isSuccess()) {
-      return (result as String);
+      return (result.data as String);
     } else {
       return null;
     }

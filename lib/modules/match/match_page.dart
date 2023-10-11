@@ -37,7 +37,7 @@ class _MatchPageState extends BaseWidgetState
   final TabDotProvider _tabProvider = TabDotProvider(
       MatchCollectManager.instance.obtainCollectCount(SportType.football));
 
-  late StreamSubscription _eventSubscp;
+  late StreamSubscription _eventSub;
 
   final List<Widget> _tabs = [
     const HomeTabbarDotItemWidget(
@@ -73,7 +73,7 @@ class _MatchPageState extends BaseWidgetState
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
 
-    _eventSubscp = eventBusManager.on<MatchCollectDataEvent>((event) {
+    _eventSub = eventBusManager.on<MatchCollectDataEvent>((event) {
       if (mounted && event.sportType == SportType.football) {
         _tabProvider.setDotNum(event.value);
       }
@@ -87,7 +87,7 @@ class _MatchPageState extends BaseWidgetState
     _tabController.dispose();
     _pageController.dispose();
 
-    eventBusManager.off(_eventSubscp);
+    eventBusManager.off(_eventSub);
   }
 
   @override

@@ -36,40 +36,40 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   
-  #本地
+  # 本地
   intl: ^0.18.1
-  #网络
+  # 网络
   dio: ^5.3.2
-  #网络监测
+  # 网络监测
   connectivity_plus: ^4.0.2
-  #路由
+  # 路由
   fluro: ^2.0.5
-  #状态管理
+  # 状态管理
   provider: ^6.0.5
-  #log
+  # log
   logger: ^2.0.2
-  #Toast
+  # Toast
   fluttertoast: ^8.2.2
-  #Toast
+  # Toast
   flutter_easyloading: ^3.0.5
-  #图片相关
+  # 图片相关
   cached_network_image: ^3.2.3
-  #key
+  # key
   shared_preferences: ^2.2.1
-  #屏幕工具
+  # 屏幕工具
   flutter_screenutil: ^5.9.0
-  #刷新
+  # 刷新
   easy_refresh: ^3.3.2+1
-  #加密
+  # 加密
   crypto: ^3.0.3
   encrypt: ^5.0.3
-  #event
+  # event
   event_bus: ^2.0.0
   #获取设备信息
   device_info_plus: ^9.0.3
-  #webview
+  # webview
   webview_flutter: ^4.4.1
-  #video
+  # video
   # video_player: ^2.7.2
   # chewie: ^1.7.1
   fijkplayer: ^0.11.0

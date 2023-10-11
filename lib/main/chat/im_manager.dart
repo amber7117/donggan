@@ -18,14 +18,20 @@ class IMManager {
   String roomId = "";
 
   late RCIMIWEngine _engine;
+  bool _engineExist = false;
 
   void prepareInitSDK() async {
+    if (_engineExist) {
+      return;
+    }
+    
     String? result = await IMService.requestInitInfo();
     if (result != null) {
       appkey = result;
     }
     RCIMIWEngineOptions options = RCIMIWEngineOptions.create();
     _engine = await RCIMIWEngine.create(appkey, options);
+    _engineExist = true;
     connectIM();
   }
 
