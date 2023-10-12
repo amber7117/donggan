@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/widget/clip_img_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_provider.dart';
@@ -31,25 +32,23 @@ class _MePageState extends BaseWidgetState {
       _buildListItemWidget(MeListItemType.women),
     ];
   }
-  
+
   @override
   void initState() {
     super.initState();
-
-   
   }
 
   _requestData() {
     // if (provider.user)
     // ToastUtils.showLoading();
-    
+
     // MeService.requestUserInfo(uid, (success, result) { })
     // MeService.requestSysMsgList((success, result) {
     //   ToastUtils.hideLoading();
     //   if (success) {
-        
+
     //   } else {
-        
+
     //   }
     //   setState(() {});
     // });
@@ -67,38 +66,28 @@ class _MePageState extends BaseWidgetState {
 
     if (event == MeEvent.info) {
       Routes.push(context, Routes.meInfo);
-
     } else if (event == MeEvent.follow) {
       Routes.push(context, Routes.meFollow);
-
     } else if (event == MeEvent.fans) {
       Routes.push(context, Routes.meFans);
-
     } else if (event == MeEvent.msg) {
       Routes.push(context, Routes.meMsg);
-
     } else if (event == MeEvent.collect) {
       Routes.push(context, Routes.meCollect);
-
-    }  
+    }
   }
 
   _handleListEvent(MeListItemType type) {
     if (type == MeListItemType.pingbi) {
       Routes.push(context, Routes.mePingbi);
-
     } else if (type == MeListItemType.jilu) {
       Routes.push(context, Routes.meJilu);
-
     } else if (type == MeListItemType.huodong) {
       Routes.push(context, Routes.meHuodong);
-
     } else if (type == MeListItemType.wenti) {
       Routes.push(context, Routes.meWenti);
-
     } else if (type == MeListItemType.kefu) {
       Routes.push(context, Routes.meKefu);
-      
     } else {
       Routes.push(context, Routes.meAbout);
     }
@@ -108,7 +97,7 @@ class _MePageState extends BaseWidgetState {
   bool isAutomaticKeepAlive() {
     return true;
   }
-  
+
   @override
   Widget buildWidget(BuildContext context) {
     return Scaffold(
@@ -146,7 +135,8 @@ class _MePageState extends BaseWidgetState {
                           },
                         ),
                         InkWell(
-                          child: _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
+                          child:
+                              _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
                           onTap: () {
                             _handleEvent(MeEvent.collect);
                           },
@@ -184,14 +174,14 @@ class _MePageState extends BaseWidgetState {
               _handleEvent(MeEvent.set);
             }),
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20, right: 18, bottom: 16),
-          child: InkWell(
-            child: _buildInfoWidget(),
-            onTap: () {
-               _handleEvent(MeEvent.info);
-            },
-          )
-        ),
+            padding:
+                const EdgeInsets.only(top: 20, left: 20, right: 18, bottom: 16),
+            child: InkWell(
+              child: _buildInfoWidget(),
+              onTap: () {
+                _handleEvent(MeEvent.info);
+              },
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -224,17 +214,10 @@ class _MePageState extends BaseWidgetState {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipOval(
-              child: SizedBox(
-                  width: 62.w,
-                  height: 62.w,
-                  child: user != null 
-                      ? buildNetImage(user.headImg,
-                          width: 62.w,
-                          height: 62.w,
-                          fit: BoxFit.cover,
-                          placeholder: "common/iconTouxiang")
-                      : const JhAssetImage("common/iconTouxiang"))),
+          ClipImgWidget(
+              imgUrl: user?.headImg ?? "",
+              width: 62,
+              placeholder: "common/iconTouxiang"),
           Expanded(
             child: Padding(
                 padding: const EdgeInsets.only(left: 14),
@@ -242,16 +225,14 @@ class _MePageState extends BaseWidgetState {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user != null  ? user.nickName : "登录",
+                      user != null ? user.nickName : "登录",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: TextStyleUtils.bold),
                     ),
                     Text(
-                      user != null 
-                          ? (user.personalDesc ?? "")
-                          : "您还没有登录，请登录",
+                      user != null ? (user.personalDesc ?? "") : "您还没有登录，请登录",
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.6),
                           fontSize: 12.sp,
@@ -360,7 +341,6 @@ class _MePageState extends BaseWidgetState {
       ),
     );
   }
-  
 }
 
 enum MeListItemType {
@@ -380,6 +360,4 @@ enum MeListItemType {
   final String title;
 }
 
-enum MeEvent {
-  set, info, follow, fans, msg, collect
-}
+enum MeEvent { set, info, follow, fans, msg, collect }

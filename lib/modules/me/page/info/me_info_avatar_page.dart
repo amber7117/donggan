@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/widget/circl_img_net_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
@@ -14,7 +15,7 @@ import 'package:wzty/utils/toast_utils.dart';
 
 class MeInfoAvatarPage extends StatefulWidget {
   const MeInfoAvatarPage({super.key});
-  
+
   @override
   State createState() => _MeInfoAvatarPageState();
 }
@@ -49,7 +50,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
               break;
             }
           }
-          
+
           _layoutState = LoadStatusType.success;
         } else {
           _layoutState = LoadStatusType.empty;
@@ -67,7 +68,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
     };
 
     ToastUtils.showLoading();
-    
+
     MeService.requestModifyUserInfo(params, (success, result) {
       ToastUtils.hideLoading();
 
@@ -103,11 +104,7 @@ class _MeInfoAvatarPageState extends State<MeInfoAvatarPage> {
           Container(
             height: 142,
             alignment: Alignment.center,
-            child: SizedBox(
-                width: 88,
-                height: 88,
-                child: CircleAvatar(
-                    backgroundImage: JhImageUtils.getNetImage(_avatarUrl))),
+            child: CirclImgNetWidget(imgUrl: _avatarUrl, width: 88),
           ),
           Expanded(
             child: Container(

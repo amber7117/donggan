@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/common/widget/clip_img_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -42,20 +43,25 @@ class _MatchAnchorCellWidgetState extends State<MatchAnchorCellWidget> {
               child: Row(
             children: [
               Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 5, right: 6),
-                  child: buildNetImage(model.headImageUrl,
-                      width: 18, height: 18, placeholder: "common/iconZhubo")),
+                  padding: const EdgeInsets.only(left: 10, right: 6),
+                  child: ClipImgWidget(
+                      imgUrl: model.headImageUrl,
+                      width: 18,
+                      placeholder: "common/iconZhubo")),
               Expanded(
                   child: Text(model.nickName,
                       style: TextStyle(
                           color: ColorUtils.gray153,
                           fontSize: 10.sp,
                           fontWeight: TextStyleUtils.medium))),
-              Text(AppBusinessUtils.obtainVideoHotDesc(model.anchorHot),
-                  style: TextStyle(
-                      color: ColorUtils.gray153,
-                      fontSize: 10.sp,
-                      fontWeight: TextStyleUtils.medium))
+              Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                      AppBusinessUtils.obtainVideoHotDesc(model.anchorHot),
+                      style: TextStyle(
+                          color: ColorUtils.gray153,
+                          fontSize: 10.sp,
+                          fontWeight: TextStyleUtils.medium))),
             ],
           )),
         ],
