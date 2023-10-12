@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
+
 class ChatMsgModel {
   int wealthLevel;
   int nobleLevel;
@@ -8,7 +12,7 @@ class ChatMsgModel {
   String content;
   bool isLink;
   String sign;
-  String sendTime;
+  int sendTime;
   int pushTime;
   String messageUId;
 
@@ -33,12 +37,27 @@ class ChatMsgModel {
     required this.type,
     required this.messageUId,
   }) {
-    nameNew = nickname.contains('斗球')
-        ? nickname.replaceAll('斗球', '')
-        : nickname;
+    nameNew =
+        nickname.contains('斗球') ? nickname.replaceAll('斗球', '') : nickname;
     contentNew = content.trim();
     msgHeight = 0.0;
   }
+
+  factory ChatMsgModel.empty() => ChatMsgModel(
+        wealthLevel: 0,
+        nobleLevel: 0,
+        userId: '',
+        nickname: '',
+        headUrl: '',
+        identity: 0,
+        content: '',
+        isLink: false,
+        sign: '',
+        sendTime: 0,
+        pushTime: 0,
+        type: ChatMsgType.enter,
+        messageUId: '',
+      );
 
   factory ChatMsgModel.fromJson(Map<String, dynamic> json) => ChatMsgModel(
         wealthLevel: json['wealthLevel'] ?? 0,
@@ -50,7 +69,7 @@ class ChatMsgModel {
         content: json['content'] ?? '',
         isLink: json['isLink'] ?? false,
         sign: json['sign'] ?? '',
-        sendTime: (json['sendTime'] ?? 0).toString(),
+        sendTime: json['sendTime'] ?? 0,
         pushTime: json['pushTime'] ?? 0,
         type: ChatMsgTypeEnum.fromInt(json['type'] ?? 1),
         messageUId: json['messageUId'] ?? '',
@@ -72,23 +91,18 @@ class ChatMsgModel {
         'messageUId': messageUId,
       };
 
-  // static ChatMsgModel? getMsgByRcMsg(RCMessage rcMsg) {
-  //   final rcTextMsg = rcMsg.content as? RCTextMessage;
-  //   if (rcTextMsg == null) return null;
-
-  //   final contentData =
-  //       utf8.encode(rcTextMsg.content ?? ''); // 将字符串转换为UTF-8编码的字节数组
-
-  //   try {
-  //     final msg = ChatMsgModel.fromMap(json.decode(contentData));
-  //     msg.messageUId = rcMsg.messageUId ?? '';
-  //     msg.sendTime = rcMsg.sentTime;
-  //     return msg;
-  //   } catch (e) {
-  //     print('decode failed: $e');
-  //     return null;
-  //   }
-  // }
+  static ChatMsgModel? getMsgByRcMsg(RCIMIWMessage rcMsg) {
+    if (rcMsg is RCIMIWTextMessage) {
+      RCIMIWTextMessage tcTextMsg = rcMsg;
+      if (tcTextMsg.text != null) {
+        final msg = ChatMsgModel.fromJson(json.decode(tcTextMsg.text!));
+        msg.messageUId = rcMsg.messageUId ?? '';
+        msg.sendTime = rcMsg.sentTime ?? 0;
+        return msg;
+      }
+    }
+    return null;
+  }
 
   // BarrageDescriptor getBarrageDescriptor() {
   //   final descriptor = BarrageDescriptor();
@@ -108,13 +122,12 @@ class ChatMsgModel {
   // }
 
   static ChatMsgModel getHintMsg() {
-    final msg = ChatMsgModel.fromJson({});
+    final msg = ChatMsgModel.empty();
     msg.content = '系统提示：严禁刷屏、言语冲突，违规者封禁账号';
     msg.type = ChatMsgType.local;
     return msg;
   }
 }
-
 
 enum ChatMsgType {
   other,
