@@ -29,7 +29,7 @@ class MatchPage extends StatefulWidget {
   }
 }
 
-class _MatchPageState extends BaseWidgetState
+class _MatchPageState extends KeepAliveLifeWidgetState
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;

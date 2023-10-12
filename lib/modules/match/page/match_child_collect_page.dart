@@ -23,7 +23,7 @@ class MatchChildCollectPage extends StatefulWidget {
 }
 
 class _MatchChildCollectPageState
-    extends BaseWidgetState<MatchChildCollectPage> {
+    extends KeepAliveLifeWidgetState<MatchChildCollectPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchListModel> _dataArr = [];
 

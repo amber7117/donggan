@@ -38,12 +38,8 @@ class _ChatCellWidgetState extends State<ChatCellWidget> {
     if (UserManager.isSelf(model.userId.toString())) {
       nickNameNew = "【我】$nickNameNew";
     }
-    nickNameNew = "$nickNameNew : ";
 
     String contentNew = model.contentNew;
-    if (model.type == ChatMsgType.local) {
-      contentNew = "$nickNameNew: $contentNew";
-    }
 
     return InkWell(
       onTap: () {},

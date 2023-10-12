@@ -93,15 +93,19 @@ class ChatMsgModel {
 
   static ChatMsgModel? getMsgByRcMsg(RCIMIWMessage rcMsg) {
     if (rcMsg is RCIMIWTextMessage) {
-      RCIMIWTextMessage tcTextMsg = rcMsg;
-      if (tcTextMsg.text != null) {
-        final msg = ChatMsgModel.fromJson(json.decode(tcTextMsg.text!));
+      RCIMIWTextMessage rcTextMsg = rcMsg;
+      if (rcTextMsg.text != null) {
+        ChatMsgModel msg = ChatMsgModel.fromJson(json.decode(rcTextMsg.text!));
         msg.messageUId = rcMsg.messageUId ?? '';
         msg.sendTime = rcMsg.sentTime ?? 0;
         return msg;
       }
     }
     return null;
+  }
+
+  String getMsgJsonStr() {
+    return json.encode(toJson());
   }
 
   // BarrageDescriptor getBarrageDescriptor() {
@@ -124,6 +128,7 @@ class ChatMsgModel {
   static ChatMsgModel getHintMsg() {
     final msg = ChatMsgModel.empty();
     msg.content = '系统提示：严禁刷屏、言语冲突，违规者封禁账号';
+    msg.contentNew = msg.content;
     msg.type = ChatMsgType.local;
     return msg;
   }

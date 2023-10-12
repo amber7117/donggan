@@ -21,7 +21,7 @@ class MePage extends StatefulWidget {
   }
 }
 
-class _MePageState extends BaseWidgetState {
+class _MePageState extends KeepAliveLifeWidgetState {
   List<Widget> _buildListItemWidgetArr() {
     return [
       _buildListItemWidget(MeListItemType.pingbi),

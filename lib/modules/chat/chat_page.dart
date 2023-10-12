@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
-import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/im/im_manager.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
@@ -26,7 +26,7 @@ class ChatPage extends StatefulWidget {
   State createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
   int _msgStartTime = 0;
   int _msgCnt = 0;
 
@@ -222,19 +222,21 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _sendMsg(ChatMsgModel msg) {
-    String msgStr = msg.toJson().toString();
+    String msgStr = msg.getMsgJsonStr();
     if (msgStr.isEmpty) {
       ToastUtils.showInfo("消息异常");
       return;
     }
 
-    IMManager.instance.sendMsgToIMRoom(widget.roomId, msgStr, (data1, data2) {
+    IMManager.instance.sendMsgToIMRoom(widget.chatRoomId, msgStr, (data1, data2) {
       if (data2 != null) {
         ChatMsgModel? msgTmp = ChatMsgModel.getMsgByRcMsg(data2);
         if (msgTmp == null) {
           return;
         }
+        
         _msgList.add(msgTmp);
+
         if (msgTmp.type == ChatMsgType.enter) {
           ChatMsgModel hintMsg = ChatMsgModel.getHintMsg();
           _msgList.add(hintMsg);
@@ -250,7 +252,7 @@ class _ChatPageState extends State<ChatPage> {
 
   
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return ListView.builder(
         padding: const EdgeInsets.only(top: 3),
         itemCount: _msgList.length,

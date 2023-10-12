@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_anchor_entity.dart';
@@ -19,7 +20,7 @@ class MatchDetailAnchorPage extends StatefulWidget {
   State createState() => _MatchDetailAnchorPageState();
 }
 
-class _MatchDetailAnchorPageState extends State<MatchDetailAnchorPage> {
+class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchorPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchAnchorModel? _model;
   final List<MatchAnchorType> _dataArr = [];
@@ -61,13 +62,13 @@ class _MatchDetailAnchorPageState extends State<MatchDetailAnchorPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
         successWidget: Scaffold(
             backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
   }
-
+  
   _buildChild(BuildContext context) {
     if (_model == null) {
       return const SizedBox();
@@ -114,4 +115,6 @@ class _MatchDetailAnchorPageState extends State<MatchDetailAnchorPage> {
       },
     );
   }
+  
+  
 }
