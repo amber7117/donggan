@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wzty/common/chat/chat_page.dart';
+import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
@@ -155,7 +155,9 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                       if (index == 3) {
                         return MatchDetailAnchorPage(matchId: widget.matchId);
                       } else if (index == 4) {
-                        return ChatPage();
+                        return ChatPage(
+                            roomId: _model!.roomId,
+                            chatRoomId: _model!.matchId.toString());
                       }
                       return MatchDetailStatusPage();
                     }))

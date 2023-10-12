@@ -1,7 +1,7 @@
 import 'package:wzty/app/api.dart';
-import 'package:wzty/main/chat/im_msg_filter_entity.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/main/im/im_msg_filter_entity.dart';
 import 'package:wzty/main/user/user_manager.dart';
 
 class IMService {

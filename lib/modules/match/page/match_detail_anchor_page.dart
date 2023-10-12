@@ -22,7 +22,7 @@ class MatchDetailAnchorPage extends StatefulWidget {
 class _MatchDetailAnchorPageState extends State<MatchDetailAnchorPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchAnchorModel? _model;
-  List<MatchAnchorType> _dataArr = [];
+  final List<MatchAnchorType> _dataArr = [];
 
   @override
   void initState() {
@@ -79,15 +79,17 @@ class _MatchDetailAnchorPageState extends State<MatchDetailAnchorPage> {
       itemBuilder: (BuildContext context, int index) {
         MatchAnchorType type = _dataArr[index];
         List<LiveListModel> modelArr = _model!.matchList;
+        String cellTitle = "本场直播";
         if (type == MatchAnchorType.more) {
           modelArr = _model!.otherMatchList;
+          cellTitle = "热门直播";
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 12),
-                child: Text(type == MatchAnchorType.living ? "本场直播" : "热门直播",
+                child: Text(cellTitle,
                     style: TextStyle(
                         color: ColorUtils.black34,
                         fontSize: 14.sp,

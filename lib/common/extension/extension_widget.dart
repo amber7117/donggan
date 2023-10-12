@@ -10,9 +10,7 @@ extension Style on Widget {
   }
 
   colored(Color color) {
-    return ColoredBox(
-        color: color,
-        child: const SizedBox(width: double.infinity, height: 0.5));
+    return ColoredBox(color: color, child: this);
   }
 
   inkWell(VoidCallback onTap) {
