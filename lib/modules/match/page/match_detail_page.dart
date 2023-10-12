@@ -139,9 +139,12 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                   isScrollable: false,
                   controller: _tabController,
                   indicator: const BoxDecoration(),
-                  labelPadding: EdgeInsets.only(left: 10, right: 10),
+                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
                   tabs: _tabs),
             ),
+            const ColoredBox(
+                color: Color.fromRGBO(236, 236, 236, 1.0),
+                child: SizedBox(width: double.infinity, height: 0.5)),
             Expanded(
                 child: PageView.builder(
                     key: const Key('pageView'),

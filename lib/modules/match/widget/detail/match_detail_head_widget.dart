@@ -9,11 +9,11 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchDetailHeadWidget extends StatefulWidget {
-
   final double height;
   final MatchDetailModel model;
 
-  const MatchDetailHeadWidget({super.key,  required this.height, required this.model});
+  const MatchDetailHeadWidget(
+      {super.key, required this.height, required this.model});
 
   @override
   State createState() => _MatchDetailHeadWidgetState();
@@ -146,10 +146,9 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   ).inkWell(() {
                     context.read<MatchDetailProvider>().setShowAnimate(true);
                   }),
-                  const SizedBox(width: 10), 
-                  const SizedBox(width: 0.5, height: 8)
-                      .decorate(const BoxDecoration(color: Colors.white)),
-                  const SizedBox(width: 10), 
+                  const SizedBox(width: 10),
+                  const SizedBox(width: 0.5, height: 8).colored(Colors.white),
+                  const SizedBox(width: 10),
                   Text(
                     "视频",
                     textAlign: TextAlign.center,

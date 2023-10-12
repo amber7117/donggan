@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/modules/anchor/anchor_page.dart';
+import 'package:wzty/modules/anchor/page/anchor_detail_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/match_page.dart';
@@ -38,6 +39,7 @@ class Routes {
   //---------------------------------------------
 
   static String anchor = "/anchor";
+  static String anchorDetail = "/anchor/detail";
 
   //---------------------------------------------
 
@@ -92,6 +94,10 @@ class Routes {
     router.define(anchor, handler: Handler(handlerFunc: (context, params) {
       return const AnchorPage();
     }));
+    router.define(anchorDetail, handler: Handler(handlerFunc: (context, params) {
+      return const AnchorDetailPage();
+    }));
+
 
     //---------------------------------------------
 

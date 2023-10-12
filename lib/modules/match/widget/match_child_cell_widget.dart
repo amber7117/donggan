@@ -228,7 +228,7 @@ class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
         _animateWidget(model),
         const SizedBox(width: 10),
         const SizedBox(width: 1, height: 26)
-            .decorate(BoxDecoration(color: Colors.black.withOpacity(0.1))),
+            .colored(Colors.black.withOpacity(0.1)),
         const SizedBox(width: 10),
         InkWell(
           onTap: _requestMatchCollect,
