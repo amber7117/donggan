@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
@@ -22,6 +23,10 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<NewsListModel> _dataArr = [];
 
+  final EasyRefreshController _refreshCtrl = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
   int _page = 1;
 
   @override
@@ -31,8 +36,8 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
     _requestData();
   }
 
-  _requestData() {
-    ToastUtils.showLoading();
+  _requestData({bool loading = false}) {
+    if (loading) ToastUtils.showLoading();
 
     if (widget.categoryId > 0) {
       NewsService.requestTypeList(widget.categoryId, _page, (success, result) {
@@ -61,6 +66,9 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
     } else {
       _layoutState = LoadStatusType.failure;
     }
+
+    _refreshCtrl.finishRefresh();
+    
     setState(() {});
   }
 
@@ -77,13 +85,18 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
       return const SizedBox();
     }
 
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: _dataArr.length,
-        itemExtent: 100,
-        itemBuilder: (context, index) {
-          return NewChildCellWidget(model: _dataArr[index]);
-        });
+    return EasyRefresh(
+        controller: _refreshCtrl,
+        onRefresh: () async {
+          _requestData();
+        },
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: _dataArr.length,
+            itemExtent: newsChildCellHeight,
+            itemBuilder: (context, index) {
+              return NewChildCellWidget(model: _dataArr[index]);
+            }));
   }
 
   @override

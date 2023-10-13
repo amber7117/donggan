@@ -30,8 +30,8 @@ class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
   List<MatchListModel> _dataArr = [];
 
   int _selectIdx = 0;
-  List<String> _titleStrArr = [];
-  List<String> _dateStrArr = [];
+  final List<String> _titleStrArr = [];
+  final List<String> _dateStrArr = [];
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,

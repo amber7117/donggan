@@ -27,6 +27,7 @@ import 'package:wzty/modules/me/page/me_msg_page.dart';
 import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/news_page.dart';
+import 'package:wzty/modules/news/page/news_detail_page.dart';
 
 class Routes {
   static String main = '/';
@@ -44,7 +45,7 @@ class Routes {
   //---------------------------------------------
 
   static String news = "/news";
-
+  static String newsDetail = "/news/detail";
   //---------------------------------------------
 
   static String me = "/me";
@@ -103,6 +104,10 @@ class Routes {
 
     router.define(news, handler: Handler(handlerFunc: (context, params) {
       return const NewsPage();
+    }));
+    router.define(newsDetail, handler: Handler(handlerFunc: (context, params) {
+      var args = context?.settings?.arguments as String;
+      return NewsDetailPage(newsId: args);
     }));
 
     //---------------------------------------------
