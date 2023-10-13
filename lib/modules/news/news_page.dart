@@ -29,7 +29,8 @@ class _NewsPageState extends KeepAliveWidgetState
   final TabProvider _tabProvider = TabProvider();
 
   LoadStatusType _layoutState = LoadStatusType.loading;
-  final List<HomeTabbarItemWidget> _dataArr = [];
+  final List<NewsLabelModel> _labelArr = [];
+  final List<HomeTabbarItemWidget> _tabs = [];
 
   @override
   void initState() {
@@ -61,13 +62,14 @@ class _NewsPageState extends KeepAliveWidgetState
                 tabName: model.name,
                 index: i,
               );
-              _dataArr.add(item);
+              _labelArr.add(model);
+              _tabs.add(item);
               i++;
             }
           }
 
           // 初始化
-          _tabController = TabController(length: _dataArr.length, vsync: this);
+          _tabController = TabController(length: _tabs.length, vsync: this);
           _pageController = PageController();
 
           _layoutState = LoadStatusType.success;
@@ -95,7 +97,7 @@ class _NewsPageState extends KeepAliveWidgetState
   }
 
   _buildChild(BuildContext context) {
-    if (_dataArr.isEmpty) {
+    if (_tabs.isEmpty) {
       return const SizedBox();
     }
     return ChangeNotifierProvider<TabProvider>(
@@ -126,17 +128,18 @@ class _NewsPageState extends KeepAliveWidgetState
                       controller: _tabController,
                       indicator: const BoxDecoration(),
                       labelPadding: EdgeInsets.zero,
-                      tabs: _dataArr),
+                      tabs: _tabs),
                 ),
               ),
               Expanded(
                   child: PageView.builder(
                       key: const Key('pageView'),
-                      itemCount: _dataArr.length,
+                      itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,
                       itemBuilder: (_, int index) {
-                        return const NewsChildPage();
+                        NewsLabelModel model = _labelArr[index];
+                        return NewsChildPage(categoryId: model.categoryId);
                       }))
             ],
           ),

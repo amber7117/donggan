@@ -38,10 +38,10 @@ class _MatchChildCollectPageState
 
     List<MatchListModel> result =
         MatchCollectManager.instance.obtainCollectData(widget.sportType);
-    _setResultData(result);
+    _handleResultData(result);
   }
 
-  _setResultData(List<MatchListModel> result) {
+  _handleResultData(List<MatchListModel> result) {
     if (result.isNotEmpty) {
       _dataArr = result;
       _layoutState = LoadStatusType.success;
@@ -57,7 +57,7 @@ class _MatchChildCollectPageState
       ToastUtils.hideLoading();
 
       if (success) {
-        _setResultData(result);
+        _handleResultData(result);
       } else {
         _layoutState = LoadStatusType.failure;
       }

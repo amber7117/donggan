@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_list_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
+import 'package:wzty/modules/news/widget/new_child_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/jh_image_utils.dart';
-import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class NewsChildPage extends StatefulWidget {
-  const NewsChildPage({super.key});
+  final int categoryId;
+
+  const NewsChildPage({super.key, required this.categoryId});
 
   @override
   State<StatefulWidget> createState() {
@@ -18,9 +18,11 @@ class NewsChildPage extends StatefulWidget {
   }
 }
 
-class _NewsChildPageState extends KeepAliveLifeWidgetState {
+class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<NewsListModel> _dataArr = [];
+
+  int _page = 1;
 
   @override
   void initState() {
@@ -32,22 +34,34 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState {
   _requestData() {
     ToastUtils.showLoading();
 
-    NewsService.requestHotList(1, (success, result) {
-      ToastUtils.hideLoading();
+    if (widget.categoryId > 0) {
+      NewsService.requestTypeList(widget.categoryId, _page, (success, result) {
+        ToastUtils.hideLoading();
 
-      if (success) {
-        if (result.isNotEmpty) {
-          _dataArr = result;
+        _handleResultData(success, result);
+      });
+    } else {
+      NewsService.requestHotList(_page, (success, result) {
+        ToastUtils.hideLoading();
 
-          _layoutState = LoadStatusType.success;
-        } else {
-          _layoutState = LoadStatusType.empty;
-        }
+        _handleResultData(success, result);
+      });
+    }
+  }
+
+  _handleResultData(bool success, List<NewsListModel> result) {
+    if (success) {
+      if (result.isNotEmpty) {
+        _dataArr = result;
+
+        _layoutState = LoadStatusType.success;
       } else {
-        _layoutState = LoadStatusType.failure;
+        _layoutState = LoadStatusType.empty;
       }
-      setState(() {});
-    });
+    } else {
+      _layoutState = LoadStatusType.failure;
+    }
+    setState(() {});
   }
 
   @override
@@ -68,62 +82,12 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState {
         itemCount: _dataArr.length,
         itemExtent: 100,
         itemBuilder: (context, index) {
-          return _buildCellWidget(index);
+          return NewChildCellWidget(model: _dataArr[index]);
         });
   }
 
-  _buildCellWidget(int idx) {
-    NewsListModel model = _dataArr[idx];
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                  width: 240.w,
-                  child: Text(
-                    model.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: ColorUtils.black34,
-                        fontSize: 14.sp,
-                        fontWeight: TextStyleUtils.medium),
-                  )),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  const JhAssetImage("news/iconMessage",
-                      width: 16.0, height: 16.0),
-                  const SizedBox(width: 2),
-                  Text(
-                    "${model.commentCount}",
-                    style: TextStyle(
-                        color: ColorUtils.gray153,
-                        fontSize: 14.sp,
-                        fontWeight: TextStyleUtils.regual),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              child: buildNetImage(model.imgUrl,
-                  width: 94.0,
-                  height: 70.0,
-                  placeholder: "common/imgZixunMoren")),
-        ],
-      ),
-    );
-  }
-  
   @override
   bool isAutomaticKeepAlive() {
     return true;
   }
-  
 }
