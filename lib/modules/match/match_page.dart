@@ -29,7 +29,7 @@ class MatchPage extends StatefulWidget {
   }
 }
 
-class _MatchPageState extends KeepAliveLifeWidgetState
+class _MatchPageState extends KeepAliveWidgetState
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -88,11 +88,6 @@ class _MatchPageState extends KeepAliveLifeWidgetState
     _pageController.dispose();
 
     eventBusManager.off(_eventSub);
-  }
-
-  @override
-  bool isAutomaticKeepAlive() {
-    return true;
   }
 
   @override

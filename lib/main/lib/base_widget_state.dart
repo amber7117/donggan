@@ -17,9 +17,7 @@ abstract class KeepAliveLifeWidgetState<T extends StatefulWidget>
 
   Widget buildWidget(BuildContext context);
 
-  bool isAutomaticKeepAlive() {
-    return false;
-  }
+  bool isAutomaticKeepAlive();
 }
 
 abstract class KeepAliveWidgetState<T extends StatefulWidget>
@@ -38,6 +36,6 @@ abstract class KeepAliveWidgetState<T extends StatefulWidget>
   Widget buildWidget(BuildContext context);
 
   bool isAutomaticKeepAlive() {
-    return false;
+    return true;
   }
 }

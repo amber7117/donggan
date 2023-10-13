@@ -35,7 +35,7 @@ class NewsListModel {
 
   factory NewsListModel.fromJson(Map<String, dynamic> json) {
     return NewsListModel(
-      id: json['id'] ?? '',
+      id: (json['id'] ?? 0).toString(),
       newsId: json['newsId'] ?? '',
       imgUrl: json['imgUrl'] ?? '',
       coverPicture: json['coverPicture'] ?? '',

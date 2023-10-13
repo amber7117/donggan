@@ -9,6 +9,11 @@ extension Style on Widget {
     return DecoratedBox(decoration: decoration, child: this);
   }
 
+  clipRRect(double radius) {
+    return ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(radius)), child: this);
+  }
+
   colored(Color color) {
     return ColoredBox(color: color, child: this);
   }

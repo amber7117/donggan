@@ -21,7 +21,7 @@ class NewsPage extends StatefulWidget {
   }
 }
 
-class _NewsPageState extends KeepAliveLifeWidgetState
+class _NewsPageState extends KeepAliveWidgetState
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -54,15 +54,15 @@ class _NewsPageState extends KeepAliveLifeWidgetState
 
       if (success) {
         if (result.isNotEmpty) {
-          for (int i = 0; i < result.length; i++) {
-            NewsLabelModel model = result[i];
-            if (model.name == "微视频") {
-            } else {
+          int i = 0;
+          for (NewsLabelModel model in result) {
+            if (model.name != "微视频") {
               HomeTabbarItemWidget item = HomeTabbarItemWidget(
                 tabName: model.name,
                 index: i,
               );
               _dataArr.add(item);
+              i++;
             }
           }
 

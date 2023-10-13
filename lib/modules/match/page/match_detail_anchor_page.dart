@@ -115,6 +115,4 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
       },
     );
   }
-  
-  
 }
