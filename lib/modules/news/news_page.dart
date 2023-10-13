@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
+import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/modules/news/entity/news_label_entity.dart';
 import 'package:wzty/modules/news/page/news_child_page.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
+import 'package:wzty/modules/news/service/news_service.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -15,33 +21,21 @@ class NewsPage extends StatefulWidget {
   }
 }
 
-class _NewsPageState extends State with SingleTickerProviderStateMixin {
+class _NewsPageState extends KeepAliveLifeWidgetState
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
 
   final TabProvider _tabProvider = TabProvider();
 
-  final List<Widget> _tabs = [
-    const HomeTabbarItemWidget(
-      tabName: '及时',
-      index: 0,
-    ),
-    const HomeTabbarItemWidget(
-      tabName: '赛程',
-      index: 1,
-    ),
-    const HomeTabbarItemWidget(
-      tabName: '赛果',
-      index: 2,
-    ),
-  ];
+  LoadStatusType _layoutState = LoadStatusType.loading;
+  final List<HomeTabbarItemWidget> _dataArr = [];
 
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
-    _pageController = PageController();
+    _requestData();
   }
 
   @override
@@ -52,8 +46,58 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
     _pageController.dispose();
   }
 
+  _requestData() {
+    ToastUtils.showLoading();
+
+    NewsService.requestNewsLabel((success, result) {
+      ToastUtils.hideLoading();
+
+      if (success) {
+        if (result.isNotEmpty) {
+          for (int i = 0; i < result.length; i++) {
+            NewsLabelModel model = result[i];
+            if (model.name == "微视频") {
+            } else {
+              HomeTabbarItemWidget item = HomeTabbarItemWidget(
+                tabName: model.name,
+                index: i,
+              );
+              _dataArr.add(item);
+            }
+          }
+
+          // 初始化
+          _tabController = TabController(length: _dataArr.length, vsync: this);
+          _pageController = PageController();
+
+          _layoutState = LoadStatusType.success;
+        } else {
+          _layoutState = LoadStatusType.empty;
+        }
+      } else {
+        _layoutState = LoadStatusType.failure;
+      }
+      setState(() {});
+    });
+  }
+
+  void _onPageChange(int index) {
+    _tabProvider.setIndex(index);
+    _tabController.animateTo(index);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
+    return LoadStateWidget(
+        state: _layoutState,
+        successWidget: Scaffold(
+            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+  }
+
+  _buildChild(BuildContext context) {
+    if (_dataArr.isEmpty) {
+      return const SizedBox();
+    }
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
         child: Scaffold(
@@ -82,13 +126,13 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
                       controller: _tabController,
                       indicator: const BoxDecoration(),
                       labelPadding: EdgeInsets.zero,
-                      tabs: _tabs),
+                      tabs: _dataArr),
                 ),
               ),
               Expanded(
                   child: PageView.builder(
                       key: const Key('pageView'),
-                      itemCount: 3,
+                      itemCount: _dataArr.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,
                       itemBuilder: (_, int index) {
@@ -97,10 +141,5 @@ class _NewsPageState extends State with SingleTickerProviderStateMixin {
             ],
           ),
         ));
-  }
-
-  void _onPageChange(int index) {
-    _tabProvider.setIndex(index);
-    _tabController.animateTo(index);
   }
 }

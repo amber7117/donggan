@@ -2,41 +2,69 @@ import 'package:wzty/app/api.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/modules/news/entity/news_label_entity.dart';
+import 'package:wzty/modules/news/entity/news_list_entity.dart';
 
 class NewsService {
   static Future<void> requestNewsLabel(
-      String uid, BusinessCallback<String> complete) async {
+      BusinessCallback<List<NewsLabelModel>> complete) async {
     HttpResultBean result =
-        await HttpManager.request(NewsApi.label, HttpMethod.post);
+        await HttpManager.request(NewsApi.label, HttpMethod.get);
 
     if (result.isSuccess()) {
-      complete(true, "");
+      List tmpList = result.data["customLables"];
+      List<NewsLabelModel> retList =
+          tmpList.map((dataMap) => NewsLabelModel.fromJson(dataMap)).toList();
+      complete(true, retList);
     } else {
-      complete(false, result.msg ?? result.data);
+      complete(false, []);
     }
   }
 
   static Future<void> requestHotList(
-      String uid, BusinessCallback<String> complete) async {
-    HttpResultBean result =
-        await HttpManager.request(NewsApi.hotList, HttpMethod.post);
+      int page, BusinessCallback<List<NewsListModel>> complete) async {
+    Map<String, dynamic> params = {
+      "pageNum": page,
+      "pageSize": pageSize,
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        NewsApi.hotList, HttpMethod.get,
+        params: params);
 
     if (result.isSuccess()) {
-      complete(true, "");
+      List topData = result.data["newsTopBlocks"];
+      List<NewsListModel> topList =
+          topData.map((dataMap) => NewsListModel.fromJson(dataMap)).toList();
+
+      List newsData = result.data["news"]["list"];
+      List<NewsListModel> newsList =
+          newsData.map((dataMap) => NewsListModel.fromJson(dataMap)).toList();
+
+      complete(true, topList..addAll(newsList));
     } else {
-      complete(false, result.msg ?? result.data);
+      complete(false, []);
     }
   }
 
-  static Future<void> requestTypeList(
-      String uid, BusinessCallback<String> complete) async {
-    HttpResultBean result =
-        await HttpManager.request(NewsApi.typeList, HttpMethod.post);
+  static Future<void> requestTypeList(int categoryId, int page,
+      BusinessCallback<List<NewsListModel>> complete) async {
+    Map<String, dynamic> params = {
+      "categoryId": categoryId,
+      "pageNum": page,
+      "pageSize": pageSize,
+    };
+    HttpResultBean result = await HttpManager.request(
+        NewsApi.typeList, HttpMethod.get,
+        params: params);
 
     if (result.isSuccess()) {
-      complete(true, "");
+      List tmpList = result.data["list"];
+      List<NewsListModel> retList =
+          tmpList.map((dataMap) => NewsListModel.fromJson(dataMap)).toList();
+      complete(true, retList);
     } else {
-      complete(false, result.msg ?? result.data);
+      complete(false, []);
     }
   }
 
