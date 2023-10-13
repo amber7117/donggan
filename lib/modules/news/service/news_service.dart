@@ -33,9 +33,12 @@ class NewsService {
         params: params);
 
     if (result.isSuccess()) {
-      List topData = result.data["newsTopBlocks"];
-      List<NewsListModel> topList =
-          topData.map((dataMap) => NewsListModel.fromJson(dataMap)).toList();
+      List<NewsListModel> topList = [];
+      if (page == 1) {
+        List topData = result.data["newsTopBlocks"];
+        topList =
+            topData.map((dataMap) => NewsListModel.fromJson(dataMap)).toList();
+      }
 
       List newsData = result.data["news"]["list"];
       List<NewsListModel> newsList =
