@@ -1,21 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/main/lib/load_state_widget.dart';
+import 'package:wzty/modules/news/entity/news_comment_entity.dart';
+import 'package:wzty/modules/news/entity/news_detail_entity.dart';
+import 'package:wzty/modules/news/service/news_service.dart';
+import 'package:wzty/modules/news/widget/news_child_cell_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class NewsDetailPage extends StatefulWidget {
-
   final String newsId;
 
   const NewsDetailPage({super.key, required this.newsId});
 
   @override
   State createState() => _NewsDetailPageState();
-  
 }
 
 class _NewsDetailPageState extends State<NewsDetailPage> {
+  LoadStatusType _layoutState = LoadStatusType.loading;
+  NewsDetailModel? _model;
+  List<NewsCommentModel> _commentArr = [];
+
+  int _page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _requestData();
+  }
+
+  _requestData({bool loading = false}) async {
+    if (loading) ToastUtils.showLoading();
+
+    Future detail = NewsService.requestDetail(widget.newsId, (success, result) {
+      _model = result;
+    });
+
+    Future comment = NewsService.requestDetailComment(widget.newsId, _page,
+        (success, result) {
+      _commentArr = result;
+    });
+
+    Future.wait([detail, comment]).then((value) {
+      ToastUtils.hideLoading();
+
+      if (_model != null) {
+        _layoutState = LoadStatusType.success;
+      } else {
+        _layoutState = LoadStatusType.failure;
+      }
+
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-    );
+    return LoadStateWidget(
+        state: _layoutState,
+        successWidget: Scaffold(
+            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+  }
+
+  _buildChild(BuildContext context) {
+    if (_model == null) {
+      return const SizedBox();
+    }
+
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: _model!.currentNews.length,
+        itemExtent: newsChildCellHeight,
+        itemBuilder: (context, index) {
+          return NewsChildCellWidget(model: _model!.currentNews[index]);
+        });
   }
 }

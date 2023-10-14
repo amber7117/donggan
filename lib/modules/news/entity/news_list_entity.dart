@@ -54,10 +54,10 @@ class NewsListModel {
   }
 
   String getNewsId() {
-    if (newsId.isEmpty && id.isNotEmpty) {
-      return id;
+    if (newsId.isNotEmpty) {
+      return newsId;
     }
-    return newsId;
+    return id;
   }
   
 }

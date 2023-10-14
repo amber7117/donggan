@@ -29,6 +29,8 @@ class NewsApi {
   static String typeList = "/qiutx-news/app/news/page";
 
   static String detail = "/qiutx-news/app/news/###";
+
+  static String detailComment= "/qiutx-news/app/news/comments";
 }
 
 class MeApi {
