@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
@@ -57,17 +58,18 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadStateWidget(
-        state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+    return Scaffold(
+        appBar: buildAppBar(context: context),
+        backgroundColor: ColorUtils.gray248,
+        body: LoadStateWidget(
+            state: _layoutState, successWidget: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {
     if (_model == null) {
       return const SizedBox();
     }
-
+  
     return ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: _model!.currentNews.length,

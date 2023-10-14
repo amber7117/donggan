@@ -1,9 +1,9 @@
 class NewsCommentModel {
   int id;
   String newsId;
-  String replyId;
-  String mainCommentId;
-  String userId;
+  int replyId;
+  int mainCommentId;
+  int userId;
   String nickName;
   String headImgUrl;
   String createdDate;
@@ -42,9 +42,9 @@ class NewsCommentModel {
     return NewsCommentModel(
         id: json['id'] ?? 0,
         newsId: json['newsId'] ?? '',
-        replyId: json['replyId'] ?? '',
-        mainCommentId: json['mainCommentId'] ?? '',
-        userId: json['userId'] ?? '',
+        replyId: json['replyId'] ?? 0,
+        mainCommentId: json['mainCommentId'] ?? 0,
+        userId: json['userId'] ?? 0,
         nickName: json['nickName'] ?? '',
         headImgUrl: json['headImgUrl'] ?? '',
         createdDate: json['createdDate'] ?? '',

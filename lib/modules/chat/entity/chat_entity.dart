@@ -20,7 +20,6 @@ class ChatMsgModel {
 
   late String nameNew;
   late String contentNew;
-  late double msgHeight;
 
   ChatMsgModel({
     required this.wealthLevel,
@@ -40,7 +39,6 @@ class ChatMsgModel {
     nameNew =
         nickname.contains('斗球') ? nickname.replaceAll('斗球', '') : nickname;
     contentNew = content.trim();
-    msgHeight = 0.0;
   }
 
   factory ChatMsgModel.empty() => ChatMsgModel(

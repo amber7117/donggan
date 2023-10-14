@@ -102,7 +102,7 @@ class NewsService {
         params: params);
 
     if (result.isSuccess()) {
-      List tmpList = result.data;
+      List tmpList = result.data["list"];
       List<NewsCommentModel> retList =
           tmpList.map((dataMap) => NewsCommentModel.fromJson(dataMap)).toList();
       complete(true, retList);
