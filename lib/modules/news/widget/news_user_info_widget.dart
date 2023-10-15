@@ -26,7 +26,7 @@ class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
             child: ClipImgWidget(
                 imgUrl: model.headImgUrl,
                 width: 40,
-                placeholder: "common/iconZhubo")),
+                placeholder: "common/iconTouxiang")),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

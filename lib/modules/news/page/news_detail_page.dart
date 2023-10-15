@@ -8,6 +8,8 @@ import 'package:wzty/modules/news/entity/news_comment_entity.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
 import 'package:wzty/modules/news/widget/news_child_cell_widget.dart';
+import 'package:wzty/modules/news/widget/news_detail_bottom_widget.dart';
+import 'package:wzty/modules/news/widget/news_detail_comment_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_header_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_section_header_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -74,35 +76,40 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
       return const SizedBox();
     }
 
-    // return ListView.builder(
-    //   shrinkWrap: true,
-    //         padding: EdgeInsets.zero,
-    //         itemCount: _model!.currentNews.length,
-    //         // itemExtent: 300,
-    //         itemBuilder: (context, index) {
-    //           if (index == 0) {
-    //             return WebViewWidget(controller: controller);
-    //           }
-    //           return NewsChildCellWidget(model: _model!.currentNews[index]);
-    //         });
-
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: NewsDetailHeaderWidget(model: _model!.news!),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: NewsDetailHeaderWidget(model: _model!.news!),
+              ),
+              const SliverToBoxAdapter(
+                  child: NewsDetailSectionHeaderWidget(
+                      type: NewsDetailSectionHeaderType.news)),
+              SliverFixedExtentList.builder(
+                  itemCount: _model!.currentNews.length,
+                  itemExtent: newsChildCellHeight,
+                  itemBuilder: (context, index) {
+                    return NewsChildCellWidget(
+                        model: _model!.currentNews[index]);
+                  }),
+              const SliverToBoxAdapter(
+                  child: NewsDetailSectionHeaderWidget(
+                      type: NewsDetailSectionHeaderType.comment)),
+              SliverList.builder(
+                  itemCount: _commentArr.length,
+                  itemBuilder: (context, index) {
+                    return NewsDetailCommentWidget(model: _commentArr[index]);
+                  }),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 56),
+              ),
+            ],
+          ),
         ),
-        const SliverToBoxAdapter(
-            child: NewsDetailSectionHeaderWidget(
-                type: NewsDetailSectionHeaderType.news)),
-        SliverFixedExtentList.builder(
-            itemCount: _model!.currentNews.length,
-            itemExtent: newsChildCellHeight,
-            itemBuilder: (context, index) {
-              return NewsChildCellWidget(model: _model!.currentNews[index]);
-            }),
-        const SliverToBoxAdapter(
-            child: NewsDetailSectionHeaderWidget(
-                type: NewsDetailSectionHeaderType.comment)),
+        const NewsDetailBottomWidget(),
       ],
     );
   }

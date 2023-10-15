@@ -25,9 +25,11 @@ class _NewsDetailSectionHeaderWidgetState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 8),
+        widget.type == NewsDetailSectionHeaderType.news
+            ? const SizedBox(height: 0)
+            : const SizedBox(height: 8),
         const SizedBox(width: double.infinity, height: 0.5)
-            .colored(const Color.fromRGBO(229, 229, 234, 1.0)),
+            .colored(ColorUtils.gray229),
         Row(
           children: [
             Padding(
@@ -48,7 +50,7 @@ class _NewsDetailSectionHeaderWidgetState
           ],
         ),
         const SizedBox(width: double.infinity, height: 0.5)
-            .colored(const Color.fromRGBO(229, 229, 234, 1.0)),
+            .colored(ColorUtils.gray229),
       ],
     );
   }
