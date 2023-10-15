@@ -29,6 +29,7 @@ class _NewsChildCellWidgetState extends State<NewsChildCellWidget> {
       },
       child: Container(
         padding: const EdgeInsets.only(left: 12, right: 14, top: 12),
+        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

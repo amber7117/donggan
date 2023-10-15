@@ -11,4 +11,9 @@ extension ExpressionStr on String {
     int? value = int.tryParse(this);
     return value ?? 0;
   }
+
+  double toDouble() {
+    double? value = double.tryParse(this);
+    return value ?? 0.0;
+  }
 }
