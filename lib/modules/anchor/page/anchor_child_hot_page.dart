@@ -4,6 +4,7 @@ import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/anchor/widget/anchor_match_cell_widget.dart';
 import 'package:wzty/modules/banner/entity/banner_entity.dart';
 import 'package:wzty/modules/banner/service/banner_service.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
@@ -75,6 +76,22 @@ class _AnchorChildHotPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(
+            height: liveMatchCellHeight + 24.0,
+            child: GridView.builder(
+              padding: EdgeInsets.zero,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: liveMatchCellRatio,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 9,
+              ),
+              itemCount: _matchArr.length,
+              itemBuilder: (BuildContext context, int index) {
+                return AnchorMatchCellWidget(model: _matchArr[index]);
+              },
+            ),
+          ),
           Row(
             children: [
               const JhAssetImage("anchor/iconFire2", width: 16),
