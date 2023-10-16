@@ -82,7 +82,7 @@ class _AnchorChildHotPageState
       children: [
         AnchorBannerWidget(bannerArr: _bannerArr),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: SizedBox(
             width: double.infinity,
             height: liveMatchCellHeight + 24.0,
@@ -106,7 +106,7 @@ class _AnchorChildHotPageState
           children: [
             const Padding(
                 padding:
-                    EdgeInsets.only(top: 12, bottom: 12, left: 10, right: 5),
+                    EdgeInsets.only(top: 12, bottom: 12, left: 12, right: 5),
                 child: JhAssetImage("anchor/iconFire2", width: 16)),
             Text("热门直播",
                 style: TextStyle(
@@ -117,7 +117,7 @@ class _AnchorChildHotPageState
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: GridView.builder(
               padding: EdgeInsets.zero,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

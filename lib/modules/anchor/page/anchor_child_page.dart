@@ -7,6 +7,7 @@ import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -69,13 +70,19 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 12),
-              child: Text("热门直播",
+           Row(
+            children: [
+              const Padding(
+                  padding:
+                      EdgeInsets.only(top: 12, bottom: 12, right: 5),
+                  child: JhAssetImage("anchor/iconFire2", width: 16)),
+              Text("热门直播",
                   style: TextStyle(
                       color: ColorUtils.black34,
                       fontSize: 14.sp,
-                      fontWeight: TextStyleUtils.semibold))),
+                      fontWeight: TextStyleUtils.semibold)),
+            ],
+          ),
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.zero,
