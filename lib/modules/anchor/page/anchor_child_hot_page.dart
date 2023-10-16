@@ -85,7 +85,7 @@ class _AnchorChildHotPageState
             height: liveMatchCellHeight + 24.0,
             child: GridView.builder(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.zero,
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 childAspectRatio: liveMatchCellRatio,

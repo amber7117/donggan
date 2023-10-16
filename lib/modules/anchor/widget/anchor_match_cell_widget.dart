@@ -28,10 +28,9 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
         Routes.push(context, Routes.matchDetail, arguments: model.matchId);
       },
       child: Container(
-        height: 99.0,
-        // width: 162.0,
+        // height: 99.0, //这里属性没用
         decoration: const BoxDecoration(
-            color: Colors.yellow,
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(180, 180, 180, 0.2), // 阴影颜色
@@ -43,10 +42,50 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child: Column(
           children: [
-            _buildTeamInfoWidget(
-                model.hostTeamLogo, model.hostTeamName, model.hostTeamScore),
-            _buildTeamInfoWidget(
-                model.guestTeamLogo, model.guestTeamName, model.guestTeamScore),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              child: Container(
+                height: 30,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(217, 232, 255, 1.0),
+                      Color.fromRGBO(255, 211, 218, 1.0)
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(model.leagueName,
+                        style: TextStyle(
+                            color: const Color.fromRGBO(98, 135, 194, 1.0),
+                            fontSize: 10.sp,
+                            fontWeight: TextStyleUtils.medium)),
+                    Text("LIVE",
+                        style: TextStyle(
+                            color: ColorUtils.red235,
+                            fontSize: 10.sp,
+                            fontWeight: TextStyleUtils.medium)),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 11),
+                child: _buildTeamInfoWidget(model.hostTeamLogo,
+                    model.hostTeamName, model.hostTeamScore)),
+            Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
+                child: _buildTeamInfoWidget(model.guestTeamLogo,
+                    model.guestTeamName, model.guestTeamScore)),
           ],
         ),
       ),
@@ -57,6 +96,7 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
     return Row(
       children: [
         buildNetImage(logo, width: 20, placeholder: "common/logoQiudui"),
+        const SizedBox(width: 8),
         Expanded(
           child: SizedBox(
             width: 70.w,
