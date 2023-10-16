@@ -7,7 +7,7 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 const liveMatchCellHeight = 99.0;
-const liveMatchCellRatio = 162 / 99;
+const liveMatchCellRatio = 99 / 162;
 
 class AnchorMatchCellWidget extends StatefulWidget {
   final MatchListModel model;
@@ -28,8 +28,10 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
         Routes.push(context, Routes.matchDetail, arguments: model.matchId);
       },
       child: Container(
+        height: 99.0,
+        // width: 162.0,
         decoration: const BoxDecoration(
-            color: Colors.white,
+            color: Colors.yellow,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(180, 180, 180, 0.2), // 阴影颜色
@@ -56,15 +58,16 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
       children: [
         buildNetImage(logo, width: 20, placeholder: "common/logoQiudui"),
         Expanded(
-            child: SizedBox(
-              width: 70.w,
-              child: Text(name,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 12.sp,
-                      fontWeight: TextStyleUtils.medium)),
-            )),
+          child: SizedBox(
+            width: 70.w,
+            child: Text(name,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 12.sp,
+                    fontWeight: TextStyleUtils.medium)),
+          ),
+        ),
         Text("$score",
             style: TextStyle(
                 color: ColorUtils.black34,

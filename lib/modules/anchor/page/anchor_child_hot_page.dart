@@ -41,8 +41,12 @@ class _AnchorChildHotPageState
     if (loading) ToastUtils.showLoading();
 
     Future banner =
-        BannerService.requestBanner(BannerReqType.anchor, (success, result) {});
-    Future match = AnchorService.requestHotMatchList((success, result) {});
+        BannerService.requestBanner(BannerReqType.anchor, (success, result) {
+      _bannerArr = result;
+    });
+    Future match = AnchorService.requestHotMatchList((success, result) {
+      _matchArr = result;
+    });
     Future anchor = AnchorService.requestHotList(_page, (success, result) {
       _anchorArr = result;
     });
@@ -77,11 +81,13 @@ class _AnchorChildHotPageState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
+            width: double.infinity,
             height: liveMatchCellHeight + 24.0,
             child: GridView.builder(
+              scrollDirection: Axis.horizontal,
               padding: EdgeInsets.zero,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 childAspectRatio: liveMatchCellRatio,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 9,
