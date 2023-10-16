@@ -67,7 +67,7 @@ class _MatchAnchorCellWidgetState extends State<MatchAnchorCellWidget> {
                             color: ColorUtils.gray153,
                             fontSize: 10.sp,
                             fontWeight: TextStyleUtils.medium))),
-                const JhAssetImage("match/iconFire", width: 14),
+                const JhAssetImage("anchor/iconFire", width: 14),
                 Padding(
                     padding: const EdgeInsets.only(left: 2, right: 10),
                     child: Text(

@@ -16,7 +16,6 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
 
-
 const _tabWidth = 56.0;
 const _tabHeight = 40.0;
 
@@ -93,7 +92,8 @@ class _MatchPageState extends KeepAliveWidgetState
   @override
   Widget buildWidget(BuildContext context) {
     double tabbarPadding =
-        (ScreenUtil().screenWidth - _tabs.length * _tabWidth) / (_tabs.length + 1);
+        (ScreenUtil().screenWidth - _tabs.length * _tabWidth) /
+            (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
 
     return ChangeNotifierProvider<TabDotProvider>(
@@ -136,7 +136,7 @@ class _MatchPageState extends KeepAliveWidgetState
               Expanded(
                   child: PageView.builder(
                       key: const Key('pageView'),
-                      itemCount: 4,
+                      itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,
                       itemBuilder: (_, int index) {

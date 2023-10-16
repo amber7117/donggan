@@ -17,10 +17,11 @@ typedef WZVoidCallback<T> = void Function();
 typedef WZAnyCallback<T> = void Function(T data);
 typedef WZListCallback<T1, T2> = void Function(T1 data1, T2 data2);
 
-const pageSize = 50;
+const pageSize = 20;
+const pageSize100 = 100;
 const apiPlaceholder = "###";
 
-const LiveCellRatio = 171 / 134;
+const liveCellRatio = 171 / 134;
 
 enum SportType {
   football(value: 1),

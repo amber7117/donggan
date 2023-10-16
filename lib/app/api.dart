@@ -19,7 +19,13 @@ class MatchApi {
   
 }
 
-class AnchorApi {}
+class AnchorApi {
+  static String hotMatchList = "/live-product/anonymous/v1/find/match/pool";
+
+  static String hotList = "/live-product/anonymous/new/app/live/list";
+
+  static String typeList = "/live-product/anonymous/v6/app/live/list";
+}
 
 class NewsApi {
   static String label = "/qiutx-news/app/custom/lables";
@@ -74,6 +80,8 @@ class DomainApi {
 
 
 class ConfigApi {
+  static String banner = "/qiutx-news/banner/find/position";
+
   static String liveBlock = "/qiutx-usercenter/user/resources";
 
   static String systemNotice = "/qiutx-support/cms/config/system/notice";

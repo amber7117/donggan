@@ -101,7 +101,7 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: LiveCellRatio,
+                childAspectRatio: liveCellRatio,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 9,
               ),

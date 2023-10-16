@@ -6,24 +6,30 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/anchor_child_cell_widget.dart';
+import 'package:wzty/modules/banner/entity/banner_entity.dart';
+import 'package:wzty/modules/banner/service/banner_service.dart';
+import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/widget/anchor/match_anchor_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
-class AnchorChildPage extends StatefulWidget {
-  final LiveSportType type;
-
-  const AnchorChildPage({super.key, required this.type});
+class AnchorChildHotPage extends StatefulWidget {
+  const AnchorChildHotPage({super.key});
 
   @override
-  State createState() => _AnchorChildPageState();
+  State createState() => _AnchorChildHotPageState();
 }
 
-class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
+class _AnchorChildHotPageState
+    extends KeepAliveWidgetState<AnchorChildHotPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
-
+  List<BannerModel> _bannerArr = [];
+  List<MatchListModel> _matchArr = [];
   List<LiveListModel> _anchorArr = [];
+
+  int _page = 1;
 
   @override
   void initState() {
@@ -32,22 +38,25 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     _requestData();
   }
 
-  _requestData() {
-    ToastUtils.showLoading();
+  _requestData({bool loading = false}) async {
+    if (loading) ToastUtils.showLoading();
 
-    AnchorService.requestTypeList(widget.type, (success, result) {
+    Future banner =
+        BannerService.requestBanner(BannerReqType.anchor, (success, result) {});
+    Future match = AnchorService.requestHotMatchList((success, result) {});
+    Future anchor = AnchorService.requestHotList(_page, (success, result) {
+      _anchorArr = result;
+    });
+
+    Future.wait([banner, match, anchor]).then((value) {
       ToastUtils.hideLoading();
-      if (success) {
-        if (result.isNotEmpty) {
-          _anchorArr = result;
 
-          _layoutState = LoadStatusType.success;
-        } else {
-          _layoutState = LoadStatusType.empty;
-        }
+      if (_anchorArr.isNotEmpty) {
+        _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.failure;
       }
+
       setState(() {});
     });
   }
@@ -55,9 +64,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+        state: _layoutState, successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {
@@ -70,13 +77,18 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 12),
-              child: Text("热门直播",
-                  style: TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 14.sp,
-                      fontWeight: TextStyleUtils.semibold))),
+          Row(
+            children: [
+              const JhAssetImage("anchor/iconFire2", width: 16),
+              Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                  child: Text("热门直播",
+                      style: TextStyle(
+                          color: ColorUtils.black34,
+                          fontSize: 14.sp,
+                          fontWeight: TextStyleUtils.semibold))),
+            ],
+          ),
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.zero,
