@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/anchor/widget/anchor_banner_widget.dart';
 import 'package:wzty/modules/anchor/widget/anchor_match_cell_widget.dart';
 import 'package:wzty/modules/banner/entity/banner_entity.dart';
 import 'package:wzty/modules/banner/service/banner_service.dart';
@@ -80,6 +82,16 @@ class _AnchorChildHotPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          CarouselSlider(
+            options: CarouselOptions(height: liveBannerCellHeight),
+            items: _bannerArr.map((model) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return AnchorBannerWidget(model: model);
+                },
+              );
+            }).toList(),
+          ),
           SizedBox(
             width: double.infinity,
             height: liveMatchCellHeight + 24.0,

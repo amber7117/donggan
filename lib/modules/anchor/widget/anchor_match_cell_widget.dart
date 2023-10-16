@@ -78,14 +78,12 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
                 ),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 11),
-                child: _buildTeamInfoWidget(model.hostTeamLogo,
-                    model.hostTeamName, model.hostTeamScore)),
-            Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
-                child: _buildTeamInfoWidget(model.guestTeamLogo,
-                    model.guestTeamName, model.guestTeamScore)),
+            const SizedBox(height: 11),
+            _buildTeamInfoWidget(
+                model.hostTeamLogo, model.hostTeamName, model.hostTeamScore),
+            const SizedBox(height: 8),
+            _buildTeamInfoWidget(
+                model.guestTeamLogo, model.guestTeamName, model.guestTeamScore),
           ],
         ),
       ),
@@ -95,6 +93,7 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
   _buildTeamInfoWidget(String logo, String name, int score) {
     return Row(
       children: [
+        const SizedBox(width: 10),
         buildNetImage(logo, width: 20, placeholder: "common/logoQiudui"),
         const SizedBox(width: 8),
         Expanded(
@@ -113,6 +112,7 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
                 color: ColorUtils.black34,
                 fontSize: 14.sp,
                 fontWeight: TextStyleUtils.semibold)),
+        const SizedBox(width: 10),
       ],
     );
   }
