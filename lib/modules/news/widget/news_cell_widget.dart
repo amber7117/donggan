@@ -9,16 +9,16 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double newsChildCellHeight = 94.5;
 
-class NewsChildCellWidget extends StatefulWidget {
+class NewsCellWidget extends StatefulWidget {
   final NewsListModel model;
 
-  const NewsChildCellWidget({super.key, required this.model});
+  const NewsCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _NewsChildCellWidgetState();
+  State createState() => _NewsCellWidgetState();
 }
 
-class _NewsChildCellWidgetState extends State<NewsChildCellWidget> {
+class _NewsCellWidgetState extends State<NewsCellWidget> {
   @override
   Widget build(BuildContext context) {
     NewsListModel model = widget.model;

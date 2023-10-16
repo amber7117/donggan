@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_anchor_entity.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
-import 'package:wzty/modules/match/widget/anchor/match_anchor_cell_widget.dart';
+import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -107,7 +106,7 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
               ),
               itemCount: modelArr.length,
               itemBuilder: (BuildContext context, int index) {
-                return MatchAnchorCellWidget(model: modelArr[index]);
+                return AnchorCellWidget(model: modelArr[index]);
               },
             ),
           ],

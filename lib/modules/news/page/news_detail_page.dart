@@ -7,7 +7,7 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
-import 'package:wzty/modules/news/widget/news_child_cell_widget.dart';
+import 'package:wzty/modules/news/widget/news_cell_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_bottom_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_comment_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_header_widget.dart';
@@ -92,7 +92,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                   itemCount: _model!.currentNews.length,
                   itemExtent: newsChildCellHeight,
                   itemBuilder: (context, index) {
-                    return NewsChildCellWidget(
+                    return NewsCellWidget(
                         model: _model!.currentNews[index]);
                   }),
               const SliverToBoxAdapter(

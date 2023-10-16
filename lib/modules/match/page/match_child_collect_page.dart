@@ -6,7 +6,7 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
-import 'package:wzty/modules/match/widget/match_child_cell_widget.dart';
+import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchChildCollectPage extends StatefulWidget {
@@ -87,7 +87,7 @@ class _MatchChildCollectPageState
                 itemCount: _dataArr.length,
                 itemExtent: matchChildCellHeight,
                 itemBuilder: (context, index) {
-                  return MatchChildCellWidget(
+                  return MatchCellWidget(
                       sportType: widget.sportType,
                       model: _dataArr[index],
                       isCollectCell: true);

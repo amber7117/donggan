@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
-import 'package:wzty/modules/anchor/widget/anchor_child_cell_widget.dart';
 import 'package:wzty/modules/banner/entity/banner_entity.dart';
 import 'package:wzty/modules/banner/service/banner_service.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
-import 'package:wzty/modules/match/widget/anchor/match_anchor_cell_widget.dart';
+import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -81,7 +79,7 @@ class _AnchorChildHotPageState
             children: [
               const JhAssetImage("anchor/iconFire2", width: 16),
               Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                  padding: const EdgeInsets.only(top: 12, bottom: 12, left: 5),
                   child: Text("热门直播",
                       style: TextStyle(
                           color: ColorUtils.black34,
@@ -100,7 +98,7 @@ class _AnchorChildHotPageState
               ),
               itemCount: _anchorArr.length,
               itemBuilder: (BuildContext context, int index) {
-                return MatchAnchorCellWidget(model: _anchorArr[index]);
+                return AnchorCellWidget(model: _anchorArr[index]);
               },
             ),
           ),

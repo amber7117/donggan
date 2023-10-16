@@ -4,7 +4,7 @@ import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_list_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
-import 'package:wzty/modules/news/widget/news_child_cell_widget.dart';
+import 'package:wzty/modules/news/widget/news_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -107,7 +107,7 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
             itemCount: _dataArr.length,
             itemExtent: newsChildCellHeight,
             itemBuilder: (context, index) {
-              return NewsChildCellWidget(model: _dataArr[index]);
+              return NewsCellWidget(model: _dataArr[index]);
             }));
   }
 

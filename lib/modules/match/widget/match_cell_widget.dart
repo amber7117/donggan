@@ -18,22 +18,22 @@ const double matchChildCellHeight = 105.0;
 const double _teamW = 120.0;
 const double _textW = 26.0;
 
-class MatchChildCellWidget extends StatefulWidget {
+class MatchCellWidget extends StatefulWidget {
   final SportType sportType;
   final MatchListModel model;
   final bool isCollectCell;
 
-  const MatchChildCellWidget(
+  const MatchCellWidget(
       {super.key,
       required this.sportType,
       required this.model,
       this.isCollectCell = false});
 
   @override
-  State createState() => _MatchChildCellWidgetState();
+  State createState() => _MatchCellWidgetState();
 }
 
-class _MatchChildCellWidgetState extends State<MatchChildCellWidget> {
+class _MatchCellWidgetState extends State<MatchCellWidget> {
   _requestMatchCollect() {
     MatchListModel model = widget.model;
     bool isAdd = !model.focus;

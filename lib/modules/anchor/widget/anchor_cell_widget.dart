@@ -8,16 +8,18 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchAnchorCellWidget extends StatefulWidget {
+const liveCellRatio = 171 / 134;
+
+class AnchorCellWidget extends StatefulWidget {
   final LiveListModel model;
 
-  const MatchAnchorCellWidget({super.key, required this.model});
+  const AnchorCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _MatchAnchorCellWidgetState();
+  State createState() => _AnchorCellWidgetState();
 }
 
-class _MatchAnchorCellWidgetState extends State<MatchAnchorCellWidget> {
+class _AnchorCellWidgetState extends State<AnchorCellWidget> {
   @override
   Widget build(BuildContext context) {
     double cellWidth = (ScreenUtil().screenWidth - 24 - 9) * 0.5;

@@ -7,7 +7,7 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
-import 'package:wzty/modules/match/widget/match_child_cell_widget.dart';
+import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 import 'package:wzty/utils/wz_date_utils.dart';
@@ -186,7 +186,7 @@ class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
                       itemCount: _dataArr.length,
                       itemExtent: matchChildCellHeight,
                       itemBuilder: (context, index) {
-                        return MatchChildCellWidget(
+                        return MatchCellWidget(
                             sportType: widget.sportType,
                             model: _dataArr[index]);
                       })))
@@ -203,7 +203,7 @@ class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
               itemCount: _dataArr.length,
               itemExtent: matchChildCellHeight,
               itemBuilder: (context, index) {
-                return MatchChildCellWidget(
+                return MatchCellWidget(
                     sportType: widget.sportType, model: _dataArr[index]);
               }));
     }

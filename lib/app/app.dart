@@ -21,8 +21,6 @@ const pageSize = 20;
 const pageSize100 = 100;
 const apiPlaceholder = "###";
 
-const liveCellRatio = 171 / 134;
-
 enum SportType {
   football(value: 1),
   basketball(value: 2);
