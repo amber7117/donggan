@@ -77,22 +77,13 @@ class _AnchorChildHotPageState
       return const SizedBox();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CarouselSlider(
-            options: CarouselOptions(height: liveBannerCellHeight),
-            items: _bannerArr.map((model) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return AnchorBannerWidget(model: model);
-                },
-              );
-            }).toList(),
-          ),
-          SizedBox(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AnchorBannerWidget(bannerArr: _bannerArr),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: SizedBox(
             width: double.infinity,
             height: liveMatchCellHeight + 24.0,
             child: GridView.builder(
@@ -110,19 +101,23 @@ class _AnchorChildHotPageState
               },
             ),
           ),
-          Row(
-            children: [
-              const JhAssetImage("anchor/iconFire2", width: 16),
-              Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 12, left: 5),
-                  child: Text("热门直播",
-                      style: TextStyle(
-                          color: ColorUtils.black34,
-                          fontSize: 14.sp,
-                          fontWeight: TextStyleUtils.semibold))),
-            ],
-          ),
-          Expanded(
+        ),
+        Row(
+          children: [
+            const Padding(
+                padding:
+                    EdgeInsets.only(top: 12, bottom: 12, left: 10, right: 5),
+                child: JhAssetImage("anchor/iconFire2", width: 16)),
+            Text("热门直播",
+                style: TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 14.sp,
+                    fontWeight: TextStyleUtils.semibold)),
+          ],
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GridView.builder(
               padding: EdgeInsets.zero,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -137,8 +132,8 @@ class _AnchorChildHotPageState
               },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
