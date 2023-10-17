@@ -46,9 +46,12 @@ class MatchTabbarItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.semibold),
             ),
-            const SizedBox(height: 6.5),
-            const ColoredBox(
-                color: ColorUtils.red233, child: SizedBox(height: 3, width: 28))
+            const Padding(
+              padding: EdgeInsets.only(top: 6.5),
+              child: ColoredBox(
+                  color: ColorUtils.red235,
+                  child: SizedBox(height: 3, width: 28)),
+            ),
           ]
         : [
             Text(
@@ -59,8 +62,7 @@ class MatchTabbarItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.medium),
             ),
-            const SizedBox(height: 6.5),
-            const SizedBox()
+            const SizedBox(height: 8.5),
           ];
   }
 }

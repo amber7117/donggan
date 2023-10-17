@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
 
 class MatchDetailStatusPage extends StatefulWidget {
   const MatchDetailStatusPage({super.key});
@@ -7,9 +8,10 @@ class MatchDetailStatusPage extends StatefulWidget {
   State createState() => _MatchDetailStatusPageState();
 }
 
-class _MatchDetailStatusPageState extends State<MatchDetailStatusPage> {
+class _MatchDetailStatusPageState
+    extends KeepAliveWidgetState<MatchDetailStatusPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return Container();
   }
 }

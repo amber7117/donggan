@@ -59,11 +59,12 @@ class HomeTabbarItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.semibold),
             ),
-            const SizedBox(height: 3.0),
-            const ColoredBox(
-                color: ColorUtils.red235,
-                child: SizedBox(height: 2, width: 32)),
-            const SizedBox(height: 4.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 3.0, bottom: 4),
+              child: ColoredBox(
+                  color: ColorUtils.red235,
+                  child: SizedBox(height: 2, width: 32)),
+            ),
           ]
         : [
             Text(
@@ -74,9 +75,7 @@ class HomeTabbarItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.medium),
             ),
-            const SizedBox(height: 3.0),
-            const SizedBox(),
-            const SizedBox(height: 4.0),
+            const SizedBox(height: 9.0),
           ];
   }
 }

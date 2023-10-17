@@ -1,4 +1,3 @@
-import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -8,14 +7,12 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
+import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
+import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
-import 'package:wzty/modules/match/entity/match_detail_entity.dart';
-import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
-import 'package:wzty/modules/match/page/match_detail_status_page.dart';
 import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
-import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -105,6 +102,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
   }
 
   String _attemptPlayVideo() {
+    return "";
     late LiveDetailModel model;
     if (_model == null) {
       return "";
@@ -112,7 +110,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
 
     model = _model!;
 
-    if (model.playAddr == null) {
+    if (model.playAddr.isEmpty) {
       return "";
     }
 
@@ -197,7 +195,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
                         if (!mounted) return;
                         _pageController.jumpToPage(index);
                       },
-                      isScrollable: false,
+                      isScrollable: true,
                       controller: _tabController,
                       indicator: const BoxDecoration(),
                       labelPadding: const EdgeInsets.only(right: 4),
@@ -216,14 +214,15 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {
-                      // if (index == 3) {
-                      //   return MatchDetailAnchorPage(matchId: widget.matchId);
-                      // } else if (index == 4) {
-                      //   return ChatPage(
-                      //       roomId: _model!.roomId,
-                      //       chatRoomId: _model!.matchId.toString());
-                      // }
-                      return MatchDetailStatusPage();
+                      if (index == 0) {
+                        return ChatPage(
+                            roomId: _model!.roomId.toString(),
+                            chatRoomId: _model!.chatId);
+                      } else if (index == 1) {
+                        return AnchorDetailCalendarPage();
+                      } else {
+                        return AnchorDetailPlaybackPage();
+                      }
                     }))
           ],
         ));
