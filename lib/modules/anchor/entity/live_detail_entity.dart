@@ -13,12 +13,12 @@ class LiveDetailModel {
   String liveTitle;
   int anchorHot;
   int fans;
-  bool isShow;
+  int isShow;
   int status;
   int fansType;
   int isRobot;
-  Map<String, String>? playAddr;
-  Map<String, String>? recordAddr;
+  Map<String, String> playAddr;
+  Map<String, String> recordAddr;
   String animUrl;
 
   LiveDetailModel({
@@ -61,12 +61,16 @@ class LiveDetailModel {
       liveTitle: json['liveTitle'] ?? '',
       anchorHot: json['anchorHot'] ?? 0,
       fans: json['fans'] ?? 0,
-      isShow: json['isShow'] ?? false,
+      isShow: json['isShow'] ?? 0,
       status: json['status'] ?? 0,
       fansType: json['fansType'] ?? 0,
       isRobot: json['isRobot'] ?? 0,
-      playAddr: json['playAddr'],
-      recordAddr: json['recordAddr'],
+      playAddr: json['playAddr'] != null
+          ? Map<String, String>.from(json['playAddr'])
+          : {},
+      recordAddr: json['recordAddr'] != null
+          ? Map<String, String>.from(json['recordAddr'])
+          : {},
       animUrl: json['animUrl'] ?? '',
     );
   }
@@ -88,7 +92,7 @@ class LiveDetailModel {
 
 class LiveRecordModel {
   String title;
-  Map<String, String>? recordAddr;
+  Map<String, String> recordAddr;
 
   LiveRecordModel({
     required this.title,
@@ -100,7 +104,7 @@ class LiveRecordModel {
       title: json['title'] ?? '',
       recordAddr: json['recordAddr'] != null
           ? Map<String, String>.from(json['recordAddr'])
-          : null,
+          : {},
     );
   }
 

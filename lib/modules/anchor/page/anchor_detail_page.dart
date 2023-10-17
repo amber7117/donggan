@@ -1,5 +1,8 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/common/extension/extension_app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
@@ -52,6 +55,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
 
   LoadStatusType _layoutState = LoadStatusType.loading;
   LiveDetailModel? _model;
+  LiveDetailModel? _playInfo;
 
   @override
   void initState() {
@@ -78,12 +82,16 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
       _model = result;
     });
      Future play = AnchorService.requestDetailPlayInfo(
-        widget.anchorId, (success, result) {});
+        widget.anchorId, (success, result) {
+        _playInfo = result;
+    });
 
     Future.wait([basic, play]).then((value) {
       ToastUtils.hideLoading();
 
-      if (_model != null) {
+      if (_model != null && _playInfo != null) {
+        _model!.updatePlayDataByModel(_playInfo!);
+        
         _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.failure;
@@ -91,6 +99,58 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
 
       setState(() {});
     });
+  }
+
+  String _attemptPlayVideo() {
+    late LiveDetailModel model;
+    if (_model == null) {
+      return "";
+    }
+
+    model = _model!;
+
+    if (model.playAddr == null) {
+      return "";
+    }
+
+    if (ConfigManager.instance.videoIsBlock(model.leagueId)) {
+      return "";
+    }
+
+    String videoUrl = "";
+    if (model.isRobot.isTrue()) {
+      videoUrl = _obtainVideoUrl(model.playAddr!, "");
+    } else {
+      videoUrl = _obtainVideoUrl(model.playAddr!, "sd");
+    }
+    return videoUrl;
+  }
+
+  String _obtainVideoUrl(Map<String, String> addrDic, String prefix) {
+    String videoUrl = "";
+    String key1 = "";
+    String key2 = "";
+    String key3 = "";
+
+    if (prefix.isNotEmpty) {
+      key1 = "${prefix}_flv";
+      key2 = "${prefix}_m3u8";
+      key3 = "${prefix}_rtmp";
+    } else {
+      key1 = "flv";
+      key2 = "m3u8";
+      key3 = "rtmp";
+    }
+
+    if (addrDic.containsKey(key1)) {
+      videoUrl = addrDic[key1]!;
+    } else if (addrDic.containsKey(key2)) {
+      videoUrl = addrDic[key2]!;
+    } else if (addrDic.containsKey(key3)) {
+      videoUrl = addrDic[key3]!;
+    }
+
+    return videoUrl;
   }
 
   @override
@@ -113,15 +173,16 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
         child: Column(
           children: [
             Consumer<MatchDetailProvider>(builder: (context, provider, child) {
-              // if (provider.showAnimate) {
-              //   return MatchDetailHeadWebWidget(
-              //       height: _headHeight, urlStr: _model!.animUrl);
-              // } else if (provider.showVideo) {
-              //   return MatchDetailHeadVideoWidget(
-              //       height: _headHeight, urlStr: _model!.obtainFirstVideoUrl());
-              // } else {
+              String videoUrl = _attemptPlayVideo();
+              if (videoUrl.isNotEmpty) {
+                return MatchDetailHeadVideoWidget(
+                    height: _headHeight, urlStr: videoUrl);
+              } else if (_model!.animUrl.isNotEmpty) {
+                return MatchDetailHeadWebWidget(
+                    height: _headHeight, urlStr: _model!.animUrl);
+              } else {
                 return SizedBox();
-              // }
+              }
             }),
             SizedBox(
               width: double.infinity,

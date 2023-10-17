@@ -17,7 +17,7 @@ class ConfigManager {
 
   ConfigManager._internal();
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   LiveBlockModel? liveBlockData;
 
@@ -38,7 +38,29 @@ class ConfigManager {
   Timer? userTimer;
   Timer? userReportTimer;
 
-  //---------------------------------------------
+  // ---------------------------------------------
+  
+  bool videoIsBlock(int leagueId) {
+    if (!liveOk) {
+      return true;
+    }
+
+    if (liveBlockData == null) {
+      return true;
+    }
+
+    if (liveBlockData!.blockingByDeviceId || liveBlockData!.blockingByIp) {
+      return true;
+    }
+
+    if (liveBlockData!.blockingLeagueIds.contains(leagueId)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // ---------------------------------------------
   
   requestConfig() {
     ConfigService.requestLiveBlock((success, result) {
