@@ -68,6 +68,7 @@ class _MainPageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: _pageList,
       ),
