@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
-import 'package:wzty/common/widget/wz_follow_button.dart';
+import 'package:wzty/common/widget/wz_follow_white_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -60,29 +59,35 @@ class _AnchorDetailUserInfoWidgetState
       ),
       child: Row(
         children: [
+          const SizedBox(width: 2.0),
           CircleImgPlaceWidget(
               imgUrl: model.headImageUrl,
               width: 36.0,
               placeholder: "common/iconTouxiang"),
-          Column(
-            children: [
-              Text(model.nickname,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: TextStyleUtils.medium)),
-              Text("${model.fans}粉丝",
-                  style: TextStyle(
-                      color: const Color.fromRGBO(251, 192, 192, 1.0),
-                      fontSize: 10.sp,
-                      fontWeight: TextStyleUtils.regual)),
-            ],
+          const SizedBox(width: 6.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(model.nickname,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: TextStyleUtils.medium)),
+                Text("${model.fans}粉丝",
+                    style: TextStyle(
+                        color: const Color.fromRGBO(251, 192, 192, 1.0),
+                        fontSize: 10.sp,
+                        fontWeight: TextStyleUtils.regual)),
+              ],
+            ),
           ),
-          WZFollowBtn(
+          WZFollowWhiteBtn(
               followed: model.fansType.isTrue(),
               handleFollow: () async {
                 return _requestFollowUser();
               }),
+          const SizedBox(width: 12.0),
         ],
       ),
     );
