@@ -70,16 +70,18 @@ MatchStatus matchStatusFromServerValue(int value) {
 }
 
 enum LiveSportType {
-  all(value: ""),
-  football(value: "1"),
-  basketball(value: "2"),
-  other(value: "4");
+  all(value: "", title: "热门"),
+  football(value: "1", title: "足球"),
+  basketball(value: "2", title: "篮球"),
+  other(value: "4", title: "其他");
 
   const LiveSportType({
     required this.value,
+    required this.title,
   });
 
   final String value;
+  final String title;
 }
 
 enum MatchConditionType {

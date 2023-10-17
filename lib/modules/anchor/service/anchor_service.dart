@@ -53,11 +53,17 @@ class AnchorService {
         AnchorApi.typeList, HttpMethod.get,
         params: params);
 
-    if (result.isSuccess() && result.data is List) {
-      List tmpList = result.data;
-      List<AnchorListModel> retList =
-          tmpList.map((dataMap) => AnchorListModel.fromJson(dataMap)).toList();
-      complete(true, retList);
+    if (result.isSuccess()) {
+      if (result.data is List) {
+        List tmpList = result.data;
+        List<AnchorListModel> retList = tmpList
+            .map((dataMap) => AnchorListModel.fromJson(dataMap))
+            .toList();
+        complete(true, retList);
+      } else {
+        complete(true, []);
+      }
+
       return;
     } else {
       complete(false, []);

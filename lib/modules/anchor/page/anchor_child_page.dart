@@ -76,7 +76,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
                   padding:
                       EdgeInsets.only(top: 12, bottom: 12, right: 5),
                   child: JhAssetImage("anchor/iconFire2", width: 16)),
-              Text("热门直播",
+              Text("${widget.type.title}直播",
                   style: TextStyle(
                       color: ColorUtils.black34,
                       fontSize: 14.sp,
