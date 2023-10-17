@@ -34,11 +34,16 @@ class _AnchorBannerWidgetState extends State<AnchorBannerWidget> {
           items: bannerArr.map((model) {
             return Builder(
               builder: (BuildContext context) {
-                return buildNetImage(model.img,
+                return InkWell(
+                  onTap: () {
+                    model.jump();
+                  },
+                  child: buildNetImage(model.img,
                     width: ScreenUtil().screenWidth,
                     height: liveBannerHeight,
                     placeholder: "common/imgZhiboMoren",
-                    fit: BoxFit.cover);
+                    fit: BoxFit.cover),
+                );
               },
             );
           }).toList(),

@@ -25,6 +25,10 @@ class AnchorApi {
   static String hotList = "/live-product/anonymous/new/app/live/list";
 
   static String typeList = "/live-product/anonymous/v6/app/live/list";
+
+  static String detailBasicInfo = "/live-product/anonymous/v1/room/basic/info";
+
+  static String detailPlayInfo = "/live-product/anonymous/v1/room/pull/info";
 }
 
 class NewsApi {

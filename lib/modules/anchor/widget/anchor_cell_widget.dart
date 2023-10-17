@@ -29,7 +29,7 @@ class _AnchorCellWidgetState extends State<AnchorCellWidget> {
 
     return InkWell(
       onTap: () {
-        Routes.push(context, Routes.anchorDetail);
+        Routes.push(context, Routes.anchorDetail, arguments: model.anchorId);
       },
       child: Container(
         decoration: const BoxDecoration(

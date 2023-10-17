@@ -148,7 +148,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
             Expanded(
                 child: PageView.builder(
                     key: const Key('pageView'),
-                    itemCount: 5,
+                    itemCount: _tabs.length,
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {

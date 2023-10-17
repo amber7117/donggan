@@ -2,6 +2,8 @@ import 'package:wzty/app/api.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
@@ -59,6 +61,48 @@ class AnchorService {
       return;
     } else {
       complete(false, []);
+      return;
+    }
+  }
+
+  static Future<void> requestDetailBasicInfo(
+      int anchorId, BusinessCallback<LiveDetailModel?> complete) async {
+    Map<String, dynamic> params = {"anchorId": anchorId};
+    if (UserManager.instance.isLogin()) {
+      params["currentUserId"] = UserManager.instance.uid;
+    }
+
+    HttpResultBean result = await HttpManager.request(
+        AnchorApi.detailBasicInfo, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      LiveDetailModel model = LiveDetailModel.fromJson(result.data);
+      complete(true, model);
+      return;
+    } else {
+      complete(false, null);
+      return;
+    }
+  }
+
+  static Future<void> requestDetailPlayInfo(
+      int anchorId, BusinessCallback<LiveDetailModel?> complete) async {
+    Map<String, dynamic> params = {"anchorId": anchorId};
+    if (UserManager.instance.isLogin()) {
+      params["currentUserId"] = UserManager.instance.uid;
+    }
+
+    HttpResultBean result = await HttpManager.request(
+        AnchorApi.detailPlayInfo, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      LiveDetailModel model = LiveDetailModel.fromJson(result.data);
+      complete(true, model);
+      return;
+    } else {
+      complete(false, null);
       return;
     }
   }

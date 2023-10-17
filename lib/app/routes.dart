@@ -96,7 +96,8 @@ class Routes {
       return const AnchorPage();
     }));
     router.define(anchorDetail, handler: Handler(handlerFunc: (context, params) {
-      return const AnchorDetailPage();
+      var args = context?.settings?.arguments as int;
+      return AnchorDetailPage(anchorId: args);
     }));
 
 
