@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
-import 'package:wzty/common/widget/clip_img_widget.dart';
+import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
 import 'package:wzty/modules/news/widget/news_like_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -27,7 +27,7 @@ class _NewsDetailCommentWidgetState extends State<NewsDetailCommentWidget> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipImgWidget(
+              CircleImgPlaceWidget(
                   imgUrl: model.headImgUrl,
                   width: 40,
                   placeholder: "common/iconTouxiang"),

@@ -1,5 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
@@ -8,6 +9,7 @@ import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/modules/match/entity/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
@@ -78,12 +80,13 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
   _requestData() {
     ToastUtils.showLoading();
 
-    Future basic = AnchorService.requestDetailBasicInfo(widget.anchorId, (success, result) { 
+    Future basic = AnchorService.requestDetailBasicInfo(widget.anchorId,
+        (success, result) {
       _model = result;
     });
-     Future play = AnchorService.requestDetailPlayInfo(
-        widget.anchorId, (success, result) {
-        _playInfo = result;
+    Future play =
+        AnchorService.requestDetailPlayInfo(widget.anchorId, (success, result) {
+      _playInfo = result;
     });
 
     Future.wait([basic, play]).then((value) {
@@ -91,7 +94,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
 
       if (_model != null && _playInfo != null) {
         _model!.updatePlayDataByModel(_playInfo!);
-        
+
         _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.failure;
@@ -184,18 +187,23 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
                 return SizedBox();
               }
             }),
-            SizedBox(
-              width: double.infinity,
-              child: TabBar(
-                  onTap: (index) {
-                    if (!mounted) return;
-                    _pageController.jumpToPage(index);
-                  },
-                  isScrollable: false,
-                  controller: _tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
-                  tabs: _tabs),
+            Row(
+              children: [
+                SizedBox(
+                  width: ScreenUtil().screenWidth * 0.5,
+                  child: TabBar(
+                      onTap: (index) {
+                        if (!mounted) return;
+                        _pageController.jumpToPage(index);
+                      },
+                      isScrollable: false,
+                      controller: _tabController,
+                      indicator: const BoxDecoration(),
+                      labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                      tabs: _tabs),
+                ),
+                AnchorDetailUserInfoWidget(model: _model!),
+              ],
             ),
             const ColoredBox(
                 color: Color.fromRGBO(236, 236, 236, 1.0),

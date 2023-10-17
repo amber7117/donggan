@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/widget/clip_img_widget.dart';
+import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_button.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -23,7 +23,7 @@ class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
       children: [
         Padding(
             padding: const EdgeInsets.only(right: 8),
-            child: ClipImgWidget(
+            child: CircleImgPlaceWidget(
                 imgUrl: model.headImgUrl,
                 width: 40,
                 placeholder: "common/iconTouxiang")),

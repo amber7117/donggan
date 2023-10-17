@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
-import 'package:wzty/common/widget/clip_img_widget.dart';
+import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
 import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -59,7 +59,7 @@ class _AnchorCellWidgetState extends State<AnchorCellWidget> {
               children: [
                 Padding(
                     padding: const EdgeInsets.only(left: 10, right: 6),
-                    child: ClipImgWidget(
+                    child: CircleImgPlaceWidget(
                         imgUrl: model.headImageUrl,
                         width: 18,
                         placeholder: "common/iconZhubo")),

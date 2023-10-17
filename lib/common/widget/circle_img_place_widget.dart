@@ -1,14 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
-class ClipImgWidget extends StatefulWidget {
+class CircleImgPlaceWidget extends StatefulWidget {
   final String imgUrl;
   final double width;
 
   final BoxFit boxFit;
   final String? placeholder;
 
-  const ClipImgWidget(
+  const CircleImgPlaceWidget(
       {super.key,
       required this.imgUrl,
       required this.width,
@@ -16,10 +16,10 @@ class ClipImgWidget extends StatefulWidget {
       this.placeholder});
 
   @override
-  State createState() => _ClipImgWidgetState();
+  State createState() => _CircleImgPlaceWidgetState();
 }
 
-class _ClipImgWidgetState extends State<ClipImgWidget> {
+class _CircleImgPlaceWidgetState extends State<CircleImgPlaceWidget> {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
