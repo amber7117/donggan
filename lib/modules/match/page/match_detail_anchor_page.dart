@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_anchor_entity.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
@@ -78,7 +78,7 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
       itemCount: _dataArr.length,
       itemBuilder: (BuildContext context, int index) {
         MatchAnchorType type = _dataArr[index];
-        List<LiveListModel> modelArr = _model!.matchList;
+        List<AnchorListModel> modelArr = _model!.matchList;
         String cellTitle = "本场直播";
         if (type == MatchAnchorType.more) {
           modelArr = _model!.otherMatchList;

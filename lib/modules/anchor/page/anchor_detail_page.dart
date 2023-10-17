@@ -6,7 +6,7 @@ import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
-import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
@@ -53,8 +53,8 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
   ];
 
   LoadStatusType _layoutState = LoadStatusType.loading;
-  LiveDetailModel? _model;
-  LiveDetailModel? _playInfo;
+  AnchorDetailModel? _model;
+  AnchorDetailModel? _playInfo;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
 
   String _attemptPlayVideo() {
     return "";
-    late LiveDetailModel model;
+    late AnchorDetailModel model;
     if (_model == null) {
       return "";
     }

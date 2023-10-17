@@ -4,13 +4,13 @@ import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_white_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
-import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class AnchorDetailUserInfoWidget extends StatefulWidget {
-  final LiveDetailModel model;
+  final AnchorDetailModel model;
 
   const AnchorDetailUserInfoWidget({super.key, required this.model});
 
@@ -21,7 +21,7 @@ class AnchorDetailUserInfoWidget extends StatefulWidget {
 class _AnchorDetailUserInfoWidgetState
     extends State<AnchorDetailUserInfoWidget> {
   Future<bool> _requestFollowUser() async {
-    LiveDetailModel model = widget.model;
+    AnchorDetailModel model = widget.model;
 
     bool isFollow = !model.fans.isTrue();
 
@@ -40,7 +40,7 @@ class _AnchorDetailUserInfoWidgetState
 
   @override
   Widget build(BuildContext context) {
-    LiveDetailModel model = widget.model;
+    AnchorDetailModel model = widget.model;
 
     return Container(
       width: 190,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/anchor_banner_widget.dart';
 import 'package:wzty/modules/anchor/widget/anchor_match_cell_widget.dart';
@@ -28,7 +28,7 @@ class _AnchorChildHotPageState
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<BannerModel> _bannerArr = [];
   List<MatchListModel> _matchArr = [];
-  List<LiveListModel> _anchorArr = [];
+  List<AnchorListModel> _anchorArr = [];
 
   int _page = 1;
 

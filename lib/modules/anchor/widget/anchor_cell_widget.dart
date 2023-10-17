@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
-import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -11,7 +11,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 const liveCellRatio = 171 / 134;
 
 class AnchorCellWidget extends StatefulWidget {
-  final LiveListModel model;
+  final AnchorListModel model;
 
   const AnchorCellWidget({super.key, required this.model});
 
@@ -25,7 +25,7 @@ class _AnchorCellWidgetState extends State<AnchorCellWidget> {
     double cellWidth = (ScreenUtil().screenWidth - 24 - 9) * 0.5;
     double coverHeight = cellWidth / 171 * 96;
 
-    LiveListModel model = widget.model;
+    AnchorListModel model = widget.model;
 
     return InkWell(
       onTap: () {

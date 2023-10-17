@@ -1,10 +1,10 @@
-import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 
 enum MatchAnchorType { living, more }
 
 class MatchAnchorModel {
-  List<LiveListModel> matchList;
-  List<LiveListModel> otherMatchList;
+  List<AnchorListModel> matchList;
+  List<AnchorListModel> otherMatchList;
 
   MatchAnchorModel({
     required this.matchList,
@@ -13,10 +13,10 @@ class MatchAnchorModel {
 
   factory MatchAnchorModel.fromJson(Map<String, dynamic> json) {
     return MatchAnchorModel(
-      matchList: List<LiveListModel>.from(
-          (json['matchList'] ?? []).map((x) => LiveListModel.fromJson(x))),
-      otherMatchList: List<LiveListModel>.from(
-          (json['otherMatchList'] ?? []).map((x) => LiveListModel.fromJson(x))),
+      matchList: List<AnchorListModel>.from(
+          (json['matchList'] ?? []).map((x) => AnchorListModel.fromJson(x))),
+      otherMatchList: List<AnchorListModel>.from(
+          (json['otherMatchList'] ?? []).map((x) => AnchorListModel.fromJson(x))),
     );
   }
 }

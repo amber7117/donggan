@@ -3,8 +3,8 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
-import 'package:wzty/modules/anchor/entity/live_detail_entity.dart';
-import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
 class AnchorService {
@@ -26,7 +26,7 @@ class AnchorService {
   }
 
   static Future<void> requestHotList(
-      int page, BusinessCallback<List<LiveListModel>> complete) async {
+      int page, BusinessCallback<List<AnchorListModel>> complete) async {
     Map<String, dynamic> params = {"pageNum": 1, "pageSize": pageSize100};
 
     HttpResultBean result = await HttpManager.request(
@@ -35,8 +35,8 @@ class AnchorService {
 
     if (result.isSuccess()) {
       List tmpList = result.data["list"];
-      List<LiveListModel> retList =
-          tmpList.map((dataMap) => LiveListModel.fromJson(dataMap)).toList();
+      List<AnchorListModel> retList =
+          tmpList.map((dataMap) => AnchorListModel.fromJson(dataMap)).toList();
       complete(true, retList);
       return;
     } else {
@@ -46,7 +46,7 @@ class AnchorService {
   }
 
   static Future<void> requestTypeList(LiveSportType type,
-      BusinessCallback<List<LiveListModel>> complete) async {
+      BusinessCallback<List<AnchorListModel>> complete) async {
     Map<String, dynamic> params = {"liveType": type.value};
 
     HttpResultBean result = await HttpManager.request(
@@ -55,8 +55,8 @@ class AnchorService {
 
     if (result.isSuccess() && result.data is List) {
       List tmpList = result.data;
-      List<LiveListModel> retList =
-          tmpList.map((dataMap) => LiveListModel.fromJson(dataMap)).toList();
+      List<AnchorListModel> retList =
+          tmpList.map((dataMap) => AnchorListModel.fromJson(dataMap)).toList();
       complete(true, retList);
       return;
     } else {
@@ -66,7 +66,7 @@ class AnchorService {
   }
 
   static Future<void> requestDetailBasicInfo(
-      int anchorId, BusinessCallback<LiveDetailModel?> complete) async {
+      int anchorId, BusinessCallback<AnchorDetailModel?> complete) async {
     Map<String, dynamic> params = {"anchorId": anchorId};
     if (UserManager.instance.isLogin()) {
       params["currentUserId"] = UserManager.instance.uid;
@@ -77,7 +77,7 @@ class AnchorService {
         params: params);
 
     if (result.isSuccess()) {
-      LiveDetailModel model = LiveDetailModel.fromJson(result.data);
+      AnchorDetailModel model = AnchorDetailModel.fromJson(result.data);
       complete(true, model);
       return;
     } else {
@@ -87,7 +87,7 @@ class AnchorService {
   }
 
   static Future<void> requestDetailPlayInfo(
-      int anchorId, BusinessCallback<LiveDetailModel?> complete) async {
+      int anchorId, BusinessCallback<AnchorDetailModel?> complete) async {
     Map<String, dynamic> params = {"anchorId": anchorId};
     if (UserManager.instance.isLogin()) {
       params["currentUserId"] = UserManager.instance.uid;
@@ -98,7 +98,7 @@ class AnchorService {
         params: params);
 
     if (result.isSuccess()) {
-      LiveDetailModel model = LiveDetailModel.fromJson(result.data);
+      AnchorDetailModel model = AnchorDetailModel.fromJson(result.data);
       complete(true, model);
       return;
     } else {

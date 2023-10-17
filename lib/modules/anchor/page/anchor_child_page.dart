@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/anchor/entity/live_list_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -23,7 +23,7 @@ class AnchorChildPage extends StatefulWidget {
 class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
 
-  List<LiveListModel> _anchorArr = [];
+  List<AnchorListModel> _anchorArr = [];
 
   @override
   void initState() {

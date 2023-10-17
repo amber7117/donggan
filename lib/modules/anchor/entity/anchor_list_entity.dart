@@ -1,4 +1,4 @@
-class LiveListModel {
+class AnchorListModel {
   int anchorId;
   String nickName;
   // String nickname;
@@ -14,7 +14,7 @@ class LiveListModel {
   int isGreenLive;
   int fans;
 
-  LiveListModel({
+  AnchorListModel({
     required this.anchorId,
     required this.nickName,
     required this.headImageUrl,
@@ -27,8 +27,8 @@ class LiveListModel {
     required this.fans,
   });
 
-  factory LiveListModel.fromJson(Map<String, dynamic> json) {
-    return LiveListModel(
+  factory AnchorListModel.fromJson(Map<String, dynamic> json) {
+    return AnchorListModel(
       anchorId: json['anchorId'] ?? 0,
       nickName: json['nickName'] ?? (json['nickname'] ?? ""),
       headImageUrl: json['headImageUrl'] ?? (json['liveHeadImage'] ?? ""),

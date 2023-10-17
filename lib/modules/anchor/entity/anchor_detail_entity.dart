@@ -1,4 +1,4 @@
-class LiveDetailModel {
+class AnchorDetailModel {
   int leagueId;
   int matchId;
   int anchorId;
@@ -21,7 +21,7 @@ class LiveDetailModel {
   Map<String, String> recordAddr;
   String animUrl;
 
-  LiveDetailModel({
+  AnchorDetailModel({
     required this.leagueId,
     required this.matchId,
     required this.anchorId,
@@ -45,8 +45,8 @@ class LiveDetailModel {
     required this.animUrl,
   });
 
-  factory LiveDetailModel.fromJson(Map<String, dynamic> json) {
-    return LiveDetailModel(
+  factory AnchorDetailModel.fromJson(Map<String, dynamic> json) {
+    return AnchorDetailModel(
       leagueId: json['leagueId'] ?? 0,
       matchId: json['matchId'] ?? 0,
       anchorId: json['anchorId'] ?? 0,
@@ -75,14 +75,14 @@ class LiveDetailModel {
     );
   }
 
-  void updatePlayDataByModel(LiveDetailModel model) {
+  void updatePlayDataByModel(AnchorDetailModel model) {
     liveTitle = model.liveTitle;
     playAddr = model.playAddr;
     animUrl = model.animUrl;
     chatId = model.chatId;
   }
 
-  void updatePlaybackDataByModel(LiveRecordModel model) {
+  void updatePlaybackDataByModel(AnchorRecordModel model) {
     liveTitle = model.title;
     recordAddr = model.recordAddr;
   }
@@ -90,17 +90,17 @@ class LiveDetailModel {
 }
 
 
-class LiveRecordModel {
+class AnchorRecordModel {
   String title;
   Map<String, String> recordAddr;
 
-  LiveRecordModel({
+  AnchorRecordModel({
     required this.title,
     required this.recordAddr,
   });
 
-  factory LiveRecordModel.fromJson(Map<String, dynamic> json) {
-    return LiveRecordModel(
+  factory AnchorRecordModel.fromJson(Map<String, dynamic> json) {
+    return AnchorRecordModel(
       title: json['title'] ?? '',
       recordAddr: json['recordAddr'] != null
           ? Map<String, String>.from(json['recordAddr'])
