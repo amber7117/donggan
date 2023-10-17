@@ -5,6 +5,8 @@ import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+const matchItemWidth = 54.0;
+
 class MatchTabbarItemWidget extends StatelessWidget {
   final String tabName;
 
@@ -23,12 +25,12 @@ class MatchTabbarItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-        child: Container(
-            margin: const EdgeInsets.only(left: 2, right: 2),
-            padding: const EdgeInsets.only(top: 10),
+        height: tabHeight,
+        child: SizedBox(
             width: tabWidth,
             height: tabHeight,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: _buildChildWidget(context),
             )));
   }
@@ -44,9 +46,9 @@ class MatchTabbarItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.semibold),
             ),
-            const DecoratedBox(
-                decoration: BoxDecoration(color: ColorUtils.red233),
-                child: SizedBox(height: 3, width: 28))
+            const SizedBox(height: 6.5),
+            const ColoredBox(
+                color: ColorUtils.red233, child: SizedBox(height: 3, width: 28))
           ]
         : [
             Text(
@@ -57,6 +59,7 @@ class MatchTabbarItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.medium),
             ),
+            const SizedBox(height: 6.5),
             const SizedBox()
           ];
   }

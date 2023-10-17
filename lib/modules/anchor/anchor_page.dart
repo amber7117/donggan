@@ -92,6 +92,7 @@ class _AnchorPageState extends KeepAliveWidgetState
                     SizedBox(height: ScreenUtil().statusBarHeight),
                     HomeSearchWidget(
                         type: HomeSearchType.match, searchTap: () {}),
+                    const SizedBox(height: 6.0),
                     SizedBox(
                       width: double.infinity,
                       child: TabBar(

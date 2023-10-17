@@ -106,7 +106,7 @@ class _NewsPageState extends KeepAliveWidgetState
           body: Column(
             children: [
               Container(
-                width: ScreenUtil().screenWidth,
+                width: double.infinity,
                 height: ScreenUtil().statusBarHeight + 65.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -114,11 +114,10 @@ class _NewsPageState extends KeepAliveWidgetState
                       fit: BoxFit.fitWidth),
                 ),
                 child: Container(
+                  alignment: Alignment.bottomCenter,
                   width: double.infinity,
-                  margin: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-                  padding:
-                      const EdgeInsets.only(left: 10.0, top: 25.0, right: 10.0),
-                  // color: Colors.yellow,
+                  margin: EdgeInsets.only(
+                      top: ScreenUtil().statusBarHeight, left: 12, right: 12),
                   child: TabBar(
                       onTap: (index) {
                         if (!mounted) return;
@@ -127,7 +126,7 @@ class _NewsPageState extends KeepAliveWidgetState
                       isScrollable: true,
                       controller: _tabController,
                       indicator: const BoxDecoration(),
-                      labelPadding: EdgeInsets.zero,
+                      labelPadding: const EdgeInsets.only(right: 4),
                       tabs: _tabs),
                 ),
               ),

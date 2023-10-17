@@ -5,6 +5,8 @@ import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+const homeDotItemWidth = 56.0;
+
 class HomeTabbarDotItemWidget extends StatelessWidget {
   final String tabName;
 
@@ -16,40 +18,40 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
   const HomeTabbarDotItemWidget(
       {super.key,
       required this.tabName,
-      required this.tabWidth,
-      required this.tabHeight,
+      this.tabWidth = 56.0,
+      this.tabHeight = 40.0,
       required this.index});
 
   @override
   Widget build(BuildContext context) {
     return Tab(
+        height: tabHeight,
         child: Stack(
-      alignment: Alignment.topRight,
-      children: [
-        Container(
-            margin: const EdgeInsets.only(left: 2, right: 2),
-            padding: const EdgeInsets.only(top: 10),
-            width: tabWidth,
-            height: tabHeight,
-            decoration: context.watch<TabDotProvider>().index == index
-                ? const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(252, 230, 230, 1.0),
-                        Color.fromRGBO(255, 255, 255, 1.0)
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10)))
-                : const BoxDecoration(),
-            child: Column(
-              children: _buildChildWidget(context),
-            )),
-        _buildDotWidget(context),
-      ],
-    ));
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+                width: tabWidth,
+                height: tabHeight,
+                decoration: context.watch<TabDotProvider>().index == index
+                    ? const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromRGBO(252, 230, 230, 1.0),
+                            Color.fromRGBO(255, 255, 255, 1.0)
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10)))
+                    : const BoxDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: _buildChildWidget(context),
+                )),
+            _buildDotWidget(context),
+          ],
+        ));
   }
 
   _buildChildWidget(BuildContext context) {
@@ -63,9 +65,11 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.semibold),
             ),
-            const DecoratedBox(
-                decoration: BoxDecoration(color: ColorUtils.red235),
-                child: SizedBox(height: 2, width: 32))
+            const SizedBox(height: 3.0),
+            const ColoredBox(
+                color: ColorUtils.red235,
+                child: SizedBox(height: 2, width: 32)),
+            const SizedBox(height: 4.0),
           ]
         : [
             Text(
@@ -76,7 +80,9 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: TextStyleUtils.medium),
             ),
-            const SizedBox()
+            const SizedBox(height: 3.0),
+            const SizedBox(),
+            const SizedBox(height: 4.0),
           ];
   }
 

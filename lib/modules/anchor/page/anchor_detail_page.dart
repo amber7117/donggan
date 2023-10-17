@@ -188,6 +188,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
               }
             }),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   width: ScreenUtil().screenWidth * 0.5,
@@ -199,7 +200,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
                       isScrollable: false,
                       controller: _tabController,
                       indicator: const BoxDecoration(),
-                      labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                      labelPadding: const EdgeInsets.only(right: 4),
                       tabs: _tabs),
                 ),
                 AnchorDetailUserInfoWidget(model: _model!),

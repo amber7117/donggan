@@ -44,7 +44,7 @@ class _AnchorDetailUserInfoWidgetState
     LiveDetailModel model = widget.model;
 
     return Container(
-      width: ScreenUtil().screenWidth * 0.5,
+      width: 190,
       height: 40,
       decoration: const BoxDecoration(
         gradient: LinearGradient(

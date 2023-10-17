@@ -16,9 +16,6 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
 
-const _tabWidth = 56.0;
-const _tabHeight = 40.0;
-
 class MatchPage extends StatefulWidget {
   const MatchPage({super.key});
 
@@ -41,26 +38,18 @@ class _MatchPageState extends KeepAliveWidgetState
   final List<Widget> _tabs = [
     const HomeTabbarDotItemWidget(
       tabName: '及时',
-      tabWidth: _tabWidth,
-      tabHeight: _tabHeight,
       index: 0,
     ),
     const HomeTabbarDotItemWidget(
       tabName: '赛程',
-      tabWidth: _tabWidth,
-      tabHeight: _tabHeight,
       index: 1,
     ),
     const HomeTabbarDotItemWidget(
       tabName: '赛果',
-      tabWidth: _tabWidth,
-      tabHeight: _tabHeight,
       index: 2,
     ),
     const HomeTabbarDotItemWidget(
       tabName: '收藏',
-      tabWidth: _tabWidth,
-      tabHeight: _tabHeight,
       index: 3,
     )
   ];
@@ -92,7 +81,7 @@ class _MatchPageState extends KeepAliveWidgetState
   @override
   Widget buildWidget(BuildContext context) {
     double tabbarPadding =
-        (ScreenUtil().screenWidth - _tabs.length * _tabWidth) /
+        (ScreenUtil().screenWidth - _tabs.length * homeDotItemWidth) /
             (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
 
@@ -111,11 +100,12 @@ class _MatchPageState extends KeepAliveWidgetState
                       fit: BoxFit.fitWidth),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     SizedBox(height: ScreenUtil().statusBarHeight),
                     HomeSearchWidget(
                         type: HomeSearchType.match, searchTap: () {}),
+                    const SizedBox(height: 6.0),
                     SizedBox(
                       width: double.infinity,
                       child: TabBar(
