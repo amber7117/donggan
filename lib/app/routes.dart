@@ -7,6 +7,7 @@ import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/match/page/match_detail_page.dart';
+import 'package:wzty/modules/match/page/match_filter_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
 import 'package:wzty/modules/me/page/app_act_page.dart';
 import 'package:wzty/modules/me/page/app_kefu_page.dart';
@@ -28,6 +29,7 @@ import 'package:wzty/modules/me/me_page.dart';
 import 'package:wzty/modules/me/page/me_record_page.dart';
 import 'package:wzty/modules/news/news_page.dart';
 import 'package:wzty/modules/news/page/news_detail_page.dart';
+import 'package:wzty/modules/search/search_page.dart';
 
 class Routes {
   static String main = '/';
@@ -88,7 +90,7 @@ class Routes {
     // ---------------------------------------------
 
     router.define(search, handler: Handler(handlerFunc: (context, params) {
-      return const MainPage();
+      return const SearchPage();
     }));
 
     // ---------------------------------------------
@@ -102,7 +104,7 @@ class Routes {
     }));
     router.define(matchFilter, handler: Handler(handlerFunc: (context, params) {
       var args = context?.settings?.arguments as int;
-      return MatchDetailPage(matchId: args);
+      return MatchFilterPage();
     }));
 
     // ---------------------------------------------
