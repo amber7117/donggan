@@ -3,6 +3,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/modules/match/entity/match_calendar_entity.dart';
 import 'package:wzty/modules/match/entity/match_entity.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
@@ -86,7 +87,7 @@ class MatchService {
 
   /// 主播预告
   static Future<void> requestAnchorCalendarMatch(
-      int anchorId, BusinessCallback<List<MatchListModel>> complete) async {
+      int anchorId, BusinessCallback<List<MatchCalendarEntity>> complete) async {
     Map<String, dynamic> params = {
       "anchorId": anchorId,
     };
@@ -97,8 +98,8 @@ class MatchService {
 
     if (result.isSuccess()) {
       List tmpList = result.data;
-      List<MatchListModel> retList =
-          tmpList.map((dataMap) => MatchListModel.fromJson(dataMap)).toList();
+      List<MatchCalendarEntity> retList =
+          tmpList.map((dataMap) => MatchCalendarEntity.fromJson(dataMap)).toList();
       complete(true, retList);
       return;
     } else {

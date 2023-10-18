@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/match/entity/match_list_entity.dart';
+import 'package:wzty/modules/match/entity/match_calendar_entity.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -20,12 +20,19 @@ class AnchorDetailCalendarPage extends StatefulWidget {
 class _AnchorDetailCalendarPageState
     extends KeepAliveWidgetState<AnchorDetailCalendarPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  List<MatchListModel> _dataArr = [];
+  List<MatchCalendarEntity> _dataArr = [];
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
     controlFinishLoad: true,
   );
+
+  @override
+  void initState() {
+    super.initState();
+
+    _requestData();
+  }
 
   _requestData({bool loading = false}) async {
     if (loading) ToastUtils.showLoading();
@@ -68,7 +75,7 @@ class _AnchorDetailCalendarPageState
             itemExtent: matchChildCellHeight,
             itemBuilder: (context, index) {
               return MatchCellWidget(
-                  sportType: SportType.football, model: _dataArr[index]);
+                  sportType: SportType.football, calendarEntity: _dataArr[index]);
             }));
   }
 }

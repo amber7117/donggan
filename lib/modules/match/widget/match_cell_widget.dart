@@ -6,6 +6,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/modules/match/entity/match_calendar_entity.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
@@ -20,14 +21,16 @@ const double _textW = 26.0;
 
 class MatchCellWidget extends StatefulWidget {
   final SportType sportType;
-  final MatchListModel model;
+  final MatchListModel? listModel;
+  final MatchCalendarEntity? calendarEntity;
   final bool isCollectCell;
 
   const MatchCellWidget(
       {super.key,
       required this.sportType,
-      required this.model,
-      this.isCollectCell = false});
+      this.isCollectCell = false,
+      this.listModel,
+      this.calendarEntity});
 
   @override
   State createState() => _MatchCellWidgetState();
@@ -35,7 +38,7 @@ class MatchCellWidget extends StatefulWidget {
 
 class _MatchCellWidgetState extends State<MatchCellWidget> {
   _requestMatchCollect() {
-    MatchListModel model = widget.model;
+    MatchListModel model = widget.listModel!;
     bool isAdd = !model.focus;
 
     ToastUtils.showLoading();
@@ -61,7 +64,14 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
 
   @override
   Widget build(BuildContext context) {
-    MatchListModel model = widget.model;
+    if (widget.listModel != null) {
+      return _buildListWidget(context, widget.listModel!);
+    } else {
+      return _buildCalendarWidget(context, widget.calendarEntity!);
+    }
+  }
+
+  _buildListWidget(BuildContext context, MatchListModel model) {
     MatchStatus matchStatus = matchStatusFromServerValue(model.status);
     bool showScore = (matchStatus == MatchStatus.going ||
         matchStatus == MatchStatus.finished);
@@ -178,6 +188,127 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                         children:
                             _buildAnimateCollectWidget(matchStatus, model)),
                   ),
+                ],
+              )
+            ],
+          ),
+        ));
+  }
+
+  _buildCalendarWidget(BuildContext context, MatchCalendarEntity model) {
+    return InkWell(
+        onTap: () {
+          Routes.push(context, Routes.matchDetail, arguments: model.matchId);
+        },
+        child: Container(
+          height: matchChildCellHeight,
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: _teamW,
+                    child: Text(
+                      model.tournamentName,
+                      style: TextStyle(
+                          color: ColorUtils.gray153,
+                          fontSize: 10.sp,
+                          fontWeight: TextStyleUtils.medium),
+                    ),
+                  ),
+                  Text(
+                    _statusLabelText(MatchStatus.uncoming, ""),
+                    style: TextStyle(
+                        color: ColorUtils.gray153,
+                        fontSize: 10.sp,
+                        fontWeight: TextStyleUtils.medium),
+                  ),
+                  SizedBox(
+                    width: _teamW,
+                    child: Text(
+                      model.matchTimeNew,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          color: ColorUtils.gray153,
+                          fontSize: 10.sp,
+                          fontWeight: TextStyleUtils.medium),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Container(
+                height: 0.5,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(253, 192, 200, 1.0),
+                      Color.fromRGBO(200, 221, 253, 1.0),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: _teamW,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.hostTeamName,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: ColorUtils.black34,
+                              fontSize: 12.sp,
+                              fontWeight: TextStyleUtils.semibold),
+                        ),
+                        Text(
+                          model.guestTeamName,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: ColorUtils.black34,
+                              fontSize: 12.sp,
+                              fontWeight: TextStyleUtils.semibold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Text("-",
+                          style: _scoreLabelStyle(MatchStatus.uncoming, true)),
+                      Text("-",
+                          style: _scoreLabelStyle(MatchStatus.uncoming, true)),
+                    ],
+                  ),
+                  Container(
+                    width: _teamW,
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: _requestMatchCollect,
+                      child: model.userIsAppointment
+                          ? const JhAssetImage("match/iconMatchCollectS",
+                              width: 20)
+                          : const JhAssetImage("match/iconMatchCollect",
+                              width: 20),
+                    ),
+                  )
                 ],
               )
             ],

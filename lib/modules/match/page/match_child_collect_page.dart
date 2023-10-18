@@ -89,7 +89,7 @@ class _MatchChildCollectPageState
                 itemBuilder: (context, index) {
                   return MatchCellWidget(
                       sportType: widget.sportType,
-                      model: _dataArr[index],
+                      listModel: _dataArr[index],
                       isCollectCell: true);
                 })));
   }

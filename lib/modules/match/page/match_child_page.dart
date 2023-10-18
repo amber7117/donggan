@@ -26,7 +26,6 @@ class MatchChildPage extends StatefulWidget {
 }
 
 class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
-  
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchListModel> _dataArr = [];
 
@@ -189,7 +188,7 @@ class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
                       itemBuilder: (context, index) {
                         return MatchCellWidget(
                             sportType: widget.sportType,
-                            model: _dataArr[index]);
+                            listModel: _dataArr[index]);
                       })))
         ],
       );
@@ -205,7 +204,7 @@ class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
               itemExtent: matchChildCellHeight,
               itemBuilder: (context, index) {
                 return MatchCellWidget(
-                    sportType: widget.sportType, model: _dataArr[index]);
+                    sportType: widget.sportType, listModel: _dataArr[index]);
               }));
     }
   }

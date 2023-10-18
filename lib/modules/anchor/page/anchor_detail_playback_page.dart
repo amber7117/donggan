@@ -28,6 +28,13 @@ class _AnchorDetailCalendarPageState
   );
   int _page = 1;
 
+  @override
+  void initState() {
+    super.initState();
+
+    _requestData();
+  }
+
   _requestData({bool loading = false}) async {
     if (loading) ToastUtils.showLoading();
 
