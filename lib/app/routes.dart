@@ -32,21 +32,24 @@ import 'package:wzty/modules/news/page/news_detail_page.dart';
 class Routes {
   static String main = '/';
 
-  //---------------------------------------------
+  static String search = "/search";
+
+  // ---------------------------------------------
 
   static String match = "/match";
   static String matchDetail = "/match/detail";
+  static String matchFilter = "/match/filter";
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   static String anchor = "/anchor";
   static String anchorDetail = "/anchor/detail";
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   static String news = "/news";
   static String newsDetail = "/news/detail";
-  //---------------------------------------------
+  // ---------------------------------------------
 
   static String me = "/me";
   static String meInfo = "/me/info";
@@ -71,16 +74,24 @@ class Routes {
 
   static String appSet = "/appSet";
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   static String login = "/login";
 
   static void configureRoutes(FluroRouter router) {
+    // ---------------------------------------------
+
     router.define(main, handler: Handler(handlerFunc: (context, params) {
       return const MainPage();
     }));
 
-    //---------------------------------------------
+    // ---------------------------------------------
+
+    router.define(search, handler: Handler(handlerFunc: (context, params) {
+      return const MainPage();
+    }));
+
+    // ---------------------------------------------
 
     router.define(match, handler: Handler(handlerFunc: (context, params) {
       return const MatchPage();
@@ -89,19 +100,23 @@ class Routes {
       var args = context?.settings?.arguments as int;
       return MatchDetailPage(matchId: args);
     }));
+    router.define(matchFilter, handler: Handler(handlerFunc: (context, params) {
+      var args = context?.settings?.arguments as int;
+      return MatchDetailPage(matchId: args);
+    }));
 
-    //---------------------------------------------
+    // ---------------------------------------------
 
     router.define(anchor, handler: Handler(handlerFunc: (context, params) {
       return const AnchorPage();
     }));
-    router.define(anchorDetail, handler: Handler(handlerFunc: (context, params) {
+    router.define(anchorDetail,
+        handler: Handler(handlerFunc: (context, params) {
       var args = context?.settings?.arguments as int;
       return AnchorDetailPage(anchorId: args);
     }));
 
-
-    //---------------------------------------------
+    // ---------------------------------------------
 
     router.define(news, handler: Handler(handlerFunc: (context, params) {
       return const NewsPage();
@@ -111,7 +126,7 @@ class Routes {
       return NewsDetailPage(newsId: args);
     }));
 
-    //---------------------------------------------
+    // ---------------------------------------------
 
     router.define(me, handler: Handler(handlerFunc: (context, params) {
       return const MePage();
@@ -177,13 +192,14 @@ class Routes {
       return const AppSetPage();
     }));
 
-    //---------------------------------------------
+    // ---------------------------------------------
 
     router.define(login, handler: Handler(handlerFunc: (context, params) {
       return const LoginPage();
     }));
   }
 
+  /// 登录
   static goLoginPage(BuildContext context) {
     return router.navigateTo(
       context,
@@ -192,7 +208,22 @@ class Routes {
     );
   }
 
-  /// 跳转
+  /// 跳转 present
+  static void present(BuildContext context, String path,
+      {bool replace = false, bool clearStack = false, Object? arguments}) {
+    router.navigateTo(
+      context,
+      path,
+      replace: replace,
+      clearStack: clearStack,
+      transition: TransitionType.cupertinoFullScreenDialog,
+      routeSettings: RouteSettings(
+        arguments: arguments,
+      ),
+    );
+  }
+
+  /// 跳转 push
   static void push(BuildContext context, String path,
       {bool replace = false, bool clearStack = false, Object? arguments}) {
     router.navigateTo(
