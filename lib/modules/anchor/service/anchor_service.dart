@@ -110,8 +110,16 @@ class AnchorService {
 
     if (result.isSuccess()) {
       List tmpList = result.data["list"];
-      List<AnchorVideoModel> retList =
-          tmpList.map((dataMap) => AnchorVideoModel.fromJson(dataMap)).toList();
+
+      List<AnchorVideoModel> retList = [];
+      for (Map<String, dynamic> map in tmpList) {
+        for (List list in map.values) {
+          List<AnchorVideoModel> videoList = list
+              .map((dataMap) => AnchorVideoModel.fromJson(dataMap))
+              .toList();
+          retList.addAll(videoList);
+        }
+      }
       complete(true, retList);
     } else {
       complete(false, []);

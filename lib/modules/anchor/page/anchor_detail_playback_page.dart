@@ -5,13 +5,14 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_playback_cell_widget.dart';
-import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class AnchorDetailPlaybackPage extends StatefulWidget {
   final int anchorId;
+  final String nickName;
 
-  const AnchorDetailPlaybackPage({super.key, required this.anchorId});
+  const AnchorDetailPlaybackPage(
+      {super.key, required this.anchorId, required this.nickName});
 
   @override
   State createState() => _AnchorDetailCalendarPageState();
@@ -32,7 +33,7 @@ class _AnchorDetailCalendarPageState
   void initState() {
     super.initState();
 
-    _requestData();
+    _requestData(loading: true);
   }
 
   _requestData({bool loading = false}) async {
@@ -74,9 +75,10 @@ class _AnchorDetailCalendarPageState
         child: ListView.builder(
             padding: const EdgeInsets.only(top: 3),
             itemCount: _dataArr.length,
-            itemExtent: matchChildCellHeight,
+            itemExtent: playbackCellHeight,
             itemBuilder: (context, index) {
-              return AnchorDetailPlaybackCellWidget(model: _dataArr[index]);
+              return AnchorDetailPlaybackCellWidget(
+                  model: _dataArr[index], nickName: widget.nickName);
             }));
   }
 }

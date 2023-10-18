@@ -223,7 +223,8 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
                             anchorId: widget.anchorId);
                       } else {
                         return AnchorDetailPlaybackPage(
-                            anchorId: widget.anchorId);
+                            anchorId: widget.anchorId,
+                            nickName: _model!.nickname);
                       }
                     }))
           ],

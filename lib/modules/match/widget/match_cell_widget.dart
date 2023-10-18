@@ -297,18 +297,20 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                           style: _scoreLabelStyle(MatchStatus.uncoming, true)),
                     ],
                   ),
-                  Container(
+                  SizedBox(
                     width: _teamW,
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: _requestMatchCollect,
-                      child: model.userIsAppointment
-                          ? const JhAssetImage("match/iconMatchCollectS",
-                              width: 20)
-                          : const JhAssetImage("match/iconMatchCollect",
-                              width: 20),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: _requestMatchCollect,
+                        child: model.userIsAppointment
+                            ? const JhAssetImage("match/iconMatchCollectS",
+                                width: 20)
+                            : const JhAssetImage("match/iconMatchCollect",
+                                width: 20),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               )
             ],

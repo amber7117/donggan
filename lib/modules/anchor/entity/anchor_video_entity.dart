@@ -16,6 +16,7 @@ class AnchorVideoModel {
   String recordImg;
   int anchorHot;
   int fans;
+  int browseNum;
   String startTime;
   int totalTime;
   Map<String, String> playAddr;
@@ -39,6 +40,7 @@ class AnchorVideoModel {
     required this.recordImg,
     required this.anchorHot,
     required this.fans,
+    required this.browseNum,
     required this.startTime,
     required this.totalTime,
     required this.playAddr,
@@ -68,6 +70,7 @@ class AnchorVideoModel {
       recordImg: json['recordImg'] ?? "",
       anchorHot: json['anchorHot'] ?? 0,
       fans: json['fans'] ?? 0,
+      browseNum: json['browseNum'] ?? 0,
       startTime: json['startTime'] ?? "",
       totalTime: json['totalTime'] ?? 0,
       playAddr: json['playAddr'] != null
