@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_white_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -20,7 +22,13 @@ class AnchorDetailUserInfoWidget extends StatefulWidget {
 
 class _AnchorDetailUserInfoWidgetState
     extends State<AnchorDetailUserInfoWidget> {
+  /// 关注业务
   Future<bool> _requestFollowUser() async {
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+      return false;
+    }
+
     AnchorDetailModel model = widget.model;
 
     bool isFollow = !model.fans.isTrue();

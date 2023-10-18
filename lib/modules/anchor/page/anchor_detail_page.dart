@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
@@ -29,7 +30,7 @@ class AnchorDetailPage extends StatefulWidget {
   State createState() => _AnchorDetailPageState();
 }
 
-class _AnchorDetailPageState extends State<AnchorDetailPage>
+class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -155,7 +156,7 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
         successWidget: Scaffold(
@@ -234,5 +235,10 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
   void _onPageChange(int index) {
     _tabProvider.setIndex(index);
     _tabController.animateTo(index);
+  }
+
+  @override
+  bool isAutomaticKeepAlive() {
+    return true;
   }
 }
