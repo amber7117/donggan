@@ -31,6 +31,7 @@ class MatchDetailService {
 
   // -------------------------------------------
 
+  /// 赛事详情主播信息
   static Future<void> requestMatchAnchor(
       int matchId, BusinessCallback<MatchAnchorModel?> complete) async {
     Map<String, dynamic> params = {

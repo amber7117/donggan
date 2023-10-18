@@ -42,7 +42,7 @@ class MatchListModel {
 
   int lmtMode;
 
-  String matchTimeNew;
+  late String matchTimeNew;
 
   bool focus = false;
   bool userIsAppointment = false;
@@ -77,8 +77,13 @@ class MatchListModel {
       required this.hasAnchor,
       required this.hasLive,
       required this.hasVid,
-      required this.lmtMode,
-      required this.matchTimeNew});
+      required this.lmtMode}) {
+    if (matchTime > 0) {
+      matchTimeNew = WZDateUtils.getDateString(matchTime, "HH:mm");
+    } else {
+      matchTimeNew = "HH:mm";
+    }
+  }
 
   factory MatchListModel.fromJson(Map<String, dynamic> json) {
     return MatchListModel(
@@ -105,10 +110,7 @@ class MatchListModel {
       timePlayed: json['timePlayed'] != null
           ? AppBusinessUtils.obtainMatchTimeDesc(json['timePlayed'])
           : "",
-      matchTime: json['matchTime'],
-      matchTimeNew: json['matchTime'] != null
-          ? WZDateUtils.getDateString(json['matchTime'], "HH:mm")
-          : "00:00",
+      matchTime: json['matchTime'] ?? 0,
       status: json['status'] ?? 0,
       statusCode: json['statusCode'] ?? 0,
       sportType: json['sportType'] ?? 0,

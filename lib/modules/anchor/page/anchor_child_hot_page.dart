@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -11,6 +10,7 @@ import 'package:wzty/modules/banner/entity/banner_entity.dart';
 import 'package:wzty/modules/banner/service/banner_service.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
+import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -46,7 +46,7 @@ class _AnchorChildHotPageState
         BannerService.requestBanner(BannerReqType.anchor, (success, result) {
       _bannerArr = result;
     });
-    Future match = AnchorService.requestHotMatchList((success, result) {
+    Future match = MatchService.requestHotMatchList((success, result) {
       _matchArr = result;
     });
     Future anchor = AnchorService.requestHotList(_page, (success, result) {

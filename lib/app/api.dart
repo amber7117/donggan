@@ -1,4 +1,5 @@
 class MatchApi {
+
   static String matchList = "/qiutx-score/v10/queryAllByStatus";
 
   static String matchListAtt = "/qiutx-score/v9/match/att";
@@ -17,11 +18,13 @@ class MatchApi {
 
   static String matchAnchor = "/live-product/anonymous/app/match/live";
   
+  static String hotMatchList = "/live-product/anonymous/v1/find/match/pool";
+
+  static String anchorMatchList = "/live-product/v1/anchor/order/list";
 }
 
 class AnchorApi {
-  static String hotMatchList = "/live-product/anonymous/v1/find/match/pool";
-
+  
   static String hotList = "/live-product/anonymous/new/app/live/list";
 
   static String typeList = "/live-product/anonymous/v6/app/live/list";
@@ -29,6 +32,8 @@ class AnchorApi {
   static String detailBasicInfo = "/live-product/anonymous/v1/room/basic/info";
 
   static String detailPlayInfo = "/live-product/anonymous/v1/room/pull/info";
+
+  static String playbackList = "/live-product/anonymous/v1/app/anchor/record/page";
 }
 
 class NewsApi {

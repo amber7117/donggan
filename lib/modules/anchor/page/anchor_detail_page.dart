@@ -219,9 +219,11 @@ class _AnchorDetailPageState extends State<AnchorDetailPage>
                             roomId: _model!.roomId.toString(),
                             chatRoomId: _model!.chatId);
                       } else if (index == 1) {
-                        return AnchorDetailCalendarPage();
+                        return AnchorDetailCalendarPage(
+                            anchorId: widget.anchorId);
                       } else {
-                        return AnchorDetailPlaybackPage();
+                        return AnchorDetailPlaybackPage(
+                            anchorId: widget.anchorId);
                       }
                     }))
           ],

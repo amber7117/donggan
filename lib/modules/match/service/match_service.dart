@@ -65,4 +65,45 @@ class MatchService {
       complete(false, result.msg ?? result.data);
     }
   }
+
+  /// 主播热门赛事
+  static Future<void> requestHotMatchList(
+      BusinessCallback<List<MatchListModel>> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(MatchApi.hotMatchList, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data;
+      List<MatchListModel> retList =
+          tmpList.map((dataMap) => MatchListModel.fromJson(dataMap)).toList();
+      complete(true, retList);
+      return;
+    } else {
+      complete(false, []);
+      return;
+    }
+  }
+
+  /// 主播预告
+  static Future<void> requestAnchorCalendarMatch(
+      int anchorId, BusinessCallback<List<MatchListModel>> complete) async {
+    Map<String, dynamic> params = {
+      "anchorId": anchorId,
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        MatchApi.anchorMatchList, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data;
+      List<MatchListModel> retList =
+          tmpList.map((dataMap) => MatchListModel.fromJson(dataMap)).toList();
+      complete(true, retList);
+      return;
+    } else {
+      complete(false, []);
+      return;
+    }
+  }
 }
