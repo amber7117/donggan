@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
-import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
-import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_all_page.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_hot_page.dart';
-
-import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
+import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/service/match_filter_service.dart';
 import 'package:wzty/modules/match/widget/filter/match_filter_bottom_widget.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchFilterPage extends StatefulWidget {
@@ -41,7 +36,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   late PageController _pageController;
 
   final TabProvider _tabProvider = TabProvider();
-  final MatchDetailProvider _detailProvider = MatchDetailProvider();
+  final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
     const MatchTabbarItemWidget(
@@ -84,7 +79,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     ToastUtils.showLoading();
 
     Future all = MatchFilterService.requestAllData(
-        MatchFilterType.footballAll, widget.matchStatus, "2023-10-19",
+        MatchFilterType.footballAll, widget.matchStatus, widget.dateStr,
         (success, result) {
       _allData = result;
     });
@@ -148,7 +143,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                 child: SizedBox(width: double.infinity, height: 0.5)),
             Expanded(
                 child: PageView.builder(
-                    key: const Key('pageView'),
+                    
                     itemCount: _tabs.length,
                     onPageChanged: _onPageChange,
                     controller: _pageController,

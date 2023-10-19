@@ -13,7 +13,7 @@ import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
-import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
+import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -36,7 +36,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
   late PageController _pageController;
 
   final TabProvider _tabProvider = TabProvider();
-  final MatchDetailProvider _detailProvider = MatchDetailProvider();
+  final MatchDetailDataProvider _dataProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
     const MatchTabbarItemWidget(
@@ -170,11 +170,11 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context2) => _tabProvider),
-          ChangeNotifierProvider(create: (context2) => _detailProvider),
+          ChangeNotifierProvider(create: (context2) => _dataProvider),
         ],
         child: Column(
           children: [
-            Consumer<MatchDetailProvider>(builder: (context, provider, child) {
+            Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
               String videoUrl = _attemptPlayVideo();
               if (videoUrl.isNotEmpty) {
                 return MatchDetailHeadVideoWidget(
@@ -210,7 +210,6 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                 child: SizedBox(width: double.infinity, height: 0.5)),
             Expanded(
                 child: PageView.builder(
-                    key: const Key('pageView'),
                     itemCount: _tabs.length,
                     onPageChanged: _onPageChange,
                     controller: _pageController,

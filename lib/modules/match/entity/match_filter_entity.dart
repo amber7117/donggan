@@ -1,5 +1,5 @@
 class MatchFilterModel {
-  List<MatchFilterItemModel> hotAr = [];
+  List<MatchFilterItemModel> hotArr = [];
   int totalCount = 0;
   List<String> titleArr = [];
   List<List<MatchFilterItemModel>> moderArrArr = [];

@@ -151,7 +151,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                           SizedBox(
                               height: 234, 
                               child: PageView.builder(
-                                  key: const Key('pageView'),
+                                  
                                   itemCount: 2,
                                   onPageChanged: _onPageChange,
                                   controller: _pageController,

@@ -11,7 +11,9 @@ class MatchFilterService {
       "typeId": type.value,
     };
     params["status"] = matchStatusToServerValue(status);
-    params["date"] = dateStr;
+    if (dateStr.isNotEmpty) {
+      params["date"] = dateStr;
+    }
 
     HttpResultBean result = await HttpManager.request(
         MatchApi.matchFilter, HttpMethod.get,
@@ -69,7 +71,7 @@ class MatchFilterService {
       List<MatchFilterItemModel> itemList = retList
           .map((dataMap) => MatchFilterItemModel.fromJson(dataMap))
           .toList();
-      model.hotAr = itemList;
+      model.hotArr = itemList;
 
       complete(true, model);
     } else {

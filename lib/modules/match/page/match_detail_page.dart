@@ -7,7 +7,7 @@ import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
 import 'package:wzty/modules/match/page/match_detail_status_page.dart';
-import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
+import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
@@ -32,7 +32,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
   late PageController _pageController;
 
   final TabProvider _tabProvider = TabProvider();
-  final MatchDetailProvider _detailProvider = MatchDetailProvider();
+  final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
     const MatchTabbarItemWidget(
@@ -117,7 +117,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
         ],
         child: Column(
           children: [
-            Consumer<MatchDetailProvider>(builder: (context, provider, child) {
+            Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
               if (provider.showAnimate) {
                 return MatchDetailHeadWebWidget(
                     height: _headHeight, urlStr: _model!.animUrl);
@@ -147,7 +147,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                 child: SizedBox(width: double.infinity, height: 0.5)),
             Expanded(
                 child: PageView.builder(
-                    key: const Key('pageView'),
+                    
                     itemCount: _tabs.length,
                     onPageChanged: _onPageChange,
                     controller: _pageController,

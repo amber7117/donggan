@@ -13,6 +13,7 @@ import 'package:wzty/main/tabbar/home_tabbar_dot_item_widget.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/page/match_child_collect_page.dart';
 import 'package:wzty/modules/match/page/match_child_page.dart';
+import 'package:wzty/modules/match/provider/match_data_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,7 @@ class _MatchPageState extends KeepAliveWidgetState
 
   final TabDotProvider _tabProvider = TabDotProvider(
       MatchCollectManager.instance.obtainCollectCount(SportType.football));
+  final MatchDataProvider _dataProvider = MatchDataProvider();
 
   late StreamSubscription _eventSub;
 
@@ -54,6 +56,17 @@ class _MatchPageState extends KeepAliveWidgetState
       index: 3,
     )
   ];
+
+  _getMatchStatus(int idx) {
+    if (idx == 0) {
+      return MatchStatus.going;
+    } else if (idx == 1) {
+      return MatchStatus.uncoming;
+    } else if (idx == 2) {
+      return MatchStatus.finished;
+    }
+    return MatchStatus.uncoming;
+  }
 
   @override
   void initState() {
@@ -86,8 +99,11 @@ class _MatchPageState extends KeepAliveWidgetState
             (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
 
-    return ChangeNotifierProvider<TabDotProvider>(
-        create: (context2) => _tabProvider,
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context2) => _tabProvider),
+          ChangeNotifierProvider(create: (context2) => _dataProvider),
+        ],
         child: Scaffold(
           backgroundColor: ColorUtils.gray248,
           body: Column(
@@ -110,11 +126,13 @@ class _MatchPageState extends KeepAliveWidgetState
                           Routes.present(context, Routes.search);
                         },
                         rightTap: () {
-                          Routes.present(context, Routes.matchFilter, arguments: {
-                            "sportType": SportType.football,
-                            "matchStatus": MatchStatus.going,
-                            "dateStr": "",
-                          });
+                          Routes.present(context, Routes.matchFilter,
+                              arguments: {
+                                "sportType": SportType.football,
+                                "matchStatus":
+                                    _getMatchStatus(_tabProvider.index),
+                                "dateStr": "",
+                              });
                         }),
                     const SizedBox(height: 6.0),
                     SizedBox(
@@ -136,7 +154,7 @@ class _MatchPageState extends KeepAliveWidgetState
               ),
               Expanded(
                   child: PageView.builder(
-                      key: const Key('pageView'),
+                      
                       itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,

@@ -112,7 +112,7 @@ class _AnchorPageState extends KeepAliveWidgetState
               ),
               Expanded(
                   child: PageView.builder(
-                      key: const Key('pageView'),
+                      
                       itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,

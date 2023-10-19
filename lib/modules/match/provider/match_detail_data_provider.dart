@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MatchDetailProvider extends ChangeNotifier {
+class MatchDetailDataProvider extends ChangeNotifier {
 
   bool _showAnimate = false;
   bool get showAnimate => _showAnimate;

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/modules/match/entity/match_detail_entity.dart';
-import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
+import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -144,7 +144,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                         fontSize: 10.sp,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
-                    context.read<MatchDetailProvider>().setShowAnimate(true);
+                    context.read<MatchDetailDataProvider>().setShowAnimate(true);
                   }),
                   const SizedBox(width: 10),
                   const SizedBox(width: 0.5, height: 8).colored(Colors.white),
@@ -157,7 +157,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                         fontSize: 10.sp,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
-                    context.read<MatchDetailProvider>().setShowVideo(true);
+                    context.read<MatchDetailDataProvider>().setShowVideo(true);
                   }),
                 ],
               ),
