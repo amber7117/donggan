@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
@@ -43,10 +44,14 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     const MatchTabbarItemWidget(
       tabName: '全部',
       index: 0,
+      tabWidth: 60.0,
+      tabHeight: 44.0,
     ),
     const MatchTabbarItemWidget(
       tabName: '热门',
       index: 1,
+      tabWidth: 60.0,
+      tabHeight: 44.0,
     ),
   ];
 
@@ -76,12 +81,11 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     ToastUtils.showLoading();
 
     Future all = MatchFilterService.requestAllData(
-        MatchFilterType.footballAll, widget.matchStatus, widget.dateStr,
+        MatchFilterType.footballAll, widget.matchStatus, "2023-10-19",
         (success, result) {
       _allData = result;
     });
-    Future hot = MatchFilterService.requestHotData(
-        MatchFilterType.footballHot, widget.matchStatus, widget.dateStr,
+    Future hot = MatchFilterService.requestHotData(MatchFilterType.footballHot,
         (success, result) {
       _hotData = result;
     });
@@ -101,10 +105,12 @@ class _MatchFilterPageState extends State<MatchFilterPage>
 
   @override
   Widget build(BuildContext context) {
-    return LoadStateWidget(
-        state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: buildAppBar(context: context, titleText: "足球赛事"),
+      body: LoadStateWidget(
+          state: _layoutState, successWidget: _buildChild(context)),
+    );
   }
 
   _buildChild(BuildContext context) {
@@ -118,23 +124,21 @@ class _MatchFilterPageState extends State<MatchFilterPage>
         ],
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 180,
-                  child: TabBar(
-                      onTap: (index) {
-                        if (!mounted) return;
-                        _pageController.jumpToPage(index);
-                      },
-                      isScrollable: true,
-                      controller: _tabController,
-                      indicator: const BoxDecoration(),
-                      labelPadding: const EdgeInsets.only(right: 4),
-                      tabs: _tabs),
-                ),
-              ],
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 240,
+                child: TabBar(
+                    onTap: (index) {
+                      if (!mounted) return;
+                      _pageController.jumpToPage(index);
+                    },
+                    isScrollable: true,
+                    controller: _tabController,
+                    indicator: const BoxDecoration(),
+                    labelPadding: const EdgeInsets.only(left: 30, right: 30),
+                    tabs: _tabs),
+              ),
             ),
             const ColoredBox(
                 color: Color.fromRGBO(236, 236, 236, 1.0),

@@ -14,7 +14,7 @@ class MatchFilterItemModel {
   String cnAlias;
   String headLetter;
   int matchCount;
-  bool isHot;
+  int isHot;
   bool noSelect;
 
   MatchFilterItemModel({
@@ -32,7 +32,7 @@ class MatchFilterItemModel {
       cnAlias: json['cnAlias'] ?? "",
       headLetter: json['headLetter'] ?? "",
       matchCount: json['matchCount'] ?? 0,
-      isHot: json['isHot'] ?? false,
+      isHot: json['isHot'] ?? 0,
     );
   }
 

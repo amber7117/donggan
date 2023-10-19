@@ -11,9 +11,7 @@ class MatchFilterService {
       "typeId": type.value,
     };
     params["status"] = matchStatusToServerValue(status);
-    if (dateStr.isNotEmpty) {
-      params["date"] = dateStr;
-    }
+    params["date"] = dateStr;
 
     HttpResultBean result = await HttpManager.request(
         MatchApi.matchFilter, HttpMethod.get,
@@ -54,8 +52,7 @@ class MatchFilterService {
     }
   }
 
-  static Future<void> requestHotData(MatchFilterType type, MatchStatus status,
-      String dateStr, BusinessCallback<MatchFilterModel?> complete) async {
+  static Future<void> requestHotData(MatchFilterType type, BusinessCallback<MatchFilterModel?> complete) async {
     Map<String, dynamic> params = {
       "typeId": type.value,
     };
