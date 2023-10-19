@@ -6,23 +6,26 @@ import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_all_page.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_hot_page.dart';
 
 import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
+import 'package:wzty/modules/match/service/match_filter_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchFilterPage extends StatefulWidget {
   final SportType sportType;
-  final String dateStr;
   final MatchStatus matchStatus;
+  final String dateStr;
 
-  const MatchFilterPage(
-      {super.key,
-      required this.sportType,
-      required this.dateStr,
-      required this.matchStatus});
+  const MatchFilterPage({
+    super.key,
+    required this.sportType,
+    required this.matchStatus,
+    required this.dateStr,
+  });
 
   @override
   State createState() => _MatchFilterPageState();
@@ -48,8 +51,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   ];
 
   LoadStatusType _layoutState = LoadStatusType.loading;
-  AnchorDetailModel? _model;
-  AnchorDetailModel? _playInfo;
+  MatchFilterModel? _allData;
+  MatchFilterModel? _hotData;
 
   @override
   void initState() {
@@ -70,30 +73,30 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   }
 
   _requestData() {
-    // ToastUtils.showLoading();
+    ToastUtils.showLoading();
 
-    // Future basic = AnchorService.requestDetailBasicInfo(widget.anchorId,
-    //     (success, result) {
-    //   _model = result;
-    // });
-    // Future play =
-    //     AnchorService.requestDetailPlayInfo(widget.anchorId, (success, result) {
-    //   _playInfo = result;
-    // });
+    Future all = MatchFilterService.requestAllData(
+        MatchFilterType.footballAll, widget.matchStatus, widget.dateStr,
+        (success, result) {
+      _allData = result;
+    });
+    Future hot = MatchFilterService.requestHotData(
+        MatchFilterType.footballHot, widget.matchStatus, widget.dateStr,
+        (success, result) {
+      _hotData = result;
+    });
 
-    // Future.wait([basic, play]).then((value) {
-    //   ToastUtils.hideLoading();
+    Future.wait([all, hot]).then((value) {
+      ToastUtils.hideLoading();
 
-    //   if (_model != null && _playInfo != null) {
-    //     _model!.updatePlayDataByModel(_playInfo!);
+      if (_allData != null && _hotData != null) {
+        _layoutState = LoadStatusType.success;
+      } else {
+        _layoutState = LoadStatusType.failure;
+      }
 
-    //     _layoutState = LoadStatusType.success;
-    //   } else {
-    //     _layoutState = LoadStatusType.failure;
-    //   }
-
-    //   setState(() {});
-    // });
+      setState(() {});
+    });
   }
 
   @override
@@ -105,7 +108,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   }
 
   _buildChild(BuildContext context) {
-    if (_model == null) {
+    if (_allData == null || _hotData == null) {
       return const SizedBox();
     }
     return MultiProvider(

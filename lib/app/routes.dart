@@ -104,8 +104,12 @@ class Routes {
       return MatchDetailPage(matchId: args);
     }));
     router.define(matchFilter, handler: Handler(handlerFunc: (context, params) {
-      var args = context?.settings?.arguments as int;
-      return MatchFilterPage(sportType: SportType.football, dateStr: "", matchStatus: MatchStatus.finished);
+      var args = context?.settings?.arguments as Map<String, dynamic>;
+      return MatchFilterPage(
+        sportType: args["sportType"],
+        matchStatus: args["matchStatus"],
+        dateStr: args["dateStr"],
+      );
     }));
 
     // ---------------------------------------------

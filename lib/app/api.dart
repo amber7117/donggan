@@ -4,6 +4,8 @@ class MatchApi {
 
   static String matchListAtt = "/qiutx-score/v9/match/att";
 
+  static String matchFilter = "/qiutx-score/v9/tournamentMatch/getAll";
+
   static String matchCollect = "/qiutx-score/user/match/followed/add";
 
   static String matchCollectCancel = "/qiutx-score/user/match/followed/cancel";

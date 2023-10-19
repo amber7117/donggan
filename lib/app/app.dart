@@ -84,14 +84,14 @@ enum LiveSportType {
   final String title;
 }
 
-enum MatchConditionType {
+enum MatchFilterType {
   footballAll(value: 1),
   footballHot(value: 9),
   basketballAll(value: 20),
   basketballHot(value: 10),
   unknown(value: -1);
 
-  const MatchConditionType({
+  const MatchFilterType({
     required this.value,
   });
 
