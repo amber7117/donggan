@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
@@ -13,6 +15,7 @@ import 'package:wzty/modules/match/page/filter/match_filter_hot_page.dart';
 
 import 'package:wzty/modules/match/provider/matc_detail_provider.dart';
 import 'package:wzty/modules/match/service/match_filter_service.dart';
+import 'package:wzty/modules/match/widget/filter/match_filter_bottom_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -151,11 +154,13 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                     controller: _pageController,
                     itemBuilder: (_, int index) {
                       if (index == 0) {
-                        return MatchFilterAllPage();
+                        return MatchFilterAllPage(model: _allData!);
                       } else {
-                        return MatchFilterHotPage();
+                        return MatchFilterHotPage(model: _hotData!);
                       }
-                    }))
+                    })),
+            const MatchFilterBottomWidget(),
+            SizedBox(height: ScreenUtil().bottomBarHeight),
           ],
         ));
   }

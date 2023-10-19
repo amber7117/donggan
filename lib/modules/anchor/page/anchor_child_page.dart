@@ -88,7 +88,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
               padding: EdgeInsets.zero,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: liveCellRatio,
+                childAspectRatio: anchorCellRatio,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 9,
               ),

@@ -8,7 +8,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const liveCellRatio = 171 / 134;
+const anchorCellRatio = 171 / 134;
 
 class AnchorCellWidget extends StatefulWidget {
   final AnchorListModel model;
