@@ -6,6 +6,7 @@ class MatchFilterManager {
   SportType sportType = SportType.football;
   MatchStatus matchStatus = MatchStatus.unknown;
   MatchFilterType filterType = MatchFilterType.unknown;
+
   List<int> leagueIdArr = [];
   Map<MatchFilterType, Map<MatchStatus, dynamic>> fbFilterData = {};
   Map<MatchFilterType, Map<MatchStatus, dynamic>> bbFilterData = {};

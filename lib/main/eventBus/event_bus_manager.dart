@@ -15,16 +15,15 @@ class EventBusManager {
 
   static final EventBusManager _getInstance = EventBusManager._internal();
   
-  // ---------------------------------------------
-
-
-  //初始化eventBus
+  /// 初始化eventBus
   late EventBus _eventBus;
   EventBusManager._internal() {
     _eventBus = EventBus();
   }
 
-  // 开启eventbus订阅
+  // ---------------------------------------------
+
+  /// 开启eventbus订阅
   StreamSubscription on<T>(EventCallback<T> callback) {
     StreamSubscription stream = _eventBus.on<T>().listen((event) {
       callback(event);
@@ -37,12 +36,12 @@ class EventBusManager {
     _eventBus.fire(event);
   }
 
-  // 移除steam
+  /// 移除steam
   void off(StreamSubscription? steam) {
     steam?.cancel();
   }
 
-  //event销毁，为了防止内存泄漏，一般在应用销毁时都需要对 EventBus 进行销毁：
+  /// event销毁，为了防止内存泄漏，一般在应用销毁时都需要对 EventBus 进行销毁：
   void onDestroy() {
     _eventBus.destroy();
   }

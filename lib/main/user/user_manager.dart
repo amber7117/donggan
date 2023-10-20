@@ -14,7 +14,6 @@ class UserManager {
 
   // ---------------------------------------------
 
-
   createUser() async {
     Map<String, dynamic>? jsonMap = await SpUtils.getJSON(SpKeys.user);
     if (jsonMap != null) {
