@@ -38,12 +38,9 @@ class _MatchPageState extends KeepAliveWidgetState
 
   late StreamSubscription _eventSub;
 
-  final GlobalKey<MatchChildPageState> hotPageKey =
-      GlobalKey<MatchChildPageState>();
-  final GlobalKey<MatchChildPageState> uncomingPageKey =
-      GlobalKey<MatchChildPageState>();
-  final GlobalKey<MatchChildPageState> finishedPageKey =
-      GlobalKey<MatchChildPageState>();
+  final GlobalKey<MatchChildPageState> _goingPageKey = GlobalKey();
+  final GlobalKey<MatchChildPageState> _uncomingPageKey = GlobalKey();
+  final GlobalKey<MatchChildPageState> _finishedPageKey = GlobalKey();
 
   final List<Widget> _tabs = [
     const HomeTabbarDotItemWidget(
@@ -73,6 +70,17 @@ class _MatchPageState extends KeepAliveWidgetState
       return MatchStatus.finished;
     }
     return MatchStatus.uncoming;
+  }
+
+  _getMatchDateStr(int idx) {
+    if (idx == 0) {
+      return _goingPageKey.currentState?.getMatchDateStr();
+    } else if (idx == 1) {
+      return _uncomingPageKey.currentState?.getMatchDateStr();
+    } else if (idx == 2) {
+      return _finishedPageKey.currentState?.getMatchDateStr();
+    }
+    return "";
   }
 
   @override
@@ -138,7 +146,7 @@ class _MatchPageState extends KeepAliveWidgetState
                                 "sportType": SportType.football,
                                 "matchStatus":
                                     _getMatchStatus(_tabProvider.index),
-                                "dateStr": "",
+                                "dateStr": _getMatchDateStr(_tabProvider.index),
                               });
                         }),
                     const SizedBox(height: 6.0),
@@ -174,13 +182,13 @@ class _MatchPageState extends KeepAliveWidgetState
                         GlobalKey key;
                         if (index == 0) {
                           status = MatchStatus.going;
-                          key = hotPageKey;
+                          key = _goingPageKey;
                         } else if (index == 1) {
                           status = MatchStatus.uncoming;
-                          key = uncomingPageKey;
+                          key = _uncomingPageKey;
                         } else {
                           status = MatchStatus.finished;
-                          key = finishedPageKey;
+                          key = _finishedPageKey;
                         }
                         return MatchChildPage(
                             key: key,

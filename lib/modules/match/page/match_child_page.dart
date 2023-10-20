@@ -26,12 +26,18 @@ class MatchChildPage extends StatefulWidget {
 }
 
 class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
+
+  getMatchDateStr() {
+    return _dateStrArr[_selectIdx];
+  }
+
+
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchListModel> _dataArr = [];
 
-  int _selectIdx = 0;
   final List<String> _titleStrArr = [];
   final List<String> _dateStrArr = [];
+  int _selectIdx = 0;
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
