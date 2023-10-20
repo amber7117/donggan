@@ -9,10 +9,28 @@ class MatchFilterHotPage extends StatefulWidget {
   const MatchFilterHotPage({super.key, required this.model});
 
   @override
-  State createState() => _MatchFilterHotPageState();
+  State createState() => MatchFilterHotPageState();
 }
 
-class _MatchFilterHotPageState extends State<MatchFilterHotPage> {
+class MatchFilterHotPageState extends State<MatchFilterHotPage> {
+
+  void selectAllMatch() {
+    for (var model in widget.model.hotArr) {
+      model.noSelect = false;
+    }
+    setState(() {
+      
+    });
+  }
+
+  void selectOtherMatch() {
+    for (var model in widget.model.hotArr) {
+      model.noSelect = !model.noSelect;
+    }
+    setState(() {});
+  }
+
+
   @override
   Widget build(BuildContext context) {
     MatchFilterModel model = widget.model;

@@ -12,10 +12,32 @@ class MatchFilterAllPage extends StatefulWidget {
   const MatchFilterAllPage({super.key, required this.model});
 
   @override
-  State createState() => _MatchFilterAllPageState();
+  State createState() => MatchFilterAllPageState();
 }
 
-class _MatchFilterAllPageState extends State<MatchFilterAllPage> {
+class MatchFilterAllPageState extends State<MatchFilterAllPage> {
+
+  void selectAllMatch() {
+    for (var modelArr in widget.model.moderArrArr) {
+      for (var model in modelArr) {
+        model.noSelect = false;
+      }
+    }
+    setState(() {
+      
+    });
+  }
+
+  void selectOtherMatch() {
+    for (var modelArr in widget.model.moderArrArr) {
+      for (var model in modelArr) {
+        model.noSelect = !model.noSelect;
+      }
+    }
+    setState(() {});
+  }
+
+
   @override
   Widget build(BuildContext context) {
     MatchFilterModel model = widget.model;

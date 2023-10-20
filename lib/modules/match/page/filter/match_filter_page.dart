@@ -39,6 +39,10 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   final TabProvider _tabProvider = TabProvider();
   final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
+  final GlobalKey<MatchFilterAllPageState> _allPageKey = GlobalKey();
+  final GlobalKey<MatchFilterHotPageState> _hotPageKey = GlobalKey();
+  final GlobalKey<MatchFilterBottomWidgetState> _bottomWidgetKey = GlobalKey();
+
   final List<Widget> _tabs = [
     const MatchTabbarItemWidget(
       tabName: "全部",
@@ -155,6 +159,22 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     return filterType;
   }
 
+  _handleBottomEvent(MatchFilterBottomEvent event) {
+    if (event == MatchFilterBottomEvent.selectAll) {
+      if (_tabProvider.index == 0) {
+        _allPageKey.currentState?.selectAllMatch();
+      } else {
+        _hotPageKey.currentState?.selectAllMatch();
+      }
+    } else if (event == MatchFilterBottomEvent.selectOther) {
+      if (_tabProvider.index == 0) {
+        _allPageKey.currentState?.selectOtherMatch();
+      } else {
+        _hotPageKey.currentState?.selectOtherMatch();
+      }
+    } else {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,12 +222,16 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                     controller: _pageController,
                     itemBuilder: (_, int index) {
                       if (index == 0) {
-                        return MatchFilterAllPage(model: _allData!);
+                        return MatchFilterAllPage(
+                            key: _allPageKey, model: _allData!);
                       } else {
-                        return MatchFilterHotPage(model: _hotData!);
+                        return MatchFilterHotPage(
+                            key: _hotPageKey, model: _hotData!);
                       }
                     })),
-            const MatchFilterBottomWidget(),
+            MatchFilterBottomWidget(key: _bottomWidgetKey, callback: (data) {
+              _handleBottomEvent(data);
+            }),
             SizedBox(height: ScreenUtil().bottomBarHeight),
           ],
         ));

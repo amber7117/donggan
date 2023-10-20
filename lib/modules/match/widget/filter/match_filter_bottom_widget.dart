@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/widget/wz_sure_size_button.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+enum MatchFilterBottomEvent { selectAll, selectOther, sure }
+
 class MatchFilterBottomWidget extends StatefulWidget {
-  const MatchFilterBottomWidget({super.key});
+  final WZAnyCallback<MatchFilterBottomEvent> callback;
+
+  const MatchFilterBottomWidget({super.key, required this.callback});
 
   @override
-  State createState() => _MatchFilterBottomWidgetState();
+  State createState() => MatchFilterBottomWidgetState();
 }
 
-class _MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
+class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
+
+
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,32 +38,42 @@ class _MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Row(
         children: [
-          Container(
-            width: 56,
-            height: 32,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-                color: Color.fromRGBO(250, 250, 250, 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            child: Text("全选",
-                style: TextStyle(
-                    color: const Color.fromRGBO(102, 102, 102, 1.0),
-                    fontSize: 12.sp,
-                    fontWeight: TextStyleUtils.medium)),
+          InkWell(
+            onTap: () {
+              widget.callback(MatchFilterBottomEvent.selectAll);
+            },
+            child: Container(
+              width: 56,
+              height: 32,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(250, 250, 250, 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(16))),
+              child: Text("全选",
+                  style: TextStyle(
+                      color: const Color.fromRGBO(102, 102, 102, 1.0),
+                      fontSize: 12.sp,
+                      fontWeight: TextStyleUtils.medium)),
+            ),
           ),
           const SizedBox(width: 10),
-          Container(
-            width: 56,
-            height: 32,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-                color: Color.fromRGBO(250, 250, 250, 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            child: Text("反选",
-                style: TextStyle(
-                    color: const Color.fromRGBO(102, 102, 102, 1.0),
-                    fontSize: 12.sp,
-                    fontWeight: TextStyleUtils.medium)),
+          InkWell(
+            onTap: () {
+              widget.callback(MatchFilterBottomEvent.selectOther);
+            },
+            child: Container(
+              width: 56,
+              height: 32,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(250, 250, 250, 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(16))),
+              child: Text("反选",
+                  style: TextStyle(
+                      color: const Color.fromRGBO(102, 102, 102, 1.0),
+                      fontSize: 12.sp,
+                      fontWeight: TextStyleUtils.medium)),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -66,7 +84,12 @@ class _MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
                     fontWeight: TextStyleUtils.regual)),
           ),
           WZSureSizeButton(
-              title: "确定", width: 80, height: 32, handleTap: () {}),
+              title: "确定",
+              width: 80,
+              height: 32,
+              handleTap: () {
+                widget.callback(MatchFilterBottomEvent.sure);
+              }),
         ],
       ),
     );
