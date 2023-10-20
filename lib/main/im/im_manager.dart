@@ -11,7 +11,7 @@ class IMManager {
 
   IMManager._internal();
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   bool connectOK = false;
   String appkey = "ik1qhw09ignwp";

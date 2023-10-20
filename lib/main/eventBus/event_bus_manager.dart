@@ -15,7 +15,7 @@ class EventBusManager {
 
   static final EventBusManager _getInstance = EventBusManager._internal();
   
-  //---------------------------------------------
+  // ---------------------------------------------
 
 
   //初始化eventBus

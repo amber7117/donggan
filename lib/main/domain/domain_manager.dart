@@ -20,7 +20,7 @@ class DomainManager {
 
   DomainManager._internal();
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
@@ -207,7 +207,7 @@ class DomainManager {
     eventBusManager.emit(DomainStateEvent(ok: true));
   }
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   Future<List<DomainEntity>> getDomainFromCache() async {
     String domainStr = await SpUtils.getString(SpKeys.domain);
