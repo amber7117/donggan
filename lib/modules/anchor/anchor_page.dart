@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/home_search_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
@@ -91,7 +92,11 @@ class _AnchorPageState extends KeepAliveWidgetState
                   children: [
                     SizedBox(height: ScreenUtil().statusBarHeight),
                     HomeSearchWidget(
-                        type: HomeSearchType.match, searchTap: () {}),
+                        type: HomeSearchType.match,
+                        searchTap: () {
+                          Routes.present(context, Routes.search);
+                        },
+                        rightTap: () {}),
                     const SizedBox(height: 6.0),
                     SizedBox(
                       width: double.infinity,
@@ -112,7 +117,6 @@ class _AnchorPageState extends KeepAliveWidgetState
               ),
               Expanded(
                   child: PageView.builder(
-                      
                       itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,

@@ -21,11 +21,11 @@ class MatchChildPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MatchChildPageState();
+    return MatchChildPageState();
   }
 }
 
-class _MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
+class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchListModel> _dataArr = [];
 

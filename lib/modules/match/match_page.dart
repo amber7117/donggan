@@ -38,6 +38,13 @@ class _MatchPageState extends KeepAliveWidgetState
 
   late StreamSubscription _eventSub;
 
+  final GlobalKey<MatchChildPageState> hotPageKey =
+      GlobalKey<MatchChildPageState>();
+  final GlobalKey<MatchChildPageState> uncomingPageKey =
+      GlobalKey<MatchChildPageState>();
+  final GlobalKey<MatchChildPageState> finishedPageKey =
+      GlobalKey<MatchChildPageState>();
+
   final List<Widget> _tabs = [
     const HomeTabbarDotItemWidget(
       tabName: '及时',
@@ -154,7 +161,6 @@ class _MatchPageState extends KeepAliveWidgetState
               ),
               Expanded(
                   child: PageView.builder(
-                      
                       itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,
@@ -165,15 +171,21 @@ class _MatchPageState extends KeepAliveWidgetState
                               sportType: SportType.football,
                               matchStatus: status);
                         }
+                        GlobalKey key;
                         if (index == 0) {
                           status = MatchStatus.going;
+                          key = hotPageKey;
                         } else if (index == 1) {
                           status = MatchStatus.uncoming;
-                        } else if (index == 2) {
+                          key = uncomingPageKey;
+                        } else {
                           status = MatchStatus.finished;
+                          key = finishedPageKey;
                         }
                         return MatchChildPage(
-                            sportType: SportType.football, matchStatus: status);
+                            key: key,
+                            sportType: SportType.football,
+                            matchStatus: status);
                       }))
             ],
           ),

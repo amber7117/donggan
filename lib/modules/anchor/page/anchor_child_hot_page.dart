@@ -36,7 +36,7 @@ class _AnchorChildHotPageState
   void initState() {
     super.initState();
 
-    _requestData();
+    _requestData(loading: true);
   }
 
   _requestData({bool loading = false}) async {
