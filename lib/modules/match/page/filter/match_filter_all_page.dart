@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 import 'package:wzty/modules/match/widget/filter/match_filter_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -18,6 +19,20 @@ class _MatchFilterAllPageState extends State<MatchFilterAllPage> {
   @override
   Widget build(BuildContext context) {
     MatchFilterModel model = widget.model;
+    return LoadStateWidget(
+        state: model.moderArrArr.isEmpty
+            ? LoadStatusType.empty
+            : LoadStatusType.success,
+        successWidget: _buildChild(context));
+  }
+
+  _buildChild(BuildContext context) {
+    MatchFilterModel model = widget.model;
+
+    if (model.moderArrArr.isEmpty) {
+      return const SizedBox();
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       itemCount: model.titleArr.length,

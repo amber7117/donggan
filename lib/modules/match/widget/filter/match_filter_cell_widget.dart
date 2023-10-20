@@ -19,25 +19,36 @@ class _MatchFilterCellWidgetState extends State<MatchFilterCellWidget> {
   @override
   Widget build(BuildContext context) {
     MatchFilterItemModel model = widget.model;
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-          color: Color.fromRGBO(250, 250, 250, 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(6))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(model.cnAlias,
-              style: TextStyle(
-                  color: const Color.fromRGBO(102, 102, 102, 1.0),
-                  fontSize: 12.sp,
-                  fontWeight: TextStyleUtils.medium)),
-          const SizedBox(width: 2),
-          Text("[${model.matchCount}]",
-              style: TextStyle(
-                  color: ColorUtils.gray179,
-                  fontSize: 12.sp,
-                  fontWeight: TextStyleUtils.medium))
-        ],
+    return InkWell(
+      onTap: () {
+        model.noSelect = !model.noSelect;
+        setState(() {});
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            color: model.noSelect
+                ? const Color.fromRGBO(250, 250, 250, 1.0)
+                : const Color.fromRGBO(250, 240, 242, 1.0),
+            borderRadius: const BorderRadius.all(Radius.circular(6))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(model.cnAlias,
+                style: TextStyle(
+                    color: model.noSelect
+                        ? const Color.fromRGBO(102, 102, 102, 1.0)
+                        : ColorUtils.red233,
+                    fontSize: 12.sp,
+                    fontWeight: TextStyleUtils.medium)),
+            const SizedBox(width: 2),
+            Text("[${model.matchCount}]",
+                style: TextStyle(
+                    color:
+                        model.noSelect ? ColorUtils.gray179 : ColorUtils.red233,
+                    fontSize: 12.sp,
+                    fontWeight: TextStyleUtils.medium))
+          ],
+        ),
       ),
     );
   }

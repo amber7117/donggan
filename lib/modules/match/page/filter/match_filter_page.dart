@@ -39,8 +39,20 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   final TabProvider _tabProvider = TabProvider();
   final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
-  List<Widget> _tabs = [];
-
+  final List<Widget> _tabs = [
+    const MatchTabbarItemWidget(
+      tabName: "全部",
+      index: 0,
+      tabWidth: 60.0,
+      tabHeight: 44.0,
+    ),
+    const MatchTabbarItemWidget(
+      tabName: "热门",
+      index: 1,
+      tabWidth: 60.0,
+      tabHeight: 44.0,
+    ),
+  ];
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchFilterModel? _allData;
   MatchFilterModel? _hotData;
@@ -49,8 +61,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
+    _tabController = TabController(length: _tabs.length, vsync: this);
 
     _requestData();
   }
@@ -84,8 +96,6 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       ToastUtils.hideLoading();
 
       if (_allData != null && _hotData != null) {
-        _updateTabData();
-
         _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.failure;
@@ -93,26 +103,6 @@ class _MatchFilterPageState extends State<MatchFilterPage>
 
       setState(() {});
     });
-  }
-
-  void _updateTabData() {
-    if (_allData == null || _hotData == null) return;
-
-    String title1 = "全部(${_allData!.totalCount})";
-    String title2 = "热门(${_hotData!.totalCount})";
-
-    _tabs.add(MatchTabbarItemWidget(
-      tabName: title1,
-      index: 0,
-      tabWidth: 60.0,
-      tabHeight: 44.0,
-    ));
-    _tabs.add(MatchTabbarItemWidget(
-      tabName: title2,
-      index: 0,
-      tabWidth: 60.0,
-      tabHeight: 44.0,
-    ));
   }
 
   _processServerData(MatchFilterModel data, bool isAll) {
