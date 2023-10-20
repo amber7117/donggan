@@ -45,12 +45,14 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                 ],
               ),
             )),
-        InkWell(
-            onTap: widget.rightTap,
-            child: const Padding(
-              padding: EdgeInsets.only(right: 22, left: 22),
-              child: JhAssetImage("match/iconSaixuan", width: 24),
-            )),
+        widget.rightTap == null
+            ? const SizedBox()
+            : InkWell(
+                onTap: widget.rightTap,
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 22, left: 22),
+                  child: JhAssetImage("match/iconSaixuan", width: 24),
+                ))
       ],
     );
   }

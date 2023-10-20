@@ -135,20 +135,26 @@ class _MatchPageState extends KeepAliveWidgetState
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     SizedBox(height: ScreenUtil().statusBarHeight),
-                    HomeSearchWidget(
-                        type: HomeSearchType.match,
-                        searchTap: () {
-                          Routes.present(context, Routes.search);
-                        },
-                        rightTap: () {
-                          Routes.present(context, Routes.matchFilter,
-                              arguments: {
-                                "sportType": SportType.football,
-                                "matchStatus":
-                                    _getMatchStatus(_tabProvider.index),
-                                "dateStr": _getMatchDateStr(_tabProvider.index),
-                              });
-                        }),
+                    Consumer<TabDotProvider>(
+                        builder: (context, provider, child) {
+                      return HomeSearchWidget(
+                          type: HomeSearchType.match,
+                          searchTap: () {
+                            Routes.present(context, Routes.search);
+                          },
+                          rightTap: provider.index == 3
+                              ? null
+                              : () {
+                                  Routes.present(context, Routes.matchFilter,
+                                      arguments: {
+                                        "sportType": SportType.football,
+                                        "matchStatus":
+                                            _getMatchStatus(_tabProvider.index),
+                                        "dateStr": _getMatchDateStr(
+                                            _tabProvider.index),
+                                      });
+                                });
+                    }),
                     const SizedBox(height: 6.0),
                     SizedBox(
                       width: double.infinity,
