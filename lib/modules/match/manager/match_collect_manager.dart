@@ -2,21 +2,12 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
 class MatchCollectManager {
-  factory MatchCollectManager() => _getInstance;
-
-  static MatchCollectManager get instance => _getInstance;
-
-  static final MatchCollectManager _getInstance =
-      MatchCollectManager._internal();
-
-  MatchCollectManager._internal();
-
-  //---------------------------------------------
+  // ---------------------------------------------
 
   List<MatchListModel> collectFBArr = [];
   List<MatchListModel> collectBBArr = [];
 
-  //---------------------------------------------
+  // ---------------------------------------------
 
   int setCollectData(SportType type, List<MatchListModel> data) {
     if (type == SportType.football) {
@@ -49,7 +40,7 @@ class MatchCollectManager {
     } else {
       collectBBArr = arrTmp;
     }
-    
+
     return arrTmp.length;
   }
 
@@ -71,4 +62,15 @@ class MatchCollectManager {
 
     return isCollect;
   }
+
+  // ---------------------------------------------
+
+  factory MatchCollectManager() => _getInstance;
+
+  static MatchCollectManager get instance => _getInstance;
+
+  static final MatchCollectManager _getInstance =
+      MatchCollectManager._internal();
+
+  MatchCollectManager._internal();
 }
