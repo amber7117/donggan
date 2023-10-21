@@ -18,7 +18,7 @@ class MatchFilterBottomWidget extends StatefulWidget {
 
 class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
   bool canSelectAll = false;
-  bool canSelectOther = false;
+  bool canSelectOther = true;
   int selectCount = 0;
 
   void updateUI(
@@ -58,12 +58,16 @@ class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
               width: 56,
               height: 32,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(250, 250, 250, 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16))),
+              decoration: BoxDecoration(
+                  color: canSelectAll
+                      ? const Color.fromRGBO(250, 250, 250, 1.0)
+                      : ColorUtils.red250,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
               child: Text("全选",
                   style: TextStyle(
-                      color: const Color.fromRGBO(102, 102, 102, 1.0),
+                      color: canSelectAll
+                          ? const Color.fromRGBO(102, 102, 102, 1.0)
+                          : ColorUtils.red235,
                       fontSize: 12.sp,
                       fontWeight: TextStyleUtils.medium)),
             ),
@@ -77,19 +81,33 @@ class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
               width: 56,
               height: 32,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(250, 250, 250, 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16))),
+              decoration: BoxDecoration(
+                  color: canSelectOther
+                      ? const Color.fromRGBO(250, 250, 250, 1.0)
+                      : ColorUtils.red250,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
               child: Text("反选",
                   style: TextStyle(
-                      color: const Color.fromRGBO(102, 102, 102, 1.0),
+                      color: canSelectOther
+                          ? const Color.fromRGBO(102, 102, 102, 1.0)
+                          : ColorUtils.red235,
                       fontSize: 12.sp,
                       fontWeight: TextStyleUtils.medium)),
             ),
           ),
           const SizedBox(width: 10),
+          Text("隐藏了",
+              style: TextStyle(
+                  color: ColorUtils.gray153,
+                  fontSize: 14.sp,
+                  fontWeight: TextStyleUtils.regual)),
+          Text("$selectCount",
+              style: TextStyle(
+                  color: ColorUtils.red233,
+                  fontSize: 14.sp,
+                  fontWeight: TextStyleUtils.regual)),
           Expanded(
-            child: Text("隐藏了0场",
+            child: Text("场",
                 style: TextStyle(
                     color: ColorUtils.gray153,
                     fontSize: 14.sp,

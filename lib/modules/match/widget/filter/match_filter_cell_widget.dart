@@ -8,8 +8,9 @@ const matchFilterCellAspect = 110 / 32;
 
 class MatchFilterCellWidget extends StatefulWidget {
   final MatchFilterItemModel model;
-
-  const MatchFilterCellWidget({super.key, required this.model});
+  final VoidCallback callback;
+  
+  const MatchFilterCellWidget({super.key, required this.model, required this.callback});
 
   @override
   State createState() => _MatchFilterCellWidgetState();
@@ -22,6 +23,7 @@ class _MatchFilterCellWidgetState extends State<MatchFilterCellWidget> {
     return InkWell(
       onTap: () {
         model.noSelect = !model.noSelect;
+        widget.callback();
         setState(() {});
       },
       child: DecoratedBox(

@@ -59,7 +59,7 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
       return Container(
         alignment: Alignment.center,
         decoration: const BoxDecoration(
-            color: Color.fromRGBO(250, 240, 242, 1.0),
+            color: ColorUtils.red250,
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

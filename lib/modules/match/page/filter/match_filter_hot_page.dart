@@ -5,22 +5,21 @@ import 'package:wzty/modules/match/widget/filter/match_filter_cell_widget.dart';
 
 class MatchFilterHotPage extends StatefulWidget {
   final MatchFilterModel model;
+  final VoidCallback callback;
 
-  const MatchFilterHotPage({super.key, required this.model});
+  const MatchFilterHotPage(
+      {super.key, required this.model, required this.callback});
 
   @override
   State createState() => MatchFilterHotPageState();
 }
 
 class MatchFilterHotPageState extends State<MatchFilterHotPage> {
-
   void selectAllMatch() {
     for (var model in widget.model.hotArr) {
       model.noSelect = false;
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   void selectOtherMatch() {
@@ -29,7 +28,6 @@ class MatchFilterHotPageState extends State<MatchFilterHotPage> {
     }
     setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +57,11 @@ class MatchFilterHotPageState extends State<MatchFilterHotPage> {
       ),
       itemCount: model.hotArr.length,
       itemBuilder: (BuildContext context, int index) {
-        return MatchFilterCellWidget(model: model.hotArr[index]);
+        return MatchFilterCellWidget(
+            model: model.hotArr[index],
+            callback: () {
+              widget.callback();
+            });
       },
     );
   }

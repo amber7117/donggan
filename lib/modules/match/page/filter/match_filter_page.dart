@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
@@ -106,6 +107,10 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       }
 
       setState(() {});
+
+      Future.delayed(const Duration(seconds: 1), () {
+        _updateBottomViewUI();
+      });
     });
   }
 
@@ -166,17 +171,22 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       } else {
         _hotPageKey.currentState?.selectAllMatch();
       }
+      _updateBottomViewUI();
     } else if (event == MatchFilterBottomEvent.selectOther) {
       if (_tabProvider.index == 0) {
         _allPageKey.currentState?.selectOtherMatch();
       } else {
         _hotPageKey.currentState?.selectOtherMatch();
       }
-    } else {}
+      _updateBottomViewUI();
+    } else {
+      _obtainFilterData();
+    }
   }
 
   _updateBottomViewUI() {
     bool existNoSelect = false;
+    int allCount = 0;
     int selectCount = 0;
 
     if (_tabProvider.index == 0) {
@@ -187,6 +197,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
           } else {
             selectCount += model.matchCount;
           }
+          allCount += model.matchCount;
         }
       }
     } else {
@@ -196,16 +207,59 @@ class _MatchFilterPageState extends State<MatchFilterPage>
         } else {
           selectCount += model.matchCount;
         }
+        allCount += model.matchCount;
       }
     }
 
     if (existNoSelect) {
       _bottomWidgetKey.currentState?.updateUI(
-          canSelectAll: true, canSelectOther: true, selectCount: selectCount);
+          canSelectAll: true,
+          canSelectOther: true,
+          selectCount: allCount - selectCount);
     } else {
       _bottomWidgetKey.currentState?.updateUI(
-          canSelectAll: false, canSelectOther: true, selectCount: selectCount);
+          canSelectAll: false,
+          canSelectOther: true,
+          selectCount: allCount - selectCount);
     }
+  }
+
+  _obtainFilterData() {
+    bool isSelectAll = true;
+    List<int> leagueIdArr = [];
+
+    if (_tabProvider.index == 0) {
+      for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
+        for (MatchFilterItemModel model in modelArr) {
+          if (model.noSelect) {
+            isSelectAll = false;
+          } else {
+            leagueIdArr.add(model.id);
+          }
+        }
+      }
+    } else {
+      for (MatchFilterItemModel model in _hotData!.hotArr) {
+        if (model.noSelect) {
+          isSelectAll = false;
+        } else {
+          leagueIdArr.add(model.id);
+        }
+      }
+    }
+
+    MatchFilterType filterType = _getFilterType(_tabProvider.index == 0);
+
+    if (isSelectAll) {
+      leagueIdArr = [];
+    }
+
+    MatchFilterManager.instance.updateFilterData(
+        widget.sportType, filterType, widget.matchStatus, leagueIdArr);
+
+    // callback?.call();
+
+    Routes.goBack(context);
   }
 
   @override
@@ -256,10 +310,18 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                     itemBuilder: (_, int index) {
                       if (index == 0) {
                         return MatchFilterAllPage(
-                            key: _allPageKey, model: _allData!);
+                            key: _allPageKey,
+                            model: _allData!,
+                            callback: () {
+                              _updateBottomViewUI();
+                            });
                       } else {
                         return MatchFilterHotPage(
-                            key: _hotPageKey, model: _hotData!);
+                            key: _hotPageKey,
+                            model: _hotData!,
+                            callback: () {
+                              _updateBottomViewUI();
+                            });
                       }
                     })),
             MatchFilterBottomWidget(

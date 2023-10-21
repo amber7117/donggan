@@ -8,24 +8,23 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchFilterAllPage extends StatefulWidget {
   final MatchFilterModel model;
+  final VoidCallback callback;
 
-  const MatchFilterAllPage({super.key, required this.model});
+  const MatchFilterAllPage(
+      {super.key, required this.model, required this.callback});
 
   @override
   State createState() => MatchFilterAllPageState();
 }
 
 class MatchFilterAllPageState extends State<MatchFilterAllPage> {
-
   void selectAllMatch() {
     for (var modelArr in widget.model.moderArrArr) {
       for (var model in modelArr) {
         model.noSelect = false;
       }
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   void selectOtherMatch() {
@@ -36,7 +35,6 @@ class MatchFilterAllPageState extends State<MatchFilterAllPage> {
     }
     setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,11 @@ class MatchFilterAllPageState extends State<MatchFilterAllPage> {
               ),
               itemCount: itemList.length,
               itemBuilder: (BuildContext context, int index) {
-                return MatchFilterCellWidget(model: itemList[index]);
+                return MatchFilterCellWidget(
+                    model: itemList[index],
+                    callback: () {
+                      widget.callback();
+                    });
               },
             ),
           ],
