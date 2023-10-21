@@ -17,9 +17,21 @@ class MatchFilterBottomWidget extends StatefulWidget {
 }
 
 class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
+  bool canSelectAll = false;
+  bool canSelectOther = false;
+  int selectCount = 0;
 
+  void updateUI(
+      {required bool canSelectAll,
+      required bool canSelectOther,
+      required int selectCount}) {
+    this.canSelectAll = canSelectAll;
+    this.canSelectOther = canSelectOther;
+    this.selectCount = selectCount;
 
-  
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

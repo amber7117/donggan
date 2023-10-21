@@ -175,6 +175,39 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     } else {}
   }
 
+  _updateBottomViewUI() {
+    bool existNoSelect = false;
+    int selectCount = 0;
+
+    if (_tabProvider.index == 0) {
+      for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
+        for (MatchFilterItemModel model in modelArr) {
+          if (model.noSelect) {
+            existNoSelect = true;
+          } else {
+            selectCount += model.matchCount;
+          }
+        }
+      }
+    } else {
+      for (MatchFilterItemModel model in _hotData!.hotArr) {
+        if (model.noSelect) {
+          existNoSelect = true;
+        } else {
+          selectCount += model.matchCount;
+        }
+      }
+    }
+
+    if (existNoSelect) {
+      _bottomWidgetKey.currentState?.updateUI(
+          canSelectAll: true, canSelectOther: true, selectCount: selectCount);
+    } else {
+      _bottomWidgetKey.currentState?.updateUI(
+          canSelectAll: false, canSelectOther: true, selectCount: selectCount);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,9 +262,11 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                             key: _hotPageKey, model: _hotData!);
                       }
                     })),
-            MatchFilterBottomWidget(key: _bottomWidgetKey, callback: (data) {
-              _handleBottomEvent(data);
-            }),
+            MatchFilterBottomWidget(
+                key: _bottomWidgetKey,
+                callback: (data) {
+                  _handleBottomEvent(data);
+                }),
             SizedBox(height: ScreenUtil().bottomBarHeight),
           ],
         ));
