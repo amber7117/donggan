@@ -48,6 +48,7 @@ class WZTextFieldState extends State<WZTextField> {
     super.initState();
 
     _isShowDelete = widget.controller.text.isNotEmpty;
+
     /// 监听输入改变
     widget.controller.addListener(isEmpty);
   }
@@ -122,7 +123,8 @@ class WZTextFieldState extends State<WZTextField> {
             if (_isPwdText()) const SizedBox(height: 15),
             if (_isPwdText()) _buildPwdEyeButton(),
             if (widget.getVCode != null) const SizedBox(height: 20),
-            if (widget.getVCode != null) WZVerifyBtn(handleVerify: widget.getVCode!),
+            if (widget.getVCode != null)
+              WZVerifyBtn(handleVerify: widget.getVCode!),
           ],
         )
       ],
@@ -131,9 +133,9 @@ class WZTextFieldState extends State<WZTextField> {
 
   _buildTextField() {
     return TextField(
-      style: TextStyle(
+      style: const TextStyle(
         color: ColorUtils.black51,
-        fontSize: 16.sp,
+        fontSize: 16,
         fontWeight: TextStyleUtils.regual,
       ),
       textAlign: TextAlign.left,

@@ -100,9 +100,9 @@ class WZTextFieldRightState extends State<WZTextFieldRight> {
 
   _buildTextField() {
     return TextField(
-      style: TextStyle(
+      style: const TextStyle(
         color: ColorUtils.black51,
-        fontSize: 16.sp,
+        fontSize: 16,
         fontWeight: TextStyleUtils.regual,
       ),
       textAlign: TextAlign.right,

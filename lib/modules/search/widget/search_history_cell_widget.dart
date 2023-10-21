@@ -21,7 +21,6 @@ class _SearchHistoryCellWidgetState extends State<SearchHistoryCellWidget> {
         alignment: Alignment.center,
         decoration: const BoxDecoration(
             color: Color.fromRGBO(250, 250, 250, 1.0),
-            // color: Colors.yellow,
             borderRadius: BorderRadius.all(Radius.circular(6))),
         child: Text("巴塞罗那",
             style: TextStyle(
