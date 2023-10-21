@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -24,8 +23,8 @@ class _SearchTextWidgetState extends State<SearchTextWidget> {
           borderRadius: BorderRadius.all(Radius.circular(16))),
       child: Row(
         children: [
-          SizedBox(width: 10),
-          JhAssetImage("common/iconNavSousuo2", width: 20),
+          const SizedBox(width: 10),
+          const JhAssetImage("common/iconNavSousuo2", width: 20),
           Expanded(
             child: _buildTextField(),
           )
@@ -47,25 +46,28 @@ class _SearchTextWidgetState extends State<SearchTextWidget> {
       autofocus: true,
       textInputAction: TextInputAction.search,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+      onEditingComplete: () {
+        print("object");
+      },
+      decoration: const InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
         hintText: "搜索用户、直播或赛事",
         hintStyle: TextStyle(
           color: ColorUtils.gray179,
-          fontSize: 12.sp,
+          fontSize: 12,
           fontWeight: TextStyleUtils.regual,
         ),
         counterText: '',
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white,
-            width: 0.5,
+            width: 0.0,
           ),
         ),
-        enabledBorder: const UnderlineInputBorder(
+        enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white,
-            width: 0.5,
+            width: 0.0,
           ),
         ),
       ),

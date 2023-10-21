@@ -1,5 +1,4 @@
 class MatchApi {
-
   static String matchList = "/qiutx-score/v10/queryAllByStatus";
 
   static String matchListAtt = "/qiutx-score/v9/match/att";
@@ -17,16 +16,14 @@ class MatchApi {
 
   static String matchDetail = "/qiutx-score/v5/match/match";
 
-
   static String matchAnchor = "/live-product/anonymous/app/match/live";
-  
+
   static String hotMatchList = "/live-product/anonymous/v1/find/match/pool";
 
   static String anchorMatchList = "/live-product/v1/anchor/order/list";
 }
 
 class AnchorApi {
-  
   static String hotList = "/live-product/anonymous/new/app/live/list";
 
   static String typeList = "/live-product/anonymous/v6/app/live/list";
@@ -35,7 +32,10 @@ class AnchorApi {
 
   static String detailPlayInfo = "/live-product/anonymous/v1/room/pull/info";
 
-  static String playbackList = "/live-product/anonymous/v1/app/anchor/record/page";
+  static String playbackList =
+      "/live-product/anonymous/v1/app/anchor/record/page";
+
+  static String searchData = "/live-product/anonymous/v1/search";
 }
 
 class NewsApi {
@@ -47,7 +47,7 @@ class NewsApi {
 
   static String detail = "/qiutx-news/app/news/###";
 
-  static String detailComment= "/qiutx-news/app/news/comments";
+  static String detailComment = "/qiutx-news/app/news/comments";
 }
 
 class MeApi {
@@ -89,7 +89,6 @@ class DomainApi {
   static String pullServer = '/qiutx-support/domains/v2/pull';
 }
 
-
 class ConfigApi {
   static String banner = "/qiutx-news/banner/find/position";
 
@@ -97,7 +96,8 @@ class ConfigApi {
 
   static String systemNotice = "/qiutx-support/cms/config/system/notice";
 
-  static String animateFlag = "/live-product/anonymous/showAnimation/flagForAppStore";
+  static String animateFlag =
+      "/live-product/anonymous/showAnimation/flagForAppStore";
 
   static String videoFlag = "/live-product/anonymous/showVideo/flag";
 
@@ -106,9 +106,7 @@ class ConfigApi {
   static String configInfo = "/qiutx-support/cms/config/list";
 
   static String channelInfo = "/live-product/anonymous/v1/get/channel/info";
-
 }
-
 
 class IMApi {
   static String initInfo = '/qiutx-support/get/sign/public/key';
@@ -116,6 +114,4 @@ class IMApi {
   static String tokenInfo = '/qiutx-usercenter/getRongCloud/token';
 
   static String msgVerify = '/qiutx-news/app/chat/commonFilter';
-
-  
 }

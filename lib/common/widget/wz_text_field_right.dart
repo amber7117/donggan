@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -117,9 +116,9 @@ class WZTextFieldRightState extends State<WZTextFieldRight> {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,
-        hintStyle: TextStyle(
-          color: const Color.fromRGBO(202, 184, 184, 1.0),
-          fontSize: 16.sp,
+        hintStyle: const TextStyle(
+          color: Color.fromRGBO(202, 184, 184, 1.0),
+          fontSize: 16,
           fontWeight: TextStyleUtils.regual,
         ),
         counterText: '',
