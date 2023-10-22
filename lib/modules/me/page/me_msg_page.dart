@@ -49,7 +49,7 @@ class _MeMsgPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "消息通知"),
+        appBar: buildAppBar(titleText: "消息通知"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

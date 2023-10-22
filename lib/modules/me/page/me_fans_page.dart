@@ -50,7 +50,7 @@ class _MeFansPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "我的粉丝"),
+        appBar: buildAppBar(titleText: "我的粉丝"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

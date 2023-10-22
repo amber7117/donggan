@@ -50,7 +50,7 @@ class _MeCollectPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "我的收藏"),
+        appBar: buildAppBar(titleText: "我的收藏"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

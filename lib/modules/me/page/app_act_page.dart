@@ -49,7 +49,7 @@ class _AppActPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "活动广场"),
+        appBar: buildAppBar(titleText: "活动广场"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

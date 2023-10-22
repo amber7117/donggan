@@ -49,7 +49,7 @@ class _MeRecordPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "浏览记录"),
+        appBar: buildAppBar(titleText: "浏览记录"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

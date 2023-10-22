@@ -128,7 +128,7 @@ class _MeInfoPwdPageState extends State<MeInfoPwdPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(context: context, titleText: "修改密码"),
+        appBar: buildAppBar(titleText: "修改密码"),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {

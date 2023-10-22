@@ -79,7 +79,7 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(context: context, titleText: "修改昵称"),
+        appBar: buildAppBar(titleText: "修改昵称"),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {

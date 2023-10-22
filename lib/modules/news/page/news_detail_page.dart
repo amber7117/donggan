@@ -62,7 +62,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context),
+        appBar: buildAppBar(),
         backgroundColor: Colors.white,
         body: LoadStateWidget(
             state: _layoutState, successWidget: _buildChild(context)));

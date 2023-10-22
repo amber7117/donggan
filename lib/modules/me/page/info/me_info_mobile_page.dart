@@ -125,7 +125,7 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(context: context, titleText: "修改手机号"),
+        appBar: buildAppBar(titleText: "修改手机号"),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {

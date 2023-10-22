@@ -266,7 +266,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBar(context: context, titleText: "足球赛事"),
+      appBar: buildAppBar(titleText: "足球赛事"),
       body: LoadStateWidget(
           state: _layoutState, successWidget: _buildChild(context)),
     );

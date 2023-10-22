@@ -49,7 +49,7 @@ class _AppProblemPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "常见问题"),
+        appBar: buildAppBar(titleText: "常见问题"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

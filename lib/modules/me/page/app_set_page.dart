@@ -22,7 +22,7 @@ class _AppSetPageState extends State<AppSetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(context: context, titleText: "设置"),
+        appBar: buildAppBar(titleText: "设置"),
         body: ListView.separated(
           itemCount: dataArr.length,
           padding: const EdgeInsets.only(top: 10),

@@ -3,7 +3,6 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 AppBar buildAppBar({
-  required BuildContext context,
   final Color? backIconColor,
   final Widget? leading,
   final double? leadingWidth,
@@ -22,13 +21,18 @@ AppBar buildAppBar({
       leading: leadingNull == true
           ? null
           : leading ??
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: backIconColor ?? ColorUtils.black34,
-                ),
-                iconSize: 24,
-                onPressed: onBackPressed ?? () => Navigator.maybePop(context),
+              Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: backIconColor ?? ColorUtils.black34,
+                    ),
+                    iconSize: 24,
+                    onPressed:
+                        onBackPressed ?? () => Navigator.maybePop(context),
+                  );
+                },
               ),
       title: title ??
           Text(
@@ -57,13 +61,17 @@ Widget buildCustomAppBar({
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: ColorUtils.black34,
-            ),
-            iconSize: 24,
-            onPressed: () => Navigator.maybePop(context),
+          Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: ColorUtils.black34,
+                ),
+                iconSize: 24,
+                onPressed: () => Navigator.maybePop(context),
+              );
+            },
           ),
           Center(
             child: Text(

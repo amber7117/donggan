@@ -85,7 +85,7 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(context: context, titleText: "修改个人简介"),
+        appBar: buildAppBar(titleText: "修改个人简介"),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {

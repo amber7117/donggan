@@ -22,7 +22,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
-      appBar: buildAppBar(context: context, titleText: "关于我们"),
+      appBar: buildAppBar(titleText: "关于我们"),
       body: Column(
         children: [
           _buildHeadWidget(),

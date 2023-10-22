@@ -55,7 +55,7 @@ class _MeInfoPageState extends State<MeInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
-      appBar: buildAppBar(context: context, titleText: "编辑资料"),
+      appBar: buildAppBar(titleText: "编辑资料"),
       body: Column(
         children: [
           InkWell(

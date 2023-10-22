@@ -49,7 +49,7 @@ class _AppKefuPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "在线客服"),
+        appBar: buildAppBar(titleText: "在线客服"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

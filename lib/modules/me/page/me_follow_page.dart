@@ -49,7 +49,7 @@ class _MeFollowPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context: context, titleText: "我的关注"),
+        appBar: buildAppBar(titleText: "我的关注"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
             state: _layoutState,

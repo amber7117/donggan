@@ -113,7 +113,7 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorUtils.gray248,
-        appBar: buildAppBar(context: context, titleText: "注销账号"),
+        appBar: buildAppBar(titleText: "注销账号"),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
