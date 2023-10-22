@@ -43,9 +43,9 @@ class _NewsDetailCommentWidgetState extends State<NewsDetailCommentWidget> {
                       children: [
                         Text(
                           model.nickName,
-                          style: TextStyle(
-                              color: const Color.fromRGBO(20, 102, 191, 1.0),
-                              fontSize: 14.sp,
+                          style: const TextStyle(
+                              color: Color.fromRGBO(20, 102, 191, 1.0),
+                              fontSize: 14,
                               fontWeight: TextStyleUtils.regual),
                         ),
                         NewsLikeWidget(model: model),
@@ -59,29 +59,29 @@ class _NewsDetailCommentWidgetState extends State<NewsDetailCommentWidget> {
                       model.content,
                       maxLines: null,
                       // overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.black34,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.regual),
                     ),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "2h之前",
                         style: TextStyle(
                             color: ColorUtils.gray153,
-                            fontSize: 12.sp,
+                            fontSize: 12,
                             fontWeight: TextStyleUtils.regual),
                       ),
                       const SizedBox(width: 10),
                       model.sonNum > 0
                           ? Text(
                               "共${model.sonNum}条回复",
-                              style: TextStyle(
-                                  color: const Color.fromRGBO(58, 58, 60, 1.0),
-                                  fontSize: 12.sp,
+                              style: const TextStyle(
+                                  color: Color.fromRGBO(58, 58, 60, 1.0),
+                                  fontSize: 12,
                                   fontWeight: TextStyleUtils.regual),
                             )
                           : const SizedBox(),

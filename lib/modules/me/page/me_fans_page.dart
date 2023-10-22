@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
@@ -94,16 +93,16 @@ class _MeFansPageState extends State {
               children: [
                 Text(
                   model.nickname,
-                  style: TextStyle(
-                      color: const Color.fromRGBO(58, 58, 60, 1.0),
-                      fontSize: 14.sp,
+                  style: const TextStyle(
+                      color: Color.fromRGBO(58, 58, 60, 1.0),
+                      fontSize: 14,
                       fontWeight: TextStyleUtils.medium),
                 ),
                 Text(
                   "粉丝数  ${model.fansCount}",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: ColorUtils.gray149,
-                      fontSize: 11.sp,
+                      fontSize: 11,
                       fontWeight: TextStyleUtils.regual),
                 ),
               ],

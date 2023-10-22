@@ -94,25 +94,25 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                   SizedBox(height: ScreenUtil().statusBarHeight),
                   const WZBackButton(),
                   const SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 34),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 34),
                     child: Text(
                       "您好，",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 36.sp,
+                          fontSize: 36,
                           fontWeight: TextStyleUtils.semibold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 34),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 34),
                     child: Text(
                       "欢迎使用王者体育",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 24.sp,
+                          fontSize: 24,
                           fontWeight: TextStyleUtils.semibold),
                     ),
                   ),
@@ -177,12 +177,12 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                         : ColorUtils.red235.withOpacity(0.5),
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(24))),
-                                child: Text(
+                                child: const Text(
                                   "登录",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20.sp,
+                                      fontSize: 20,
                                       fontWeight: TextStyleUtils.bold),
                                 ),
                               ),

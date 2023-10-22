@@ -30,16 +30,16 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(247, 247, 250, 1.0),
                   borderRadius: BorderRadius.all(Radius.circular(18))),
-              child: Row(
+              child: const Row(
                 children: [
-                  const Padding(
+                  Padding(
                       padding: EdgeInsets.only(left: 12, right: 12),
                       child: JhAssetImage("news/iconZixunHuabi", width: 20)),
                   Text(
                     "我也来说几句",
                     style: TextStyle(
                         color: ColorUtils.gray179,
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         fontWeight: TextStyleUtils.regual),
                   ),
                 ],

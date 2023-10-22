@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_button.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
@@ -33,16 +32,16 @@ class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
             children: [
               Text(
                 model.nickName,
-                style: TextStyle(
+                style: const TextStyle(
                     color: ColorUtils.black34,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: TextStyleUtils.semibold),
               ),
               Text(
                 model.createdDate,
-                style: TextStyle(
-                    color: const Color.fromRGBO(102, 102, 102, 1.0),
-                    fontSize: 12.sp,
+                style: const TextStyle(
+                    color: Color.fromRGBO(102, 102, 102, 1.0),
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.regual),
               ),
             ],

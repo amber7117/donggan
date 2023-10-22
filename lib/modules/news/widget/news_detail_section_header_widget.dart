@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -42,9 +41,9 @@ class _NewsDetailSectionHeaderWidgetState
                     width: 18)),
             Text(
               widget.type == NewsDetailSectionHeaderType.news ? "相关文章" : "全部评论",
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.black34,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.bold),
             ),
           ],

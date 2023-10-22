@@ -8,7 +8,6 @@ import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_page.dart';
 import 'package:wzty/modules/match/page/match_detail_page.dart';
-import 'package:wzty/modules/match/page/filter/match_filter_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
 import 'package:wzty/modules/me/page/app_act_page.dart';
 import 'package:wzty/modules/me/page/app_kefu_page.dart';

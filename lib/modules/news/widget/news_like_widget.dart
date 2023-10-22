@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -32,7 +31,7 @@ class _NewsLikeWidgetState extends State<NewsLikeWidget> {
                       color: model.isLike
                           ? const Color.fromRGBO(217, 217, 217, 1.0)
                           : ColorUtils.red233,
-                      fontSize: 12.sp,
+                      fontSize: 12,
                       fontWeight: TextStyleUtils.regual),
                 )
               : const SizedBox(),

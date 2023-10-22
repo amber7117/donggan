@@ -177,12 +177,12 @@ class _MeInfoPwdPageState extends State<MeInfoPwdPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "验证码",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: ColorUtils.black34,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.regual),
                     ),
                     WZTextField(
@@ -195,9 +195,9 @@ class _MeInfoPwdPageState extends State<MeInfoPwdPage> {
                       children: [
                         Text(
                           "验证码将发送到您手机：$_mobileOld",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.regual),
                         ),
                         WZVerifyBtn(handleVerify: _requestVerifyCode),

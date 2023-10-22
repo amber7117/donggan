@@ -147,18 +147,18 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "手机号",
                           style: TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: TextStyleUtils.regual),
                         ),
                         Text(
                           _mobileOld,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.gray149,
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: TextStyleUtils.regual),
                         ),
                       ],
@@ -166,11 +166,11 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "中国 +86",
                           style: TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 16.sp,
+                              fontSize: 16,
                               fontWeight: TextStyleUtils.regual),
                         ),
                         SizedBox(
@@ -199,12 +199,12 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "验证码",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: ColorUtils.black34,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.regual),
                     ),
                     WZTextField(
@@ -218,9 +218,9 @@ class _MeInfoMobilePageState extends State<MeInfoMobilePage> {
                       children: [
                         Text(
                           "验证码将发送到您手机：$_mobileOld",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.regual),
                         ),
                         WZVerifyBtn(handleVerify: _requestVerifyCode),

@@ -226,16 +226,16 @@ class _MePageState extends KeepAliveLifeWidgetState {
                   children: [
                     Text(
                       user != null ? user.nickName : "登录",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.bold),
                     ),
                     Text(
                       user != null ? (user.personalDesc ?? "") : "您还没有登录，请登录",
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.6),
-                          fontSize: 12.sp,
+                          fontSize: 12,
                           fontWeight: TextStyleUtils.regual),
                     ),
                   ],
@@ -254,11 +254,11 @@ class _MePageState extends KeepAliveLifeWidgetState {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             "1566",
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 14.sp,
+                fontSize: 14,
                 fontWeight: TextStyleUtils.medium),
           ),
           const SizedBox(width: 4),
@@ -266,7 +266,7 @@ class _MePageState extends KeepAliveLifeWidgetState {
             isFollow ? "关注" : "粉丝",
             style: TextStyle(
                 color: Colors.white.withOpacity(0.6),
-                fontSize: 12.sp,
+                fontSize: 12,
                 fontWeight: TextStyleUtils.medium),
           ),
         ],
@@ -294,16 +294,16 @@ class _MePageState extends KeepAliveLifeWidgetState {
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                     color: ColorUtils.black34,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: TextStyleUtils.medium),
               ),
               Text(
                 desc,
-                style: TextStyle(
+                style: const TextStyle(
                     color: ColorUtils.gray153,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.medium),
               ),
             ],
@@ -329,9 +329,9 @@ class _MePageState extends KeepAliveLifeWidgetState {
                   padding: const EdgeInsets.only(left: 6),
                   child: Text(
                     type.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ColorUtils.black34,
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         fontWeight: TextStyleUtils.medium),
                   )),
             ),

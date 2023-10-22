@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/widget/wz_sure_size_button.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -68,7 +67,7 @@ class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
                       color: canSelectAll
                           ? const Color.fromRGBO(102, 102, 102, 1.0)
                           : ColorUtils.red235,
-                      fontSize: 12.sp,
+                      fontSize: 12,
                       fontWeight: TextStyleUtils.medium)),
             ),
           ),
@@ -91,26 +90,26 @@ class MatchFilterBottomWidgetState extends State<MatchFilterBottomWidget> {
                       color: canSelectOther
                           ? const Color.fromRGBO(102, 102, 102, 1.0)
                           : ColorUtils.red235,
-                      fontSize: 12.sp,
+                      fontSize: 12,
                       fontWeight: TextStyleUtils.medium)),
             ),
           ),
           const SizedBox(width: 10),
-          Text("隐藏了",
+          const Text("隐藏了",
               style: TextStyle(
                   color: ColorUtils.gray153,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.regual)),
           Text("$selectCount",
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.red233,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.regual)),
-          Expanded(
+         const  Expanded(
             child: Text("场",
                 style: TextStyle(
                     color: ColorUtils.gray153,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: TextStyleUtils.regual)),
           ),
           WZSureSizeButton(

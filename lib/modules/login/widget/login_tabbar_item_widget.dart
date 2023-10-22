@@ -34,9 +34,9 @@ class LoginTabbarItemWidget extends StatelessWidget {
                 Text(
                   tabName,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: ColorUtils.black34,
-                      fontSize: 14.sp,
+                      fontSize: 14,
                       fontWeight: TextStyleUtils.semibold),
                 ),
                 const DecoratedBox(

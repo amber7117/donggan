@@ -73,20 +73,20 @@ class SetPwdPage extends StatefulWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "设置登录密码",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: ColorUtils.black34,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.bold),
             ),
-            Text(
+            const Text(
               "下次登录更方便，请输入您的密码",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: ColorUtils.gray153,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.regual),
             ),
             Expanded(
@@ -112,12 +112,12 @@ class SetPwdPage extends StatefulWidget {
                           : ColorUtils.red235.withOpacity(0.5),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(24))),
-                  child: Text(
+                  child: const Text(
                     "登录",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20.sp,
+                        fontSize: 20,
                         fontWeight: TextStyleUtils.bold),
                   ),
                 ),

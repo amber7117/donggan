@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
@@ -90,9 +89,9 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
             Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 12),
                 child: Text(cellTitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ColorUtils.black34,
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         fontWeight: TextStyleUtils.semibold))),
             GridView.builder(
               padding: EdgeInsets.zero,

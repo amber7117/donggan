@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
@@ -78,14 +77,14 @@ class _AnchorDetailUserInfoWidgetState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(model.nickname,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 12.sp,
+                        fontSize: 12,
                         fontWeight: TextStyleUtils.medium)),
                 Text("${model.fans}粉丝",
-                    style: TextStyle(
-                        color: const Color.fromRGBO(251, 192, 192, 1.0),
-                        fontSize: 10.sp,
+                    style: const TextStyle(
+                        color: Color.fromRGBO(251, 192, 192, 1.0),
+                        fontSize: 10,
                         fontWeight: TextStyleUtils.regual)),
               ],
             ),

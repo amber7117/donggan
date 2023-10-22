@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/search/widget/search_history_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -17,24 +16,24 @@ class _SearchHistoryPageState extends State<SearchHistoryPage> {
   Widget build(BuildContext context) {
     return Column(children: [
       const SizedBox(height: 14),
-      Row(
+      const Row(
         children: [
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Text("搜索历史",
                 style: TextStyle(
                     color: ColorUtils.black34,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: TextStyleUtils.bold)),
           ),
-          const JhAssetImage("common/iconDelete", width: 18),
-          const SizedBox(width: 6),
+          JhAssetImage("common/iconDelete", width: 18),
+          SizedBox(width: 6),
           Text("清除",
               style: TextStyle(
                   color: ColorUtils.gray153,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.regual)),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
         ],
       ),
       const SizedBox(height: 8),

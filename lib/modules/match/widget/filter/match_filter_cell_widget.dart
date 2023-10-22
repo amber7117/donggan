@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -40,14 +39,14 @@ class _MatchFilterCellWidgetState extends State<MatchFilterCellWidget> {
                     color: model.noSelect
                         ? const Color.fromRGBO(102, 102, 102, 1.0)
                         : ColorUtils.red233,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.medium)),
             const SizedBox(width: 2),
             Text("[${model.matchCount}]",
                 style: TextStyle(
                     color:
                         model.noSelect ? ColorUtils.gray179 : ColorUtils.red233,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.medium))
           ],
         ),

@@ -98,18 +98,18 @@ class _MeInfoNamePageState extends State<MeInfoNamePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "当前昵称",
                       style: TextStyle(
                           color: ColorUtils.black34,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.regual),
                     ),
                     Text(
                       _name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.gray149,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.regual),
                     ),
                   ],

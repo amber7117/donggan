@@ -133,12 +133,12 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "验证码",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: ColorUtils.black34,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: TextStyleUtils.regual),
                     ),
                     WZTextField(
@@ -151,9 +151,9 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
                       children: [
                         Text(
                           "验证码将发送到您手机：$_mobileOld",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.regual),
                         ),
                         WZVerifyBtn(handleVerify: _requestVerifyCode),
@@ -173,7 +173,7 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
               SizedBox(height: 20.h),
               SizedBox(
                 width: ScreenUtil().screenWidth-26,
-                child: Text(
+                child: const Text(
                 """关于注销账户的特别说明：
 （1）账号一旦注销，您将无法登录、使用该账号，也就是说您将无法在以此账号登录/使用/继续使用斗球的相关产品与服务；
 （2）账号一旦注销，您曾通过该账号登录、使用的产品与服务下的所有内容、信息、数据、记录将会被删除或匿名化处理，您也无法再检索、访问、获取、继续使用和找回，也无权要求我们找回（但法律法规另有规定或监管部门另有要求的除外），包括：该账号下的个人资料（例如：头像、昵称）及绑定信息（例如：绑定手机号、邮箱）；该账号下的您的个人信息；该账号曾发表的所有内容（例如：图片、照片、评论、互动、点赞）；其他所有内容、信息、数据、记录。
@@ -182,7 +182,7 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
 （5）账号注销的处理期限为10日，也就是说，在您已成功向我们提交了斗球账号注销申请后的10日内（从成功提交申请之时起算），账号将被注销（本协议另有约定的除外）。""",
                 style: TextStyle(
                     color: ColorUtils.black34,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.regual),
               ),
               )

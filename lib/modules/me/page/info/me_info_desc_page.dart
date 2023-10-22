@@ -118,9 +118,9 @@ class _MeInfoDescPageState extends State<MeInfoDescPage> {
                         _hintTextSetter = setState;
                         return Text("${_nameController.text.length}/200",
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: ColorUtils.gray149,
-                                fontSize: 15.sp,
+                                fontSize: 15,
                                 fontWeight: TextStyleUtils.regual));
                       }),
                     ),

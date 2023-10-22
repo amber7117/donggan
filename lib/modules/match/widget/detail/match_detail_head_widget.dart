@@ -45,9 +45,9 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
               child: Text(
                 widget.model.matchStatusDesc,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.medium),
               )),
           const SizedBox(height: 16),
@@ -68,9 +68,9 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
             Text(
               model.leagueName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.medium),
             ),
             Text(
@@ -78,7 +78,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white.withOpacity(0.8),
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.regual),
             ),
           ],
@@ -110,21 +110,21 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
             Text(
               model.hostTeamName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.medium),
             ),
           ],
         ),
         Column(
           children: [
-            Text(
+            const Text(
               "2 - 2",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 32.sp,
+                  fontSize: 32,
                   fontWeight: TextStyleUtils.semibold),
             ),
             Container(
@@ -136,12 +136,12 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "动画",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 10.sp,
+                        fontSize: 10,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
                     context.read<MatchDetailDataProvider>().setShowAnimate(true);
@@ -149,12 +149,12 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   const SizedBox(width: 10),
                   const SizedBox(width: 0.5, height: 8).colored(Colors.white),
                   const SizedBox(width: 10),
-                  Text(
+                  const Text(
                     "视频",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 10.sp,
+                        fontSize: 10,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
                     context.read<MatchDetailDataProvider>().setShowVideo(true);
@@ -174,9 +174,9 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
             Text(
               model.guestTeamName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.medium),
             ),
           ],

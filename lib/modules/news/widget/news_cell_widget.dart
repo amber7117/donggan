@@ -45,9 +45,9 @@ class _NewsCellWidgetState extends State<NewsCellWidget> {
                           model.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 14.sp,
+                              fontSize: 14,
                               fontWeight: TextStyleUtils.medium),
                         )),
                     const SizedBox(height: 6),
@@ -59,9 +59,9 @@ class _NewsCellWidgetState extends State<NewsCellWidget> {
                         const SizedBox(width: 2),
                         Text(
                           "${model.commentCount}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.gray153,
-                              fontSize: 14.sp,
+                              fontSize: 14,
                               fontWeight: TextStyleUtils.regual),
                         ),
                       ],

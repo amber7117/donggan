@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -48,9 +47,9 @@ class _AppSetPageState extends State<AppSetPage> {
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(
                   type.title,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: ColorUtils.black34,
-                      fontSize: 14.sp,
+                      fontSize: 14,
                       fontWeight: TextStyleUtils.regual),
                 )),
             const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),

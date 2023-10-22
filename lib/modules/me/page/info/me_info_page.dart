@@ -31,19 +31,14 @@ class _MeInfoPageState extends State<MeInfoPage> {
   _handleListEvent(InfoListItemType type) {
     if (type == InfoListItemType.nickName) {
       Routes.push(context, Routes.meInfoName);
-
     } else if (type == InfoListItemType.personalDesc) {
       Routes.push(context, Routes.meInfoDesc);
-
     } else if (type == InfoListItemType.modifyMobile) {
       Routes.push(context, Routes.meInfoMobile);
-
     } else if (type == InfoListItemType.modifyPwd) {
       Routes.push(context, Routes.meInfoPwd);
-
     } else if (type == InfoListItemType.cancelAccount) {
       Routes.push(context, Routes.meInfoAccount);
-      
     }
   }
 
@@ -124,10 +119,10 @@ class _MeInfoPageState extends State<MeInfoPage> {
               ],
             ),
             const SizedBox(height: 16),
-            Text('点击更换头像',
+            const Text('点击更换头像',
                 style: TextStyle(
                     color: ColorUtils.gray153,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.regual)),
           ],
         ));
@@ -156,9 +151,9 @@ class _MeInfoPageState extends State<MeInfoPage> {
             Expanded(
                 child: Text(
               type.title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.black34,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.regual),
             )),
             SizedBox(
@@ -167,9 +162,9 @@ class _MeInfoPageState extends State<MeInfoPage> {
                 vaule,
                 textAlign: TextAlign.right,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                     color: ColorUtils.gray179,
-                    fontSize: 13.sp,
+                    fontSize: 13,
                     fontWeight: TextStyleUtils.regual),
               ),
             ),

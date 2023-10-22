@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
@@ -97,9 +96,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     width: _teamW,
                     child: Text(
                       model.leagueName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.gray153,
-                          fontSize: 10.sp,
+                          fontSize: 10,
                           fontWeight: TextStyleUtils.medium),
                     ),
                   ),
@@ -108,7 +107,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     style: TextStyle(
                         color:
                             matchGoing ? ColorUtils.red235 : ColorUtils.gray153,
-                        fontSize: 10.sp,
+                        fontSize: 10,
                         fontWeight: TextStyleUtils.medium),
                   ),
                   SizedBox(
@@ -116,9 +115,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     child: Text(
                       model.matchTimeNew,
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.gray153,
-                          fontSize: 10.sp,
+                          fontSize: 10,
                           fontWeight: TextStyleUtils.medium),
                     ),
                   ),
@@ -153,9 +152,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.semibold),
                         ),
                         Text(
@@ -163,9 +162,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.semibold),
                         ),
                       ],
@@ -216,17 +215,17 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     width: _teamW,
                     child: Text(
                       model.tournamentName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.gray153,
-                          fontSize: 10.sp,
+                          fontSize: 10,
                           fontWeight: TextStyleUtils.medium),
                     ),
                   ),
                   Text(
                     _statusLabelText(MatchStatus.uncoming, ""),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ColorUtils.gray153,
-                        fontSize: 10.sp,
+                        fontSize: 10,
                         fontWeight: TextStyleUtils.medium),
                   ),
                   SizedBox(
@@ -234,9 +233,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     child: Text(
                       model.matchTimeNew,
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.gray153,
-                          fontSize: 10.sp,
+                          fontSize: 10,
                           fontWeight: TextStyleUtils.medium),
                     ),
                   ),
@@ -271,9 +270,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.semibold),
                         ),
                         Text(
@@ -281,9 +280,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: ColorUtils.black34,
-                              fontSize: 12.sp,
+                              fontSize: 12,
                               fontWeight: TextStyleUtils.semibold),
                         ),
                       ],
@@ -330,26 +329,26 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
 
   _scoreLabelStyle(MatchStatus matchStatus, bool winner) {
     if (matchStatus == MatchStatus.going) {
-      return TextStyle(
+      return const TextStyle(
           color: ColorUtils.red233,
-          fontSize: 12.sp,
+          fontSize: 12,
           fontWeight: TextStyleUtils.semibold);
     } else if (matchStatus == MatchStatus.finished) {
       if (winner) {
-        return TextStyle(
+        return const TextStyle(
             color: ColorUtils.red233,
-            fontSize: 12.sp,
+            fontSize: 12,
             fontWeight: TextStyleUtils.semibold);
       } else {
-        return TextStyle(
+        return const TextStyle(
             color: ColorUtils.black34,
-            fontSize: 12.sp,
+            fontSize: 12,
             fontWeight: TextStyleUtils.semibold);
       }
     } else {
-      return TextStyle(
+      return const TextStyle(
           color: ColorUtils.gray153,
-          fontSize: 12.sp,
+          fontSize: 12,
           fontWeight: TextStyleUtils.regual);
     }
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -67,16 +66,16 @@ class _AnchorDetailPlaybackCellWidgetState
                 width: 150,
                 child: Text(model.liveTitle,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ColorUtils.black34,
-                        fontSize: 12.sp,
+                        fontSize: 12,
                         fontWeight: TextStyleUtils.semibold)),
               ),
               const SizedBox(height: 4),
               Text(model.startTime,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: ColorUtils.gray179,
-                      fontSize: 10.sp,
+                      fontSize: 10,
                       fontWeight: TextStyleUtils.medium)),
               const SizedBox(height: 10),
               Row(
@@ -84,9 +83,9 @@ class _AnchorDetailPlaybackCellWidgetState
                   const JhAssetImage("anchor/iconView", width: 10),
                   const SizedBox(width: 4),
                   Text("${model.browseNum}",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: ColorUtils.gray179,
-                          fontSize: 10.sp,
+                          fontSize: 10,
                           fontWeight: TextStyleUtils.medium)),
                 ],
               )

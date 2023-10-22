@@ -54,9 +54,9 @@ class _NewsDetailHeaderWidgetState extends State<NewsDetailHeaderWidget> {
         children: [
           Text(
             model.title,
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorUtils.black34,
-                fontSize: 26.sp,
+                fontSize: 26,
                 fontWeight: TextStyleUtils.medium),
           ),
           const SizedBox(height: 12),

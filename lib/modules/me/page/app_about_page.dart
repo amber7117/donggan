@@ -43,11 +43,11 @@ class _AppAboutPageState extends State<AppAboutPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "用户协议",
                 style: TextStyle(
-                    color: const Color.fromRGBO(91, 162, 214, 1.0),
-                    fontSize: 13.sp,
+                    color: Color.fromRGBO(91, 162, 214, 1.0),
+                    fontSize: 13,
                     fontWeight: TextStyleUtils.regual),
               ),
               const SizedBox(width: 10.0),
@@ -56,17 +56,17 @@ class _AppAboutPageState extends State<AppAboutPage> {
                   height: 14.h,
                   color: const Color.fromRGBO(91, 162, 214, 1.0)),
               const SizedBox(width: 10.0),
-              Text(
+              const Text(
                 "隐私政策",
                 style: TextStyle(
-                    color: const Color.fromRGBO(91, 162, 214, 1.0),
-                    fontSize: 13.sp,
+                    color: Color.fromRGBO(91, 162, 214, 1.0),
+                    fontSize: 13,
                     fontWeight: TextStyleUtils.regual),
               ),
             ],
           ),
           SizedBox(height: 14.h),
-          SizedBox(
+          const SizedBox(
             width: 186,
             child: Text(
               "Copyright@2019-2020\n广西牧民科技有限公司 版权所有",
@@ -74,7 +74,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: ColorUtils.gray153,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.regual),
             ),
           ),
@@ -87,16 +87,16 @@ class _AppAboutPageState extends State<AppAboutPage> {
     return SizedBox(
         width: double.infinity,
         height: 200.h,
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const JhAssetImage("common/logo80", width: 80),
-            const SizedBox(height: 15),
+            JhAssetImage("common/logo80", width: 80),
+            SizedBox(height: 15),
             Text('王者体育1.0.0',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 18.sp,
+                    fontSize: 18,
                     fontWeight: TextStyleUtils.regual)),
           ],
         ));
@@ -112,16 +112,16 @@ class _AppAboutPageState extends State<AppAboutPage> {
         children: [
           Text(
             type.title,
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorUtils.black34,
-                fontSize: 14.sp,
+                fontSize: 14,
                 fontWeight: TextStyleUtils.regual),
           ),
           Text(
             type.title,
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorUtils.gray179,
-                fontSize: 15.sp,
+                fontSize: 15,
                 fontWeight: TextStyleUtils.regual),
           ),
         ],

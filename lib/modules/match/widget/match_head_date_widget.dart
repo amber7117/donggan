@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -68,9 +67,9 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
             Text(
               dateStr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.red233,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.medium),
             ),
             dateStr2.isEmpty
@@ -78,9 +77,9 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
                 : Text(
                     dateStr2,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ColorUtils.red233,
-                        fontSize: 8.sp,
+                        fontSize: 8,
                         fontWeight: TextStyleUtils.medium),
                   ),
           ],
@@ -99,9 +98,9 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
             Text(
               dateStr,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: const Color.fromRGBO(102, 102, 102, 1.0),
-                  fontSize: 12.sp,
+              style: const TextStyle(
+                  color:  Color.fromRGBO(102, 102, 102, 1.0),
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.medium),
             ),
             dateStr2.isEmpty
@@ -109,9 +108,9 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
                 : Text(
                     dateStr2,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: const Color.fromRGBO(179, 179, 179, 1.0),
-                        fontSize: 8.sp,
+                    style: const TextStyle(
+                        color:  Color.fromRGBO(179, 179, 179, 1.0),
+                        fontSize: 8,
                         fontWeight: TextStyleUtils.medium),
                   ),
           ],

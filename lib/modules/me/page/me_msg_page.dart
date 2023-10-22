@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
@@ -84,26 +83,26 @@ class _MeMsgPageState extends State {
               children: [
                 Text(
                   model.title ?? "",
-                  style: TextStyle(
-                      color: const Color.fromRGBO(58, 58, 60, 1.0),
-                      fontSize: 14.sp,
+                  style: const TextStyle(
+                      color: Color.fromRGBO(58, 58, 60, 1.0),
+                      fontSize: 14,
                       fontWeight: TextStyleUtils.medium),
                 ),
                 Text(
                   model.content ?? "",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: ColorUtils.gray149,
-                      fontSize: 11.sp,
+                      fontSize: 11,
                       fontWeight: TextStyleUtils.regual),
                 ),
               ],
             ),
           )),
-          Text(
+          const Text(
             "14分钟前",
             style: TextStyle(
                 color: ColorUtils.gray149,
-                fontSize: 11.sp,
+                fontSize: 11,
                 fontWeight: TextStyleUtils.regual),
           ),
         ],

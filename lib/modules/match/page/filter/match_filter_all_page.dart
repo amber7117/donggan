@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 import 'package:wzty/modules/match/widget/filter/match_filter_cell_widget.dart';
@@ -64,9 +63,9 @@ class MatchFilterAllPageState extends State<MatchFilterAllPage> {
             Padding(
                 padding: const EdgeInsets.only(top: 12, bottom: 12),
                 child: Text(model.titleArr[index],
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ColorUtils.gray153,
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         fontWeight: TextStyleUtils.regual))),
             GridView.builder(
               padding: EdgeInsets.zero,

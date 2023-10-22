@@ -65,14 +65,14 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(model.leagueName,
-                        style: TextStyle(
-                            color: const Color.fromRGBO(98, 135, 194, 1.0),
-                            fontSize: 10.sp,
+                        style: const TextStyle(
+                            color: Color.fromRGBO(98, 135, 194, 1.0),
+                            fontSize: 10,
                             fontWeight: TextStyleUtils.medium)),
-                    Text("LIVE",
+                    const Text("LIVE",
                         style: TextStyle(
                             color: ColorUtils.red235,
-                            fontSize: 10.sp,
+                            fontSize: 10,
                             fontWeight: TextStyleUtils.medium)),
                   ],
                 ),
@@ -101,16 +101,16 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
             width: 70.w,
             child: Text(name,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                     color: ColorUtils.black34,
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.medium)),
           ),
         ),
         Text("$score",
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorUtils.black34,
-                fontSize: 14.sp,
+                fontSize: 14,
                 fontWeight: TextStyleUtils.semibold)),
         const SizedBox(width: 10),
       ],

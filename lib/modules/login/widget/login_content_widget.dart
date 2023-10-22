@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
@@ -98,12 +97,12 @@ class _LoginContentState extends State<LoginContentWidget>  {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "手机号",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: ColorUtils.black51,
-                fontSize: 18.sp,
+                fontSize: 18,
                 fontWeight: TextStyleUtils.bold),
           ),
           Row(
@@ -112,12 +111,12 @@ class _LoginContentState extends State<LoginContentWidget>  {
               const JhAssetImage("login/iconDengluShoujihao",
                   width: 20, height: 20),
               const SizedBox(width: 4),
-              Text(
+              const Text(
                 "+86",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: ColorUtils.black51,
-                    fontSize: 16.sp,
+                    fontSize: 16,
                     fontWeight: TextStyleUtils.regual),
               ),
               const SizedBox(width: 14),
@@ -143,12 +142,12 @@ class _LoginContentState extends State<LoginContentWidget>  {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "验证码",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: ColorUtils.black51,
-                fontSize: 18.sp,
+                fontSize: 18,
                 fontWeight: TextStyleUtils.bold),
           ),
           Row(
@@ -184,12 +183,12 @@ class _LoginContentState extends State<LoginContentWidget>  {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "密码",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: ColorUtils.black51,
-                fontSize: 18.sp,
+                fontSize: 18,
                 fontWeight: TextStyleUtils.bold),
           ),
           Row(

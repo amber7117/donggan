@@ -121,9 +121,9 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
 
     String videoUrl = "";
     if (model.isRobot.isTrue()) {
-      videoUrl = _obtainVideoUrl(model.playAddr!, "");
+      videoUrl = _obtainVideoUrl(model.playAddr, "");
     } else {
-      videoUrl = _obtainVideoUrl(model.playAddr!, "sd");
+      videoUrl = _obtainVideoUrl(model.playAddr, "sd");
     }
     return videoUrl;
   }
