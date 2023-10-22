@@ -45,7 +45,7 @@ AppBar buildAppBar({
           ),
       bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 0.5),
-          child: Container(color: ColorUtils.gray248, height: 0.5)));
+          child: Container(color: ColorUtils.gray248, height: 1.0)));
 }
 
 Widget buildCustomAppBar({
