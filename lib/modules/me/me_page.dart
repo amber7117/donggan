@@ -33,11 +33,6 @@ class _MePageState extends KeepAliveLifeWidgetState {
     ];
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   _requestData() {
     // if (provider.user)
     // ToastUtils.showLoading();
