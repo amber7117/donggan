@@ -102,16 +102,16 @@ class _AnchorChildHotPageState
             ),
           ),
         ),
-        Row(
+        const Row(
           children: [
-            const Padding(
+            Padding(
                 padding:
                     EdgeInsets.only(top: 12, bottom: 12, left: 12, right: 5),
                 child: JhAssetImage("anchor/iconFire2", width: 16)),
             Text("热门直播",
                 style: TextStyle(
                     color: ColorUtils.black34,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: TextStyleUtils.semibold)),
           ],
         ),

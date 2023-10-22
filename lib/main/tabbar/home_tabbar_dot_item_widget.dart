@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -60,9 +59,9 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
             Text(
               tabName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.black34,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.semibold),
             ),
             const Padding(
@@ -76,9 +75,9 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
             Text(
               tabName,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: const Color.fromRGBO(248, 135, 152, 1.0),
-                  fontSize: 14.sp,
+              style: const TextStyle(
+                  color: Color.fromRGBO(248, 135, 152, 1.0),
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.medium),
             ),
             const SizedBox(height: 9.0),
@@ -101,9 +100,9 @@ class HomeTabbarDotItemWidget extends StatelessWidget {
           child: Text(
             "${context.watch<TabDotProvider>().dotNum}",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorUtils.black34,
-                fontSize: 8.sp,
+                fontSize: 8,
                 fontWeight: TextStyleUtils.semibold),
           ),
         ));

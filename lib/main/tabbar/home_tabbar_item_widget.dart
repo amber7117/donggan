@@ -54,9 +54,9 @@ class HomeTabbarItemWidget extends StatelessWidget {
             Text(
               tabName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.black34,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.semibold),
             ),
             const Padding(
@@ -70,9 +70,9 @@ class HomeTabbarItemWidget extends StatelessWidget {
             Text(
               tabName,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: const Color.fromRGBO(248, 135, 152, 1.0),
-                  fontSize: 14.sp,
+              style: const TextStyle(
+                  color: Color.fromRGBO(248, 135, 152, 1.0),
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.medium),
             ),
             const SizedBox(height: 9.0),

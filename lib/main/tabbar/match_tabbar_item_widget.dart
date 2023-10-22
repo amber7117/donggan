@@ -41,9 +41,9 @@ class MatchTabbarItemWidget extends StatelessWidget {
             Text(
               tabName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.red233,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.semibold),
             ),
             const Padding(
@@ -57,9 +57,9 @@ class MatchTabbarItemWidget extends StatelessWidget {
             Text(
               tabName,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: const Color.fromRGBO(102, 102, 102, 1.0),
-                  fontSize: 14.sp,
+              style: const TextStyle(
+                  color: Color.fromRGBO(102, 102, 102, 1.0),
+                  fontSize: 14,
                   fontWeight: TextStyleUtils.medium),
             ),
             const SizedBox(height: 8.5),

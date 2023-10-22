@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -33,9 +32,9 @@ class WZTextViewState extends State<WZTextView> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: TextStyle(
+      style: const TextStyle(
         color: ColorUtils.black34,
-        fontSize: 14.sp,
+        fontSize: 14,
         fontWeight: TextStyleUtils.regual,
       ),
       controller: widget.controller,
@@ -50,9 +49,9 @@ class WZTextViewState extends State<WZTextView> {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintText: widget.hintText,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: ColorUtils.gray149,
-          fontSize: 14.sp,
+          fontSize: 14,
           fontWeight: TextStyleUtils.regual,
         ),
         counterText: '',

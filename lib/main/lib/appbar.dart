@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -36,7 +35,7 @@ AppBar buildAppBar({
             titleText ?? '',
             style: TextStyle(
               color: titleTextColor ?? ColorUtils.black34,
-              fontSize: titleTextFontSize ?? 16.sp,
+              fontSize: titleTextFontSize ?? 16,
               fontWeight: TextStyleUtils.bold,
             ),
           ),
@@ -69,9 +68,9 @@ Widget buildCustomAppBar({
           Center(
             child: Text(
               titleText,
-              style: TextStyle(
+              style: const TextStyle(
                 color: ColorUtils.black34,
-                fontSize: 16.sp,
+                fontSize: 16,
                 fontWeight: TextStyleUtils.bold,
               ),
             ),

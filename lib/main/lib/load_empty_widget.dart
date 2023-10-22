@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -33,9 +32,9 @@ class LoadEmptyWidget extends StatelessWidget {
             Text(
               hintText,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: ColorUtils.gray153,
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: TextStyleUtils.regual),
             )
           ],

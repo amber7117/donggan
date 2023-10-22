@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -56,7 +55,7 @@ class WZFollowWhiteBtnState extends State<WZFollowWhiteBtn> {
                     color: _isFollowd
                         ?  Colors.grey
                         : ColorUtils.red233,
-                    fontSize: 10.sp,
+                    fontSize: 10,
                     fontWeight: TextStyleUtils.medium))
           ],
         ),

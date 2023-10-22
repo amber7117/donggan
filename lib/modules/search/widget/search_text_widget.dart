@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class SearchTextWidget extends StatefulWidget {
-  const SearchTextWidget({super.key});
+  final WZAnyCallback callback;
+
+  const SearchTextWidget({super.key, required this.callback});
 
   @override
   State createState() => _SearchTextWidgetState();
@@ -47,7 +50,9 @@ class _SearchTextWidgetState extends State<SearchTextWidget> {
       textInputAction: TextInputAction.search,
       keyboardType: TextInputType.text,
       onEditingComplete: () {
-        print("object");
+        if (_textController.text.isNotEmpty) {
+          widget.callback(_textController.text);
+        }
       },
       decoration: const InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 10.0),

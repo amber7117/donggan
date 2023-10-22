@@ -74,7 +74,7 @@ class WZVerifyBtnState extends State<WZVerifyBtn> {
                   color: _clickable
                       ? ColorUtils.red233
                       : const Color.fromRGBO(186, 195, 216, 1.0),
-                  fontSize: 10.sp,
+                  fontSize: 10,
                   fontWeight: TextStyleUtils.medium)),
         ));
   }

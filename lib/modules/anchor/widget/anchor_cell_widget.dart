@@ -65,18 +65,18 @@ class _AnchorCellWidgetState extends State<AnchorCellWidget> {
                         placeholder: "common/iconZhubo")),
                 Expanded(
                     child: Text(model.nickName,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: ColorUtils.gray153,
-                            fontSize: 10.sp,
+                            fontSize: 10,
                             fontWeight: TextStyleUtils.medium))),
                 const JhAssetImage("anchor/iconFire", width: 14),
                 Padding(
                     padding: const EdgeInsets.only(left: 2, right: 10),
                     child: Text(
                         AppBusinessUtils.obtainVideoHotDesc(model.anchorHot),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: ColorUtils.gray153,
-                            fontSize: 10.sp,
+                            fontSize: 10,
                             fontWeight: TextStyleUtils.medium))),
               ],
             )),
