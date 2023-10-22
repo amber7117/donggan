@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SearchResultCellWidget extends StatefulWidget {
+  
   const SearchResultCellWidget({super.key});
 
   @override

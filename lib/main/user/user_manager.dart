@@ -14,7 +14,7 @@ class UserManager {
 
   // ---------------------------------------------
 
-  createUser() async {
+  obtainData() async {
     Map<String, dynamic>? jsonMap = await SpUtils.getJSON(SpKeys.user);
     if (jsonMap != null) {
        user = UserEntity.fromJson(jsonMap);

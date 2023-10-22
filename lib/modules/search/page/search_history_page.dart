@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
+import 'package:wzty/modules/search/manager/search_manager.dart';
 import 'package:wzty/modules/search/widget/search_history_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class SearchHistoryPage extends StatefulWidget {
-  const SearchHistoryPage({super.key});
+  final WZAnyCallback callback;
+  
+  const SearchHistoryPage({super.key, required this.callback});
 
   @override
   State createState() => _SearchHistoryPageState();
 }
 
 class _SearchHistoryPageState extends State<SearchHistoryPage> {
+  List<String> _keyWordArr = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _keyWordArr = SearchManager.instance.keyWordArr;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -48,9 +61,11 @@ class _SearchHistoryPageState extends State<SearchHistoryPage> {
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
-          itemCount: 10,
+          itemCount: _keyWordArr.length,
           itemBuilder: (BuildContext context, int index) {
-            return SearchHistoryCellWidget();
+            return SearchHistoryCellWidget(keyWord: _keyWordArr[index], callback: (data) {
+              widget.callback(data);
+            });
           },
         ),
       ),

@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SpKeys {
   static const String uuid = 'uuid';
 
-  static const String domain = 'domain';
+  static const String domainCache = 'domainCache';
 
   static const String touristId = 'touristId';
 
@@ -13,7 +13,7 @@ class SpKeys {
   static const String token = 'token';
   static const String uid = 'uid'; 
   
-
+  static const String searchHistory = 'searchHistory';
 
 }
 

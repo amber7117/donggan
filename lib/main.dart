@@ -36,7 +36,7 @@ void main() async {
   // runApp(DemoPage());
   // return;
 
-  await UserManager.instance.createUser();
+  await UserManager.instance.obtainData();
   await DomainManager.instance.requestDomain();
   ConfigManager.instance.requestConfig();
 

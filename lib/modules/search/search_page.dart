@@ -23,7 +23,7 @@ class _SearchPageState extends State<SearchPage> {
 
   _requestSearch(String keyword) {
     Routes.unfocus();
-    
+
     ToastUtils.showLoading();
 
     SearchService.requestSearchData(keyword, (success, result) {
@@ -60,8 +60,10 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
             _model == null
-                ? const Expanded(
-                    child: SearchHistoryPage(),
+                ? Expanded(
+                    child: SearchHistoryPage(callback: (data) {
+                      _requestSearch(data);
+                    }),
                   )
                 : Expanded(
                     child: SearchResultPage(

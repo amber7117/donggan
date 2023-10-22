@@ -210,7 +210,7 @@ class DomainManager {
   // ---------------------------------------------
 
   Future<List<DomainEntity>> getDomainFromCache() async {
-    String domainStr = await SpUtils.getString(SpKeys.domain);
+    String domainStr = await SpUtils.getString(SpKeys.domainCache);
 
     List<dynamic> domainMapList;
     try {
@@ -227,6 +227,6 @@ class DomainManager {
 
   void cacheDomainArr(List<DomainEntity> modelArr) {
     String domainStr = jsonEncode(modelArr);
-    SpUtils.save(SpKeys.domain, domainStr);
+    SpUtils.save(SpKeys.domainCache, domainStr);
   }
 }
