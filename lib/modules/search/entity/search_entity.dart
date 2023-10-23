@@ -1,7 +1,6 @@
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 
-
 class SearchResultModel {
   List<MatchListModel> matchList;
   List<AnchorListModel> anchors;
@@ -15,16 +14,20 @@ class SearchResultModel {
 
   factory SearchResultModel.fromJson(Map<String, dynamic> json) =>
       SearchResultModel(
-        matchList: List<MatchListModel>.from(
-            json['matchList']?.map((x) => MatchListModel.fromJson(x)) ?? []),
-        anchors: List<AnchorListModel>.from(
-            json['anchors']?.map((x) => AnchorListModel.fromJson(x)) ?? []),
-        // teamList: List<SearchTeamModel>.from(
-        //     json['teamList']?.map((x) => SearchTeamModel.fromJson(x)) ??
-        //         []),
+        matchList: json['matchList'] != null
+            ? List<MatchListModel>.from(
+                json['matchList'].map((x) => MatchListModel.fromJson(x)))
+            : [],
+        anchors: json['anchors'] != null
+            ? List<AnchorListModel>.from(
+                json['anchors'].map((x) => AnchorListModel.fromJson(x)))
+            : [],
+        // teamList: json['teamList'] != null
+        //     ? List<SearchTeamModel>.from(
+        //         json['teamList'].map((x) => SearchTeamModel.fromJson(x)))
+        //     : [],
       );
 }
-
 
 class SearchTeamModel {
   int sportId;

@@ -18,16 +18,16 @@ class MatchStatusFBLiveModel {
   // MARK: - Constructor
 
   MatchStatusFBLiveModel(
-      {this.eventId = 0,
-      this.team = 0,
-      this.time = "",
-      this.period = 0,
-      this.hostScore = 0,
-      this.guestScore = 0,
-      this.typeId = 0,
-      this.cnText = "",
-      this.section = "",
-      this.teamName = ""});
+      {required this.eventId,
+      required this.team,
+      required this.time,
+      required this.period,
+      required this.hostScore,
+      required this.guestScore,
+      required this.typeId,
+      required this.cnText,
+      required this.section,
+      required this.teamName});
 
   // MARK: - JSON Conversion
 

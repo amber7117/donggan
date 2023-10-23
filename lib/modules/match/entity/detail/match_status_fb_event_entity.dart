@@ -24,21 +24,21 @@ class MatchStatusFBEventModel {
   // MARK: - Constructor
 
   MatchStatusFBEventModel(
-      {this.eventId = 0,
-      this.team = 0,
-      this.stage = 0,
-      this.typeId = 0,
-      this.goalType = 0,
-      this.occurTime = 0,
-      this.overTime = 0,
-      this.iconType = 0,
-      this.playerName = "",
-      this.playerName2 = "",
-      this.content = "",
-      this.content2 = "",
-      this.scores = "",
-      this.statusCode = 0,
-      this.statusName = ""});
+      {required this.eventId,
+      required this.team,
+      required this.stage,
+      required this.typeId,
+      required this.goalType,
+      required this.occurTime,
+      required this.overTime,
+      required this.iconType,
+      required this.playerName,
+      required this.playerName2,
+      required this.content,
+      required this.content2,
+      required this.scores,
+      required this.statusCode,
+      required this.statusName});
 
   // MARK: - JSON Conversion
 
