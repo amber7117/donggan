@@ -85,7 +85,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
               decoration: BoxDecoration(
                 image: DecorationImage(
                     alignment: Alignment.topCenter,
-                    image: JhImageUtils.getAssetImage("login/imgDengluBg", x2: false),
+                    image: JhImageUtils.getAssetImage("login/imgDengluBg",
+                        x2: false),
                     fit: BoxFit.fitWidth),
               ),
               child: Column(
@@ -144,13 +145,14 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                               indicator: const BoxDecoration(),
                               labelPadding: EdgeInsets.zero,
                               tabs: const <Widget>[
-                                LoginTabbarItemWidget(tabName: '手机登录', index: 0),
-                                LoginTabbarItemWidget(tabName: '密码登录', index: 1),
+                                LoginTabbarItemWidget(
+                                    tabName: '手机登录', index: 0),
+                                LoginTabbarItemWidget(
+                                    tabName: '密码登录', index: 1),
                               ]),
                           SizedBox(
-                              height: 234, 
+                              height: 234,
                               child: PageView.builder(
-                                  
                                   itemCount: 2,
                                   onPageChanged: _onPageChange,
                                   controller: _pageController,
@@ -168,7 +170,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                               builder: (context2, provider, child) {
                             return InkWell(
                               child: Container(
-                                width: ScreenUtil().screenWidth-72*2,
+                                width: ScreenUtil().screenWidth - 72 * 2,
                                 height: 48,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(

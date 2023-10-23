@@ -3,7 +3,7 @@ import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_anchor_entity.dart';
-import 'package:wzty/modules/match/entity/match_detail_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 
 class MatchDetailService {
   // -------------------------------------------

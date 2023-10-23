@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
-import 'package:wzty/modules/match/entity/match_detail_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
