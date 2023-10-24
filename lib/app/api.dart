@@ -16,11 +16,45 @@ class MatchApi {
 
   static String matchDetail = "/qiutx-score/v5/match/match";
 
+  // -------------------------------------------
+
   static String matchAnchor = "/live-product/anonymous/app/match/live";
 
   static String hotMatchList = "/live-product/anonymous/v1/find/match/pool";
 
   static String anchorOrderMatch = "/live-product/v1/anchor/order/list";
+}
+
+class MatchStatusApi {
+  static String fbTech = "/qiutx-score/v5/match/contrast/soccer";
+  static String fbEvent = "/qiutx-score/soccer/match/events";
+  static String fbLive = "/qiutx-score/v8/queryMatchPhrase";
+  static String bbLive = "/qiutx-score/v7/queryMatchPhrase";
+  static String live2 = "/qiutx-score/v1/match/event/prase";
+
+  static String bbScore = "/qiutx-score/v6/match/contrast/basketball";
+  static String bbTech = "/qiutx-score/v7/queryBasketballTeamStat";
+}
+
+class MatchLineupApi {
+  static String fbLineup = "/qiutx-score/soccer/match/lineup/new";
+  static String playerInfo =
+      "/qiutx-score/v4/matchLineup/getMatchLineup/getMatchInfoDetails";
+  static String coachInfo =
+      "/qiutx-score/v4/matchLineup/getMatchLineup/getCoachInfo";
+  static String refereeInfo =
+      "/qiutx-score/v4/matchLineup/getMatchLineup/getRefereeInfo";
+
+  static String bbLineup = "/qiutx-score/v9/info/match/player/stat/detail";
+}
+
+class MatchAnalysisApi {
+  static String fbRank = "/qiutx-score/v8/queryMatchLeagueRank";
+  static String bbRank = "/qiutx-score/v8/queryMatchLeagueRank/basketball";
+  static String history = "/qiutx-score/v4/team/hostAndGuest";
+  static String fbRecent = "/qiutx-score/v4/team/recentRecords";
+  static String bbRecent = "/qiutx-score/v4/team/recentRecords/basketball";
+  static String future = "/qiutx-score/v4/team/uncoming3";
 }
 
 class AnchorApi {
@@ -123,7 +157,6 @@ class ChatApi {
 
   static String recallMsgAll = '/live-product/v2.0/chat/recallChatRoom/user';
 
-  static String admainOperate = '/live-product/anonymous/v1/room/online/user/operator';
-
+  static String admainOperate =
+      '/live-product/anonymous/v1/room/online/user/operator';
 }
-
