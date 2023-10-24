@@ -67,6 +67,25 @@ class MatchService {
     }
   }
 
+  static Future<void> requestMatchBook(int matchId,
+      bool isAdd, BusinessCallback<String> complete) async {
+    String userId = await UserManager.instance.obtainUseridOrDeviceid();
+    Map<String, dynamic> params = {
+       "matchId": matchId, "userId": userId
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        isAdd ? MatchApi.matchBook : MatchApi.matchBookCancel,
+        HttpMethod.post,
+        params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
+
   /// 主播热门赛事
   static Future<void> requestHotMatchList(
       BusinessCallback<List<MatchListModel>> complete) async {
@@ -93,7 +112,7 @@ class MatchService {
     };
 
     HttpResultBean result = await HttpManager.request(
-        MatchApi.anchorMatchList, HttpMethod.get,
+        MatchApi.anchorOrderMatch, HttpMethod.get,
         params: params);
 
     if (result.isSuccess()) {

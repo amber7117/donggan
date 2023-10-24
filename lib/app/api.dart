@@ -20,7 +20,7 @@ class MatchApi {
 
   static String hotMatchList = "/live-product/anonymous/v1/find/match/pool";
 
-  static String anchorMatchList = "/live-product/v1/anchor/order/list";
+  static String anchorOrderMatch = "/live-product/v1/anchor/order/list";
 }
 
 class AnchorApi {
@@ -115,3 +115,15 @@ class IMApi {
 
   static String msgVerify = '/qiutx-news/app/chat/commonFilter';
 }
+
+class ChatApi {
+  static String userChatInfo = '/live-product/v3.0/chat/chatPopup';
+
+  static String recallMsg = '/live-product/v2.0/chat/recallChatRoom';
+
+  static String recallMsgAll = '/live-product/v2.0/chat/recallChatRoom/user';
+
+  static String admainOperate = '/live-product/anonymous/v1/room/online/user/operator';
+
+}
+
