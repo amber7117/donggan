@@ -5,7 +5,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
+import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 import 'package:wzty/modules/match/manager/match_filter_manager.dart';
@@ -45,13 +45,13 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   final GlobalKey<MatchFilterBottomWidgetState> _bottomWidgetKey = GlobalKey();
 
   final List<Widget> _tabs = [
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: "全部",
       index: 0,
       tabWidth: 60.0,
       tabHeight: 44.0,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: "热门",
       index: 1,
       tabWidth: 60.0,

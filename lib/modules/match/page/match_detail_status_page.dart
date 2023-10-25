@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wzty/common/webview/wz_webview_page.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
+import 'package:wzty/main/tabbar/match_status_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_data_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_status_event_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_status_live_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_status_tech_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 
 class MatchDetailStatusPage extends StatefulWidget {
@@ -31,15 +35,15 @@ class _MatchDetailStatusPageState
   final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
-    const MatchTabbarItemWidget(
+    const MatchStatusTabbarItemWidget(
       tabName: '关键事件',
       index: 0,
     ),
-    const MatchTabbarItemWidget(
+    const MatchStatusTabbarItemWidget(
       tabName: '技术统计',
       index: 1,
     ),
-    const MatchTabbarItemWidget(
+    const MatchStatusTabbarItemWidget(
       tabName: '文字直播',
       index: 2,
     ),
@@ -74,21 +78,54 @@ class _MatchDetailStatusPageState
 
   _buildChild(BuildContext context) {
     MatchDetailModel model = widget.detailModel;
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            color: Colors.yellow,
-            width: double.infinity,
-            height: 110,
-            child: WZWebviewPage(urlStr: model.trendAnim),
+    return ChangeNotifierProvider<TabProvider>(
+        create: (context2) => _tabProvider,
+        child: Expanded(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.yellow,
+                width: double.infinity,
+                height: 110,
+                child: WZWebviewPage(urlStr: model.trendAnim),
+              ),
+              MatchStatusDataWidget(),
+              SizedBox(
+                width: double.infinity,
+                child: TabBar(
+                    onTap: (index) {
+                      if (!mounted) return;
+                      _pageController.jumpToPage(index);
+                    },
+                    isScrollable: false,
+                    controller: _tabController,
+                    indicator: const BoxDecoration(),
+                    labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                    tabs: _tabs),
+              ),
+              const ColoredBox(
+                  color: Color.fromRGBO(236, 236, 236, 1.0),
+                  child: SizedBox(width: double.infinity, height: 0.5)),
+              Expanded(
+                  child: PageView.builder(
+                      itemCount: _tabs.length,
+                      onPageChanged: _onPageChange,
+                      controller: _pageController,
+                      itemBuilder: (_, int index) {
+                        if (index == 0) {
+                          return MatchStatusEventWidget();
+                        } else if (index == 1) {
+                          return MatchStatusTechWidget();
+                        }
+                        return MatchStatusLiveWidget();
+                      }))
+            ],
           ),
-          MatchStatusDataWidget(),
-          Container(
-            height: 200,
-          )
-        ],
-      ),
-    );
+        ));
+  }
+
+  void _onPageChange(int index) {
+    _tabProvider.setIndex(index);
+    _tabController.animateTo(index);
   }
 }

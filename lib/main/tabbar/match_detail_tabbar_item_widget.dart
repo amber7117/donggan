@@ -4,9 +4,9 @@ import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const matchItemWidth = 54.0;
+const matchDetailItemWidth = 54.0;
 
-class MatchTabbarItemWidget extends StatelessWidget {
+class MatchDetailTabbarItemWidget extends StatelessWidget {
   final String tabName;
 
   final double tabWidth;
@@ -14,7 +14,7 @@ class MatchTabbarItemWidget extends StatelessWidget {
 
   final int index;
 
-  const MatchTabbarItemWidget(
+  const MatchDetailTabbarItemWidget(
       {super.key,
       required this.tabName,
       this.tabWidth = 54.0,

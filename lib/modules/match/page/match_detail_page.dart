@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
-import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
+import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
 import 'package:wzty/modules/match/page/match_detail_status_page.dart';
@@ -35,26 +35,27 @@ class _MatchDetailPageState extends State<MatchDetailPage>
   final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '赛况',
       index: 0,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '阵容',
       index: 1,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '分析',
       index: 2,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '主播',
       index: 3,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '聊球',
       index: 4,
     )
+    
   ];
 
   LoadStatusType _layoutState = LoadStatusType.loading;

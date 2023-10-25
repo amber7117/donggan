@@ -5,7 +5,7 @@ import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/main/tabbar/match_tabbar_item_widget.dart';
+import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
@@ -39,15 +39,15 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
   final MatchDetailDataProvider _dataProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '聊球',
       index: 0,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '预告',
       index: 1,
     ),
-    const MatchTabbarItemWidget(
+    const MatchDetailTabbarItemWidget(
       tabName: '回放',
       index: 2,
     ),
