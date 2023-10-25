@@ -3,7 +3,7 @@ import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 
-class MatchDetailService {
+class MatchDetailLineupService {
   // -------------------------------------------
 
   static Future<void> requestMatchDetail(

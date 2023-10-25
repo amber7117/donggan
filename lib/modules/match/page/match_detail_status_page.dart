@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/webview/wz_webview_page.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
@@ -7,11 +8,13 @@ import 'package:wzty/main/tabbar/match_status_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
+import 'package:wzty/modules/match/service/match_detail_status_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_data_widget.dart';
-import 'package:wzty/modules/match/widget/detail/match_status_event_widget.dart';
-import 'package:wzty/modules/match/widget/detail/match_status_live_widget.dart';
-import 'package:wzty/modules/match/widget/detail/match_status_tech_widget.dart';
+import 'package:wzty/modules/match/page/match_status_event_page.dart';
+import 'package:wzty/modules/match/page/match_status_live_page.dart';
+import 'package:wzty/modules/match/page/match_status_tech_page.dart';
 import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailStatusPage extends StatefulWidget {
   final int matchId;
@@ -67,6 +70,32 @@ class _MatchDetailStatusPageState
     _pageController.dispose();
   }
 
+  _requestData() {
+    ToastUtils.showLoading();
+
+    Future tech = MatchDetailStatusService.requestFbTechData(
+        widget.matchId, (success, result) {});
+    Future event = MatchDetailStatusService.requestFbEventData(
+        widget.matchId, (success, result) {});
+    Future live = MatchDetailStatusService.requestLiveData(
+        widget.matchId, SportType.football, (success, result) {});
+    Future live2 = MatchDetailStatusService.requestLive2Data(
+        widget.matchId, (success, result) {});
+
+    Future.wait([tech, event, live, live2]).then((value) {
+      ToastUtils.hideLoading();
+
+      // if (_model != null && _playInfo != null) {
+
+      _layoutState = LoadStatusType.success;
+      // } else {
+      //   _layoutState = LoadStatusType.failure;
+      // }
+
+      setState(() {});
+    });
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
     return _buildChild(context);
@@ -113,11 +142,11 @@ class _MatchDetailStatusPageState
                       controller: _pageController,
                       itemBuilder: (_, int index) {
                         if (index == 0) {
-                          return MatchStatusEventWidget();
+                          return MatchStatusEventPage();
                         } else if (index == 1) {
-                          return MatchStatusTechWidget();
+                          return MatchStatusTechPage();
                         }
-                        return MatchStatusLiveWidget();
+                        return MatchStatusLivePage();
                       }))
             ],
           ),
