@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebviewPage extends StatefulWidget {
+class WZWebviewPage extends StatefulWidget {
 
   final String urlStr;
 
-  const WebviewPage({super.key, required this.urlStr});
+  const WZWebviewPage({super.key, required this.urlStr});
 
   @override
-  State createState() => _WebviewPageState();
+  State createState() => _WZWebviewPageState();
 }
 
-class _WebviewPageState extends State<WebviewPage> {
+class _WZWebviewPageState extends State<WZWebviewPage> {
 
   late WebViewController controller;
   
@@ -21,7 +21,8 @@ class _WebviewPageState extends State<WebviewPage> {
     
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
+      // ..setBackgroundColor(const Color(0x00000000))
+      ..setBackgroundColor(Colors.white)
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {

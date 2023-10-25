@@ -1,16 +1,16 @@
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 
-class PlayerPage extends StatefulWidget {
+class WZPlayerPage extends StatefulWidget {
   final String urlStr;
 
-  const PlayerPage({super.key, required this.urlStr});
+  const WZPlayerPage({super.key, required this.urlStr});
 
   @override
-  State createState() => _PlayerPageState();
+  State createState() => _WZPlayerPageState();
 }
 
-class _PlayerPageState extends State<PlayerPage> {
+class _WZPlayerPageState extends State<WZPlayerPage> {
   final FijkPlayer player = FijkPlayer();
 
   @override

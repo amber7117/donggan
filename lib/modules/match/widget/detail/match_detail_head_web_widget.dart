@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/webview/webview_page.dart';
+import 'package:wzty/common/webview/wz_webview_page.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -34,7 +34,7 @@ class _MatchDetailHeadWebWidgetState extends State<MatchDetailHeadWebWidget> {
               SizedBox(
                 width: double.infinity,
                 height: widget.height,
-                child: WebviewPage(urlStr: widget.urlStr),
+                child: WZWebviewPage(urlStr: widget.urlStr),
               ),
               const WZBackButton(),
             ],

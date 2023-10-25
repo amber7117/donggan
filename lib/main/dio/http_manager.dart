@@ -117,9 +117,9 @@ class HttpManager {
     if (dio == null) {
       /// 全局属性：请求前缀、连接超时时间、响应超时时间
       BaseOptions options = BaseOptions(
-        connectTimeout: const Duration(seconds: 20),
-        receiveTimeout: const Duration(seconds: 20),
-        sendTimeout: const Duration(seconds: 20),
+        connectTimeout: const Duration(seconds: 12),
+        receiveTimeout: const Duration(seconds: 12),
+        sendTimeout: const Duration(seconds: 12),
       );
 
       dio = Dio(options);
@@ -156,7 +156,7 @@ class HttpManager {
       if (appProxy) {
         (dio?.httpClientAdapter as DefaultHttpClientAdapter)
             .onHttpClientCreate = (HttpClient client) {
-          client.idleTimeout = const Duration(seconds: 5);
+          client.idleTimeout = const Duration(seconds: 12);
           client.findProxy = (uri) {
             return "PROXY 192.168.10.164:8888";
           };

@@ -117,7 +117,8 @@ class _MatchDetailPageState extends State<MatchDetailPage>
         ],
         child: Column(
           children: [
-            Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
+            Consumer<MatchDetailDataProvider>(
+                builder: (context, provider, child) {
               if (provider.showAnimate) {
                 return MatchDetailHeadWebWidget(
                     height: _headHeight, urlStr: _model!.animUrl);
@@ -147,7 +148,6 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                 child: SizedBox(width: double.infinity, height: 0.5)),
             Expanded(
                 child: PageView.builder(
-                    
                     itemCount: _tabs.length,
                     onPageChanged: _onPageChange,
                     controller: _pageController,
@@ -159,7 +159,8 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                             roomId: _model!.roomId,
                             chatRoomId: _model!.matchId.toString());
                       }
-                      return MatchDetailStatusPage();
+                      return MatchDetailStatusPage(
+                          matchId: widget.matchId, detailModel: _model!);
                     }))
           ],
         ));

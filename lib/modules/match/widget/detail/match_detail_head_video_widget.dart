@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/player/player_page.dart';
+import 'package:wzty/common/player/wz_player_page.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -36,7 +36,7 @@ class _MatchDetailHeadVideoWidgetState
               SizedBox(
                 width: double.infinity,
                 height: widget.height,
-                child: PlayerPage(urlStr: widget.urlStr),
+                child: WZPlayerPage(urlStr: widget.urlStr),
               ),
               const WZBackButton(),
             ],
