@@ -3,12 +3,15 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 
 class MatchDetailStatusService {
   // -------------------------------------------
 
   static Future<void> requestFbTechData(
-      int matchId, BusinessCallback<MatchDetailModel?> complete) async {
+      int matchId, BusinessCallback<MatchStatusFBTechModel?> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 
     HttpResultBean result = await HttpManager.request(
@@ -16,7 +19,8 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchDetailModel model = MatchDetailModel.fromJson(result.data);
+      MatchStatusFBTechModel model =
+          MatchStatusFBTechModel.fromJson(result.data);
       complete(true, model);
     } else {
       complete(false, null);
@@ -24,8 +28,8 @@ class MatchDetailStatusService {
     return;
   }
 
-  static Future<void> requestFbEventData(
-      int matchId, BusinessCallback<MatchDetailModel?> complete) async {
+  static Future<void> requestFbEventData(int matchId,
+      BusinessCallback<List<MatchStatusFBEventModel>> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 
     HttpResultBean result = await HttpManager.request(
@@ -33,16 +37,19 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchDetailModel model = MatchDetailModel.fromJson(result.data);
-      complete(true, model);
+      List tmpList = result.data;
+      List<MatchStatusFBEventModel> retList = tmpList
+          .map((dataMap) => MatchStatusFBEventModel.fromJson(dataMap))
+          .toList();
+      complete(true, retList);
     } else {
-      complete(false, null);
+      complete(false, []);
     }
     return;
   }
 
   static Future<void> requestLiveData(int matchId, SportType sportType,
-      BusinessCallback<MatchDetailModel?> complete) async {
+      BusinessCallback<List<MatchStatusFBLiveModel>> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 
     HttpResultBean result = await HttpManager.request(
@@ -53,10 +60,13 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchDetailModel model = MatchDetailModel.fromJson(result.data);
-      complete(true, model);
+      List tmpList = result.data;
+      List<MatchStatusFBLiveModel> retList = tmpList
+          .map((dataMap) => MatchStatusFBLiveModel.fromJson(dataMap))
+          .toList();
+      complete(true, retList);
     } else {
-      complete(false, null);
+      complete(false, []);
     }
     return;
   }

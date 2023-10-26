@@ -7,7 +7,9 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_status_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
-import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/modules/match/service/match_detail_status_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_data_widget.dart';
 import 'package:wzty/modules/match/page/match_status_event_page.dart';
@@ -35,7 +37,6 @@ class _MatchDetailStatusPageState
   late PageController _pageController;
 
   final TabProvider _tabProvider = TabProvider();
-  final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
   final List<Widget> _tabs = [
     const MatchStatusTabbarItemWidget(
@@ -53,6 +54,11 @@ class _MatchDetailStatusPageState
   ];
 
   LoadStatusType _layoutState = LoadStatusType.success;
+
+  MatchStatusFBTechModel? techModel;
+  List<MatchStatusFBEventModel> eventModelArr = [];
+  List<MatchStatusFBLiveModel> liveModelArr = [];
+  List<MatchStatusFBEventModel> live2ModelArr = [];
 
   @override
   void initState() {
@@ -73,28 +79,56 @@ class _MatchDetailStatusPageState
   _requestData() {
     ToastUtils.showLoading();
 
-    Future tech = MatchDetailStatusService.requestFbTechData(
-        widget.matchId, (success, result) {});
-    Future event = MatchDetailStatusService.requestFbEventData(
-        widget.matchId, (success, result) {});
+    Future tech = MatchDetailStatusService.requestFbTechData(widget.matchId,
+        (success, result) {
+      techModel = result;
+    });
+    Future event = MatchDetailStatusService.requestFbEventData(widget.matchId,
+        (success, result) {
+      if (result.isNotEmpty) {
+        var tmpArr = _processFBEventData(result);
+        eventModelArr = tmpArr;
+      }
+    });
     Future live = MatchDetailStatusService.requestLiveData(
-        widget.matchId, SportType.football, (success, result) {});
-    Future live2 = MatchDetailStatusService.requestLive2Data(
-        widget.matchId, (success, result) {});
+        widget.matchId, SportType.football, (success, result) {
+      if (result.isNotEmpty) {
+        var tmpArr = _processFBLiveData(result) as List<MatchStatusFBLiveModel>;
+        liveModelArr = tmpArr;
+      }
+    });
 
-    Future.wait([tech, event, live, live2]).then((value) {
-      ToastUtils.hideLoading();
-
-      // if (_model != null && _playInfo != null) {
-
-      _layoutState = LoadStatusType.success;
-      // } else {
-      //   _layoutState = LoadStatusType.failure;
-      // }
-
-      setState(() {});
+    Future.wait([tech, event, live]).then((value) {
+      if (liveModelArr.isEmpty) {
+        MatchDetailStatusService.requestLive2Data(widget.matchId,
+            (success, result) {
+          if (result.isNotEmpty) {
+            var tmpArr = _processFBLiveData(result, isLiveModel: false)
+                as List<MatchStatusFBEventModel>;
+            live2ModelArr = tmpArr;
+          }
+          ToastUtils.hideLoading();
+          _handleResultData();
+        });
+      } else {
+        ToastUtils.hideLoading();
+        _handleResultData();
+      }
     });
   }
+
+  _handleResultData() {
+    // if (_model != null && _playInfo != null) {
+
+    _layoutState = LoadStatusType.success;
+    // } else {
+    //   _layoutState = LoadStatusType.failure;
+    // }
+
+    setState(() {});
+  }
+
+  // -------------------------------------------------------------
 
   @override
   Widget buildWidget(BuildContext context) {
@@ -142,9 +176,10 @@ class _MatchDetailStatusPageState
                       controller: _pageController,
                       itemBuilder: (_, int index) {
                         if (index == 0) {
-                          return MatchStatusEventPage();
+                          return MatchStatusEventPage(
+                              eventModelArr: eventModelArr);
                         } else if (index == 1) {
-                          return MatchStatusTechPage();
+                          return MatchStatusTechPage(techModel: techModel);
                         }
                         return MatchStatusLivePage();
                       }))
@@ -156,5 +191,107 @@ class _MatchDetailStatusPageState
   void _onPageChange(int index) {
     _tabProvider.setIndex(index);
     _tabController.animateTo(index);
+  }
+
+  // -------------------------------------------------------------
+
+  List<MatchStatusFBEventModel> _processFBEventData(
+      List<MatchStatusFBEventModel> dataArr) {
+    List<MatchStatusFBEventModel> retArr = [];
+
+    MatchStatusFBEventModel hintModelShang =
+        MatchStatusFBEventModel.fromJson({});
+    MatchStatusFBEventModel hintModelXia = MatchStatusFBEventModel.fromJson({});
+
+    MatchDetailModel matchModel = widget.detailModel;
+
+    for (MatchStatusFBEventModel model in dataArr) {
+      if (model.team == 0) {
+        if (model.typeId == 13 || model.content.contains("中场休息")) {
+          hintModelShang.content =
+              "上半场 ${matchModel.hostHalfScore}-${matchModel.guestHalfScore}";
+          hintModelShang.team = 0;
+          hintModelShang.stage = 1;
+
+          retArr.add(hintModelShang);
+        }
+      } else {
+        retArr.add(model);
+      }
+    }
+
+    if (hintModelShang.content.isNotEmpty) {
+      hintModelXia.content =
+          "下半场 ${matchModel.hostTeamScore}-${matchModel.guestTeamScore}";
+      hintModelXia.team = 0;
+      hintModelXia.stage = 1;
+
+      retArr.insert(0, hintModelXia);
+    } else {
+      hintModelShang.content =
+          "上半场 ${matchModel.hostHalfScore}-${matchModel.guestHalfScore}";
+      hintModelShang.team = 0;
+      hintModelShang.stage = -1;
+
+      retArr.insert(0, hintModelXia);
+    }
+
+    return retArr;
+  }
+
+  List<dynamic> _processFBLiveData(List<dynamic> dataArr,
+      {bool isLiveModel = true}) {
+    if (dataArr.isEmpty) {
+      return dataArr;
+    }
+
+    List<dynamic> retArr = [];
+
+    MatchDetailModel matchModel = widget.detailModel;
+
+    MatchStatus matchStatus =
+        matchStatusFromServerValue(matchModel.matchStatus);
+
+    if (matchStatus == MatchStatus.finished) {
+      if (isLiveModel) {
+        MatchStatusFBLiveModel model = MatchStatusFBLiveModel.fromJson({});
+        model.cnText = "结束";
+        model.typeId = 2003;
+        retArr.add(model);
+      } else {
+        MatchStatusFBEventModel model = MatchStatusFBEventModel.fromJson({});
+        model.content = "结束";
+        model.typeId = 2003;
+        retArr.add(model);
+      }
+    } else {
+      if (isLiveModel) {
+        MatchStatusFBLiveModel model = MatchStatusFBLiveModel.fromJson({});
+        model.cnText = "进行中";
+        model.typeId = 2002;
+        retArr.add(model);
+      } else {
+        MatchStatusFBEventModel model = MatchStatusFBEventModel.fromJson({});
+        model.content = "进行中";
+        model.typeId = 2002;
+        retArr.add(model);
+      }
+    }
+
+    retArr.addAll(dataArr);
+
+    if (isLiveModel) {
+      MatchStatusFBLiveModel model = MatchStatusFBLiveModel.fromJson({});
+      model.cnText = "开始";
+      model.typeId = 2001;
+      retArr.add(model);
+    } else {
+      MatchStatusFBEventModel model = MatchStatusFBEventModel.fromJson({});
+      model.content = "开始";
+      model.typeId = 2001;
+      retArr.add(model);
+    }
+
+    return retArr;
   }
 }
