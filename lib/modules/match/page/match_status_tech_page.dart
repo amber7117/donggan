@@ -31,7 +31,8 @@ class _MatchStatusTechPageState extends State<MatchStatusTechPage> {
             itemCount: techModel.dataModelArr.length + 1,
             itemExtent: statusTechCellHeight,
             itemBuilder: (context, index) {
-              return MatchStatusTechCellWidget();
+              return MatchStatusTechCellWidget(
+                  model: techModel.dataModelArr[index]);
             }));
   }
 }

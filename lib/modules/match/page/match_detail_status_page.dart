@@ -66,6 +66,8 @@ class _MatchDetailStatusPageState
 
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
+
+    _requestData();
   }
 
   @override
@@ -93,7 +95,7 @@ class _MatchDetailStatusPageState
     Future live = MatchDetailStatusService.requestLiveData(
         widget.matchId, SportType.football, (success, result) {
       if (result.isNotEmpty) {
-        var tmpArr = _processFBLiveData(result) as List<MatchStatusFBLiveModel>;
+        var tmpArr = _processFBLiveData(result).cast<MatchStatusFBLiveModel>();
         liveModelArr = tmpArr;
       }
     });
@@ -104,7 +106,7 @@ class _MatchDetailStatusPageState
             (success, result) {
           if (result.isNotEmpty) {
             var tmpArr = _processFBLiveData(result, isLiveModel: false)
-                as List<MatchStatusFBEventModel>;
+                .cast<MatchStatusFBEventModel>();
             live2ModelArr = tmpArr;
           }
           ToastUtils.hideLoading();
@@ -134,8 +136,7 @@ class _MatchDetailStatusPageState
   Widget buildWidget(BuildContext context) {
     return _buildChild(context);
     return LoadStateWidget(
-        state: _layoutState,
-        successWidget:  _buildChild(context));
+        state: _layoutState, successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {

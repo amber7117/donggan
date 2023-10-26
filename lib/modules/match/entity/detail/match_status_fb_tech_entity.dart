@@ -138,71 +138,72 @@ class MatchStatusFBTechModel {
 
   // MARK: - JSON Serialization
 
-  factory MatchStatusFBTechModel.fromJson(Map<String, dynamic> json) =>
-      MatchStatusFBTechModel(
-          cornerKicks: json["cornerKicks"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["cornerKicks"]),
-          yellowCards: json["yellowCards"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["yellowCards"]),
-          redCards: json["redCards"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["redCards"]),
-          attack: json["attack"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["attack"]),
-          dangerAttack: json["dangerAttack"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["dangerAttack"]),
-          fouls: json["fouls"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["fouls"]),
-          shootOnGoal: json["shootOnGoal"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["shootOnGoal"]),
-          goalKicks: json["goalKicks"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["goalKicks"]),
-          shootOffGoal: json["shootOffGoal"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["shootOffGoal"]),
-          throwIns: json["throwIns"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["throwIns"]),
-          pass: json["pass"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["pass"]),
-          freeKicks: json["freeKicks"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["freeKicks"]),
-          crosses: json["crosses"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["crosses"]),
-          crossesSuccess: json["crossesSuccess"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["crossesSuccess"]),
-          possession: json["possession"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["possession"]),
-          accuratePasses: json["accuratePasses"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["accuratePasses"]),
-          bigChances: json["bigChances"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["bigChances"]),
-          longBalls: json["longBalls"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["longBalls"]),
-          clearances: json["clearances"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["clearances"]),
-          longBallsSuccess: json["longBallsSuccess"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["longBallsSuccess"]),
-          aerialsWon: json["aerialsWon"] == null
-              ? null
-              : MatchStatusFBTechDataModel.fromJson(json["aerialsWon"]));
+  factory MatchStatusFBTechModel.fromJson(Map<String, dynamic> json) {
+    return MatchStatusFBTechModel(
+        cornerKicks: json["cornerKicks"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["cornerKicks"]),
+        yellowCards: json["yellowCards"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["yellowCards"]),
+        redCards: json["redCards"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["redCards"]),
+        attack: json["attack"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["attack"]),
+        dangerAttack: json["dangerAttack"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["dangerAttack"]),
+        fouls: json["fouls"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["fouls"]),
+        shootOnGoal: json["shootOnGoal"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["shootOnGoal"]),
+        goalKicks: json["goalKicks"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["goalKicks"]),
+        shootOffGoal: json["shootOffGoal"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["shootOffGoal"]),
+        throwIns: json["throwIns"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["throwIns"]),
+        pass: json["pass"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["pass"]),
+        freeKicks: json["freeKicks"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["freeKicks"]),
+        crosses: json["crosses"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["crosses"]),
+        crossesSuccess: json["crossesSuccess"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["crossesSuccess"]),
+        possession: json["possession"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["possession"]),
+        accuratePasses: json["accuratePasses"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["accuratePasses"]),
+        bigChances: json["bigChances"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["bigChances"]),
+        longBalls: json["longBalls"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["longBalls"]),
+        clearances: json["clearances"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["clearances"]),
+        longBallsSuccess: json["longBallsSuccess"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["longBallsSuccess"]),
+        aerialsWon: json["aerialsWon"] == null
+            ? null
+            : MatchStatusFBTechDataModel.fromJson(json["aerialsWon"]));
+  }
 }
 
 class MatchStatusFBTechDataModel {
@@ -233,16 +234,18 @@ class MatchStatusFBTechDataModel {
 
   // MARK: - JSON Serialization
 
-  factory MatchStatusFBTechDataModel.fromJson(Map<String, dynamic> json) =>
-      MatchStatusFBTechDataModel(
-          matchId: json["matchId"],
-          typeId: json["typeId"],
-          type: json["type"],
-          team1: json["team1"],
-          team2: json["team2"],
-          periodType: json["periodType"],
-          side: json["side"],
-          typeCode: json["typeCode"]);
+  factory MatchStatusFBTechDataModel.fromJson(Map<String, dynamic> json) {
+    return MatchStatusFBTechDataModel(
+        matchId: json["matchId"] ?? 0,
+        typeId: json["typeId"] ?? 0,
+        type: json["type"] ?? 0,
+        team1: json["team1"] ?? 0,
+        team2: json["team2"] ?? 0,
+        periodType: json["periodType"] ?? 0,
+        side: json["side"] ?? 0,
+        typeCode: json["typeCode"] ?? 0,
+    );
+  }
 }
 
 class MatchStatusFBTechLocalModel {

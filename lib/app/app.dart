@@ -6,7 +6,8 @@ const appTest = false;
 // Debug开关
 const appDebug = true;
 // 代理开关
-const appProxy = false;
+const appProxy = true;
+const appProxyIP = "PROXY 192.168.10.197:8888";
 
 // 日志
 final logger = Logger(level: Level.debug);

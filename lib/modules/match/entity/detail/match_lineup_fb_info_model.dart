@@ -306,16 +306,16 @@ class MatchLineupFBCoachInfoModel {
 
   factory MatchLineupFBCoachInfoModel.fromJson(Map<String, dynamic> json) {
     return MatchLineupFBCoachInfoModel(
-      picUrl: json['picUrl'],
-      name: json['name'],
-      countryPicUrl: json['countryPicUrl'],
-      age: json['age'],
-      identity: json['identity'],
-      careerStartEnd: json['careerStartEnd'],
-      teamLogo: json['teamLogo'],
-      count: json['count'],
-      winRate: json['winRate'],
-      score: json['score'],
+      picUrl: json['picUrl'] ?? "",
+      name: json['name'] ?? "",
+      countryPicUrl: json['countryPicUrl'] ?? "",
+      age: json['age'] ?? "",
+      identity: json['identity'] ?? "",
+      careerStartEnd: json['careerStartEnd'] ?? "",
+      teamLogo: json['teamLogo'] ?? "",
+      count: json['count'] ?? "",
+      winRate: json['winRate'] ?? "",
+      score: json['score'] ?? "",
     );
   }
 }
@@ -341,13 +341,13 @@ class MatchLineupFBRefereeInfoModel {
 
   factory MatchLineupFBRefereeInfoModel.fromJson(Map<String, dynamic> json) {
     return MatchLineupFBRefereeInfoModel(
-      picUrl: json['picUrl'],
-      name: json['name'],
-      countryPicUrl: json['countryPicUrl'],
-      age: json['age'],
-      identity: json['identity'],
-      redCardsPerGame: json['redCardsPerGame'],
-      yellowCardsPerGame: json['yellowCardsPerGame'],
+      picUrl: json['picUrl'] ?? "",
+      name: json['name'] ?? "",
+      countryPicUrl: json['countryPicUrl'] ?? "",
+      age: json['age'] ?? "",
+      identity: json['identity'] ?? "",
+      redCardsPerGame: json['redCardsPerGame'] ?? "",
+      yellowCardsPerGame: json['yellowCardsPerGame'] ?? "",
     );
   }
 }

@@ -10,7 +10,7 @@ class MatchStatusFBEventModel {
   int occurTime;
   int overTime;
 
-  int iconType;
+  String iconType;
 
   String playerName;
   String playerName2;
@@ -51,7 +51,7 @@ class MatchStatusFBEventModel {
         goalType: json['goalType'] ?? 0,
         occurTime: json['occurTime'] ?? 0,
         overTime: json['overTime'] ?? 0,
-        iconType: json['iconType'] ?? 0,
+        iconType: json['iconType'] ?? "",
         playerName: json['playerName'] ?? "",
         playerName2: json['playerName2'] ?? "",
         content: json['content'] ?? "",
@@ -61,3 +61,4 @@ class MatchStatusFBEventModel {
         statusName: json['statusName'] ?? "");
   }
 }
+

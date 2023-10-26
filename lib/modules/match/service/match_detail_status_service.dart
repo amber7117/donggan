@@ -80,7 +80,7 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      List tmpList = result.data;
+      List tmpList = result.data["events"];
       List<MatchStatusFBEventModel> retList = tmpList
           .map((dataMap) => MatchStatusFBEventModel.fromJson(dataMap))
           .toList();
