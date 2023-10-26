@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 
 class MatchStatusEventPage extends StatefulWidget {
-  const MatchStatusEventPage({super.key});
+
+  final List<MatchStatusFBEventModel> eventModelArr;
+  
+  const MatchStatusEventPage({super.key, required this.eventModelArr});
 
   @override
   State createState() => _MatchStatusEventPageState();

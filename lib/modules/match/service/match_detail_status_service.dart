@@ -71,8 +71,8 @@ class MatchDetailStatusService {
     return;
   }
 
-  static Future<void> requestLive2Data(
-      int matchId, BusinessCallback<MatchDetailModel?> complete) async {
+  static Future<void> requestLive2Data(int matchId,
+      BusinessCallback<List<MatchStatusFBEventModel>> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 
     HttpResultBean result = await HttpManager.request(
@@ -80,10 +80,13 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchDetailModel model = MatchDetailModel.fromJson(result.data);
-      complete(true, model);
+      List tmpList = result.data;
+      List<MatchStatusFBEventModel> retList = tmpList
+          .map((dataMap) => MatchStatusFBEventModel.fromJson(dataMap))
+          .toList();
+      complete(true, retList);
     } else {
-      complete(false, null);
+      complete(false, []);
     }
     return;
   }
