@@ -53,7 +53,7 @@ class _MatchDetailStatusPageState
     ),
   ];
 
-  LoadStatusType _layoutState = LoadStatusType.success;
+  LoadStatusType _layoutState = LoadStatusType.loading;
 
   MatchStatusFBTechModel? techModel;
   List<MatchStatusFBEventModel> eventModelArr = [];
@@ -134,57 +134,58 @@ class _MatchDetailStatusPageState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return _buildChild(context);
     return LoadStateWidget(
         state: _layoutState, successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
     MatchDetailModel model = widget.detailModel;
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
-        child: Expanded(
-          child: Column(
-            children: [
-              Container(
-                color: Colors.yellow,
-                width: double.infinity,
-                height: 110,
-                child: WZWebviewPage(urlStr: model.trendAnim),
-              ),
-              MatchStatusDataWidget(),
-              SizedBox(
-                width: double.infinity,
-                child: TabBar(
-                    onTap: (index) {
-                      if (!mounted) return;
-                      _pageController.jumpToPage(index);
-                    },
-                    isScrollable: false,
-                    controller: _tabController,
-                    indicator: const BoxDecoration(),
-                    labelPadding: const EdgeInsets.only(left: 10, right: 10),
-                    tabs: _tabs),
-              ),
-              const ColoredBox(
-                  color: Color.fromRGBO(236, 236, 236, 1.0),
-                  child: SizedBox(width: double.infinity, height: 0.5)),
-              Expanded(
-                  child: PageView.builder(
-                      itemCount: _tabs.length,
-                      onPageChanged: _onPageChange,
-                      controller: _pageController,
-                      itemBuilder: (_, int index) {
-                        if (index == 0) {
-                          return MatchStatusEventPage(
-                              eventModelArr: eventModelArr);
-                        } else if (index == 1) {
-                          return MatchStatusTechPage(techModel: techModel);
-                        }
-                        return MatchStatusLivePage();
-                      }))
-            ],
-          ),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.yellow,
+              width: double.infinity,
+              height: 110,
+              child: WZWebviewPage(urlStr: model.trendAnim),
+            ),
+            MatchStatusDataWidget(),
+            SizedBox(
+              width: double.infinity,
+              child: TabBar(
+                  onTap: (index) {
+                    if (!mounted) return;
+                    _pageController.jumpToPage(index);
+                  },
+                  isScrollable: false,
+                  controller: _tabController,
+                  indicator: const BoxDecoration(),
+                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                  tabs: _tabs),
+            ),
+            const ColoredBox(
+                color: Color.fromRGBO(236, 236, 236, 1.0),
+                child: SizedBox(width: double.infinity, height: 0.5)),
+            Expanded(
+                child: PageView.builder(
+                    itemCount: _tabs.length,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, int index) {
+                      if (index == 0) {
+                        return MatchStatusEventPage(
+                            eventModelArr: eventModelArr,
+                            detailModel: widget.detailModel);
+                      } else if (index == 1) {
+                        return MatchStatusTechPage(techModel: techModel);
+                      }
+                      return MatchStatusLivePage();
+                    }))
+          ],
         ));
   }
 

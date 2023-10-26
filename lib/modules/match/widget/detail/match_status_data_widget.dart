@@ -53,7 +53,7 @@ class _MatchStatusDataWidgetState extends State<MatchStatusDataWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        JhAssetImage("common/iconNavBack", width: 12),
+        JhAssetImage("event/iconZuqiushijianHuangpai12", width: 12),
         SizedBox(height: 20),
         Text("0",
             style: const TextStyle(

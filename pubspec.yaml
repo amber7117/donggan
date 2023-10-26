@@ -106,6 +106,7 @@ flutter:
     - assets/images/common/
     - assets/images/anchor/
     - assets/images/match/
+    - assets/images/event/
     - assets/images/news/
     - assets/images/me/
     - assets/images/login/
