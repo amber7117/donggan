@@ -20,31 +20,28 @@ class _MatchStatusDataWidgetState extends State<MatchStatusDataWidget> {
       height: 120,
       color: Colors.grey,
       alignment: Alignment.center,
-      child: Container(
-        color: Colors.yellow,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildPaiWidget(),
-            _buildPaiWidget(),
-            _buildPaiWidget(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildProgressDataWidget(),
-                const SizedBox(height: 5),
-                _buildProgressWidget(),
-                const SizedBox(height: 10),
-                _buildProgressDataWidget(),
-                const SizedBox(height: 5),
-                _buildProgressWidget(),
-              ],
-            ),
-            _buildPaiWidget(),
-            _buildPaiWidget(),
-            _buildPaiWidget(),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildPaiWidget(),
+          _buildPaiWidget(),
+          _buildPaiWidget(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildProgressDataWidget(),
+              const SizedBox(height: 5),
+              _buildProgressWidget(),
+              const SizedBox(height: 10),
+              _buildProgressDataWidget(),
+              const SizedBox(height: 5),
+              _buildProgressWidget(),
+            ],
+          ),
+          _buildPaiWidget(),
+          _buildPaiWidget(),
+          _buildPaiWidget(),
+        ],
       ),
     );
   }

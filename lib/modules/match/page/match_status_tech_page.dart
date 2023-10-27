@@ -30,7 +30,7 @@ class _MatchStatusTechPageState extends State<MatchStatusTechPage> {
       child: ListView.builder(
           padding: const EdgeInsets.only(top: 3),
           itemCount: techModel.dataModelArr.length + 1,
-          itemExtent: statusTechCellHeight,
+          itemExtent: 100,
           itemBuilder: (context, index) {
             return MatchStatusTechCellWidget(
                 model: techModel.dataModelArr[index]);
