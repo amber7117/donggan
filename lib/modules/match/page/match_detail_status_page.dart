@@ -189,7 +189,9 @@ class _MatchDetailStatusPageState
                             techModel: techModel,
                             detailModel: widget.detailModel);
                       }
-                      return MatchStatusLivePage();
+                      return MatchStatusLivePage(
+                          liveModelArr: liveModelArr,
+                          live2ModelArr: live2ModelArr);
                     }))
           ],
         ));

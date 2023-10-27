@@ -32,23 +32,20 @@ class _MatchStatusEventPageState extends State<MatchStatusEventPage> {
 
   _buildChild(BuildContext context) {
     List<MatchStatusFBEventModel> eventModelArr = widget.eventModelArr;
-    return ColoredBox(
-      color: Colors.white,
-      child: ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: eventModelArr.length + 1,
-          // itemExtent: statusEventCellHeight,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return MatchStatusTeamWidget(detailModel: widget.detailModel);
-            }
-            MatchStatusFBEventModel model = eventModelArr[index - 1];
-            if (model.team < 1) {
-              return _buildHintWidget(model);
-            }
-            return MatchStatusEventCellWidget(model: model);
-          }),
-    );
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: eventModelArr.length + 1,
+        // itemExtent: statusEventCellHeight,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return MatchStatusTeamWidget(detailModel: widget.detailModel);
+          }
+          MatchStatusFBEventModel model = eventModelArr[index - 1];
+          if (model.team < 1) {
+            return _buildHintWidget(model);
+          }
+          return MatchStatusEventCellWidget(model: model);
+        });
   }
 
   _buildHintWidget(MatchStatusFBEventModel model) {

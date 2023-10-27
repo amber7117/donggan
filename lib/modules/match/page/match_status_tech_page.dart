@@ -29,19 +29,16 @@ class _MatchStatusTechPageState extends State<MatchStatusTechPage> {
 
   _buildChild(BuildContext context) {
     MatchStatusFBTechModel techModel = widget.techModel!;
-    return ColoredBox(
-      color: Colors.white,
-      child: ListView.builder(
-          padding:  EdgeInsets.zero,
-          itemCount: techModel.dataModelArr.length + 1,
-          // itemExtent: statusTechCellHeight,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return MatchStatusTeamWidget(detailModel: widget.detailModel);
-            }
-            return MatchStatusTechCellWidget(
-                model: techModel.dataModelArr[index-1]);
-          }),
-    );
+    return ListView.builder(
+        padding:  EdgeInsets.zero,
+        itemCount: techModel.dataModelArr.length + 1,
+        // itemExtent: statusTechCellHeight,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return MatchStatusTeamWidget(detailModel: widget.detailModel);
+          }
+          return MatchStatusTechCellWidget(
+              model: techModel.dataModelArr[index-1]);
+        });
   }
 }
