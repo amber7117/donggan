@@ -35,7 +35,7 @@ class _MatchStatusEventPageState extends State<MatchStatusEventPage> {
     return ColoredBox(
       color: Colors.white,
       child: ListView.builder(
-          padding: const EdgeInsets.only(top: 3),
+          padding: EdgeInsets.zero,
           itemCount: eventModelArr.length + 1,
           // itemExtent: statusEventCellHeight,
           itemBuilder: (context, index) {

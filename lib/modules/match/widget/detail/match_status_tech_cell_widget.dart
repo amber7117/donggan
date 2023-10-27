@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -18,11 +21,9 @@ class _MatchStatusTechCellWidgetState extends State<MatchStatusTechCellWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 25),
       width: double.infinity,
       height: statusTechCellHeight,
-      color: Colors.grey,
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -36,22 +37,36 @@ class _MatchStatusTechCellWidgetState extends State<MatchStatusTechCellWidget> {
   }
 
   _buildProgressDataWidget() {
+    MatchStatusFBTechLocalModel model = widget.model;
+    Color team1Color;
+    Color team2Color;
+    if (model.team1 > model.team2) {
+      team1Color = ColorUtils.black34;
+      team2Color = ColorUtils.gray153;
+    } else if (model.team1 < model.team2) {
+      team1Color = ColorUtils.gray153;
+      team2Color = ColorUtils.black34;
+    } else {
+      team1Color = ColorUtils.black34;
+      team2Color = ColorUtils.black34;
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("0",
+        Text("${model.team1}",
+            style: TextStyle(
+                color: team1Color,
+                fontSize: 12,
+                fontWeight: TextStyleUtils.regual)),
+        Text(model.title,
             style: const TextStyle(
                 color: ColorUtils.black34,
                 fontSize: 12,
                 fontWeight: TextStyleUtils.regual)),
-        Text("射门",
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.regual)),
-        Text("0",
-            style: const TextStyle(
-                color: ColorUtils.black34,
+        Text("${model.team2}",
+            style: TextStyle(
+                color: team2Color,
                 fontSize: 12,
                 fontWeight: TextStyleUtils.regual)),
       ],
@@ -59,8 +74,29 @@ class _MatchStatusTechCellWidgetState extends State<MatchStatusTechCellWidget> {
   }
 
   _buildProgressWidget() {
+    MatchStatusFBTechLocalModel model = widget.model;
+    Color team1Color;
+    Color team2Color;
+    if (model.team1 > model.team2) {
+      team1Color = const Color.fromRGBO(233, 78, 78, 1.0);
+      team2Color = const Color.fromRGBO(66, 191, 244, 0.2);
+    } else if (model.team1 < model.team2) {
+      team1Color = const Color.fromRGBO(233, 78, 78, 0.2);
+      team2Color = const Color.fromRGBO(66, 191, 244, 1.0);
+    } else {
+      team1Color = const Color.fromRGBO(233, 78, 78, 1.0);
+      team2Color = const Color.fromRGBO(66, 191, 244, 1.0);
+    }
+    double width = 187.w;
+    double team1Width = 0.0;
+    double team2Width = 0.0;
+    if (model.team1 > 0 || model.team2 > 0) {
+      team1Width = width * 0.5 * (model.team1 / (model.team1 + model.team2));
+      team2Width = width * 0.5 * (model.team2 / (model.team1 + model.team2));
+    }
+
     return Container(
-      width: 187,
+      width: width,
       height: 6,
       decoration: const BoxDecoration(
           color: ColorUtils.gray248,
@@ -69,20 +105,20 @@ class _MatchStatusTechCellWidgetState extends State<MatchStatusTechCellWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 40,
+            width: team1Width,
             height: 6,
-            decoration: const BoxDecoration(
-                color: ColorUtils.red233,
-                borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+                color: team1Color,
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(3),
                     bottomLeft: Radius.circular(3))),
           ),
           Container(
-            width: 40,
+            width: team2Width,
             height: 6,
-            decoration: const BoxDecoration(
-                color: ColorUtils.blue66,
-                borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+                color: team2Color,
+                borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(3),
                     bottomRight: Radius.circular(3))),
           )

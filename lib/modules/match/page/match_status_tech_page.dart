@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
+import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
+import 'package:wzty/modules/match/widget/detail/match_status_team_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_tech_cell_widget.dart';
 
 class MatchStatusTechPage extends StatefulWidget {
+  final MatchDetailModel detailModel;
   final MatchStatusFBTechModel? techModel;
-  const MatchStatusTechPage({super.key, this.techModel});
+  
+  const MatchStatusTechPage({super.key, this.techModel, required this.detailModel});
 
   @override
   State createState() => _MatchStatusTechPageState();
@@ -28,12 +32,15 @@ class _MatchStatusTechPageState extends State<MatchStatusTechPage> {
     return ColoredBox(
       color: Colors.white,
       child: ListView.builder(
-          padding: const EdgeInsets.only(top: 3),
+          padding:  EdgeInsets.zero,
           itemCount: techModel.dataModelArr.length + 1,
-          itemExtent: 100,
+          // itemExtent: statusTechCellHeight,
           itemBuilder: (context, index) {
+            if (index == 0) {
+              return MatchStatusTeamWidget(detailModel: widget.detailModel);
+            }
             return MatchStatusTechCellWidget(
-                model: techModel.dataModelArr[index]);
+                model: techModel.dataModelArr[index-1]);
           }),
     );
   }

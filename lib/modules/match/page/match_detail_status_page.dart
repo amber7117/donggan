@@ -15,7 +15,6 @@ import 'package:wzty/modules/match/widget/detail/match_status_data_widget.dart';
 import 'package:wzty/modules/match/page/match_status_event_page.dart';
 import 'package:wzty/modules/match/page/match_status_live_page.dart';
 import 'package:wzty/modules/match/page/match_status_tech_page.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailStatusPage extends StatefulWidget {
@@ -181,7 +180,9 @@ class _MatchDetailStatusPageState
                             eventModelArr: eventModelArr,
                             detailModel: widget.detailModel);
                       } else if (index == 1) {
-                        return MatchStatusTechPage(techModel: techModel);
+                        return MatchStatusTechPage(
+                            techModel: techModel,
+                            detailModel: widget.detailModel);
                       }
                       return MatchStatusLivePage();
                     }))
