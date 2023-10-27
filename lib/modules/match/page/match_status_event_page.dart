@@ -4,6 +4,8 @@ import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_event_cell_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_team_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchStatusEventPage extends StatefulWidget {
   final MatchDetailModel detailModel;
@@ -35,13 +37,37 @@ class _MatchStatusEventPageState extends State<MatchStatusEventPage> {
       child: ListView.builder(
           padding: const EdgeInsets.only(top: 3),
           itemCount: eventModelArr.length + 1,
-          itemExtent: statusEventCellHeight,
+          // itemExtent: statusEventCellHeight,
           itemBuilder: (context, index) {
             if (index == 0) {
               return MatchStatusTeamWidget(detailModel: widget.detailModel);
             }
-            return MatchStatusEventCellWidget(model: eventModelArr[index-1]);
+            MatchStatusFBEventModel model = eventModelArr[index - 1];
+            if (model.team < 1) {
+              return _buildHintWidget(model);
+            }
+            return MatchStatusEventCellWidget(model: model);
           }),
+    );
+  }
+
+  _buildHintWidget(MatchStatusFBEventModel model) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10, left: 12, right: 12),
+      height: 46,
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(242, 242, 242, 1),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+      ),
+      child: Text(
+        model.content,
+        style: const TextStyle(
+            color: ColorUtils.gray153,
+            fontSize: 12,
+            fontWeight: TextStyleUtils.regual),
+      ),
     );
   }
 }

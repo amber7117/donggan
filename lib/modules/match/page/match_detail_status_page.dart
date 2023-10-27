@@ -206,6 +206,8 @@ class _MatchDetailStatusPageState
 
     MatchDetailModel matchModel = widget.detailModel;
 
+    MatchStatusFBEventModel? idxModel;
+
     for (MatchStatusFBEventModel model in dataArr) {
       if (model.team == 0) {
         if (model.typeId == 13 || model.content.contains("中场休息")) {
@@ -215,10 +217,19 @@ class _MatchDetailStatusPageState
           hintModelShang.stage = 1;
 
           retArr.add(hintModelShang);
+
+          if (idxModel != null) {
+            idxModel.idx = 1; //用来做UI圆角
+          }
         }
       } else {
+        idxModel = model;
         retArr.add(model);
       }
+    }
+
+    if (idxModel != null) {
+      idxModel.idx = 1; //用来做UI圆角
     }
 
     if (hintModelShang.content.isNotEmpty) {

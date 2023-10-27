@@ -21,6 +21,8 @@ class MatchStatusFBEventModel {
   int statusCode;
   String statusName;
 
+  int idx = 0; //用来做UI圆角
+
   // MARK: - Constructor
 
   MatchStatusFBEventModel(

@@ -19,15 +19,28 @@ class _MatchStatusEventCellWidgetState
     extends State<MatchStatusEventCellWidget> {
   @override
   Widget build(BuildContext context) {
-    return _buildLeftContent(context);
+    if (widget.model.team == 1) {
+      return _buildLeftContent(context);
+    } else {
+      return _buildRightContent(context);
+    }
   }
 
   _buildLeftContent(BuildContext context) {
     MatchStatusFBEventModel model = widget.model;
     return Container(
-      color: const Color.fromRGBO(250, 250, 250, 1.0),
-      margin: EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       height: 40,
+      decoration: model.idx > 0
+          ? const BoxDecoration(
+              color: Color.fromRGBO(250, 250, 250, 1.0),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+            )
+          : const BoxDecoration(
+              color: Color.fromRGBO(250, 250, 250, 1.0),
+            ),
       child: Row(
         children: [
           const SizedBox(width: 10),
@@ -65,5 +78,56 @@ class _MatchStatusEventCellWidgetState
     );
   }
 
-  _buildRightContent(BuildContext context) {}
+  _buildRightContent(BuildContext context) {
+    MatchStatusFBEventModel model = widget.model;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      height: 40,
+      decoration: model.idx > 0
+          ? const BoxDecoration(
+              color: Color.fromRGBO(250, 250, 250, 1.0),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+            )
+          : const BoxDecoration(
+              color: Color.fromRGBO(250, 250, 250, 1.0),
+            ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          JhAssetImage("event/iconZuqiushijianHuangpai12", width: 12),
+          const SizedBox(width: 3),
+          Text(
+            model.content,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                color: ColorUtils.gray153,
+                fontSize: 12,
+                fontWeight: TextStyleUtils.regual),
+          ),
+          Text(
+            model.playerName,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                color: Color.fromARGB(255, 35, 28, 28),
+                fontSize: 12,
+                fontWeight: TextStyleUtils.regual),
+          ),
+          const SizedBox(width: 15),
+          Text(
+            "${model.occurTime ~/ 60}'",
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                color: ColorUtils.gray153,
+                fontSize: 12,
+                fontWeight: TextStyleUtils.regual),
+          ),
+          const SizedBox(width: 5),
+          JhAssetImage("event/iconZuqiushijianHuangpai16", width: 16),
+          const SizedBox(width: 10),
+        ],
+      ),
+    );
+  }
 }
