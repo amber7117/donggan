@@ -104,7 +104,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
     return LoadStateWidget(
         state: _layoutState,
         successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+            backgroundColor: Colors.white, body: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {

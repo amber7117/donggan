@@ -1,7 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -87,12 +86,13 @@ class _MatchStatusTechCellWidgetState extends State<MatchStatusTechCellWidget> {
       team1Color = const Color.fromRGBO(233, 78, 78, 1.0);
       team2Color = const Color.fromRGBO(66, 191, 244, 1.0);
     }
-    double width = 187.w;
+    double width = 320.w;
+    double widthHalf = width * 0.5;
     double team1Width = 0.0;
     double team2Width = 0.0;
     if (model.team1 > 0 || model.team2 > 0) {
-      team1Width = width * 0.5 * (model.team1 / (model.team1 + model.team2));
-      team2Width = width * 0.5 * (model.team2 / (model.team1 + model.team2));
+      team1Width = widthHalf * (model.team1 / (model.team1 + model.team2));
+      team2Width = widthHalf * (model.team2 / (model.team1 + model.team2));
     }
 
     return Container(
@@ -105,23 +105,25 @@ class _MatchStatusTechCellWidgetState extends State<MatchStatusTechCellWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: team1Width,
-            height: 6,
-            decoration: BoxDecoration(
-                color: team1Color,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(3),
-                    bottomLeft: Radius.circular(3))),
-          ),
+              width: widthHalf,
+              alignment: Alignment.centerRight,
+              child: SizedBox(width: team1Width, height: 6).decorate(
+                BoxDecoration(
+                    color: team1Color,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(3),
+                        bottomLeft: Radius.circular(3))),
+              )),
           Container(
-            width: team2Width,
-            height: 6,
-            decoration: BoxDecoration(
-                color: team2Color,
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(3),
-                    bottomRight: Radius.circular(3))),
-          )
+              width: widthHalf,
+              alignment: Alignment.centerLeft,
+              child: SizedBox(width: team2Width, height: 6).decorate(
+                BoxDecoration(
+                    color: team2Color,
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(3),
+                        bottomRight: Radius.circular(3))),
+              )),
         ],
       ),
     );

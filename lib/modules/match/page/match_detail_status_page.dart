@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/webview/wz_webview_page.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
@@ -15,6 +16,7 @@ import 'package:wzty/modules/match/widget/detail/match_status_data_widget.dart';
 import 'package:wzty/modules/match/page/match_status_event_page.dart';
 import 'package:wzty/modules/match/page/match_status_live_page.dart';
 import 'package:wzty/modules/match/page/match_status_tech_page.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailStatusPage extends StatefulWidget {
@@ -149,12 +151,18 @@ class _MatchDetailStatusPageState
             Container(
               color: Colors.yellow,
               width: double.infinity,
-              height: 110,
+              height: 62, //110
               child: WZWebviewPage(urlStr: model.trendAnim),
             ),
-            MatchStatusDataWidget(),
-            SizedBox(
+            const SizedBox(height: 10, width: double.infinity)
+                .colored(ColorUtils.gray248),
+            MatchStatusDataWidget(model: techModel),
+            const SizedBox(height: 10, width: double.infinity)
+                .colored(ColorUtils.gray248),
+            Container(
               width: double.infinity,
+              height: 66,
+              alignment: Alignment.center,
               child: TabBar(
                   onTap: (index) {
                     if (!mounted) return;
@@ -166,9 +174,6 @@ class _MatchDetailStatusPageState
                   labelPadding: const EdgeInsets.only(left: 10, right: 10),
                   tabs: _tabs),
             ),
-            const ColoredBox(
-                color: Color.fromRGBO(236, 236, 236, 1.0),
-                child: SizedBox(width: double.infinity, height: 0.5)),
             Expanded(
                 child: PageView.builder(
                     itemCount: _tabs.length,

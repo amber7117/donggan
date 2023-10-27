@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchStatusDataWidget extends StatefulWidget {
-  const MatchStatusDataWidget({super.key});
+  final MatchStatusFBTechModel? model;
+
+  const MatchStatusDataWidget({super.key, this.model});
 
   @override
   State createState() => _MatchStatusDataWidgetState();
@@ -13,19 +16,21 @@ class MatchStatusDataWidget extends StatefulWidget {
 class _MatchStatusDataWidgetState extends State<MatchStatusDataWidget> {
   @override
   Widget build(BuildContext context) {
+    MatchStatusFBTechModel? model = widget.model;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
       height: 120,
-      color: Colors.grey,
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildPaiWidget(),
-          _buildPaiWidget(),
-          _buildPaiWidget(),
+          _buildPaiWidget("event/iconZuqiushijianJiaoqiu12",
+              (model?.cornerKicks?.team1 ?? 0)),
+          _buildPaiWidget("event/iconZuqiushijianHngpai12",
+              (model?.redCards?.team1 ?? 0)),
+          _buildPaiWidget("event/iconZuqiushijianHuangpai12",
+              (model?.yellowCards?.team1 ?? 0)),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -38,21 +43,24 @@ class _MatchStatusDataWidgetState extends State<MatchStatusDataWidget> {
               _buildProgressWidget(),
             ],
           ),
-          _buildPaiWidget(),
-          _buildPaiWidget(),
-          _buildPaiWidget(),
+          _buildPaiWidget("event/iconZuqiushijianHuangpai12",
+              (model?.yellowCards?.team2 ?? 0)),
+          _buildPaiWidget("event/iconZuqiushijianHngpai12",
+              (model?.redCards?.team2 ?? 0)),
+          _buildPaiWidget("event/iconZuqiushijianJiaoqiu12",
+              (model?.cornerKicks?.team2 ?? 0)),
         ],
       ),
     );
   }
 
-  _buildPaiWidget() {
+  _buildPaiWidget(String imgPath, int value) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        JhAssetImage("event/iconZuqiushijianHuangpai12", width: 12),
-        SizedBox(height: 20),
-        Text("0",
+        JhAssetImage(imgPath, width: 12),
+        const SizedBox(height: 20),
+        Text("$value",
             style: const TextStyle(
                 color: ColorUtils.black34,
                 fontSize: 12,
