@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
+import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -19,19 +20,67 @@ class _MatchStatusEventCellWidgetState
     extends State<MatchStatusEventCellWidget> {
   @override
   Widget build(BuildContext context) {
-    if (widget.model.team == 1) {
-      return _buildLeftContent(context);
+    MatchStatusFBEventModel model = widget.model;
+    String imgPath1 = AppBusinessUtils.obtainStatusEventPic(model.typeId);
+    String? imgPath2;
+    String text1;
+    String text2;
+
+    String time = "${model.occurTime ~/ 60}'";
+
+    if (model.typeId == 9) {
+      //进球
+      if (model.team == 1) {
+        text1 = "${model.playerName}${model.content2}";
+      } else {
+        text1 = "${model.content2}${model.playerName}";
+      }
+
+      if (model.playerName2.isNotEmpty) {
+        text2 = "（助攻/${model.playerName2}）";
+
+        imgPath2 = "event/iconZuqiushijianZhugong12";
+      } else {
+        text2 = "";
+      }
+    } else if (model.typeId == 18) {
+      //黄牌
+      text1 = model.playerName;
+      text2 = model.content;
+    } else if (model.typeId == 22) {
+      //红牌
+      text1 = model.playerName;
+      text2 = model.content;
+    } else if (model.typeId == 23) {
+      //换人
+      text1 = model.playerName;
+      text2 = "（换下/${model.playerName2}）";
+
+      imgPath2 = "event/iconZuqiushijianHuanrenDown12";
+    } else if (model.typeId == 30) {
+      //角球
+      text1 = model.content;
+      text2 = model.content2;
     } else {
-      return _buildRightContent(context);
+      text1 = model.content;
+      text2 = model.content2;
+    }
+
+    if (model.team == 1) {
+      return _buildLeftContent(
+          model.idx, time, imgPath1, imgPath2, text1, text2);
+    } else {
+      return _buildRightContent(
+          model.idx, time, imgPath1, imgPath2, text1, text2);
     }
   }
 
-  _buildLeftContent(BuildContext context) {
-    MatchStatusFBEventModel model = widget.model;
+  _buildLeftContent(int idx, String time, String imgPath1, String? imgPath2,
+      String text1, String text2) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       height: 40,
-      decoration: model.idx > 0
+      decoration: idx > 0
           ? const BoxDecoration(
               color: Color.fromRGBO(250, 250, 250, 1.0),
               borderRadius: BorderRadius.only(
@@ -44,19 +93,19 @@ class _MatchStatusEventCellWidgetState
       child: Row(
         children: [
           const SizedBox(width: 10),
-          JhAssetImage("event/iconZuqiushijianHuangpai16", width: 16),
+          JhAssetImage(imgPath1, width: 16),
           const SizedBox(width: 5),
           Text(
-            "${model.occurTime ~/ 60}'",
+            time,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 color: ColorUtils.gray153,
                 fontSize: 12,
                 fontWeight: TextStyleUtils.regual),
           ),
-          const SizedBox(width: 15),
+          const SizedBox(width: 5),
           Text(
-            model.playerName,
+            text1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 color: Color.fromARGB(255, 35, 28, 28),
@@ -64,7 +113,7 @@ class _MatchStatusEventCellWidgetState
                 fontWeight: TextStyleUtils.regual),
           ),
           Text(
-            model.content,
+            text2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 color: ColorUtils.gray153,
@@ -72,18 +121,20 @@ class _MatchStatusEventCellWidgetState
                 fontWeight: TextStyleUtils.regual),
           ),
           const SizedBox(width: 3),
-          JhAssetImage("event/iconZuqiushijianHuangpai12", width: 12),
+          imgPath2 == null
+              ? const SizedBox()
+              : JhAssetImage(imgPath2, width: 12),
         ],
       ),
     );
   }
 
-  _buildRightContent(BuildContext context) {
-    MatchStatusFBEventModel model = widget.model;
+  _buildRightContent(int idx, String time, String imgPath1, String? imgPath2,
+      String text1, String text2) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       height: 40,
-      decoration: model.idx > 0
+      decoration: idx > 0
           ? const BoxDecoration(
               color: Color.fromRGBO(250, 250, 250, 1.0),
               borderRadius: BorderRadius.only(
@@ -96,10 +147,12 @@ class _MatchStatusEventCellWidgetState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          JhAssetImage("event/iconZuqiushijianHuangpai12", width: 12),
+          imgPath2 == null
+              ? const SizedBox()
+              : JhAssetImage(imgPath2, width: 12),
           const SizedBox(width: 3),
           Text(
-            model.content,
+            text2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 color: ColorUtils.gray153,
@@ -107,16 +160,16 @@ class _MatchStatusEventCellWidgetState
                 fontWeight: TextStyleUtils.regual),
           ),
           Text(
-            model.playerName,
+            text1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 color: Color.fromARGB(255, 35, 28, 28),
                 fontSize: 12,
                 fontWeight: TextStyleUtils.regual),
           ),
-          const SizedBox(width: 15),
+          const SizedBox(width: 5),
           Text(
-            "${model.occurTime ~/ 60}'",
+            time,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 color: ColorUtils.gray153,
@@ -124,7 +177,7 @@ class _MatchStatusEventCellWidgetState
                 fontWeight: TextStyleUtils.regual),
           ),
           const SizedBox(width: 5),
-          JhAssetImage("event/iconZuqiushijianHuangpai16", width: 16),
+          JhAssetImage(imgPath1, width: 16),
           const SizedBox(width: 10),
         ],
       ),
