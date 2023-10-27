@@ -47,9 +47,9 @@ class _MatchStatusLiveCellWidgetState extends State<MatchStatusLiveCellWidget> {
     } else if (team == 2) {
       lineColor = ColorUtils.blue66;
     } else {
-      lineColor = Colors.white;
+      lineColor = ColorUtils.gray248;
     }
-
+    //72-24
     return SizedBox(
       height: statusLiveCellHeight,
       child: Row(
@@ -57,8 +57,16 @@ class _MatchStatusLiveCellWidgetState extends State<MatchStatusLiveCellWidget> {
           const SizedBox(width: 10),
           Column(
             children: [
-              const SizedBox(width: 2, height: 10),
-              JhAssetImage(imgPath, width: 16)
+              const SizedBox(width: 2, height: 24).colored(ColorUtils.gray248),
+              Container(
+                width: 24,
+                height: 24,
+                decoration: const BoxDecoration(
+                    color: ColorUtils.gray248,
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: JhAssetImage(imgPath, width: 16),
+              ),
+              const SizedBox(width: 2, height: 24).colored(ColorUtils.gray248),
             ],
           ),
           const SizedBox(width: 10),
@@ -66,6 +74,7 @@ class _MatchStatusLiveCellWidgetState extends State<MatchStatusLiveCellWidget> {
             child: Container(
               height: 60,
               decoration: BoxDecoration(
+                  color: ColorUtils.gray248,
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                   border: Border.all(
                       width: 0.5,

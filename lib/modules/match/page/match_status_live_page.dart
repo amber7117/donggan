@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
 import 'package:wzty/modules/match/widget/detail/match_status_live_cell_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchStatusLivePage extends StatefulWidget {
   final List<MatchStatusFBLiveModel> liveModelArr;
@@ -34,9 +37,13 @@ class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
       return ListView.builder(
           padding: EdgeInsets.zero,
           itemCount: liveModelArr.length,
-          itemExtent: statusLiveCellHeight,
+          // itemExtent: statusLiveCellHeight,
           itemBuilder: (context, index) {
-            return MatchStatusLiveCellWidget(liveModel: liveModelArr[index]);
+            MatchStatusFBLiveModel model = liveModelArr[index];
+            if (model.typeId > 2000) {
+              return _buildHintWidget(model.typeId, model.cnText);
+            }
+            return MatchStatusLiveCellWidget(liveModel: model);
           });
     } else {
       List<MatchStatusFBEventModel> live2ModelArr = widget.live2ModelArr;
@@ -44,10 +51,65 @@ class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
       return ListView.builder(
           padding: EdgeInsets.zero,
           itemCount: live2ModelArr.length,
-          itemExtent: statusLiveCellHeight,
+          // itemExtent: statusLiveCellHeight,
           itemBuilder: (context, index) {
-            return MatchStatusLiveCellWidget(live2Model: live2ModelArr[index]);
+            MatchStatusFBEventModel model = live2ModelArr[index];
+            if (model.typeId > 2000) {
+              return _buildHintWidget(model.typeId, model.content);
+            }
+            return MatchStatusLiveCellWidget(live2Model: model);
           });
     }
+  }
+
+  _buildHintWidget(int typeId, String content) {
+    Color hintColor = const Color.fromRGBO(102, 191, 102, 1);
+    Color lineColor1 = ColorUtils.gray248;
+    Color lineColor2 = ColorUtils.gray248;
+    if (typeId == 2002 || typeId == 2003) {
+      hintColor = ColorUtils.red233;
+      lineColor1 = Colors.white;
+    } else {
+      lineColor2 = Colors.white;
+    }
+
+    return SizedBox(
+        height: 56,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 1.5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 41,
+                alignment: Alignment.center,
+                child: const SizedBox(width: 2, height: 17)
+                    .colored(lineColor1),
+              ),
+              Container(
+                width: 41,
+                height: 22,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: hintColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(11)),
+                ),
+                child: Text(
+                  content,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: TextStyleUtils.regual),
+                ),
+              ),
+              Container(
+                width: 41,
+                alignment: Alignment.center,
+                child: const SizedBox(width: 2, height: 17)
+                    .colored(lineColor2),
+              ),
+            ],
+          ),
+        ));
   }
 }
