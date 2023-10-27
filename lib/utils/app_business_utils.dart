@@ -3,22 +3,22 @@ class AppBusinessUtils {
     String pic = "";
     if (type == 18) {
       //黄牌
-      pic = "iconZuqiushijianHuangpai16";
+      pic = "event/iconZuqiushijianHuangpai16";
     } else if (type == 22) {
       //红牌
-      pic = "iconZuqiushijianHngpai16";
+      pic = "event/iconZuqiushijianHngpai16";
     } else if (type == 23) {
       //换人
-      pic = "iconZuqiushijianHuanren16";
+      pic = "event/iconZuqiushijianHuanren16";
     } else if (type == 30) {
       //角球
-      pic = "iconZuqiushijianJiaoqiu16";
+      pic = "event/iconZuqiushijianJiaoqiu16";
     } else if (type == 9) {
       //进球
-      pic = "iconZuqiushijianJinqiu16";
-    } /* else {
-      pic = "iconZuqiushijianWenzixiaoxo16";
-    } */
+      pic = "event/iconZuqiushijianJinqiu16";
+    } else {
+      pic = "event/iconZuqiushijianWenzixiaoxo16";
+    }
 
     return pic;
   }
@@ -27,28 +27,28 @@ class AppBusinessUtils {
     String pic = "";
     if (type == 6) {
       //黄牌
-      pic = "iconZuqiushijianHuangpai12";
+      pic = "event/iconZuqiushijianHuangpai12";
     } else if (type == 7) {
       //红牌
-      pic = "iconZuqiushijianHngpai12";
+      pic = "event/iconZuqiushijianHngpai12";
     } else if (type == 9) {
       //换下
-      pic = "iconZuqiushijianHuanrenDown12";
+      pic = "event/iconZuqiushijianHuanrenDown12";
     } else if (type == 8) {
       //换上
-      pic = "iconZuqiushijianHuanrenUp12";
+      pic = "event/iconZuqiushijianHuanrenUp12";
     } else if (type == 1) {
       //进球
-      pic = "iconZuqiushijianJinqiu12";
+      pic = "event/iconZuqiushijianJinqiu12";
     } else if (type == 2) {
       //点球
-      pic = "iconZuqiushijianDianqiu12";
+      pic = "event/iconZuqiushijianDianqiu12";
     } else if (type == 4) {
       //乌龙球
-      pic = "iconZuqiushijianWulongqiu12";
+      pic = "event/iconZuqiushijianWulongqiu12";
     } else if (type == 6) {
       //助攻
-      pic = "iconZuqiushijianZhugong12";
+      pic = "event/iconZuqiushijianZhugong12";
     }
     return pic;
   }
@@ -98,5 +98,4 @@ class AppBusinessUtils {
       return "$hot";
     }
   }
-
 }

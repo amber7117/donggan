@@ -148,12 +148,14 @@ class _MatchDetailStatusPageState
         create: (context2) => _tabProvider,
         child: Column(
           children: [
-            Container(
-              color: Colors.yellow,
-              width: double.infinity,
-              height: 62, //110
-              child: WZWebviewPage(urlStr: model.trendAnim),
-            ),
+            model.trendAnim.isEmpty
+                ? const SizedBox()
+                : Container(
+                    color: Colors.yellow,
+                    width: double.infinity,
+                    height: 62, //110
+                    child: WZWebviewPage(urlStr: model.trendAnim),
+                  ),
             const SizedBox(height: 10, width: double.infinity)
                 .colored(ColorUtils.gray248),
             MatchStatusDataWidget(model: techModel),
