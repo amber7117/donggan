@@ -36,7 +36,7 @@ class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
           itemCount: liveModelArr.length,
           itemExtent: statusLiveCellHeight,
           itemBuilder: (context, index) {
-            return MatchStatusLiveCellWidget();
+            return MatchStatusLiveCellWidget(liveModel: liveModelArr[index]);
           });
     } else {
       List<MatchStatusFBEventModel> live2ModelArr = widget.live2ModelArr;
@@ -46,7 +46,7 @@ class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
           itemCount: live2ModelArr.length,
           itemExtent: statusLiveCellHeight,
           itemBuilder: (context, index) {
-            return MatchStatusLiveCellWidget();
+            return MatchStatusLiveCellWidget(live2Model: live2ModelArr[index]);
           });
     }
   }
