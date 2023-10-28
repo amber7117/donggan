@@ -150,8 +150,7 @@ class _MatchDetailStatusPageState
           children: [
             model.trendAnim.isEmpty
                 ? const SizedBox()
-                : Container(
-                    color: Colors.yellow,
+                : SizedBox(
                     width: double.infinity,
                     height: 62, //110
                     child: WZWebviewPage(urlStr: model.trendAnim),
