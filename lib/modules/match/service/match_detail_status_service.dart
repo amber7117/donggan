@@ -48,7 +48,7 @@ class MatchDetailStatusService {
     return;
   }
 
-  static Future<void> requestLiveData(int matchId, SportType sportType,
+  static Future<void> requestLiveData(SportType sportType, int matchId,
       BusinessCallback<List<MatchStatusFBLiveModel>> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 

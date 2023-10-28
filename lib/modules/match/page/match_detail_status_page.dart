@@ -94,7 +94,7 @@ class _MatchDetailStatusPageState
       }
     });
     Future live = MatchDetailStatusService.requestLiveData(
-        widget.matchId, SportType.football, (success, result) {
+        SportType.football, widget.matchId, (success, result) {
       if (result.isNotEmpty) {
         var tmpArr = _processFBLiveData(result).cast<MatchStatusFBLiveModel>();
         liveModelArr = tmpArr;

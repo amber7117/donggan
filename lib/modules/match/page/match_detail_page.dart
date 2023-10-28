@@ -5,6 +5,7 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
+import 'package:wzty/modules/match/page/match_detail_analysis_page.dart';
 import 'package:wzty/modules/match/page/match_detail_anchor_page.dart';
 import 'package:wzty/modules/match/page/match_detail_status_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
@@ -12,7 +13,6 @@ import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_widget.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 const double _headHeight = 212.0;
@@ -55,7 +55,6 @@ class _MatchDetailPageState extends State<MatchDetailPage>
       tabName: '聊球',
       index: 4,
     )
-    
   ];
 
   LoadStatusType _layoutState = LoadStatusType.loading;
@@ -153,7 +152,10 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {
-                      if (index == 3) {
+                      if (index == 2) {
+                        return MatchDetailAnalysisPage(
+                            matchId: widget.matchId, detailModel: _model!);
+                      } else if (index == 3) {
                         return MatchDetailAnchorPage(matchId: widget.matchId);
                       } else if (index == 4) {
                         return ChatPage(

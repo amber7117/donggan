@@ -66,7 +66,7 @@ class MatchAnalysisHistoryModel {
   String pointsGetPerGame;
   String pointsLostPerGame;
   String pointsDiffPerGame;
-  String winRate;
+  int winRate;
   int winNum;
   int drawNum;
   int loseNum;
@@ -104,7 +104,7 @@ class MatchAnalysisHistoryModel {
       pointsGetPerGame: json['pointsGetPerGame'] ?? '',
       pointsLostPerGame: json['pointsLostPerGame'] ?? '',
       pointsDiffPerGame: json['pointsDiffPerGame'] ?? '',
-      winRate: json['winRate'] ?? '',
+      winRate: json['winRate'] ?? 0,
       winNum: json['winNum'] ?? 0,
       drawNum: json['drawNum'] ?? 0,
       loseNum: json['loseNum'] ?? 0,
