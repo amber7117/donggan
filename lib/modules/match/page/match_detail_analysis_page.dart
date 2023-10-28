@@ -5,6 +5,8 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_analysis_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/service/match_detail_analysis_service.dart';
+import 'package:wzty/modules/match/widget/detail/match_analysis_history_cell_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_analysis_history_head_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_analysis_rank_cell_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_analysis_rank_head_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -98,11 +100,13 @@ class _MatchDetailAnalysisPageState
     return ListView.builder(
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) {
-          return _buildRank();
-
           if (index == 0) {
             return _buildRank();
-          } else if (index == 1) {}
+          } else if (index == 1) {
+            return _buildHistory();
+          } else {
+            return _buildRank();
+          }
         });
   }
 
@@ -118,6 +122,24 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisRankCellWidget(model: rankArr[index]);
+            })
+      ],
+    );
+  }
+
+  _buildHistory() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MatchAnalysisHistoryHeadWidget(),
+        ListView.builder(
+            itemCount: historyModel!.matches.length,
+            itemExtent: 42.0,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return MatchAnalysisHistoryCellWidget(
+                  model: historyModel!.matches[index]);
             })
       ],
     );

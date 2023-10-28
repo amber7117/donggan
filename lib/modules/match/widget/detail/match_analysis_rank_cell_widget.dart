@@ -21,9 +21,9 @@ class _MatchAnalysisRankCellWidgetState
     MatchAnalysisRankTeamModel model = widget.model;
     return Row(
       children: [
-        SizedBox(width: 13.w),
+        SizedBox(width: 12.w),
         buildNetImage(model.logo, width: 20, placeholder: "common/logoQiudui"),
-        SizedBox(width: 13.w),
+        SizedBox(width: 12.w),
         SizedBox(
           width: 81.w,
           child: Text(
@@ -35,6 +35,7 @@ class _MatchAnalysisRankCellWidgetState
                 fontWeight: TextStyleUtils.regual),
           ),
         ),
+        SizedBox(width: 2.w),
         SizedBox(
           width: 62.w,
           child: Text(
