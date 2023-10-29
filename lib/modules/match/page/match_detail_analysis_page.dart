@@ -9,6 +9,8 @@ import 'package:wzty/modules/match/widget/detail/match_analysis_history_cell_wid
 import 'package:wzty/modules/match/widget/detail/match_analysis_history_head_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_analysis_rank_cell_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_analysis_rank_head_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_analysis_schedule_cell_widget.dart';
+import 'package:wzty/modules/match/widget/detail/match_analysis_schedule_head_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailAnalysisPage extends StatefulWidget {
@@ -98,7 +100,8 @@ class _MatchDetailAnalysisPageState
     }
 
     return ListView.builder(
-        itemCount: 5,
+        padding: EdgeInsets.zero,
+        itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return _buildRank();
@@ -108,9 +111,12 @@ class _MatchDetailAnalysisPageState
             return _buildRecent1();
           } else if (index == 3) {
             return _buildRecent2();
-          } else {
-            return _buildRank();
+          } else if (index == 4) {
+            return _buildFuture1();
+          } else if (index == 5) {
+            return _buildFuture2();
           }
+          return const SizedBox();
         });
   }
 
@@ -120,6 +126,7 @@ class _MatchDetailAnalysisPageState
       children: [
         MatchAnalysisRankHeadWidget(),
         ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: rankArr.length,
             itemExtent: 40.0,
             shrinkWrap: true,
@@ -135,8 +142,10 @@ class _MatchDetailAnalysisPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MatchAnalysisHistoryHeadWidget(type: MatchAnalysisHeadType.history),
+        const MatchAnalysisHistoryHeadWidget(
+            type: MatchAnalysisHistoryHeadType.history),
         ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: historyModel!.matches.length,
             itemExtent: 42.0,
             shrinkWrap: true,
@@ -153,8 +162,10 @@ class _MatchDetailAnalysisPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MatchAnalysisHistoryHeadWidget(type: MatchAnalysisHeadType.recent1),
+        const MatchAnalysisHistoryHeadWidget(
+            type: MatchAnalysisHistoryHeadType.recent1),
         ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: recent1Model!.matches.length,
             itemExtent: 42.0,
             shrinkWrap: true,
@@ -171,8 +182,10 @@ class _MatchDetailAnalysisPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MatchAnalysisHistoryHeadWidget(type: MatchAnalysisHeadType.recent2),
+        const MatchAnalysisHistoryHeadWidget(
+            type: MatchAnalysisHistoryHeadType.recent2),
         ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: recent2Model!.matches.length,
             itemExtent: 42.0,
             shrinkWrap: true,
@@ -180,6 +193,44 @@ class _MatchDetailAnalysisPageState
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
                   model: recent2Model!.matches[index]);
+            })
+      ],
+    );
+  }
+
+  _buildFuture1() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const MatchAnalysisScheduleHeadWidget(
+            type: MatchAnalysisScheduleHeadType.future1),
+        ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: future1Arr.length,
+            itemExtent: 42.0,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return MatchAnalysisScheduleCellWidget(model: future1Arr[index]);
+            })
+      ],
+    );
+  }
+
+  _buildFuture2() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const MatchAnalysisScheduleHeadWidget(
+            type: MatchAnalysisScheduleHeadType.future2),
+        ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: future2Arr.length,
+            itemExtent: 42.0,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return MatchAnalysisScheduleCellWidget(model: future2Arr[index]);
             })
       ],
     );

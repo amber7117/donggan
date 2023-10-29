@@ -4,12 +4,12 @@ import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum MatchAnalysisHeadType {
+enum MatchAnalysisHistoryHeadType {
   history, recent1, recent2
 }
 
 class MatchAnalysisHistoryHeadWidget extends StatefulWidget {
-  final MatchAnalysisHeadType type;
+  final MatchAnalysisHistoryHeadType type;
 
   const MatchAnalysisHistoryHeadWidget({super.key, required this.type});
 
@@ -22,9 +22,9 @@ class _MatchAnalysisHistoryHeadWidgetState
   @override
   Widget build(BuildContext context) {
     String title = "历史交手";
-    if (widget.type == MatchAnalysisHeadType.recent1) {
+    if (widget.type == MatchAnalysisHistoryHeadType.recent1) {
       title = "主队近况";
-    } else if (widget.type == MatchAnalysisHeadType.recent2) {
+    } else if (widget.type == MatchAnalysisHistoryHeadType.recent2) {
       title = "客队近况";
     }
 

@@ -24,7 +24,7 @@ class _MatchAnalysisHistoryCellWidgetState
         SizedBox(
           width: 64.w,
           child: Text(
-            "${model.leagueName}${model.matchTimeNew}",
+            "${model.matchTimeNew}\n${model.leagueName}",
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             textAlign: TextAlign.center,
