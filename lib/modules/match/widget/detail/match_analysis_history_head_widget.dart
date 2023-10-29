@@ -4,8 +4,14 @@ import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+enum MatchAnalysisHeadType {
+  history, recent1, recent2
+}
+
 class MatchAnalysisHistoryHeadWidget extends StatefulWidget {
-  const MatchAnalysisHistoryHeadWidget({super.key});
+  final MatchAnalysisHeadType type;
+
+  const MatchAnalysisHistoryHeadWidget({super.key, required this.type});
 
   @override
   State createState() => _MatchAnalysisHistoryHeadWidgetState();
@@ -15,6 +21,13 @@ class _MatchAnalysisHistoryHeadWidgetState
     extends State<MatchAnalysisHistoryHeadWidget> {
   @override
   Widget build(BuildContext context) {
+    String title = "历史交手";
+    if (widget.type == MatchAnalysisHeadType.recent1) {
+      title = "主队近况";
+    } else if (widget.type == MatchAnalysisHeadType.recent2) {
+      title = "客队近况";
+    }
+
     return Column(
       children: [
         SizedBox(
@@ -26,11 +39,11 @@ class _MatchAnalysisHistoryHeadWidgetState
                   color: ColorUtils.red233,
                   borderRadius: BorderRadius.all(Radius.circular(1.5)))),
               const SizedBox(width: 5),
-              const Text(
-                "历史交手",
+               Text(
+                title,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     color: ColorUtils.gray153,
                     fontSize: 11,
                     fontWeight: TextStyleUtils.regual),

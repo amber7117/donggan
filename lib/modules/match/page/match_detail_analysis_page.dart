@@ -104,6 +104,10 @@ class _MatchDetailAnalysisPageState
             return _buildRank();
           } else if (index == 1) {
             return _buildHistory();
+          } else if (index == 2) {
+            return _buildRecent1();
+          } else if (index == 3) {
+            return _buildRecent2();
           } else {
             return _buildRank();
           }
@@ -131,7 +135,7 @@ class _MatchDetailAnalysisPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MatchAnalysisHistoryHeadWidget(),
+        const MatchAnalysisHistoryHeadWidget(type: MatchAnalysisHeadType.history),
         ListView.builder(
             itemCount: historyModel!.matches.length,
             itemExtent: 42.0,
@@ -140,6 +144,42 @@ class _MatchDetailAnalysisPageState
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
                   model: historyModel!.matches[index]);
+            })
+      ],
+    );
+  }
+
+  _buildRecent1() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const MatchAnalysisHistoryHeadWidget(type: MatchAnalysisHeadType.recent1),
+        ListView.builder(
+            itemCount: recent1Model!.matches.length,
+            itemExtent: 42.0,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return MatchAnalysisHistoryCellWidget(
+                  model: recent1Model!.matches[index]);
+            })
+      ],
+    );
+  }
+
+  _buildRecent2() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const MatchAnalysisHistoryHeadWidget(type: MatchAnalysisHeadType.recent2),
+        ListView.builder(
+            itemCount: recent2Model!.matches.length,
+            itemExtent: 42.0,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return MatchAnalysisHistoryCellWidget(
+                  model: recent2Model!.matches[index]);
             })
       ],
     );
