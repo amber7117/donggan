@@ -99,18 +99,23 @@ class _MatchDetailAnalysisPageState
       return const SizedBox();
     }
 
+    SportType sportType = SportType.football;
+    if (widget.detailModel.sportId == SportType.basketball.value) {
+      sportType = SportType.basketball;
+    }
+
     return ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
-            return _buildRank();
+            return _buildRank(sportType);
           } else if (index == 1) {
-            return _buildHistory();
+            return _buildHistory(sportType);
           } else if (index == 2) {
-            return _buildRecent1();
+            return _buildRecent1(sportType);
           } else if (index == 3) {
-            return _buildRecent2();
+            return _buildRecent2(sportType);
           } else if (index == 4) {
             return _buildFuture1();
           } else if (index == 5) {
@@ -120,11 +125,12 @@ class _MatchDetailAnalysisPageState
         });
   }
 
-  _buildRank() {
+  _buildRank(SportType sportType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MatchAnalysisRankHeadWidget(),
+        MatchAnalysisRankHeadWidget(
+            key: const ValueKey(1), sportType: sportType),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: rankArr.length,
@@ -132,18 +138,21 @@ class _MatchDetailAnalysisPageState
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return MatchAnalysisRankCellWidget(model: rankArr[index]);
+              return MatchAnalysisRankCellWidget(
+                  model: rankArr[index], sportType: sportType);
             })
       ],
     );
   }
 
-  _buildHistory() {
+  _buildHistory(SportType sportType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MatchAnalysisHistoryHeadWidget(
-            type: MatchAnalysisHistoryHeadType.history),
+        MatchAnalysisHistoryHeadWidget(
+            key: const ValueKey(2),
+            type: MatchAnalysisHistoryHeadType.history,
+            sportType: sportType),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: historyModel!.matches.length,
@@ -152,18 +161,20 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
-                  model: historyModel!.matches[index]);
+                  model: historyModel!.matches[index], sportType: sportType);
             })
       ],
     );
   }
 
-  _buildRecent1() {
+  _buildRecent1(SportType sportType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MatchAnalysisHistoryHeadWidget(
-            type: MatchAnalysisHistoryHeadType.recent1),
+        MatchAnalysisHistoryHeadWidget(
+            key: const ValueKey(3),
+            type: MatchAnalysisHistoryHeadType.recent1,
+            sportType: sportType),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: recent1Model!.matches.length,
@@ -172,18 +183,20 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
-                  model: recent1Model!.matches[index]);
+                  model: recent1Model!.matches[index], sportType: sportType);
             })
       ],
     );
   }
 
-  _buildRecent2() {
+  _buildRecent2(SportType sportType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MatchAnalysisHistoryHeadWidget(
-            type: MatchAnalysisHistoryHeadType.recent2),
+        MatchAnalysisHistoryHeadWidget(
+            key: const ValueKey(4),
+            type: MatchAnalysisHistoryHeadType.recent2,
+            sportType: sportType),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: recent2Model!.matches.length,
@@ -192,7 +205,7 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
-                  model: recent2Model!.matches[index]);
+                  model: recent2Model!.matches[index], sportType: sportType);
             })
       ],
     );
@@ -203,7 +216,7 @@ class _MatchDetailAnalysisPageState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const MatchAnalysisScheduleHeadWidget(
-            type: MatchAnalysisScheduleHeadType.future1),
+            key: ValueKey(5), type: MatchAnalysisScheduleHeadType.future1),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: future1Arr.length,
@@ -222,7 +235,7 @@ class _MatchDetailAnalysisPageState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const MatchAnalysisScheduleHeadWidget(
-            type: MatchAnalysisScheduleHeadType.future2),
+            key: ValueKey(6), type: MatchAnalysisScheduleHeadType.future2),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: future2Arr.length,

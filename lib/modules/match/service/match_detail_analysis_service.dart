@@ -19,7 +19,7 @@ class MatchDetailAnalysisService {
         params: params);
 
     if (result.isSuccess()) {
-      List tmpList = result.data["all"];
+      List tmpList = result.data["all"] ?? [];
       List<MatchAnalysisRankTeamModel> retList = tmpList
           .map((dataMap) => MatchAnalysisRankTeamModel.fromJson(dataMap))
           .toList();

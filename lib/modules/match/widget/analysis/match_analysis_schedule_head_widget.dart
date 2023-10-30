@@ -65,7 +65,7 @@ class _MatchAnalysisScheduleHeadWidgetState
                       fontWeight: TextStyleUtils.regual),
                 ),
               ),
-              SizedBox(width: 28.w),
+              SizedBox(width: 11.w),
               SizedBox(
                 width: 80.w,
                 child: const Text(
@@ -79,7 +79,7 @@ class _MatchAnalysisScheduleHeadWidgetState
                 ),
               ),
               SizedBox(
-                width: 27.w,
+                width: 44.w,
                 child: const Text(
                   "VS",
                   overflow: TextOverflow.ellipsis,

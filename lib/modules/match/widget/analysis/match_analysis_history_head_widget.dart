@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum MatchAnalysisHistoryHeadType {
-  history, recent1, recent2
-}
+enum MatchAnalysisHistoryHeadType { history, recent1, recent2 }
 
 class MatchAnalysisHistoryHeadWidget extends StatefulWidget {
   final MatchAnalysisHistoryHeadType type;
-
-  const MatchAnalysisHistoryHeadWidget({super.key, required this.type});
+  final SportType sportType;
+  
+  const MatchAnalysisHistoryHeadWidget({super.key, required this.type, required this.sportType});
 
   @override
   State createState() => _MatchAnalysisHistoryHeadWidgetState();
@@ -27,6 +27,13 @@ class _MatchAnalysisHistoryHeadWidgetState
     } else if (widget.type == MatchAnalysisHistoryHeadType.recent2) {
       title = "客队近况";
     }
+  
+    double vsWidth = 44.0.w;
+    double vsPadding = 11.0.w;
+    if (widget.sportType == SportType.basketball) {
+      vsWidth = 54.0.w;
+      vsPadding = 1.0.w;
+    }
 
     return Column(
       children: [
@@ -39,7 +46,7 @@ class _MatchAnalysisHistoryHeadWidgetState
                   color: ColorUtils.red233,
                   borderRadius: BorderRadius.all(Radius.circular(1.5)))),
               const SizedBox(width: 5),
-               Text(
+              Text(
                 title,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
@@ -69,7 +76,7 @@ class _MatchAnalysisHistoryHeadWidgetState
                       fontWeight: TextStyleUtils.regual),
                 ),
               ),
-              SizedBox(width: 28.w),
+              SizedBox(width: vsPadding),
               SizedBox(
                 width: 80.w,
                 child: const Text(
@@ -83,7 +90,7 @@ class _MatchAnalysisHistoryHeadWidgetState
                 ),
               ),
               SizedBox(
-                width: 27.w,
+                width: vsWidth,
                 child: const Text(
                   "VS",
                   overflow: TextOverflow.ellipsis,
