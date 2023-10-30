@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
-import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusBBLiveCellHeight = 72.0;
@@ -25,22 +23,26 @@ class _MatchStatusBbLiveCellWidgetState
   @override
   Widget build(BuildContext context) {
     MatchStatusFBLiveModel? liveModel = widget.liveModel;
-    String imgPath;
     String time;
     int team;
     String content;
+    String score;
     if (liveModel != null) {
-      imgPath = AppBusinessUtils.obtainStatusEventPic(liveModel.typeId);
       time = "${liveModel.time}'";
       team = liveModel.team;
       content = liveModel.cnText;
+      score = "${liveModel.hostScore}-${liveModel.guestScore}";
     } else {
       MatchStatusFBEventModel live2Model = widget.live2Model!;
 
-      imgPath = AppBusinessUtils.obtainStatusEventPic(live2Model.typeId);
-      time = "${live2Model.occurTime ~/ 60}'";
+      int minute = live2Model.occurTime ~/ 60;
+      int second = live2Model.occurTime - minute * 60;
+
+      time =
+          "${live2Model.statusName} ${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')}";
       team = live2Model.team;
       content = live2Model.content;
+      score = live2Model.scores;
     }
     Color lineColor;
     if (team == 1) {
@@ -60,12 +62,11 @@ class _MatchStatusBbLiveCellWidgetState
             children: [
               const SizedBox(width: 2, height: 24).colored(ColorUtils.gray248),
               Container(
-                width: 24,
-                height: 24,
+                width: 12,
+                height: 12,
                 decoration: const BoxDecoration(
                     color: ColorUtils.gray248,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: JhAssetImage(imgPath, width: 16),
+                    borderRadius: BorderRadius.all(Radius.circular(6))),
               ),
               const SizedBox(width: 2, height: 24).colored(ColorUtils.gray248),
             ],

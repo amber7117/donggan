@@ -7,21 +7,21 @@ import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.da
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
 import 'package:wzty/modules/match/widget/status/match_status_bb_live_cell_widget.dart';
 
-class MatchStatusBbLivePage extends StatefulWidget {
+class MatchStatusBBLivePage extends StatefulWidget {
   final MatchStatusBBLiveLocalModel? liveModel;
   final MatchStatusBBLiveLocalModel? live2Model;
 
-  const MatchStatusBbLivePage({super.key, this.liveModel, this.live2Model});
+  const MatchStatusBBLivePage({super.key, this.liveModel, this.live2Model});
 
   @override
-  State createState() => _MatchStatusBbLivePageState();
+  State createState() => _MatchStatusBBLivePageState();
 }
 
-class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage>
+class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TabProvider _tabProvider = TabProvider();
-  List<Widget> _tabs = [];
+  final List<Widget> _tabs = [];
 
   LoadStatusType _layoutState = LoadStatusType.success;
 
@@ -43,6 +43,8 @@ class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage>
       is2 = true;
       liveModel = widget.live2Model!;
     }
+
+    _tabs.clear();
 
     int i = 0;
     for (String title in liveModel.titleArr) {

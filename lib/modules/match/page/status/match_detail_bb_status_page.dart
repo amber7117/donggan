@@ -193,10 +193,10 @@ class _MatchDetailBBStatusPageState
                 controller: _pageController,
                 itemBuilder: (_, int index) {
                   if (index == 0) {
-                    return MatchStatusBbTechPage(
+                    return MatchStatusBBTechPage(
                         detailModel: widget.detailModel, techModel: techModel);
                   }
-                  return MatchStatusBbLivePage(
+                  return MatchStatusBBLivePage(
                       liveModel: liveModel, live2Model: live2Model);
                 })));
   }

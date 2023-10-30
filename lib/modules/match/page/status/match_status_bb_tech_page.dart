@@ -5,18 +5,18 @@ import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dar
 import 'package:wzty/modules/match/widget/status/match_status_fb_tech_cell_widget.dart';
 import 'package:wzty/modules/match/widget/status/match_status_team_widget.dart';
 
-class MatchStatusBbTechPage extends StatefulWidget {
+class MatchStatusBBTechPage extends StatefulWidget {
   final MatchDetailModel detailModel;
   final MatchStatusBBTechModel? techModel;
   
-  const MatchStatusBbTechPage({super.key, required this.detailModel, this.techModel});
+  const MatchStatusBBTechPage({super.key, required this.detailModel, this.techModel});
 
 
   @override
-  State createState() => _MatchStatusBbTechPageState();
+  State createState() => _MatchStatusBBTechPageState();
 }
 
-class _MatchStatusBbTechPageState extends State<MatchStatusBbTechPage> {
+class _MatchStatusBBTechPageState extends State<MatchStatusBBTechPage> {
   LoadStatusType _layoutState = LoadStatusType.success;
 
   @override
