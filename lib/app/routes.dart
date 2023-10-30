@@ -5,7 +5,6 @@ import 'package:wzty/modules/anchor/anchor_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
-import 'package:wzty/modules/match/match_page.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_page.dart';
 import 'package:wzty/modules/match/page/match_detail_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
@@ -95,9 +94,9 @@ class Routes {
 
     // ---------------------------------------------
 
-    router.define(match, handler: Handler(handlerFunc: (context, params) {
-      return const MatchPage();
-    }));
+    // router.define(match, handler: Handler(handlerFunc: (context, params) {
+    //   return const MatchPage(sportType: SportType.football);
+    // }));
     router.define(matchDetail, handler: Handler(handlerFunc: (context, params) {
       var args = context?.settings?.arguments as int;
       return MatchDetailPage(matchId: args);

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
-import 'package:wzty/modules/match/widget/detail/match_status_team_widget.dart';
-import 'package:wzty/modules/match/widget/detail/match_status_tech_cell_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_team_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_tech_cell_widget.dart';
 
 class MatchStatusTechPage extends StatefulWidget {
   final MatchDetailModel detailModel;

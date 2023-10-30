@@ -3,7 +3,7 @@ import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
-import 'package:wzty/modules/match/widget/detail/match_status_live_cell_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_live_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
