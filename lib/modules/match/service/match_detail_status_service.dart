@@ -3,6 +3,8 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_bb_score_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
@@ -92,7 +94,7 @@ class MatchDetailStatusService {
   }
 
   static Future<void> requestBBScoreData(
-      int matchId, BusinessCallback<MatchDetailModel?> complete) async {
+      int matchId, BusinessCallback<MatchStatusBBScoreModel?> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 
     HttpResultBean result = await HttpManager.request(
@@ -100,7 +102,8 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchDetailModel model = MatchDetailModel.fromJson(result.data);
+      MatchStatusBBScoreModel model =
+          MatchStatusBBScoreModel.fromJson(result.data);
       complete(true, model);
     } else {
       complete(false, null);
@@ -109,7 +112,7 @@ class MatchDetailStatusService {
   }
 
   static Future<void> requestBBTechData(
-      int matchId, BusinessCallback<MatchDetailModel?> complete) async {
+      int matchId, BusinessCallback<MatchStatusBBTechModel?> complete) async {
     Map<String, dynamic> params = {"matchId": matchId};
 
     HttpResultBean result = await HttpManager.request(
@@ -117,7 +120,8 @@ class MatchDetailStatusService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchDetailModel model = MatchDetailModel.fromJson(result.data);
+      MatchStatusBBTechModel model =
+          MatchStatusBBTechModel.fromJson(result.data);
       complete(true, model);
     } else {
       complete(false, null);

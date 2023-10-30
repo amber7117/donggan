@@ -7,7 +7,7 @@ import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/analysis/match_detail_analysis_page.dart';
 import 'package:wzty/modules/match/page/anchor/match_detail_anchor_page.dart';
-import 'package:wzty/modules/match/page/status/match_detail_status_page.dart';
+import 'package:wzty/modules/match/page/status/match_detail_fb_status_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
@@ -162,7 +162,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                             roomId: _model!.roomId,
                             chatRoomId: _model!.matchId.toString());
                       }
-                      return MatchDetailStatusPage(
+                      return MatchDetailFBStatusPage(
                           matchId: widget.matchId, detailModel: _model!);
                     }))
           ],

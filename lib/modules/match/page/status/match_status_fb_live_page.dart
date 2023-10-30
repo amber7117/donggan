@@ -3,22 +3,22 @@ import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
-import 'package:wzty/modules/match/widget/status/match_status_live_cell_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_fb_live_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusLivePage extends StatefulWidget {
+class MatchStatusFBLivePage extends StatefulWidget {
   final List<MatchStatusFBLiveModel> liveModelArr;
   final List<MatchStatusFBEventModel> live2ModelArr;
 
-  const MatchStatusLivePage(
+  const MatchStatusFBLivePage(
       {super.key, required this.liveModelArr, required this.live2ModelArr});
 
   @override
-  State createState() => _MatchStatusLivePageState();
+  State createState() => _MatchStatusFBLivePageState();
 }
 
-class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
+class _MatchStatusFBLivePageState extends State<MatchStatusFBLivePage> {
   LoadStatusType _layoutState = LoadStatusType.success;
 
   @override
@@ -43,7 +43,7 @@ class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
             if (model.typeId > 2000) {
               return _buildHintWidget(model.typeId, model.cnText);
             }
-            return MatchStatusLiveCellWidget(liveModel: model);
+            return MatchStatusFBLiveCellWidget(liveModel: model);
           });
     } else {
       List<MatchStatusFBEventModel> live2ModelArr = widget.live2ModelArr;
@@ -57,7 +57,7 @@ class _MatchStatusLivePageState extends State<MatchStatusLivePage> {
             if (model.typeId > 2000) {
               return _buildHintWidget(model.typeId, model.content);
             }
-            return MatchStatusLiveCellWidget(live2Model: model);
+            return MatchStatusFBLiveCellWidget(live2Model: model);
           });
     }
   }

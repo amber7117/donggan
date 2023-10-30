@@ -3,19 +3,19 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/modules/match/widget/status/match_status_team_widget.dart';
-import 'package:wzty/modules/match/widget/status/match_status_tech_cell_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_fb_tech_cell_widget.dart';
 
-class MatchStatusTechPage extends StatefulWidget {
+class MatchStatusFBTechPage extends StatefulWidget {
   final MatchDetailModel detailModel;
   final MatchStatusFBTechModel? techModel;
   
-  const MatchStatusTechPage({super.key, this.techModel, required this.detailModel});
+  const MatchStatusFBTechPage({super.key, required this.detailModel, this.techModel});
 
   @override
-  State createState() => _MatchStatusTechPageState();
+  State createState() => _MatchStatusFBTechPageState();
 }
 
-class _MatchStatusTechPageState extends State<MatchStatusTechPage> {
+class _MatchStatusFBTechPageState extends State<MatchStatusFBTechPage> {
   LoadStatusType _layoutState = LoadStatusType.success;
 
   @override
@@ -37,7 +37,7 @@ class _MatchStatusTechPageState extends State<MatchStatusTechPage> {
           if (index == 0) {
             return MatchStatusTeamWidget(detailModel: widget.detailModel);
           }
-          return MatchStatusTechCellWidget(
+          return MatchStatusFBTechCellWidget(
               model: techModel.dataModelArr[index-1]);
         });
   }

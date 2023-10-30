@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
@@ -10,17 +9,17 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusLiveCellHeight = 72.0;
 
-class MatchStatusLiveCellWidget extends StatefulWidget {
+class MatchStatusFBLiveCellWidget extends StatefulWidget {
   final MatchStatusFBLiveModel? liveModel;
   final MatchStatusFBEventModel? live2Model;
 
-  const MatchStatusLiveCellWidget({super.key, this.liveModel, this.live2Model});
+  const MatchStatusFBLiveCellWidget({super.key, this.liveModel, this.live2Model});
 
   @override
-  State createState() => _MatchStatusLiveCellWidgetState();
+  State createState() => _MatchStatusFBLiveCellWidgetState();
 }
 
-class _MatchStatusLiveCellWidgetState extends State<MatchStatusLiveCellWidget> {
+class _MatchStatusFBLiveCellWidgetState extends State<MatchStatusFBLiveCellWidget> {
   @override
   Widget build(BuildContext context) {
     MatchStatusFBLiveModel? liveModel = widget.liveModel;

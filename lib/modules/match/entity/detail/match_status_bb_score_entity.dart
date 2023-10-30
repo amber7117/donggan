@@ -65,6 +65,28 @@ class MatchStatusBBScoreModel {
     }
     dataModelArr.add(model1);
   }
+
+   factory MatchStatusBBScoreModel.fromJson(Map<String, dynamic> json) =>
+      MatchStatusBBScoreModel(
+        Period1: json['Period1'] != null
+            ? MatchStatusBBScorePeriodModel.fromJson(json['Period1'])
+            : null,
+        Period2: json['Period2'] != null
+            ? MatchStatusBBScorePeriodModel.fromJson(json['Period2'])
+            : null,
+        Period3: json['Period3'] != null
+            ? MatchStatusBBScorePeriodModel.fromJson(json['Period3'])
+            : null,
+        Period4: json['Period4'] != null
+            ? MatchStatusBBScorePeriodModel.fromJson(json['Period4'])
+            : null,
+        Overtime: json['Overtime'] != null
+            ? MatchStatusBBScorePeriodModel.fromJson(json['Overtime'])
+            : null,
+        Current: json['Current'] != null
+            ? MatchStatusBBScorePeriodModel.fromJson(json['Current'])
+            : null,
+      );
 }
 
 class MatchStatusBBScorePeriodModel {

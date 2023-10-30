@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
-import 'package:wzty/modules/match/widget/status/match_status_event_cell_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_fb_event_cell_widget.dart';
 import 'package:wzty/modules/match/widget/status/match_status_team_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusEventPage extends StatefulWidget {
+class MatchStatusFBEventPage extends StatefulWidget {
   final MatchDetailModel detailModel;
   final List<MatchStatusFBEventModel> eventModelArr;
 
-  const MatchStatusEventPage(
-      {super.key, required this.eventModelArr, required this.detailModel});
+  const MatchStatusFBEventPage(
+      {super.key, required this.detailModel, required this.eventModelArr});
 
   @override
-  State createState() => _MatchStatusEventPageState();
+  State createState() => _MatchStatusFBEventPageState();
 }
 
-class _MatchStatusEventPageState extends State<MatchStatusEventPage> {
+class _MatchStatusFBEventPageState extends State<MatchStatusFBEventPage> {
   LoadStatusType _layoutState = LoadStatusType.success;
 
   @override
@@ -44,7 +44,7 @@ class _MatchStatusEventPageState extends State<MatchStatusEventPage> {
           if (model.team < 1) {
             return _buildHintWidget(model);
           }
-          return MatchStatusEventCellWidget(model: model);
+          return MatchStatusFBEventCellWidget(model: model);
         });
   }
 

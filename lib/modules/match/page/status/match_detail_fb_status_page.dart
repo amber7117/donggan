@@ -12,27 +12,27 @@ import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.da
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/modules/match/service/match_detail_status_service.dart';
-import 'package:wzty/modules/match/widget/status/match_status_data_widget.dart';
-import 'package:wzty/modules/match/page/status/match_status_event_page.dart';
-import 'package:wzty/modules/match/page/status/match_status_live_page.dart';
-import 'package:wzty/modules/match/page/status/match_status_tech_page.dart';
+import 'package:wzty/modules/match/widget/status/match_status_fb_data_widget.dart';
+import 'package:wzty/modules/match/page/status/match_status_fb_event_page.dart';
+import 'package:wzty/modules/match/page/status/match_status_fb_live_page.dart';
+import 'package:wzty/modules/match/page/status/match_status_fb_tech_page.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
-class MatchDetailStatusPage extends StatefulWidget {
+class MatchDetailFBStatusPage extends StatefulWidget {
   final int matchId;
 
   final MatchDetailModel detailModel;
 
-  const MatchDetailStatusPage(
+  const MatchDetailFBStatusPage(
       {super.key, required this.matchId, required this.detailModel});
 
   @override
-  State createState() => _MatchDetailStatusPageState();
+  State createState() => _MatchDetailFBStatusPageState();
 }
 
-class _MatchDetailStatusPageState
-    extends KeepAliveWidgetState<MatchDetailStatusPage>
+class _MatchDetailFBStatusPageState
+    extends KeepAliveWidgetState<MatchDetailFBStatusPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -103,8 +103,8 @@ class _MatchDetailStatusPageState
     Future live = MatchDetailStatusService.requestLiveData(
         SportType.football, widget.matchId, (success, result) {
       if (result.isNotEmpty) {
-        var tmpArr = _processFBLiveData(result).cast<MatchStatusFBLiveModel>();
-        liveModelArr = tmpArr;
+        liveModelArr =
+            _processFBLiveData(result).cast<MatchStatusFBLiveModel>();
       }
     });
 
@@ -117,6 +117,7 @@ class _MatchDetailStatusPageState
                 .cast<MatchStatusFBEventModel>();
             live2ModelArr = tmpArr;
           }
+
           ToastUtils.hideLoading();
           _handleResultData();
         });
@@ -161,7 +162,7 @@ class _MatchDetailStatusPageState
                 : const SizedBox(),
             const SizedBox(height: 10, width: double.infinity)
                 .colored(ColorUtils.gray248),
-            MatchStatusDataWidget(model: techModel),
+            MatchStatusFBDataWidget(model: techModel),
             const SizedBox(height: 10, width: double.infinity)
                 .colored(ColorUtils.gray248),
             Container(
@@ -186,15 +187,15 @@ class _MatchDetailStatusPageState
                     controller: _pageController,
                     itemBuilder: (_, int index) {
                       if (index == 0) {
-                        return MatchStatusEventPage(
-                            eventModelArr: eventModelArr,
-                            detailModel: widget.detailModel);
+                        return MatchStatusFBEventPage(
+                            detailModel: widget.detailModel,
+                            eventModelArr: eventModelArr);
                       } else if (index == 1) {
-                        return MatchStatusTechPage(
-                            techModel: techModel,
-                            detailModel: widget.detailModel);
+                        return MatchStatusFBTechPage(
+                            detailModel: widget.detailModel,
+                            techModel: techModel);
                       }
-                      return MatchStatusLivePage(
+                      return MatchStatusFBLivePage(
                           liveModelArr: liveModelArr,
                           live2ModelArr: live2ModelArr);
                     }))

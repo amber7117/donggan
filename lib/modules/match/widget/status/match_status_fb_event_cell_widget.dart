@@ -7,17 +7,17 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusEventCellHeight = 40.0;
 
-class MatchStatusEventCellWidget extends StatefulWidget {
+class MatchStatusFBEventCellWidget extends StatefulWidget {
   final MatchStatusFBEventModel model;
 
-  const MatchStatusEventCellWidget({super.key, required this.model});
+  const MatchStatusFBEventCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _MatchStatusEventCellWidgetState();
+  State createState() => _MatchStatusFBEventCellWidgetState();
 }
 
-class _MatchStatusEventCellWidgetState
-    extends State<MatchStatusEventCellWidget> {
+class _MatchStatusFBEventCellWidgetState
+    extends State<MatchStatusFBEventCellWidget> {
   @override
   Widget build(BuildContext context) {
     MatchStatusFBEventModel model = widget.model;
