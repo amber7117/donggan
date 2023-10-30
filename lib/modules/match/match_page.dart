@@ -19,7 +19,9 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:provider/provider.dart';
 
 class MatchPage extends StatefulWidget {
-  const MatchPage({super.key});
+  final SportType sportType;
+
+  const MatchPage({super.key, required this.sportType});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,13 +29,12 @@ class MatchPage extends StatefulWidget {
   }
 }
 
-class _MatchPageState extends KeepAliveWidgetState
+class _MatchPageState extends KeepAliveWidgetState<MatchPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
 
-  final TabDotProvider _tabProvider = TabDotProvider(
-      MatchCollectManager.instance.obtainCollectCount(SportType.football));
+  late TabDotProvider _tabProvider;
   final MatchDataProvider _dataProvider = MatchDataProvider();
 
   late StreamSubscription _eventSub;
@@ -87,11 +88,14 @@ class _MatchPageState extends KeepAliveWidgetState
   void initState() {
     super.initState();
 
+    _tabProvider = TabDotProvider(
+        MatchCollectManager.instance.obtainCollectCount(widget.sportType));
+
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
 
     _eventSub = eventBusManager.on<MatchCollectDataEvent>((event) {
-      if (mounted && event.sportType == SportType.football) {
+      if (mounted && event.sportType == widget.sportType) {
         _tabProvider.setDotNum(event.value);
       }
     });
@@ -113,6 +117,8 @@ class _MatchPageState extends KeepAliveWidgetState
         (ScreenUtil().screenWidth - _tabs.length * homeDotItemWidth) /
             (_tabs.length + 1);
     tabbarPadding = tabbarPadding * 0.5;
+
+    SportType sportType = widget.sportType;
 
     return MultiProvider(
         providers: [
@@ -147,7 +153,7 @@ class _MatchPageState extends KeepAliveWidgetState
                               : () {
                                   Routes.present(context, Routes.matchFilter,
                                       arguments: {
-                                        "sportType": SportType.football,
+                                        "sportType": sportType,
                                         "matchStatus":
                                             _getMatchStatus(_tabProvider.index),
                                         "dateStr": _getMatchDateStr(
@@ -181,9 +187,7 @@ class _MatchPageState extends KeepAliveWidgetState
                       itemBuilder: (_, int index) {
                         MatchStatus status = MatchStatus.unknown;
                         if (index > 2) {
-                          return MatchChildCollectPage(
-                              sportType: SportType.football,
-                              matchStatus: status);
+                          return MatchChildCollectPage(sportType: sportType);
                         }
                         GlobalKey key;
                         if (index == 0) {
@@ -198,7 +202,7 @@ class _MatchPageState extends KeepAliveWidgetState
                         }
                         return MatchChildPage(
                             key: key,
-                            sportType: SportType.football,
+                            sportType: sportType,
                             matchStatus: status);
                       }))
             ],

@@ -68,7 +68,14 @@ class _MatchDetailStatusPageState
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
 
-    _requestData();
+    MatchDetailModel model = widget.detailModel;
+    MatchStatus matchStatus = matchStatusFromServerValue(model.matchStatus);
+    if (matchStatus == MatchStatus.uncoming) {
+      _layoutState = LoadStatusType.empty;
+      setState(() {});
+    } else {
+      _requestData();
+    }
   }
 
   @override
@@ -121,13 +128,7 @@ class _MatchDetailStatusPageState
   }
 
   _handleResultData() {
-    // if (_model != null && _playInfo != null) {
-
     _layoutState = LoadStatusType.success;
-    // } else {
-    //   _layoutState = LoadStatusType.failure;
-    // }
-
     setState(() {});
   }
 
@@ -143,18 +144,21 @@ class _MatchDetailStatusPageState
     if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
+
     MatchDetailModel model = widget.detailModel;
+    MatchStatus matchStatus = matchStatusFromServerValue(model.matchStatus);
+
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
         child: Column(
           children: [
-            model.trendAnim.isEmpty
-                ? const SizedBox()
-                : SizedBox(
+            matchStatus == MatchStatus.going && model.trendAnim.isNotEmpty
+                ? SizedBox(
                     width: double.infinity,
                     height: 62, //110
                     child: WZWebviewPage(urlStr: model.trendAnim),
-                  ),
+                  )
+                : const SizedBox(),
             const SizedBox(height: 10, width: double.infinity)
                 .colored(ColorUtils.gray248),
             MatchStatusDataWidget(model: techModel),

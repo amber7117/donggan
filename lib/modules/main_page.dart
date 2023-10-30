@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
@@ -25,7 +26,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State {
   final List<Widget> _pageList = const [
     AnchorPage(),
-    MatchPage(),
+    MatchPage(sportType: SportType.football),
+    MatchPage(sportType: SportType.basketball),
     NewsPage(),
     MePage(),
   ];
@@ -33,6 +35,7 @@ class _MainPageState extends State {
   List<BottomNavigationBarItem> obtainTabList() {
     return [
       _buildBarItem('tab/iconZhibo'),
+      _buildBarItem('tab/iconLanqiu'),
       _buildBarItem('tab/iconLanqiu'),
       _buildBarItem('tab/iconZixun'),
       _buildBarItem('tab/iconWode'),

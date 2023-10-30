@@ -11,10 +11,9 @@ import 'package:wzty/utils/toast_utils.dart';
 
 class MatchChildCollectPage extends StatefulWidget {
   final SportType sportType;
-  final MatchStatus matchStatus;
 
   const MatchChildCollectPage(
-      {super.key, required this.sportType, required this.matchStatus});
+      {super.key, required this.sportType});
 
   @override
   State<StatefulWidget> createState() {
