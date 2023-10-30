@@ -26,7 +26,7 @@ class _MatchStatusBBScoreWidgetState extends State<MatchStatusBBScoreWidget> {
     double width = cnt * statusBBScoreCellWidth;
     return SizedBox(
       width: double.infinity,
-      height: 148,
+      height: 116,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

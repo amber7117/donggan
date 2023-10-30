@@ -33,9 +33,9 @@ class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage> {
 
   _prepareBuildChild(BuildContext context) {
     if (widget.liveModel != null) {
-      _buildChild(context, widget.liveModel!.modelArr2, false);
+      return _buildChild(context, widget.liveModel!.modelArr2, false);
     } else {
-      _buildChild(context, widget.live2Model!.modelArr2, true);
+      return _buildChild(context, widget.live2Model!.modelArr2, true);
     }
   }
 

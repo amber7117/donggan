@@ -23,7 +23,7 @@ class MatchStatusBBScoreModel {
 
   _processData() {
     MatchStatusBBScorePeriodLocalModel model1 =
-        MatchStatusBBScorePeriodLocalModel(title: "-");
+        MatchStatusBBScorePeriodLocalModel(title: "一");
     if (Period1 != null) {
       model1.team1 = Period1!.team1;
       model1.team2 = Period1!.team2;

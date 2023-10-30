@@ -34,8 +34,10 @@ class _MatchStatusBBDataWidgetState extends State<MatchStatusBBDataWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildCardWidget("本节犯规", (model?.hostThisFoul ?? 0), true),
+              const SizedBox(height: 10),
               _buildCardWidget("剩余暂停", (model?.hostRemainingPause ?? 0), true)
             ],
           ),
@@ -46,23 +48,21 @@ class _MatchStatusBBDataWidgetState extends State<MatchStatusBBDataWidget> {
                   "2分命中", hostTwoPointMade, guestTwoPointMade),
               const SizedBox(height: 5),
               _buildProgressWidget(hostTwoPointMade, guestTwoPointMade),
-
               const SizedBox(height: 10),
-
               _buildProgressDataWidget("3分命中", hostThrPntMade, guestThrPntMade),
               const SizedBox(height: 5),
               _buildProgressWidget(hostThrPntMade, guestThrPntMade),
-
               const SizedBox(height: 10),
-
               _buildProgressDataWidget("罚球命中", hostPnltyPoint, guestPnltyPoint),
               const SizedBox(height: 5),
               _buildProgressWidget(hostPnltyPoint, guestPnltyPoint),
             ],
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildCardWidget("本节犯规", (model?.hostThisFoul ?? 0), false),
+              const SizedBox(height: 10),
               _buildCardWidget("剩余暂停", (model?.hostRemainingPause ?? 0), false)
             ],
           ),
@@ -73,17 +73,20 @@ class _MatchStatusBBDataWidgetState extends State<MatchStatusBBDataWidget> {
 
   _buildCardWidget(String title, int value, bool isHost) {
     return Container(
+      width: 64,
+      height: 48,
       decoration: BoxDecoration(
           color: isHost
               ? ColorUtils.red233.withOpacity(0.05)
               : ColorUtils.blue66.withOpacity(0.05),
           borderRadius: const BorderRadius.all(Radius.circular(6))),
-      child: Column(children: [
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(title,
             style: const TextStyle(
                 color: ColorUtils.red233,
                 fontSize: 10,
                 fontWeight: TextStyleUtils.regual)),
+        const SizedBox(height: 5),
         Text("$value",
             style: const TextStyle(
                 color: ColorUtils.black34,
@@ -107,25 +110,28 @@ class _MatchStatusBBDataWidgetState extends State<MatchStatusBBDataWidget> {
       team2Color = ColorUtils.black34;
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("$team1",
-            style: TextStyle(
-                color: team1Color,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.regual)),
-        Text(title,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.regual)),
-        Text("$team2",
-            style: TextStyle(
-                color: team2Color,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.regual)),
-      ],
+    return SizedBox(
+      width: 187.w,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("$team1",
+              style: TextStyle(
+                  color: team1Color,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.regual)),
+          Text(title,
+              style: const TextStyle(
+                  color: ColorUtils.black34,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.regual)),
+          Text("$team2",
+              style: TextStyle(
+                  color: team2Color,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.regual)),
+        ],
+      ),
     );
   }
 

@@ -151,6 +151,8 @@ class _MatchDetailBBStatusPageState
                 : const SizedBox(),
             MatchStatusBBScoreWidget(
                 detailModel: widget.detailModel, scoreModel: scoreModel!),
+            const SizedBox(height: 10, width: double.infinity)
+                .colored(ColorUtils.gray248),
             MatchStatusBBDataWidget(techModel: techModel!),
             const SizedBox(height: 10, width: double.infinity)
                 .colored(ColorUtils.gray248),
