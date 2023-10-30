@@ -6,9 +6,9 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchStatusBBDataWidget extends StatefulWidget {
-  final MatchStatusBBTechModel? model;
+  final MatchStatusBBTechModel? techModel;
 
-  const MatchStatusBBDataWidget({super.key, this.model});
+  const MatchStatusBBDataWidget({super.key, this.techModel});
 
   @override
   State createState() => _MatchStatusBBDataWidgetState();
@@ -17,7 +17,7 @@ class MatchStatusBBDataWidget extends StatefulWidget {
 class _MatchStatusBBDataWidgetState extends State<MatchStatusBBDataWidget> {
   @override
   Widget build(BuildContext context) {
-    MatchStatusBBTechModel? model = widget.model;
+    MatchStatusBBTechModel? model = widget.techModel;
 
     int hostTwoPointMade = (model?.hostTwoPointMade ?? 0) * 2;
     int hostThrPntMade = (model?.hostThrPntMade ?? 0) * 3;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
@@ -7,6 +8,7 @@ import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/analysis/match_detail_analysis_page.dart';
 import 'package:wzty/modules/match/page/anchor/match_detail_anchor_page.dart';
+import 'package:wzty/modules/match/page/status/match_detail_bb_status_page.dart';
 import 'package:wzty/modules/match/page/status/match_detail_fb_status_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
@@ -110,6 +112,12 @@ class _MatchDetailPageState extends State<MatchDetailPage>
     if (_model == null) {
       return const SizedBox();
     }
+
+    SportType sportType = SportType.football;
+    if (_model!.sportId == SportType.basketball.value) {
+      sportType = SportType.basketball;
+    }
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context2) => _tabProvider),
@@ -152,7 +160,17 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {
-                      if (index == 2) {
+                      if (index == 0) {
+                        if (sportType == SportType.football) {
+                          return MatchDetailFBStatusPage(
+                              matchId: widget.matchId, detailModel: _model!);
+                        } else {
+                          return MatchDetailBBStatusPage(
+                              matchId: widget.matchId, detailModel: _model!);
+                        }
+                      } else if (index == 1) {
+                        return const SizedBox();
+                      } else if (index == 2) {
                         return MatchDetailAnalysisPage(
                             matchId: widget.matchId, detailModel: _model!);
                       } else if (index == 3) {
@@ -162,8 +180,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                             roomId: _model!.roomId,
                             chatRoomId: _model!.matchId.toString());
                       }
-                      return MatchDetailFBStatusPage(
-                          matchId: widget.matchId, detailModel: _model!);
+                      return const SizedBox();
                     }))
           ],
         ));

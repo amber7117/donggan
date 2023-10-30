@@ -102,21 +102,15 @@ class _MatchDetailFBStatusPageState
     });
     Future live = MatchDetailStatusService.requestLiveData(
         SportType.football, widget.matchId, (success, result) {
-      if (result.isNotEmpty) {
-        liveModelArr =
-            _processFBLiveData(result).cast<MatchStatusFBLiveModel>();
-      }
+      liveModelArr = _processFBLiveData(result).cast<MatchStatusFBLiveModel>();
     });
 
     Future.wait([tech, event, live]).then((value) {
       if (liveModelArr.isEmpty) {
         MatchDetailStatusService.requestLive2Data(widget.matchId,
             (success, result) {
-          if (result.isNotEmpty) {
-            var tmpArr = _processFBLiveData(result, isLiveModel: false)
-                .cast<MatchStatusFBEventModel>();
-            live2ModelArr = tmpArr;
-          }
+          live2ModelArr = _processFBLiveData(result, isLiveModel: false)
+              .cast<MatchStatusFBEventModel>();
 
           ToastUtils.hideLoading();
           _handleResultData();

@@ -21,20 +21,20 @@ import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
-class MatchDetailBbStatusPage extends StatefulWidget {
+class MatchDetailBBStatusPage extends StatefulWidget {
   final int matchId;
 
   final MatchDetailModel detailModel;
 
-  const MatchDetailBbStatusPage(
+  const MatchDetailBBStatusPage(
       {super.key, required this.matchId, required this.detailModel});
 
   @override
-  State createState() => _MatchDetailBbStatusPageState();
+  State createState() => _MatchDetailBBStatusPageState();
 }
 
-class _MatchDetailBbStatusPageState
-    extends KeepAliveWidgetState<MatchDetailBbStatusPage>
+class _MatchDetailBBStatusPageState
+    extends KeepAliveWidgetState<MatchDetailBBStatusPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -99,9 +99,7 @@ class _MatchDetailBbStatusPageState
 
     Future live = MatchDetailStatusService.requestLiveData(
         SportType.football, widget.matchId, (success, result) {
-      if (result.isNotEmpty) {
-        liveModel = _processFBLiveData(result);
-      }
+      liveModel = _processFBLiveData(result);
     });
 
     Future.wait([score, tech, live]).then((value) {
@@ -151,8 +149,9 @@ class _MatchDetailBbStatusPageState
                     child: WZWebviewPage(urlStr: model.trendAnim),
                   )
                 : const SizedBox(),
-            MatchStatusBBScoreWidget(model: scoreModel!),
-            MatchStatusBBDataWidget(model: techModel!),
+            MatchStatusBBScoreWidget(
+                detailModel: widget.detailModel, scoreModel: scoreModel!),
+            MatchStatusBBDataWidget(techModel: techModel!),
             const SizedBox(height: 10, width: double.infinity)
                 .colored(ColorUtils.gray248),
             Container(

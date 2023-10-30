@@ -90,8 +90,8 @@ class MatchStatusBBScoreModel {
 }
 
 class MatchStatusBBScorePeriodModel {
-  int type;
-  int typeCode;
+  String type;
+  String typeCode;
 
   int team1;
   int team2;
@@ -104,8 +104,8 @@ class MatchStatusBBScorePeriodModel {
 
   factory MatchStatusBBScorePeriodModel.fromJson(Map<String, dynamic> json) {
     return MatchStatusBBScorePeriodModel(
-      type: json['type'] ?? 0,
-      typeCode: json['typeCode'] ?? 0,
+      type: json['type'] ?? "",
+      typeCode: json['typeCode'] ?? "",
       team1: json['team1'] ?? 0,
       team2: json['team2'] ?? 0,
     );
