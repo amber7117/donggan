@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
+import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
@@ -16,11 +17,13 @@ class MatchStatusBbLivePage extends StatefulWidget {
   State createState() => _MatchStatusBbLivePageState();
 }
 
-class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage> {
-  LoadStatusType _layoutState = LoadStatusType.success;
-
+class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   final TabProvider _tabProvider = TabProvider();
   List<Widget> _tabs = [];
+
+  LoadStatusType _layoutState = LoadStatusType.success;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +35,31 @@ class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage> {
   }
 
   _prepareBuildChild(BuildContext context) {
+    MatchStatusBBLiveLocalModel liveModel;
+    bool is2 = false;
     if (widget.liveModel != null) {
-      return _buildChild(context, widget.liveModel!.modelArr2, false);
+      liveModel = widget.liveModel!;
     } else {
-      return _buildChild(context, widget.live2Model!.modelArr2, true);
+      is2 = true;
+      liveModel = widget.live2Model!;
     }
+
+    int i = 0;
+    for (String title in liveModel.titleArr) {
+      HomeTabbarItemWidget item = HomeTabbarItemWidget(
+        tabName: title,
+        index: i,
+      );
+      _tabs.add(item);
+      i++;
+    }
+
+    _tabController = TabController(length: _tabs.length, vsync: this);
+
+    return _buildChild(context, liveModel.modelArr2[0], is2);
   }
 
-  _buildChild(BuildContext context, List<List<dynamic>> modelArr2, bool is2) {
+  _buildChild(BuildContext context, List<dynamic> modelArr2, bool is2) {
     return Column(
       children: [
         Container(
@@ -49,7 +69,7 @@ class _MatchStatusBbLivePageState extends State<MatchStatusBbLivePage> {
           child: TabBar(
               onTap: (index) {},
               isScrollable: false,
-              controller: null,
+              controller: _tabController,
               indicator: const BoxDecoration(),
               labelPadding: const EdgeInsets.only(left: 10, right: 10),
               tabs: _tabs),

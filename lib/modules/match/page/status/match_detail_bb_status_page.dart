@@ -106,7 +106,7 @@ class _MatchDetailBBStatusPageState
       if (liveModel == null) {
         MatchDetailStatusService.requestLive2Data(widget.matchId,
             (success, result) {
-          liveModel = _processFBLiveData2(result);
+          live2Model = _processFBLiveData2(result);
           ToastUtils.hideLoading();
           _handleResultData();
         });
@@ -140,53 +140,65 @@ class _MatchDetailBBStatusPageState
 
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
-        child: Column(
-          children: [
-            matchStatus == MatchStatus.going && model.trendAnim.isNotEmpty
-                ? SizedBox(
+        child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              Widget web =
+                  matchStatus == MatchStatus.going && model.trendAnim.isNotEmpty
+                      ? SliverToBoxAdapter(
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 62, //110
+                            child: WZWebviewPage(urlStr: model.trendAnim),
+                          ),
+                        )
+                      : const SliverToBoxAdapter(child: SizedBox());
+
+              return [
+                web,
+                SliverToBoxAdapter(
+                  child: MatchStatusBBScoreWidget(
+                      detailModel: widget.detailModel, scoreModel: scoreModel!),
+                ),
+                SliverToBoxAdapter(
+                    child: const SizedBox(height: 10, width: double.infinity)
+                        .colored(ColorUtils.gray248)),
+                SliverToBoxAdapter(
+                    child: MatchStatusBBDataWidget(techModel: techModel!)),
+                SliverToBoxAdapter(
+                    child: const SizedBox(height: 10, width: double.infinity)
+                        .colored(ColorUtils.gray248)),
+                SliverToBoxAdapter(
+                  child: Container(
                     width: double.infinity,
-                    height: 62, //110
-                    child: WZWebviewPage(urlStr: model.trendAnim),
-                  )
-                : const SizedBox(),
-            MatchStatusBBScoreWidget(
-                detailModel: widget.detailModel, scoreModel: scoreModel!),
-            const SizedBox(height: 10, width: double.infinity)
-                .colored(ColorUtils.gray248),
-            MatchStatusBBDataWidget(techModel: techModel!),
-            const SizedBox(height: 10, width: double.infinity)
-                .colored(ColorUtils.gray248),
-            Container(
-              width: double.infinity,
-              height: 66,
-              alignment: Alignment.center,
-              child: TabBar(
-                  onTap: (index) {
-                    if (!mounted) return;
-                    _pageController.jumpToPage(index);
-                  },
-                  isScrollable: false,
-                  controller: _tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
-                  tabs: _tabs),
-            ),
-            Expanded(
-                child: PageView.builder(
-                    itemCount: _tabs.length,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, int index) {
-                      if (index == 0) {
-                        return MatchStatusBbTechPage(
-                            detailModel: widget.detailModel,
-                            techModel: techModel);
-                      }
-                      return MatchStatusBbLivePage(
-                          liveModel: liveModel, live2Model: live2Model);
-                    }))
-          ],
-        ));
+                    height: 66,
+                    alignment: Alignment.center,
+                    child: TabBar(
+                        onTap: (index) {
+                          if (!mounted) return;
+                          _pageController.jumpToPage(index);
+                        },
+                        isScrollable: false,
+                        controller: _tabController,
+                        indicator: const BoxDecoration(),
+                        labelPadding:
+                            const EdgeInsets.only(left: 10, right: 10),
+                        tabs: _tabs),
+                  ),
+                ),
+              ];
+            },
+            body: PageView.builder(
+                itemCount: _tabs.length,
+                onPageChanged: _onPageChange,
+                controller: _pageController,
+                itemBuilder: (_, int index) {
+                  if (index == 0) {
+                    return MatchStatusBbTechPage(
+                        detailModel: widget.detailModel, techModel: techModel);
+                  }
+                  return MatchStatusBbLivePage(
+                      liveModel: liveModel, live2Model: live2Model);
+                })));
   }
 
   void _onPageChange(int index) {
@@ -236,30 +248,27 @@ class _MatchDetailBBStatusPageState
       return null;
     }
 
-    List<MatchStatusFBEventModel> dataArrTmp = [];
     for (MatchStatusFBEventModel model in dataArr) {
-      MatchStatusFBEventModel modelTmp = model;
-      if (model.statusName == "一") {
-        modelTmp.statusCode = 1;
-      } else if (model.statusName == "二") {
-        modelTmp.statusCode = 2;
-      } else if (model.statusName == "三") {
-        modelTmp.statusCode = 3;
-      } else if (model.statusName == "四") {
-        modelTmp.statusCode = 4;
+      if (model.statusName.contains("一")) {
+        model.statusCode = 1;
+      } else if (model.statusName.contains("二")) {
+        model.statusCode = 2;
+      } else if (model.statusName.contains("三")) {
+        model.statusCode = 3;
+      } else if (model.statusName.contains("四")) {
+        model.statusCode = 4;
       }
-      dataArrTmp.add(model);
     }
 
-    dataArrTmp.sort((a, b) => a.statusCode.compareTo(b.statusCode));
+    dataArr.sort((a, b) => a.statusCode.compareTo(b.statusCode));
 
     List<String> titleArr = [];
     List<List<MatchStatusFBEventModel>> modelArr2 = [];
 
-    String statusName = dataArr[0].statusName!;
+    String statusName = dataArr[0].statusName;
     List<MatchStatusFBEventModel> modelArr = [];
 
-    for (MatchStatusFBEventModel model in dataArrTmp) {
+    for (MatchStatusFBEventModel model in dataArr) {
       if (model.statusName.isEmpty) {
         continue;
       }
