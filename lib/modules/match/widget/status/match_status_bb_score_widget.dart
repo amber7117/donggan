@@ -13,6 +13,9 @@ class MatchStatusBBScoreWidget extends StatefulWidget {
 class _MatchStatusBBScoreWidgetState extends State<MatchStatusBBScoreWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SizedBox(
+      width: double.infinity,
+      height: 148,
+    );
   }
 }

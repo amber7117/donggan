@@ -12,16 +12,11 @@ import 'package:wzty/modules/match/entity/detail/match_status_bb_score_entity.da
 import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
-import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dart';
 import 'package:wzty/modules/match/page/status/match_status_bb_live_page.dart';
 import 'package:wzty/modules/match/page/status/match_status_bb_tech_page.dart';
 import 'package:wzty/modules/match/service/match_detail_status_service.dart';
 import 'package:wzty/modules/match/widget/status/match_status_bb_data_widget.dart';
 import 'package:wzty/modules/match/widget/status/match_status_bb_score_widget.dart';
-import 'package:wzty/modules/match/widget/status/match_status_fb_data_widget.dart';
-import 'package:wzty/modules/match/page/status/match_status_fb_event_page.dart';
-import 'package:wzty/modules/match/page/status/match_status_fb_live_page.dart';
-import 'package:wzty/modules/match/page/status/match_status_fb_tech_page.dart';
 import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';

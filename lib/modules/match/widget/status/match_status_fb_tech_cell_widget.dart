@@ -5,7 +5,7 @@ import 'package:wzty/modules/match/entity/detail/match_status_fb_tech_entity.dar
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const double statusTechCellHeight = 50.0;
+const double statusFBTechCellHeight = 50.0;
 
 class MatchStatusFBTechCellWidget extends StatefulWidget {
   final MatchStatusFBTechLocalModel model;
@@ -22,7 +22,7 @@ class _MatchStatusFBTechCellWidgetState extends State<MatchStatusFBTechCellWidge
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25),
       width: double.infinity,
-      height: statusTechCellHeight,
+      height: statusFBTechCellHeight,
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

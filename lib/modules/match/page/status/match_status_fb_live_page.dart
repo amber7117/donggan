@@ -27,39 +27,36 @@ class _MatchStatusFBLivePageState extends State<MatchStatusFBLivePage> {
       _layoutState = LoadStatusType.empty;
     }
     return LoadStateWidget(
-        state: _layoutState, successWidget: _buildChild(context));
+        state: _layoutState, successWidget: _prepareBuildChild(context));
   }
 
-  _buildChild(BuildContext context) {
-    List<MatchStatusFBLiveModel> liveModelArr = widget.liveModelArr;
-
-    if (liveModelArr.isNotEmpty) {
-      return ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: liveModelArr.length,
-          // itemExtent: statusLiveCellHeight,
-          itemBuilder: (context, index) {
-            MatchStatusFBLiveModel model = liveModelArr[index];
-            if (model.typeId > 2000) {
-              return _buildHintWidget(model.typeId, model.cnText);
-            }
-            return MatchStatusFBLiveCellWidget(liveModel: model);
-          });
+  _prepareBuildChild(BuildContext context) {
+    if (widget.liveModelArr.isNotEmpty) {
+      _buildChild(context, widget.liveModelArr, false);
     } else {
-      List<MatchStatusFBEventModel> live2ModelArr = widget.live2ModelArr;
+      _buildChild(context, widget.live2ModelArr, true);
+    }
+  }
 
-      return ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: live2ModelArr.length,
-          // itemExtent: statusLiveCellHeight,
-          itemBuilder: (context, index) {
-            MatchStatusFBEventModel model = live2ModelArr[index];
+  _buildChild(BuildContext context, List<dynamic> modelArr, bool is2) {
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: modelArr.length,
+        itemBuilder: (context, index) {
+          if (is2) {
+            MatchStatusFBEventModel model = modelArr[index];
             if (model.typeId > 2000) {
               return _buildHintWidget(model.typeId, model.content);
             }
             return MatchStatusFBLiveCellWidget(live2Model: model);
-          });
-    }
+          } else {
+            MatchStatusFBLiveModel model = modelArr[index];
+            if (model.typeId > 2000) {
+              return _buildHintWidget(model.typeId, model.cnText);
+            }
+            return MatchStatusFBLiveCellWidget(liveModel: model);
+          }
+        });
   }
 
   _buildHintWidget(int typeId, String content) {
@@ -83,8 +80,7 @@ class _MatchStatusFBLivePageState extends State<MatchStatusFBLivePage> {
               Container(
                 width: 41,
                 alignment: Alignment.center,
-                child: const SizedBox(width: 2, height: 17)
-                    .colored(lineColor1),
+                child: const SizedBox(width: 2, height: 17).colored(lineColor1),
               ),
               Container(
                 width: 41,
@@ -105,8 +101,7 @@ class _MatchStatusFBLivePageState extends State<MatchStatusFBLivePage> {
               Container(
                 width: 41,
                 alignment: Alignment.center,
-                child: const SizedBox(width: 2, height: 17)
-                    .colored(lineColor2),
+                child: const SizedBox(width: 2, height: 17).colored(lineColor2),
               ),
             ],
           ),

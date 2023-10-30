@@ -5,7 +5,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const double statusEventCellHeight = 40.0;
+const double statusFBEventCellHeight = 40.0;
 
 class MatchStatusFBEventCellWidget extends StatefulWidget {
   final MatchStatusFBEventModel model;

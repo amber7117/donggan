@@ -19,6 +19,7 @@ class _MatchStatusFBDataWidgetState extends State<MatchStatusFBDataWidget> {
   @override
   Widget build(BuildContext context) {
     MatchStatusFBTechModel? model = widget.model;
+    
     int goalKicksTeam1 = model?.goalKicks?.team1 ?? 0;
     int goalKicksTeam2 = model?.goalKicks?.team2 ?? 0;
     int shootOnGoalTeam1 = model?.shootOnGoal?.team1 ?? 0;

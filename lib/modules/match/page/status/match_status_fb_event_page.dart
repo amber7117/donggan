@@ -35,7 +35,7 @@ class _MatchStatusFBEventPageState extends State<MatchStatusFBEventPage> {
     return ListView.builder(
         padding: EdgeInsets.zero,
         itemCount: eventModelArr.length + 1,
-        // itemExtent: statusEventCellHeight,
+        // itemExtent: statusFBEventCellHeight,
         itemBuilder: (context, index) {
           if (index == 0) {
             return MatchStatusTeamWidget(detailModel: widget.detailModel);

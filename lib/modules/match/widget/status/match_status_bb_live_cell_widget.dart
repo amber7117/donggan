@@ -7,19 +7,21 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const double statusFBLiveCellHeight = 72.0;
+const double statusBBLiveCellHeight = 72.0;
 
-class MatchStatusFBLiveCellWidget extends StatefulWidget {
+class MatchStatusBbLiveCellWidget extends StatefulWidget {
   final MatchStatusFBLiveModel? liveModel;
   final MatchStatusFBEventModel? live2Model;
 
-  const MatchStatusFBLiveCellWidget({super.key, this.liveModel, this.live2Model});
+  const MatchStatusBbLiveCellWidget(
+      {super.key, this.liveModel, this.live2Model});
 
   @override
-  State createState() => _MatchStatusFBLiveCellWidgetState();
+  State createState() => _MatchStatusBbLiveCellWidgetState();
 }
 
-class _MatchStatusFBLiveCellWidgetState extends State<MatchStatusFBLiveCellWidget> {
+class _MatchStatusBbLiveCellWidgetState
+    extends State<MatchStatusBbLiveCellWidget> {
   @override
   Widget build(BuildContext context) {
     MatchStatusFBLiveModel? liveModel = widget.liveModel;
@@ -50,7 +52,7 @@ class _MatchStatusFBLiveCellWidgetState extends State<MatchStatusFBLiveCellWidge
     }
     //72-24
     return SizedBox(
-      height: statusFBLiveCellHeight,
+      height: statusBBLiveCellHeight,
       child: Row(
         children: [
           const SizedBox(width: 10),
