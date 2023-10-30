@@ -161,7 +161,9 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
-                  model: historyModel!.matches[index], sportType: sportType);
+                  model: historyModel!.matches[index],
+                  sportType: sportType,
+                  mainTeamName: widget.detailModel.hostTeamName);
             })
       ],
     );
@@ -183,7 +185,9 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
-                  model: recent1Model!.matches[index], sportType: sportType);
+                  model: recent1Model!.matches[index],
+                  sportType: sportType,
+                  mainTeamName: widget.detailModel.hostTeamName);
             })
       ],
     );
@@ -205,7 +209,9 @@ class _MatchDetailAnalysisPageState
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisHistoryCellWidget(
-                  model: recent2Model!.matches[index], sportType: sportType);
+                  model: recent2Model!.matches[index],
+                  sportType: sportType,
+                  mainTeamName: widget.detailModel.guestTeamName);
             })
       ],
     );
@@ -224,7 +230,9 @@ class _MatchDetailAnalysisPageState
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return MatchAnalysisScheduleCellWidget(model: future1Arr[index]);
+              return MatchAnalysisScheduleCellWidget(
+                  model: future1Arr[index],
+                  mainTeamName: widget.detailModel.hostTeamName);
             })
       ],
     );
@@ -243,7 +251,9 @@ class _MatchDetailAnalysisPageState
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return MatchAnalysisScheduleCellWidget(model: future2Arr[index]);
+              return MatchAnalysisScheduleCellWidget(
+                  model: future2Arr[index],
+                  mainTeamName: widget.detailModel.guestTeamName);
             })
       ],
     );

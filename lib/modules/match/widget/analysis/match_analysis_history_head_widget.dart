@@ -51,8 +51,8 @@ class _MatchAnalysisHistoryHeadWidgetState
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                    color: ColorUtils.gray153,
-                    fontSize: 11,
+                    color: ColorUtils.black34,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.regual),
               ),
             ],

@@ -6,8 +6,10 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchAnalysisScheduleCellWidget extends StatefulWidget {
   final MatchAnalysisMatchModel model;
+  final String mainTeamName;
 
-  const MatchAnalysisScheduleCellWidget({super.key, required this.model});
+  const MatchAnalysisScheduleCellWidget(
+      {super.key, required this.model, required this.mainTeamName});
 
   @override
   State createState() => _MatchAnalysisScheduleCellWidgetState();
@@ -18,9 +20,18 @@ class _MatchAnalysisScheduleCellWidgetState
   @override
   Widget build(BuildContext context) {
     MatchAnalysisMatchModel model = widget.model;
+
+    Color text1Color = ColorUtils.black34;
+    Color text2Color = ColorUtils.black34;
+    if (model.hostTeamName == widget.mainTeamName) {
+      text2Color = ColorUtils.gray153;
+    } else {
+      text1Color = ColorUtils.gray153;
+    }
+
     return Row(
       children: [
-        SizedBox(width: 12.w),
+        SizedBox(width: 10.w),
         SizedBox(
           width: 64.w,
           child: Text(
@@ -29,8 +40,8 @@ class _MatchAnalysisScheduleCellWidgetState
             maxLines: 2,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
+                color: ColorUtils.gray179,
+                fontSize: 10,
                 fontWeight: TextStyleUtils.regual),
           ),
         ),
@@ -41,10 +52,10 @@ class _MatchAnalysisScheduleCellWidgetState
             model.hostTeamName,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+            style: TextStyle(
+                color: text1Color,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
         SizedBox(
@@ -53,10 +64,10 @@ class _MatchAnalysisScheduleCellWidgetState
             "VS",
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style:  TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+            style: TextStyle(
+                color: ColorUtils.gray153,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
         SizedBox(
@@ -65,10 +76,10 @@ class _MatchAnalysisScheduleCellWidgetState
             model.guestTeamName,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.left,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+            style: TextStyle(
+                color: text2Color,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
         SizedBox(width: 20.w),
@@ -79,9 +90,9 @@ class _MatchAnalysisScheduleCellWidgetState
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+                color: ColorUtils.gray153,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
       ],

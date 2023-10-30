@@ -8,9 +8,13 @@ import 'package:wzty/utils/text_style_utils.dart';
 class MatchAnalysisHistoryCellWidget extends StatefulWidget {
   final MatchAnalysisMatchModel model;
   final SportType sportType;
+  final String mainTeamName;
 
   const MatchAnalysisHistoryCellWidget(
-      {super.key, required this.model, required this.sportType});
+      {super.key,
+      required this.model,
+      required this.sportType,
+      required this.mainTeamName});
 
   @override
   State createState() => _MatchAnalysisHistoryCellWidgetState();
@@ -29,9 +33,29 @@ class _MatchAnalysisHistoryCellWidgetState
       vsPadding = 1.0.w;
     }
 
+    Color text1Color = ColorUtils.black34;
+    Color text2Color = ColorUtils.black34;
+    Color scoreColor = ColorUtils.black34;
+    if (model.hostTeamName == widget.mainTeamName) {
+      text2Color = ColorUtils.gray153;
+      if (model.hostTeamScore > model.guestTeamScore) {
+        scoreColor = ColorUtils.red255;
+      } else if (model.hostTeamScore < model.guestTeamScore) {
+        scoreColor = ColorUtils.green0;
+      }
+    } else {
+      text1Color = ColorUtils.gray153;
+
+      if (model.hostTeamScore > model.guestTeamScore) {
+        scoreColor = ColorUtils.green0;
+      } else if (model.hostTeamScore < model.guestTeamScore) {
+        scoreColor = ColorUtils.red255;
+      }
+    }
+
     return Row(
       children: [
-        SizedBox(width: 12.w),
+        SizedBox(width: 10.w),
         SizedBox(
           width: 64.w,
           child: Text(
@@ -40,8 +64,8 @@ class _MatchAnalysisHistoryCellWidgetState
             maxLines: 2,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
+                color: ColorUtils.gray179,
+                fontSize: 10,
                 fontWeight: TextStyleUtils.regual),
           ),
         ),
@@ -52,10 +76,10 @@ class _MatchAnalysisHistoryCellWidgetState
             model.hostTeamName,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+            style: TextStyle(
+                color: text1Color,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
         SizedBox(
@@ -64,10 +88,10 @@ class _MatchAnalysisHistoryCellWidgetState
             "${model.hostTeamScore}-${model.guestTeamScore}",
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+            style: TextStyle(
+                color: scoreColor,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
         SizedBox(
@@ -76,10 +100,10 @@ class _MatchAnalysisHistoryCellWidgetState
             model.guestTeamName,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.left,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+            style: TextStyle(
+                color: text2Color,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
         SizedBox(width: 20.w),
@@ -91,8 +115,8 @@ class _MatchAnalysisHistoryCellWidgetState
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.bold),
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
           ),
         ),
       ],

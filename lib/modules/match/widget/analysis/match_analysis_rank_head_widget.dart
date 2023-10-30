@@ -50,8 +50,8 @@ class _MatchAnalysisRankHeadWidgetState
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: ColorUtils.gray153,
-                    fontSize: 11,
+                    color: ColorUtils.black34,
+                    fontSize: 12,
                     fontWeight: TextStyleUtils.regual),
               ),
             ],
