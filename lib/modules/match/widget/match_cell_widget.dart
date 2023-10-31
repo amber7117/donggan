@@ -177,7 +177,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                               model.hostTeamScore > model.guestTeamScore)),
                       Text(showScore ? "${model.guestTeamScore}" : "-",
                           style: _scoreLabelStyle(matchStatus,
-                              model.hostTeamScore > model.guestTeamScore)),
+                              model.hostTeamScore < model.guestTeamScore)),
                     ],
                   ),
                   SizedBox(

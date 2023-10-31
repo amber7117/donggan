@@ -4,6 +4,8 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_bb_model.dart';
 import 'package:wzty/modules/match/service/match_detail_lineup_service.dart';
+import 'package:wzty/modules/match/widget/lineup/match_lineup_bb_data_widget.dart';
+import 'package:wzty/modules/match/widget/lineup/match_lineup_bb_list_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailBBLineupPage extends StatefulWidget {
@@ -36,6 +38,7 @@ class _MatchDetailBBLineupPageState
 
     MatchDetailLineupService.requestBBLineup(
         widget.matchId, widget.detailModel.hostTeamName, (success, result) {
+      ToastUtils.hideLoading();
       if (result != null) {
         model = result;
         _layoutState = LoadStatusType.success;
@@ -47,6 +50,29 @@ class _MatchDetailBBLineupPageState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return Container();
+    return LoadStateWidget(
+        state: _layoutState, successWidget: _buildChild(context));
+  }
+
+  _buildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
+
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(child: MatchLineupBBDataWidget()),
+        SliverToBoxAdapter(
+            child: MatchLineupBBListWidget(
+          team: model!.hostTeam,
+          dataArr2: model!.hostDataArr2,
+        )),
+        SliverToBoxAdapter(
+            child: MatchLineupBBListWidget(
+          team: model!.hostTeam,
+          dataArr2: model!.hostDataArr2,
+        )),
+      ],
+    );
   }
 }
