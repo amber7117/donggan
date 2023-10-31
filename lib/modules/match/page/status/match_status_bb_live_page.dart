@@ -53,7 +53,7 @@ class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>{
       is2 = true;
       liveModel = widget.live2Model!;
     }
-    
+              
     return Column(
       children: [
         MatchStatusSegmentWidget(titleArr: liveModel.titleArr, selectIdx: 0),
@@ -61,9 +61,7 @@ class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>{
           child: ListView.builder(
               padding: EdgeInsets.zero,
               itemCount: modelArr2.length,
-              itemExtent: 42.0,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              itemExtent: statusBBLiveCellHeight,
               itemBuilder: (BuildContext context, int index) {
                 if (is2) {
                   return MatchStatusBbLiveCellWidget(
