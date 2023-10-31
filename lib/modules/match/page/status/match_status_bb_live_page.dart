@@ -6,6 +6,7 @@ import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dar
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';
 import 'package:wzty/modules/match/widget/status/match_status_bb_live_cell_widget.dart';
+import 'package:wzty/modules/match/widget/status/match_status_segment_widget.dart';
 
 class MatchStatusBBLivePage extends StatefulWidget {
   final MatchStatusBBLiveLocalModel? liveModel;
@@ -17,11 +18,7 @@ class MatchStatusBBLivePage extends StatefulWidget {
   State createState() => _MatchStatusBBLivePageState();
 }
 
-class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  final TabProvider _tabProvider = TabProvider();
-  final List<Widget> _tabs = [];
+class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>{
 
   LoadStatusType _layoutState = LoadStatusType.success;
 
@@ -44,38 +41,22 @@ class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>
       liveModel = widget.live2Model!;
     }
 
-    _tabs.clear();
-
-    int i = 0;
-    for (String title in liveModel.titleArr) {
-      HomeTabbarItemWidget item = HomeTabbarItemWidget(
-        tabName: title,
-        index: i,
-      );
-      _tabs.add(item);
-      i++;
-    }
-
-    _tabController = TabController(length: _tabs.length, vsync: this);
-
     return _buildChild(context, liveModel.modelArr2[0], is2);
   }
 
   _buildChild(BuildContext context, List<dynamic> modelArr2, bool is2) {
+    MatchStatusBBLiveLocalModel liveModel;
+    bool is2 = false;
+    if (widget.liveModel != null) {
+      liveModel = widget.liveModel!;
+    } else {
+      is2 = true;
+      liveModel = widget.live2Model!;
+    }
+    
     return Column(
       children: [
-        Container(
-          width: double.infinity,
-          height: 66,
-          alignment: Alignment.center,
-          child: TabBar(
-              onTap: (index) {},
-              isScrollable: false,
-              controller: _tabController,
-              indicator: const BoxDecoration(),
-              labelPadding: const EdgeInsets.only(left: 10, right: 10),
-              tabs: _tabs),
-        ),
+        MatchStatusSegmentWidget(titleArr: liveModel.titleArr, selectIdx: 0),
         Expanded(
           child: ListView.builder(
               padding: EdgeInsets.zero,

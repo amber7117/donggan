@@ -5,7 +5,7 @@ import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dar
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const double statusBBLiveCellHeight = 72.0;
+const double statusBBLiveCellHeight = 79.0;
 
 class MatchStatusBbLiveCellWidget extends StatefulWidget {
   final MatchStatusFBLiveModel? liveModel;
@@ -72,51 +72,58 @@ class _MatchStatusBbLiveCellWidgetState
             ],
           ),
           const SizedBox(width: 10),
-          Expanded(
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                  color: ColorUtils.gray248,
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                  border: Border.all(
-                      width: 0.5,
-                      color: const Color.fromRGBO(238, 238, 238, 1.0))),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 50,
-                    child: Text(
-                      time,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          color: ColorUtils.gray153,
-                          fontSize: 12,
-                          fontWeight: TextStyleUtils.regual),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      content,
-                      textAlign: TextAlign.left,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: ColorUtils.gray153,
-                          fontSize: 12,
-                          fontWeight: TextStyleUtils.regual),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                      width: 3,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: lineColor,
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(3),
-                              bottomRight: Radius.circular(3)))),
-                ],
+          Row(
+            children: [
+                Text(
+                time,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 12,
+                    fontWeight: TextStyleUtils.regual),
               ),
+              Text(
+                score,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 12,
+                    fontWeight: TextStyleUtils.regual),
+              ),
+            ],
+          ),
+          Container(
+            height: 49,
+            decoration: BoxDecoration(
+                color: ColorUtils.gray248,
+                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                border: Border.all(
+                    width: 0.5,
+                    color: const Color.fromRGBO(238, 238, 238, 1.0))),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    content,
+                    textAlign: TextAlign.left,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: ColorUtils.gray153,
+                        fontSize: 12,
+                        fontWeight: TextStyleUtils.regual),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                    width: 3,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        color: lineColor,
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(3),
+                            bottomRight: Radius.circular(3)))),
+              ],
             ),
           ),
           const SizedBox(width: 15),
