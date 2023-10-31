@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
-import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_event_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_status_fb_live_entity.dart';

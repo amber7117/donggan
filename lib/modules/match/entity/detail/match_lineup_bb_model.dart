@@ -9,7 +9,8 @@ class MatchLineupBBModel {
     required this.guestTeam,
   });
 
-  List<List<String>> obtainDataArr2(List<MatchLineupBBPlayerModel> playerArr) {
+  static List<List<String>> obtainDataArr2(
+      List<MatchLineupBBPlayerModel> playerArr) {
     List<List<String>> dataArrArr = [];
 
     List<String> dataArr1 = ["分钟"];
@@ -83,9 +84,9 @@ class MatchLineupBBTeamModel {
       teamName: json['teamName'] ?? '',
       teamLogo: json['teamLogo'] ?? '',
       score: json['score'] ?? 0,
-      playerStats: (json['playerStats'] ?? [])
-          .map((e) => MatchLineupBBPlayerModel.fromJson(e))
-          .toList(),
+      playerStats: List<MatchLineupBBPlayerModel>.from(
+          (json['playerStats'] ?? [])
+              .map((x) => MatchLineupBBPlayerModel.fromJson(x))),
     );
   }
 }
@@ -97,7 +98,7 @@ class MatchLineupBBPlayerModel {
   String name;
   String picUrl;
   String shirtNumber;
-  int position;
+  String position;
   int point;
   int rebound;
   int defensiveRebound;
@@ -149,7 +150,7 @@ class MatchLineupBBPlayerModel {
       name: json['name'] ?? '',
       picUrl: json['picUrl'] ?? '',
       shirtNumber: json['shirtNumber'] ?? '',
-      position: json['position'] ?? 0,
+      position: json['position'] ?? '',
       point: json['point'] ?? 0,
       rebound: json['rebound'] ?? 0,
       defensiveRebound: json['defensiveRebound'] ?? 0,

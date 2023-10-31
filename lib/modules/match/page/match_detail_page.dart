@@ -174,7 +174,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                         if (sportType == SportType.football) {
                           return MatchDetailFBLineupPage();
                         } else {
-                          return MatchDetailBBLineupPage();
+                          return MatchDetailBBLineupPage(matchId: widget.matchId, detailModel: _model!);
                         }
                       } else if (index == 2) {
                         return MatchDetailAnalysisPage(
