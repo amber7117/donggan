@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_bb_model.dart';
 import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 const double lineupBBPlayInfoWidth = 136.0;
+const double lineupBBTeamInfoHeight = 40.0;
 const double lineupBBListItemWidth = 50.0;
 const double lineupBBListItemHeight = 36.0;
 
@@ -24,29 +27,66 @@ class _MatchLineupBBListWidgetState extends State<MatchLineupBBListWidget> {
     MatchLineupBBTeamModel team = widget.team;
     List<List<String>> dataArr2 = widget.dataArr2;
 
-    double listHeight = (team.playerStats.length + 1) * lineupBBListItemHeight;
+    double listHeight = (team.playerStats.length + 1) * lineupBBListItemHeight +
+        lineupBBTeamInfoHeight +
+        10;
+
     return SizedBox(
       height: listHeight,
-      child: Row(
+      child: Column(
         children: [
-          SizedBox(
-            width: lineupBBPlayInfoWidth,
-            child: Column(
-              children: _buildPlayerUI(),
+          const SizedBox(width: double.infinity, height: 10)
+              .colored(ColorUtils.gray248),
+          _buildTeamWidget(team.teamLogo, team.teamName),
+          Expanded(
+            child: Row(
+              children: [
+                SizedBox(
+                  width: lineupBBPlayInfoWidth,
+                  child: Column(
+                    children: _buildPlayerUI(),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.zero,
+                      itemCount: dataArr2.length,
+                      itemExtent: lineupBBListItemWidth,
+                      itemBuilder: (context, index) {
+                        return Column(
+                            children: _buildCellItem(
+                          dataArr2[index],
+                        ));
+                      }),
+                ),
+              ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.zero,
-                itemCount: dataArr2.length,
-                itemExtent: lineupBBListItemWidth,
-                itemBuilder: (context, index) {
-                  return Column(
-                      children: _buildCellItem(
-                    dataArr2[index],
-                  ));
-                }),
+        ],
+      ),
+    );
+  }
+
+  _buildTeamWidget(String logo, String team) {
+    return SizedBox(
+      width: double.infinity,
+      height: lineupBBTeamInfoHeight,
+      child: Row(
+        children: [
+          const SizedBox(width: 10),
+          buildNetImage(logo, width: 20, placeholder: "common/logoQiudui"),
+          const SizedBox(width: 5),
+          SizedBox(
+            width: 100,
+            child: Text(
+              team,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  color: ColorUtils.black34,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.regual),
+            ),
           ),
         ],
       ),

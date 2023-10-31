@@ -45,6 +45,7 @@ class _MatchDetailBBLineupPageState
       } else {
         _layoutState = LoadStatusType.empty;
       }
+      setState(() {});
     });
   }
 
