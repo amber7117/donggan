@@ -46,20 +46,25 @@ class _MatchStatusSegmentWidgetState extends State<MatchStatusSegmentWidget> {
 
     for (int i = 0; i < titleArr.length; i++) {
       bool select = widget.selectIdx == i;
-      Widget child = Container(
-        width: itemWidth,
-        height: 24,
-        alignment: Alignment.center,
-        decoration: select
-            ? const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(12)))
-            : const BoxDecoration(),
-        child: Text(titleArr[i],
-            style: TextStyle(
-                color: select ? ColorUtils.red233 : ColorUtils.gray153,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.regual)),
+      Widget child = InkWell(
+        onTap: () {
+          
+        },
+        child: Container(
+          width: itemWidth,
+          height: 24,
+          alignment: Alignment.center,
+          decoration: select
+              ? const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(12)))
+              : const BoxDecoration(),
+          child: Text(titleArr[i],
+              style: TextStyle(
+                  color: select ? ColorUtils.red233 : ColorUtils.gray153,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.regual)),
+        ),
       );
       children.add(child);
     }

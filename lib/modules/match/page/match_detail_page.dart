@@ -8,6 +8,8 @@ import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/analysis/match_detail_analysis_page.dart';
 import 'package:wzty/modules/match/page/anchor/match_detail_anchor_page.dart';
+import 'package:wzty/modules/match/page/lineup/match_detail_bb_lineup_page.dart';
+import 'package:wzty/modules/match/page/lineup/match_detail_fb_lineup_page.dart';
 import 'package:wzty/modules/match/page/status/match_detail_bb_status_page.dart';
 import 'package:wzty/modules/match/page/status/match_detail_fb_status_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
@@ -169,7 +171,11 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                               matchId: widget.matchId, detailModel: _model!);
                         }
                       } else if (index == 1) {
-                        return const SizedBox();
+                        if (sportType == SportType.football) {
+                          return MatchDetailFBLineupPage();
+                        } else {
+                          return MatchDetailBBLineupPage();
+                        }
                       } else if (index == 2) {
                         return MatchDetailAnalysisPage(
                             matchId: widget.matchId, detailModel: _model!);
