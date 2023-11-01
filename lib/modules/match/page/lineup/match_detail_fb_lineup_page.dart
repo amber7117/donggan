@@ -7,6 +7,8 @@ import 'package:wzty/modules/match/service/match_detail_lineup_service.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_fb_cell_widget.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_fb_head_widget.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_segment_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailFBLineupPage extends StatefulWidget {
@@ -62,7 +64,8 @@ class _MatchDetailFBLineupPageState
     if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
-    List<MatchLineupFBPlayerModel> playerList = model!.hostMainPlayerList!;
+    List<MatchLineupFBPlayerModel> playerList1 = model!.hostMainPlayerList!;
+    List<MatchLineupFBPlayerModel> playerList2 = model!.hostSubPlayerList!;
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -71,20 +74,30 @@ class _MatchDetailFBLineupPageState
             child: MatchLineupFbHeadWidget(
                 model: model!, type: MatchLineupFBHeadType.host)),
         SliverList.builder(
-            itemCount: playerList.length,
+            itemCount: playerList1.length,
             itemBuilder: (context, index) {
-              return MatchLineupFbCellWidget(model: playerList[index]);
+              return MatchLineupFbCellWidget(model: playerList1[index]);
             }),
-        // SliverToBoxAdapter(
-        //     child: MatchLineupBBListWidget(
-        //   team: model!.hostTeam,
-        //   dataArr2: model!.hostDataArr2,
-        // )),
-        // SliverToBoxAdapter(
-        //     child: MatchLineupBBListWidget(
-        //   team: model!.hostTeam,
-        //   dataArr2: model!.hostDataArr2,
-        // )),
+        SliverToBoxAdapter(
+            child: Container(
+          width: double.infinity,
+          height: 36,
+          alignment: Alignment.center,
+          color: ColorUtils.gray248,
+          child: const Text(
+            "替补名单",
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: ColorUtils.gray153,
+                fontSize: 12,
+                fontWeight: TextStyleUtils.regual),
+          ),
+        )),
+        SliverList.builder(
+            itemCount: playerList2.length,
+            itemBuilder: (context, index) {
+              return MatchLineupFbCellWidget(model: playerList2[index]);
+            }),
       ],
     );
   }
