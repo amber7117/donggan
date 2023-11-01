@@ -4,6 +4,7 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
 import 'package:wzty/modules/match/service/match_detail_lineup_service.dart';
+import 'package:wzty/modules/match/widget/lineup/match_lineup_fb_cell_widget.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_fb_head_widget.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_segment_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -26,6 +27,7 @@ class _MatchDetailFBLineupPageState
 
   MatchLineupFBModel? model;
   final List<String> titleArr = ["主队名单", "客队名单"];
+
   @override
   void initState() {
     super.initState();
@@ -56,15 +58,21 @@ class _MatchDetailFBLineupPageState
 
   _buildChild(BuildContext context) {
     if (_layoutState != LoadStatusType.success) {
-    return const SizedBox();
+      return const SizedBox();
     }
-
+    List<MatchLineupFBPlayerModel> playerList = model!.hostMainPlayerList!;
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
             child: MatchLineupSegmentWidget(titleArr: titleArr, selectIdx: 0)),
         SliverToBoxAdapter(
-            child: MatchLineupFbHeadWidget(model: model!, type: MatchLineupFBHeadType.host)),
+            child: MatchLineupFbHeadWidget(
+                model: model!, type: MatchLineupFBHeadType.host)),
+        SliverList.builder(
+            itemCount: playerList.length,
+            itemBuilder: (context, index) {
+              return MatchLineupFbCellWidget(model: playerList[index]);
+            }),
         // SliverToBoxAdapter(
         //     child: MatchLineupBBListWidget(
         //   team: model!.hostTeam,
