@@ -40,7 +40,9 @@ class _MatchDetailFBLineupPageState
 
     MatchDetailLineupService.requestFBLineup(widget.matchId, (success, result) {
       ToastUtils.hideLoading();
-      if (result != null) {
+      if (result != null &&
+          (result.hostTeamMatchLineupList.isNotEmpty ||
+              result.guestTeamMatchLineupList.isNotEmpty)) {
         model = result;
         _layoutState = LoadStatusType.success;
       } else {
