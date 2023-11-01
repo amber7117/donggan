@@ -62,7 +62,10 @@ class _MatchDetailBBLineupPageState
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(child: MatchLineupBBDataWidget()),
+        SliverToBoxAdapter(
+            child: model!.mvpList2.isNotEmpty
+                ? MatchLineupBBDataWidget(model: model!)
+                : const SizedBox()),
         SliverToBoxAdapter(
             child: MatchLineupBBListWidget(
           team: model!.hostTeam,

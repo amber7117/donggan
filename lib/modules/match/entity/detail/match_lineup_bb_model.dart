@@ -4,10 +4,66 @@ class MatchLineupBBModel {
   List<List<String>> hostDataArr2 = [];
   List<List<String>> guestDataArr2 = [];
 
+  List<List<MatchLineupBBPlayerModel>> mvpList2 = [];
+
   MatchLineupBBModel({
     required this.hostTeam,
     required this.guestTeam,
-  });
+  }) {
+    _processData();
+  }
+
+  _processData() {
+    if (hostTeam.playerStats.isEmpty ||  guestTeam.playerStats.isEmpty) {
+      return;
+    }
+    
+    MatchLineupBBPlayerModel player1H = hostTeam.playerStats.first;
+    MatchLineupBBPlayerModel player2H = hostTeam.playerStats.first;
+    MatchLineupBBPlayerModel player3H = hostTeam.playerStats.first;
+    for (var element in hostTeam.playerStats) {
+      if (player1H.point < element.point) {
+        player1H = element;
+      }  
+      if (player2H.rebound < element.rebound) {
+        player2H = element;
+      }  
+      if (player3H.assist < element.assist) {
+        player3H = element;
+      }  
+    }
+    MatchLineupBBPlayerModel player1G = guestTeam.playerStats.first;
+    MatchLineupBBPlayerModel player2G = guestTeam.playerStats.first;
+    MatchLineupBBPlayerModel player3G = guestTeam.playerStats.first;
+    for (var element in guestTeam.playerStats) {
+      if (player1G.point < element.point) {
+        player1G = element;
+      }
+      if (player2G.rebound < element.rebound) {
+        player2G = element;
+      }
+      if (player3G.assist < element.assist) {
+        player3G = element;
+      }
+    }
+
+    List<MatchLineupBBPlayerModel> pointList = [];
+    List<MatchLineupBBPlayerModel> reboundList = [];
+    List<MatchLineupBBPlayerModel> assistList = [];
+
+    pointList.add(player1H);
+    pointList.add(player1G);
+    mvpList2.add(pointList);
+
+    reboundList.add(player2H);
+    reboundList.add(player2G);
+    mvpList2.add(reboundList);
+
+    assistList.add(player3H);
+    assistList.add(player3G);
+    mvpList2.add(assistList);
+
+  } 
 
   static List<List<String>> obtainDataArr2(
       List<MatchLineupBBPlayerModel> playerArr) {
@@ -30,8 +86,8 @@ class MatchLineupBBModel {
 
     for (MatchLineupBBPlayerModel player in playerArr) {
       dataArr1.add("${player.playTime}'");
-      dataArr2.add("${player.rebound}");
-      dataArr3.add("${player.point}");
+      dataArr2.add("${player.point}");
+      dataArr3.add("${player.rebound}");
       dataArr4.add("${player.assist}");
       dataArr5.add("${player.block}");
       dataArr6.add("${player.steal}");
