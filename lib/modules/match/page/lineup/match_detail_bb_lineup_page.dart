@@ -39,7 +39,7 @@ class _MatchDetailBBLineupPageState
     MatchDetailLineupService.requestBBLineup(
         widget.matchId, widget.detailModel.hostTeamName, (success, result) {
       ToastUtils.hideLoading();
-      if (result != null) {
+      if (result != null && result.mvpList2.isNotEmpty) {
         model = result;
         _layoutState = LoadStatusType.success;
       } else {

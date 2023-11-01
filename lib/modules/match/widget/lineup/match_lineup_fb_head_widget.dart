@@ -37,9 +37,10 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: widget.type == MatchLineupFBHeadType.host
-                  ? _buildFormationUI(model.hostFormation, model.hostMainPlayerList!)
+                  ? _buildFormationUI(
+                      model.hostFormation, model.hostMainPlayerList!)
                   : _buildFormationUI(
-                      model.guestFormation, model.guestMainPlayerList2!),
+                      model.guestFormation, model.guestMainPlayerList!),
             ),
           ),
         ],
@@ -116,9 +117,9 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
     String formationStr = "1-$formation";
     List<String> formationNumArr = formationStr.split("-");
 
-    if (widget.type == MatchLineupFBHeadType.guest) {
-      formationNumArr = formationNumArr.reversed.toList();
-    }
+    // if (widget.type == MatchLineupFBHeadType.guest) {
+    //   formationNumArr = formationNumArr.reversed.toList();
+    // }
 
     List<Widget> rowWidgetArr = [];
 

@@ -35,7 +35,7 @@ class _MainPageState extends State {
   List<BottomNavigationBarItem> obtainTabList() {
     return [
       _buildBarItem('tab/iconZhibo'),
-      _buildBarItem('tab/iconLanqiu'),
+      _buildBarItem('tab/iconZuqiu'),
       _buildBarItem('tab/iconLanqiu'),
       _buildBarItem('tab/iconZixun'),
       _buildBarItem('tab/iconWode'),

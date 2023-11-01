@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -7,8 +8,13 @@ class MatchLineupSegmentWidget extends StatefulWidget {
   final List<String> titleArr;
   final int selectIdx;
 
+  final WZAnyCallback<int> callback;
+
   const MatchLineupSegmentWidget(
-      {super.key, required this.titleArr, required this.selectIdx});
+      {super.key,
+      required this.titleArr,
+      required this.selectIdx,
+      required this.callback});
 
   @override
   State createState() => _MatchLineupSegmentWidgetState();
@@ -47,7 +53,9 @@ class _MatchLineupSegmentWidgetState extends State<MatchLineupSegmentWidget> {
     for (int i = 0; i < titleArr.length; i++) {
       bool select = widget.selectIdx == i;
       Widget child = InkWell(
-        onTap: () {},
+        onTap: () {
+          widget.callback(i);
+        },
         child: Container(
           width: itemWidth,
           height: 24,

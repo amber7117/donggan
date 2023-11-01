@@ -5,7 +5,7 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class SearchTextWidget extends StatefulWidget {
-  final WZAnyCallback callback;
+  final WZAnyCallback<String> callback;
 
   const SearchTextWidget({super.key, required this.callback});
 

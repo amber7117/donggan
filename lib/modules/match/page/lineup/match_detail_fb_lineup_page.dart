@@ -29,6 +29,7 @@ class _MatchDetailFBLineupPageState
 
   MatchLineupFBModel? model;
   final List<String> titleArr = ["主队名单", "客队名单"];
+  int selectIdx = 0;
 
   @override
   void initState() {
@@ -64,15 +65,30 @@ class _MatchDetailFBLineupPageState
     if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
-    List<MatchLineupFBPlayerModel> playerList1 = model!.hostMainPlayerList!;
-    List<MatchLineupFBPlayerModel> playerList2 = model!.hostSubPlayerList!;
+    List<MatchLineupFBPlayerModel> playerList1 = [];
+    List<MatchLineupFBPlayerModel> playerList2 = [];
+    MatchLineupFBHeadType headType = MatchLineupFBHeadType.host;
+    if (selectIdx == 0) {
+      playerList1 = model!.hostMainPlayerList!;
+      playerList2 = model!.hostSubPlayerList!;
+    } else {
+      playerList1 = model!.guestMainPlayerList!;
+      playerList2 = model!.guestSubPlayerList!;
+      headType = MatchLineupFBHeadType.guest;
+    }
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
-            child: MatchLineupSegmentWidget(titleArr: titleArr, selectIdx: 0)),
+            child: MatchLineupSegmentWidget(
+                titleArr: titleArr,
+                selectIdx: selectIdx,
+                callback: (data) {
+                  selectIdx = data;
+                  setState(() {});
+                })),
         SliverToBoxAdapter(
             child: MatchLineupFbHeadWidget(
-                model: model!, type: MatchLineupFBHeadType.host)),
+                model: model!, type: headType)),
         SliverList.builder(
             itemCount: playerList1.length,
             itemBuilder: (context, index) {

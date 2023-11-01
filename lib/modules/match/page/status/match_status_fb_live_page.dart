@@ -32,9 +32,9 @@ class _MatchStatusFBLivePageState extends State<MatchStatusFBLivePage> {
 
   _prepareBuildChild(BuildContext context) {
     if (widget.liveModelArr.isNotEmpty) {
-      _buildChild(context, widget.liveModelArr, false);
+      return _buildChild(context, widget.liveModelArr, false);
     } else {
-      _buildChild(context, widget.live2ModelArr, true);
+      return _buildChild(context, widget.live2ModelArr, true);
     }
   }
 
