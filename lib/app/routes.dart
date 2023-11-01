@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/modules/anchor/anchor_page.dart';
+import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
@@ -24,11 +24,11 @@ import 'package:wzty/modules/me/page/me_fans_page.dart';
 import 'package:wzty/modules/me/page/me_follow_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_page.dart';
 import 'package:wzty/modules/me/page/me_msg_page.dart';
-import 'package:wzty/modules/me/me_page.dart';
+import 'package:wzty/modules/me/page/me_page.dart';
 import 'package:wzty/modules/me/page/me_record_page.dart';
-import 'package:wzty/modules/news/news_page.dart';
+import 'package:wzty/modules/news/page/news_page.dart';
 import 'package:wzty/modules/news/page/news_detail_page.dart';
-import 'package:wzty/modules/search/search_page.dart';
+import 'package:wzty/modules/search/page/search_page.dart';
 
 class Routes {
   static String main = '/';

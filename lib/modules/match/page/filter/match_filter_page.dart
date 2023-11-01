@@ -69,7 +69,11 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     _pageController = PageController();
     _tabController = TabController(length: _tabs.length, vsync: this);
 
-    _requestData();
+    if (widget.sportType == SportType.football) {
+      _requestFFData();
+    } else {
+      _requestBBData();
+    }
   }
 
   @override
@@ -80,7 +84,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     _pageController.dispose();
   }
 
-  _requestData() {
+  _requestFFData() {
     ToastUtils.showLoading();
 
     Future all = MatchFilterService.requestAllData(
@@ -103,7 +107,30 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       if (_allData != null && _hotData != null) {
         _layoutState = LoadStatusType.success;
       } else {
-        _layoutState = LoadStatusType.failure;
+        _layoutState = LoadStatusType.empty;
+      }
+
+      setState(() {});
+
+      Future.delayed(const Duration(seconds: 1), () {
+        _updateBottomViewUI();
+      });
+    });
+  }
+
+  _requestBBData() {
+    ToastUtils.showLoading();
+
+    MatchFilterService.requestAllData(
+        MatchFilterType.basketballAll, widget.matchStatus, widget.dateStr,
+        (success, result) {
+          ToastUtils.hideLoading();
+
+      if (result != null && result.titleArr.isNotEmpty) {
+        _allData = _processServerData(result, true);
+        _layoutState = LoadStatusType.success;
+      } else {
+        _layoutState = LoadStatusType.empty;
       }
 
       setState(() {});
@@ -264,18 +291,28 @@ class _MatchFilterPageState extends State<MatchFilterPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: buildAppBar(titleText: "足球赛事"),
-      body: LoadStateWidget(
-          state: _layoutState, successWidget: _buildChild(context)),
-    );
+    if (widget.sportType == SportType.football) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: buildAppBar(titleText: "足球赛事"),
+        body: LoadStateWidget(
+            state: _layoutState, successWidget: _buildFFChild(context)),
+      );
+    } else {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: buildAppBar(titleText: "篮球赛事"),
+        body: LoadStateWidget(
+            state: _layoutState, successWidget: _buildBBChild(context)),
+      );
+    }
   }
 
-  _buildChild(BuildContext context) {
+  _buildFFChild(BuildContext context) {
     if (_allData == null || _hotData == null) {
       return const SizedBox();
     }
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context2) => _tabProvider),
@@ -323,6 +360,32 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                               _updateBottomViewUI();
                             });
                       }
+                    })),
+            MatchFilterBottomWidget(
+                key: _bottomWidgetKey,
+                callback: (data) {
+                  _handleBottomEvent(data);
+                }),
+            SizedBox(height: ScreenUtil().bottomBarHeight),
+          ],
+        ));
+  }
+
+  _buildBBChild(BuildContext context) {
+    if (_allData == null || _hotData == null) {
+      return const SizedBox();
+    }
+
+    return ChangeNotifierProvider<TabProvider>(
+        create: (context2) => _tabProvider,
+        child: Column(
+          children: [
+            Expanded(
+                child: MatchFilterAllPage(
+                    key: _allPageKey,
+                    model: _allData!,
+                    callback: () {
+                      _updateBottomViewUI();
                     })),
             MatchFilterBottomWidget(
                 key: _bottomWidgetKey,

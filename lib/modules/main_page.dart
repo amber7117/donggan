@@ -5,10 +5,10 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
-import 'package:wzty/modules/anchor/anchor_page.dart';
-import 'package:wzty/modules/match/match_page.dart';
-import 'package:wzty/modules/me/me_page.dart';
-import 'package:wzty/modules/news/news_page.dart';
+import 'package:wzty/modules/anchor/page/anchor_page.dart';
+import 'package:wzty/modules/match/page/match_page.dart';
+import 'package:wzty/modules/me/page/me_page.dart';
+import 'package:wzty/modules/news/page/news_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 const double _tabW = 44.0;
