@@ -12,7 +12,6 @@ import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
-import 'package:wzty/study_page.dart';
 
 void main() async {
   // 不加这个强制横/竖屏会报错

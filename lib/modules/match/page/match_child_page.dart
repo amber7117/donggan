@@ -26,11 +26,9 @@ class MatchChildPage extends StatefulWidget {
 }
 
 class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
-
   getMatchDateStr() {
     return _dateStrArr[_selectIdx];
   }
-
 
   LoadStatusType _layoutState = LoadStatusType.loading;
   List<MatchListModel> _dataArr = [];
@@ -171,8 +169,9 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return LoadStateWidget(
-        state: _layoutState, successWidget: _buildChildWidget());
+    // return LoadStateWidget(
+    //     state: _layoutState, successWidget: _buildChildWidget());
+    return _buildChildWidget();
   }
 
   _buildChildWidget() {
@@ -180,9 +179,14 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
         widget.matchStatus == MatchStatus.finished) {
       return Column(
         children: [
-          MatchHeadDateWidget(dateArr: _titleStrArr, selectIdx: _selectIdx),
+          MatchHeadDateWidget(dateArr: _titleStrArr, selectIdx: _selectIdx, callback: (data) {
+            _selectIdx = data;
+            _requestData(loading: true);
+          }),
           Expanded(
-              child: EasyRefresh(
+            child: LoadStateWidget(
+              state: _layoutState,
+              successWidget: EasyRefresh(
                   controller: _refreshCtrl,
                   onRefresh: () async {
                     _requestData();
@@ -195,23 +199,28 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
                         return MatchCellWidget(
                             sportType: widget.sportType,
                             listModel: _dataArr[index]);
-                      })))
+                      })),
+            ),
+          )
         ],
       );
     } else {
-      return EasyRefresh(
-          controller: _refreshCtrl,
-          onRefresh: () async {
-            _requestData();
-          },
-          child: ListView.builder(
-              padding: const EdgeInsets.only(top: 3),
-              itemCount: _dataArr.length,
-              itemExtent: matchChildCellHeight,
-              itemBuilder: (context, index) {
-                return MatchCellWidget(
-                    sportType: widget.sportType, listModel: _dataArr[index]);
-              }));
+      return LoadStateWidget(
+        state: _layoutState,
+        successWidget: EasyRefresh(
+            controller: _refreshCtrl,
+            onRefresh: () async {
+              _requestData();
+            },
+            child: ListView.builder(
+                padding: const EdgeInsets.only(top: 3),
+                itemCount: _dataArr.length,
+                itemExtent: matchChildCellHeight,
+                itemBuilder: (context, index) {
+                  return MatchCellWidget(
+                      sportType: widget.sportType, listModel: _dataArr[index]);
+                })),
+      );
     }
   }
 }
