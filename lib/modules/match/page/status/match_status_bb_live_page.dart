@@ -16,9 +16,10 @@ class MatchStatusBBLivePage extends StatefulWidget {
   State createState() => _MatchStatusBBLivePageState();
 }
 
-class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>{
-
+class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage> {
   LoadStatusType _layoutState = LoadStatusType.success;
+
+  int selectIdx = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>{
       liveModel = widget.live2Model!;
     }
 
-    return _buildChild(context, liveModel.modelArr2[0], is2);
+    return _buildChild(context, liveModel.modelArr2[selectIdx], is2);
   }
 
   _buildChild(BuildContext context, List<dynamic> modelArr2, bool is2) {
@@ -51,10 +52,16 @@ class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage>{
       is2 = true;
       liveModel = widget.live2Model!;
     }
-              
+
     return Column(
       children: [
-        MatchStatusSegmentWidget(titleArr: liveModel.titleArr, selectIdx: 0),
+        MatchStatusSegmentWidget(
+            titleArr: liveModel.titleArr,
+            selectIdx: selectIdx,
+            callback: (data) {
+              selectIdx = data;
+              setState(() {});
+            }),
         Expanded(
           child: ListView.builder(
               padding: EdgeInsets.zero,
