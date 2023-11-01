@@ -172,9 +172,11 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                         }
                       } else if (index == 1) {
                         if (sportType == SportType.football) {
-                          return MatchDetailFBLineupPage();
+                          return MatchDetailFBLineupPage(
+                              matchId: widget.matchId, detailModel: _model!);
                         } else {
-                          return MatchDetailBBLineupPage(matchId: widget.matchId, detailModel: _model!);
+                          return MatchDetailBBLineupPage(
+                              matchId: widget.matchId, detailModel: _model!);
                         }
                       } else if (index == 2) {
                         return MatchDetailAnalysisPage(
