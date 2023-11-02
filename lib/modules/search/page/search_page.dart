@@ -4,6 +4,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/search/entity/search_entity.dart';
+import 'package:wzty/modules/search/manager/search_manager.dart';
 import 'package:wzty/modules/search/page/search_history_page.dart';
 import 'package:wzty/modules/search/page/search_result_page.dart';
 import 'package:wzty/modules/search/service/search_service.dart';
@@ -21,12 +22,14 @@ class _SearchPageState extends State<SearchPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   SearchResultModel? _model;
 
-  _requestSearch(String keyword) {
+  _requestSearch(String keyWord) {
     Routes.unfocus();
+
+    SearchManager.instance.updateKeyWordData(keyWord);
 
     ToastUtils.showLoading();
 
-    SearchService.requestSearchData(keyword, (success, result) {
+    SearchService.requestSearchData(keyWord, (success, result) {
       ToastUtils.hideLoading();
       if (success) {
         if (result != null) {

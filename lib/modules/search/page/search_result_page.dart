@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/anchor/widget/anchor_cell_widget.dart';
+import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/search/entity/search_entity.dart';
 import 'package:wzty/modules/search/widget/search_result_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -25,37 +25,57 @@ class _SearchResultPageState extends State<SearchResultPage> {
   }
 
   _buildChild(BuildContext context) {
+    SearchResultModel model = widget.model;
+
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       itemCount: 2,
       itemBuilder: (BuildContext context, int index) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 12),
-                child: Text("主播",
-                    style: const TextStyle(
-                        color: ColorUtils.black34,
-                        fontSize: 14,
-                        fontWeight: TextStyleUtils.semibold))),
-            GridView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: anchorCellRatio,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 9,
-              ),
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) {
-                return SearchResultCellWidget();
-              },
-            ),
-          ],
-        );
+        if (index == 0) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 12),
+                  child: Text("相关主播",
+                      style: TextStyle(
+                          color: ColorUtils.black34,
+                          fontSize: 14,
+                          fontWeight: TextStyleUtils.semibold))),
+              ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: model.anchors.length,
+                  itemExtent: searchResultCellHeight,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return SearchResultCellWidget(anchor: model.anchors[index]);
+                  }),
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 12),
+                  child: Text("相关赛事",
+                      style: TextStyle(
+                          color: ColorUtils.black34,
+                          fontSize: 14,
+                          fontWeight: TextStyleUtils.semibold))),
+              ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: model.matchList.length,
+                  itemExtent: matchChildCellHeight,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return MatchCellWidget(listModel: model.matchList[index]);
+                  }),
+            ],
+          );
+        }
       },
     );
   }

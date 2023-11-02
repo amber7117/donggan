@@ -74,8 +74,7 @@ class _AnchorDetailCalendarPageState
             itemCount: _dataArr.length,
             itemExtent: matchChildCellHeight,
             itemBuilder: (context, index) {
-              return MatchCellWidget(
-                  sportType: SportType.football, calendarEntity: _dataArr[index]);
+              return MatchCellWidget(calendarEntity: _dataArr[index]);
             }));
   }
 }

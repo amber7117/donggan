@@ -20,14 +20,14 @@ const double _teamW = 120.0;
 const double _textW = 26.0;
 
 class MatchCellWidget extends StatefulWidget {
-  final SportType sportType;
+  final SportType? sportType;
   final MatchListModel? listModel;
   final MatchCalendarEntity? calendarEntity;
   final bool isCollectCell;
 
   const MatchCellWidget(
       {super.key,
-      required this.sportType,
+      this.sportType,
       this.isCollectCell = false,
       this.listModel,
       this.calendarEntity});
@@ -56,7 +56,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
 
     ToastUtils.showLoading();
 
-    MatchService.requestMatchCollect(widget.sportType, model.matchId, isAdd,
+    MatchService.requestMatchCollect(widget.sportType!, model.matchId, isAdd,
         (success, result) {
       ToastUtils.hideLoading();
       if (success) {
@@ -64,7 +64,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
         model.focus = isAdd;
 
         int cnt = MatchCollectManager.instance
-            .updateCollectData(widget.sportType, model);
+            .updateCollectData(widget.sportType!, model);
 
         context.read<TabDotProvider>().setDotNum(cnt);
 
