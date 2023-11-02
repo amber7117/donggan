@@ -216,7 +216,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     int allCount = 0;
     int selectCount = 0;
 
-    if (_tabProvider.index == 0) {
+    if (_tabProvider.index == 0 && _allData != null) {
       for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
         for (MatchFilterItemModel model in modelArr) {
           if (model.noSelect) {
@@ -227,7 +227,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
           allCount += model.matchCount;
         }
       }
-    } else {
+    } else if (_tabProvider.index == 1 && _hotData != null) {
       for (MatchFilterItemModel model in _hotData!.hotArr) {
         if (model.noSelect) {
           existNoSelect = true;
