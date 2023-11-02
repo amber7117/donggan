@@ -87,15 +87,15 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   _requestFFData() {
     ToastUtils.showLoading();
 
-    Future all = MatchFilterService.requestAllData(
+    Future all = MatchFilterService.requestFBAllData(
         MatchFilterType.footballAll, widget.matchStatus, widget.dateStr,
         (success, result) {
       if (result != null) {
         _allData = _processServerData(result, true);
       }
     });
-    Future hot = MatchFilterService.requestHotData(MatchFilterType.footballHot,
-        (success, result) {
+    Future hot = MatchFilterService.requestFBHotData(
+        MatchFilterType.footballHot, (success, result) {
       if (result != null) {
         _hotData = _processServerData(result, false);
       }
@@ -119,15 +119,17 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   }
 
   _requestBBData() {
+    _tabProvider.setIndex(1);
+
     ToastUtils.showLoading();
 
-    MatchFilterService.requestAllData(
+    MatchFilterService.requestBBAllData(
         MatchFilterType.basketballAll, widget.matchStatus, widget.dateStr,
         (success, result) {
-          ToastUtils.hideLoading();
+      ToastUtils.hideLoading();
 
-      if (result != null && result.titleArr.isNotEmpty) {
-        _allData = _processServerData(result, true);
+      if (result != null && result.hotArr.isNotEmpty) {
+        _hotData = _processServerData(result, false);
         _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.empty;
@@ -372,7 +374,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   }
 
   _buildBBChild(BuildContext context) {
-    if (_allData == null || _hotData == null) {
+    if (_hotData == null) {
       return const SizedBox();
     }
 
@@ -381,9 +383,9 @@ class _MatchFilterPageState extends State<MatchFilterPage>
         child: Column(
           children: [
             Expanded(
-                child: MatchFilterAllPage(
-                    key: _allPageKey,
-                    model: _allData!,
+                child: MatchFilterHotPage(
+                    key: _hotPageKey,
+                    model: _hotData!,
                     callback: () {
                       _updateBottomViewUI();
                     })),

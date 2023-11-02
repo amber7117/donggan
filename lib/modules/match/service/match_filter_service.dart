@@ -5,7 +5,7 @@ import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/match/entity/match_filter_entity.dart';
 
 class MatchFilterService {
-  static Future<void> requestAllData(MatchFilterType type, MatchStatus status,
+  static Future<void> requestFBAllData(MatchFilterType type, MatchStatus status,
       String dateStr, BusinessCallback<MatchFilterModel?> complete) async {
     Map<String, dynamic> params = {
       "typeId": type.value,
@@ -54,10 +54,41 @@ class MatchFilterService {
     }
   }
 
-  static Future<void> requestHotData(MatchFilterType type, BusinessCallback<MatchFilterModel?> complete) async {
+  static Future<void> requestFBHotData(MatchFilterType type,
+      BusinessCallback<MatchFilterModel?> complete) async {
     Map<String, dynamic> params = {
       "typeId": type.value,
     };
+
+    HttpResultBean result = await HttpManager.request(
+        MatchApi.matchFilter, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      MatchFilterModel model = MatchFilterModel();
+      model.totalCount = result.data["totalCount"];
+
+      List retList = result.data["tournamentList"];
+      List<MatchFilterItemModel> itemList = retList
+          .map((dataMap) => MatchFilterItemModel.fromJson(dataMap))
+          .toList();
+      model.hotArr = itemList;
+
+      complete(true, model);
+    } else {
+      complete(false, null);
+    }
+  }
+
+  static Future<void> requestBBAllData(MatchFilterType type, MatchStatus status,
+      String dateStr, BusinessCallback<MatchFilterModel?> complete) async {
+    Map<String, dynamic> params = {
+      "typeId": type.value,
+    };
+    params["status"] = matchStatusToServerValue(status);
+    if (dateStr.isNotEmpty) {
+      params["date"] = dateStr;
+    }
 
     HttpResultBean result = await HttpManager.request(
         MatchApi.matchFilter, HttpMethod.get,

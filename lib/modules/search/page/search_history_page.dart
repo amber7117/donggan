@@ -39,13 +39,17 @@ class _SearchHistoryPageState extends State<SearchHistoryPage> {
                     fontSize: 14,
                     fontWeight: TextStyleUtils.bold)),
           ),
-          JhAssetImage("common/iconDelete", width: 18),
-          SizedBox(width: 6),
-          Text("清除",
-              style: TextStyle(
-                  color: ColorUtils.gray153,
-                  fontSize: 12,
-                  fontWeight: TextStyleUtils.regual)),
+          Row(
+            children: [
+              JhAssetImage("common/iconDelete", width: 18),
+              SizedBox(width: 6),
+              Text("清除",
+                  style: TextStyle(
+                      color: ColorUtils.gray153,
+                      fontSize: 12,
+                      fontWeight: TextStyleUtils.regual)),
+            ],
+          ),
           SizedBox(width: 12),
         ],
       ),

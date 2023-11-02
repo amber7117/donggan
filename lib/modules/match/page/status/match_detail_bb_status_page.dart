@@ -260,7 +260,13 @@ class _MatchDetailBBStatusPageState
       }
     }
 
-    dataArr.sort((a, b) => a.statusCode.compareTo(b.statusCode));
+    dataArr.sort((a, b) {
+      if (a.statusCode != b.statusCode) {
+        return a.statusCode.compareTo(b.statusCode);
+      } else {
+        return a.occurTime.compareTo(b.occurTime);
+      }
+    });
 
     List<String> titleArr = [];
     List<List<MatchStatusFBEventModel>> modelArr2 = [];
