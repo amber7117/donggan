@@ -145,55 +145,63 @@ class _MatchDetailFBStatusPageState
 
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
-        child: Column(
-          children: [
-            matchStatus == MatchStatus.going && model.trendAnim.isNotEmpty
-                ? SizedBox(
-                    width: double.infinity,
-                    height: 62, //110
-                    child: WZWebviewPage(urlStr: model.trendAnim),
-                  )
-                : const SizedBox(),
-            const SizedBox(height: 10, width: double.infinity)
-                .colored(ColorUtils.gray248),
-            MatchStatusFBDataWidget(model: techModel),
-            const SizedBox(height: 10, width: double.infinity)
-                .colored(ColorUtils.gray248),
-            Container(
-              width: double.infinity,
-              height: 66,
-              alignment: Alignment.center,
-              child: TabBar(
-                  onTap: (index) {
-                    if (!mounted) return;
-                    _pageController.jumpToPage(index);
-                  },
-                  isScrollable: false,
-                  controller: _tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
-                  tabs: _tabs),
-            ),
-            Expanded(
-                child: PageView.builder(
-                    itemCount: _tabs.length,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, int index) {
-                      if (index == 0) {
-                        return MatchStatusFBEventPage(
-                            detailModel: widget.detailModel,
-                            eventModelArr: eventModelArr);
-                      } else if (index == 1) {
-                        return MatchStatusFBTechPage(
-                            detailModel: widget.detailModel,
-                            techModel: techModel);
-                      }
-                      return MatchStatusFBLivePage(
-                          liveModelArr: liveModelArr,
-                          live2ModelArr: live2ModelArr);
-                    }))
-          ],
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            Widget web =
+                matchStatus == MatchStatus.going && model.trendAnim.isNotEmpty
+                    ? SliverToBoxAdapter(
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 62, //110
+                          child: WZWebviewPage(urlStr: model.trendAnim),
+                        ),
+                      )
+                    : const SliverToBoxAdapter(child: SizedBox());
+            return [
+              web,
+              SliverToBoxAdapter(
+                  child: const SizedBox(height: 10, width: double.infinity)
+                      .colored(ColorUtils.gray248)),
+              SliverToBoxAdapter(
+                  child: MatchStatusFBDataWidget(model: techModel)),
+              SliverToBoxAdapter(
+                  child: const SizedBox(height: 10, width: double.infinity)
+                      .colored(ColorUtils.gray248)),
+              SliverToBoxAdapter(
+                child: Container(
+                  width: double.infinity,
+                  height: 66,
+                  alignment: Alignment.center,
+                  child: TabBar(
+                      onTap: (index) {
+                        if (!mounted) return;
+                        _pageController.jumpToPage(index);
+                      },
+                      isScrollable: false,
+                      controller: _tabController,
+                      indicator: const BoxDecoration(),
+                      labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                      tabs: _tabs),
+                ),
+              ),
+            ];
+          },
+          body: PageView.builder(
+              itemCount: _tabs.length,
+              onPageChanged: _onPageChange,
+              controller: _pageController,
+              itemBuilder: (_, int index) {
+                if (index == 0) {
+                  return MatchStatusFBEventPage(
+                      detailModel: widget.detailModel,
+                      eventModelArr: eventModelArr);
+                } else if (index == 1) {
+                  return MatchStatusFBTechPage(
+                      detailModel: widget.detailModel, techModel: techModel);
+                }
+                return MatchStatusFBLivePage(
+                    liveModelArr: liveModelArr, live2ModelArr: live2ModelArr);
+              }),
         ));
   }
 
