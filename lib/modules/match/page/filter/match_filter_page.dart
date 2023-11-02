@@ -58,6 +58,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       tabHeight: 44.0,
     ),
   ];
+  
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchFilterModel? _allData;
   MatchFilterModel? _hotData;
@@ -83,6 +84,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     _tabController.dispose();
     _pageController.dispose();
   }
+
+  // -------------------------------------------
 
   _requestFFData() {
     ToastUtils.showLoading();
@@ -143,6 +146,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     });
   }
 
+  // -------------------------------------------
+
   _processServerData(MatchFilterModel data, bool isAll) {
     MatchFilterType filterType = _getFilterType(isAll);
 
@@ -193,6 +198,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     return filterType;
   }
 
+  // -------------------------------------------
+
   _handleBottomEvent(MatchFilterBottomEvent event) {
     if (event == MatchFilterBottomEvent.selectAll) {
       if (_tabProvider.index == 0) {
@@ -212,6 +219,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       _obtainFilterData();
     }
   }
+
+  // -------------------------------------------
 
   _updateBottomViewUI() {
     bool existNoSelect = false;
@@ -253,6 +262,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     }
   }
 
+  // -------------------------------------------
+
   _obtainFilterData() {
     bool isSelectAll = true;
     List<int> leagueIdArr = [];
@@ -291,6 +302,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     Routes.goBack(context);
   }
 
+  // -------------------------------------------
+
   @override
   Widget build(BuildContext context) {
     if (widget.sportType == SportType.football) {
@@ -309,6 +322,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       );
     }
   }
+
+  // -------------------------------------------
 
   _buildFFChild(BuildContext context) {
     if (_allData == null || _hotData == null) {
@@ -372,6 +387,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
           ],
         ));
   }
+
+  // -------------------------------------------
 
   _buildBBChild(BuildContext context) {
     if (_hotData == null) {

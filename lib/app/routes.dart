@@ -243,6 +243,28 @@ class Routes {
     );
   }
 
+  static void pushAndCallback(
+    BuildContext context,
+    String path,
+    WZAnyCallback callback, {
+    bool replace = false,
+    bool clearStack = false,
+    Object? arguments,
+  }) {
+    router
+        .navigateTo(
+          context,
+          path,
+          replace: replace,
+          clearStack: clearStack,
+          transition: TransitionType.native,
+          routeSettings: RouteSettings(
+            arguments: arguments,
+          ),
+        )
+        .then((value) => callback(value));
+  }
+
   /// 返回
   static void goBack(BuildContext context) {
     unfocus();

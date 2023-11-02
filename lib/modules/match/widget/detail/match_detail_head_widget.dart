@@ -6,6 +6,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
@@ -168,10 +169,10 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
         ),
         Column(
           children: [
-            const Text(
-              "2 - 2",
+            Text(
+              "${model.hostTeamScore} - ${model.guestTeamScore}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32,
                   fontWeight: TextStyleUtils.semibold),
@@ -182,36 +183,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
                   borderRadius: const BorderRadius.all(Radius.circular(12))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "动画",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: TextStyleUtils.regual),
-                  ).inkWell(() {
-                    context
-                        .read<MatchDetailDataProvider>()
-                        .setShowAnimate(true);
-                  }),
-                  const SizedBox(width: 10),
-                  const SizedBox(width: 0.5, height: 8).colored(Colors.white),
-                  const SizedBox(width: 10),
-                  const Text(
-                    "视频",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: TextStyleUtils.regual),
-                  ).inkWell(() {
-                    context.read<MatchDetailDataProvider>().setShowVideo(true);
-                  }),
-                ],
-              ),
+              child: _buildVideoUI(),
             )
           ],
         ),
@@ -234,5 +206,76 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
         ),
       ],
     );
+  }
+
+  _buildVideoUI() {
+    MatchDetailModel model = widget.model;
+
+    bool animateBtnShow = false;
+    bool videoBtnShow = false;
+
+    if (ConfigManager.instance.animateOk && model.hasAnimateUrl()) {
+      animateBtnShow = true;
+    }
+    if (ConfigManager.instance.videoOk && model.hasPlayerUrl()) {
+      videoBtnShow = true;
+    }
+
+    if (animateBtnShow && videoBtnShow) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "动画",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
+          ).inkWell(() {
+            context.read<MatchDetailDataProvider>().setShowAnimate(true);
+          }),
+          const SizedBox(width: 10),
+          const SizedBox(width: 0.5, height: 8).colored(Colors.white),
+          const SizedBox(width: 10),
+          const Text(
+            "视频",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
+          ).inkWell(() {
+            context.read<MatchDetailDataProvider>().setShowVideo(true);
+          }),
+        ],
+      );
+    } else {
+      if (animateBtnShow) {
+        return const Text(
+          "动画",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: TextStyleUtils.regual),
+        ).inkWell(() {
+          context.read<MatchDetailDataProvider>().setShowAnimate(true);
+        });
+      } else if (videoBtnShow) {
+        return const Text(
+          "视频",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: TextStyleUtils.regual),
+        ).inkWell(() {
+          context.read<MatchDetailDataProvider>().setShowVideo(true);
+        });
+      } else {
+        return const SizedBox();
+      }
+    }
   }
 }

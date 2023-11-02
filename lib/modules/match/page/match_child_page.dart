@@ -6,6 +6,7 @@ import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
+import 'package:wzty/modules/match/manager/match_filter_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
@@ -26,6 +27,13 @@ class MatchChildPage extends StatefulWidget {
 }
 
 class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
+  setConditionData() {
+    filterType = MatchFilterManager.instance.filterType;
+    leagueIdArr = MatchFilterManager.instance.leagueIdArr;
+
+    _requestData(loading: true);
+  }
+
   getMatchDateStr() {
     return _dateStrArr[_selectIdx];
   }
@@ -36,6 +44,9 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
   final List<String> _titleStrArr = [];
   final List<String> _dateStrArr = [];
   int _selectIdx = 0;
+
+  MatchFilterType filterType = MatchFilterType.unknown;
+  List<int> leagueIdArr = [];
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
@@ -119,12 +130,12 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     params['status'] = matchStatusToServerValue(widget.matchStatus);
     // }
 
-    // if (leagueIdArr.isNotEmpty) {
-    //   params['leagueIds'] = leagueIdArr;
-    //   params['filterType'] = conditionType.index;
-    // } else if (conditionType != ConditionType.unknown) {
-    //   params['filterType'] = conditionType.index;
-    // }
+    if (leagueIdArr.isNotEmpty) {
+      params['leagueIds'] = leagueIdArr;
+      params['filterType'] = filterType.value;
+    } else if (filterType != MatchFilterType.unknown) {
+      params['filterType'] = filterType.value;
+    }
 
     MatchStatus matchStatus = widget.matchStatus;
 
@@ -179,10 +190,13 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
         widget.matchStatus == MatchStatus.finished) {
       return Column(
         children: [
-          MatchHeadDateWidget(dateArr: _titleStrArr, selectIdx: _selectIdx, callback: (data) {
-            _selectIdx = data;
-            _requestData(loading: true);
-          }),
+          MatchHeadDateWidget(
+              dateArr: _titleStrArr,
+              selectIdx: _selectIdx,
+              callback: (data) {
+                _selectIdx = data;
+                _requestData(loading: true);
+              }),
           Expanded(
             child: LoadStateWidget(
               state: _layoutState,

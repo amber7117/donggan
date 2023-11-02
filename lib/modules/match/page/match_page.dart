@@ -62,7 +62,19 @@ class _MatchPageState extends KeepAliveWidgetState<MatchPage>
     )
   ];
 
-  _getMatchStatus(int idx) {
+  _setConditionData() {
+    int idx = _tabProvider.index;
+    if (idx == 0) {
+      return _goingPageKey.currentState?.setConditionData();
+    } else if (idx == 1) {
+      return _uncomingPageKey.currentState?.setConditionData();
+    } else if (idx == 2) {
+      return _finishedPageKey.currentState?.setConditionData();
+    }
+  }
+
+  _getMatchStatus() {
+    int idx = _tabProvider.index;
     if (idx == 0) {
       return MatchStatus.going;
     } else if (idx == 1) {
@@ -73,7 +85,8 @@ class _MatchPageState extends KeepAliveWidgetState<MatchPage>
     return MatchStatus.uncoming;
   }
 
-  _getMatchDateStr(int idx) {
+  _getMatchDateStr() {
+    int idx = _tabProvider.index;
     if (idx == 0) {
       return _goingPageKey.currentState?.getMatchDateStr();
     } else if (idx == 1) {
@@ -151,13 +164,15 @@ class _MatchPageState extends KeepAliveWidgetState<MatchPage>
                           rightTap: provider.index == 3
                               ? null
                               : () {
-                                  Routes.present(context, Routes.matchFilter,
+                                  Routes.pushAndCallback(
+                                      context, Routes.matchFilter, (data) {
+                                        _setConditionData();
+                                      },
                                       arguments: {
                                         "sportType": sportType,
                                         "matchStatus":
-                                            _getMatchStatus(_tabProvider.index),
-                                        "dateStr": _getMatchDateStr(
-                                            _tabProvider.index),
+                                            _getMatchStatus(),
+                                        "dateStr": _getMatchDateStr(),
                                       });
                                 });
                     }),
