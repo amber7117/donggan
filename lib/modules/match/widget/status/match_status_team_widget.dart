@@ -17,8 +17,7 @@ class _MatchStatusTeamWidgetState extends State<MatchStatusTeamWidget> {
   @override
   Widget build(BuildContext context) {
     MatchDetailModel model = widget.detailModel;
-    return Container(
-      color: Colors.yellow,
+    return SizedBox(
       height: 48,
       child: Row(
         children: [

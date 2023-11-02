@@ -68,14 +68,14 @@ class MatchService {
   }
 
   static Future<void> requestMatchBook(int matchId,
-      bool isAdd, BusinessCallback<String> complete) async {
+      bool isBook, BusinessCallback<String> complete) async {
     String userId = await UserManager.instance.obtainUseridOrDeviceid();
     Map<String, dynamic> params = {
        "matchId": matchId, "userId": userId
     };
 
     HttpResultBean result = await HttpManager.request(
-        isAdd ? MatchApi.matchBook : MatchApi.matchBookCancel,
+        isBook ? MatchApi.matchBook : MatchApi.matchBookCancel,
         HttpMethod.post,
         params: params);
 

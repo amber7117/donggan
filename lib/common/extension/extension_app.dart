@@ -1,9 +1,13 @@
 extension ExpressionInt on int {
-
   bool isTrue() {
     return this > 0;
   }
+}
 
+extension ExpressionBool on bool {
+  int toInt() {
+    return this ? 1 : 0;
+  }
 }
 
 extension ExpressionStr on String {

@@ -24,7 +24,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
       height: 519,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: JhImageUtils.getAssetImage("match/bgLineup"),
+            image: JhImageUtils.getAssetImage("match/bgLineup", x2: false),
             fit: BoxFit.fitWidth),
       ),
       child: Column(

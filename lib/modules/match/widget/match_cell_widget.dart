@@ -5,6 +5,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_calendar_entity.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
@@ -36,6 +37,19 @@ class MatchCellWidget extends StatefulWidget {
 }
 
 class _MatchCellWidgetState extends State<MatchCellWidget> {
+  _prepareMatchOperate() {
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+      return;
+    }
+    
+    if (widget.listModel != null) {
+      _requestMatchCollect();
+    } else {
+      _requestMatchBook();
+    }
+  }
+
   _requestMatchCollect() {
     MatchListModel model = widget.listModel!;
     bool isAdd = !model.focus;
@@ -53,6 +67,25 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
             .updateCollectData(widget.sportType, model);
 
         context.read<TabDotProvider>().setDotNum(cnt);
+
+        setState(() {});
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
+  _requestMatchBook() {
+    MatchCalendarEntity model = widget.calendarEntity!;
+    bool isBook = !model.userIsAppointment;
+
+    ToastUtils.showLoading();
+
+    MatchService.requestMatchBook(model.matchId, isBook, (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        ToastUtils.showSuccess(isBook ? "预约成功" : "取消预约成功");
+        model.userIsAppointment = isBook;
 
         setState(() {});
       } else {
@@ -301,7 +334,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
-                        onTap: _requestMatchCollect,
+                        onTap: _prepareMatchOperate,
                         child: model.userIsAppointment
                             ? const JhAssetImage("match/iconMatchCollectS",
                                 width: 20)
@@ -363,7 +396,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
             .colored(Colors.black.withOpacity(0.1)),
         const SizedBox(width: 10),
         InkWell(
-          onTap: _requestMatchCollect,
+          onTap: _prepareMatchOperate,
           child: model.focus
               ? const JhAssetImage("match/iconMatchCollectS", width: 20)
               : const JhAssetImage("match/iconMatchCollect", width: 20),

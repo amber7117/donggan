@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
@@ -48,9 +49,12 @@ class _AnchorDetailUserInfoWidgetState
   @override
   Widget build(BuildContext context) {
     AnchorDetailModel model = widget.model;
-
+    double width = 185;
+    if (width < ScreenUtil().screenWidth * 0.5) {
+      width = ScreenUtil().screenWidth * 0.5;
+    }
     return Container(
-      width: 190,
+      width: width,
       height: 40,
       decoration: const BoxDecoration(
         gradient: LinearGradient(

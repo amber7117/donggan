@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
+import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailHeadWidget extends StatefulWidget {
   final double height;
@@ -20,16 +26,57 @@ class MatchDetailHeadWidget extends StatefulWidget {
 }
 
 class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
+  void _requestMatchCollect() {
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+      return;
+    }
+
+    MatchDetailModel model = widget.model;
+    bool isAdd = !model.focus.isTrue();
+
+    ToastUtils.showLoading();
+
+    SportType sportType = SportType.football;
+    if (widget.model.sportId == SportType.basketball.value) {
+      sportType = SportType.basketball;
+    }
+
+    MatchService.requestMatchCollect(sportType, model.matchId, isAdd,
+        (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        ToastUtils.showSuccess(isAdd ? "收藏成功" : "取消收藏成功");
+        model.focus = isAdd.toInt();
+
+        // int cnt = MatchCollectManager.instance
+        //     .updateCollectData(widget.sportType, model);
+
+        // context.read<TabDotProvider>().setDotNum(cnt);
+
+        setState(() {});
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String imgPath;
+    if (widget.model.sportId == SportType.football.value) {
+      imgPath = "match/imgZuqiuBg";
+    } else {
+      imgPath = "match/imgLanqiuBg";
+    }
+
     return Container(
       height: widget.height + ScreenUtil().statusBarHeight,
       decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
-              image:
-                  JhImageUtils.getAssetImage("match/imgZuqiuBg", x2: false))),
+              image: JhImageUtils.getAssetImage(imgPath, x2: false))),
       child: Column(
         children: [
           SizedBox(height: ScreenUtil().statusBarHeight),
@@ -84,12 +131,14 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
           ],
         ),
         InkWell(
+          onTap: _requestMatchCollect,
           child: Container(
               margin: const EdgeInsets.only(right: 10),
               padding: const EdgeInsets.all(10),
-              child:
-                  const JhAssetImage("match/iconStar", width: 24, height: 24)),
-          onTap: () {},
+              child: JhAssetImage(
+                  model.focus.isTrue() ? "match/iconStarS" : "match/iconStar",
+                  width: 24,
+                  height: 24)),
         )
       ],
     );
@@ -144,7 +193,9 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                         fontSize: 10,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
-                    context.read<MatchDetailDataProvider>().setShowAnimate(true);
+                    context
+                        .read<MatchDetailDataProvider>()
+                        .setShowAnimate(true);
                   }),
                   const SizedBox(width: 10),
                   const SizedBox(width: 0.5, height: 8).colored(Colors.white),
