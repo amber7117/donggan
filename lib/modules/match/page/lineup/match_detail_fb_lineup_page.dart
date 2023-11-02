@@ -67,14 +67,14 @@ class _MatchDetailFBLineupPageState
     }
     List<MatchLineupFBPlayerModel> playerList1 = [];
     List<MatchLineupFBPlayerModel> playerList2 = [];
-    MatchLineupFBHeadType headType = MatchLineupFBHeadType.host;
+    bool isHost = true;
     if (selectIdx == 0) {
       playerList1 = model!.hostMainPlayerList!;
       playerList2 = model!.hostSubPlayerList!;
     } else {
       playerList1 = model!.guestMainPlayerList!;
       playerList2 = model!.guestSubPlayerList!;
-      headType = MatchLineupFBHeadType.guest;
+      isHost = false;
     }
     return CustomScrollView(
       slivers: [
@@ -88,11 +88,11 @@ class _MatchDetailFBLineupPageState
                 })),
         SliverToBoxAdapter(
             child: MatchLineupFbHeadWidget(
-                model: model!, type: headType)),
+                model: model!, isHost: isHost)),
         SliverList.builder(
             itemCount: playerList1.length,
             itemBuilder: (context, index) {
-              return MatchLineupFbCellWidget(model: playerList1[index]);
+              return MatchLineupFbCellWidget(model: playerList1[index], isHost: isHost);
             }),
         SliverToBoxAdapter(
             child: Container(
@@ -112,7 +112,7 @@ class _MatchDetailFBLineupPageState
         SliverList.builder(
             itemCount: playerList2.length,
             itemBuilder: (context, index) {
-              return MatchLineupFbCellWidget(model: playerList2[index]);
+              return MatchLineupFbCellWidget(model: playerList2[index], isHost: isHost);
             }),
       ],
     );

@@ -4,14 +4,12 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum MatchLineupFBHeadType { host, guest }
-
 class MatchLineupFbHeadWidget extends StatefulWidget {
   final MatchLineupFBModel model;
-  final MatchLineupFBHeadType type;
+  final bool isHost;
 
   const MatchLineupFbHeadWidget(
-      {super.key, required this.model, required this.type});
+      {super.key, required this.model, required this.isHost});
 
   @override
   State createState() => _MatchLineupFbHeadWidgetState();
@@ -26,7 +24,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
       height: 519,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: JhImageUtils.getAssetImage("common/bgLineup"),
+            image: JhImageUtils.getAssetImage("match/bgLineup"),
             fit: BoxFit.fitWidth),
       ),
       child: Column(
@@ -36,7 +34,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widget.type == MatchLineupFBHeadType.host
+              children: widget.isHost
                   ? _buildFormationUI(
                       model.hostFormation, model.hostMainPlayerList!)
                   : _buildFormationUI(
@@ -49,7 +47,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
   }
 
   Widget _buildInfoUI() {
-    bool isHost = widget.type == MatchLineupFBHeadType.host;
+    bool isHost = widget.isHost;
     MatchLineupFBModel model = widget.model;
 
     return Row(
@@ -78,7 +76,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
                   "阵型：",
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: ColorUtils.black34,
+                      color: Colors.white,
                       fontSize: 12,
                       fontWeight: TextStyleUtils.regual),
                 ),
@@ -86,9 +84,9 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
                   isHost ? model.hostFormation : model.guestFormation,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      color: ColorUtils.black34,
+                      color: Colors.white,
                       fontSize: 12,
-                      fontWeight: TextStyleUtils.regual),
+                      fontWeight: TextStyleUtils.medium),
                 ),
               ],
             )),
@@ -155,6 +153,13 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
   }
 
   Widget _buildPlayerWidget(MatchLineupFBPlayerModel player) {
+    String imgPath;
+    if (widget.isHost) {
+      imgPath = "match/iconPlayerRed";
+    } else {
+      imgPath = "match/iconPlayerBlue";
+    }
+
     return SizedBox(
       width: 80,
       height: 60,
@@ -163,15 +168,19 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
           Container(
             width: 32,
             height: 32,
-            color: Colors.green,
             alignment: Alignment.center,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: JhImageUtils.getAssetImage(imgPath),
+                  fit: BoxFit.fitWidth),
+            ),
             child: Text(
               player.shirtNumber,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                  color: ColorUtils.black34,
+                  color: Colors.white,
                   fontSize: 12,
-                  fontWeight: TextStyleUtils.regual),
+                  fontWeight: TextStyleUtils.medium),
             ),
           ),
           Text(
