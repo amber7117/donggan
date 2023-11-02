@@ -8,11 +8,11 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
+import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
-import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
@@ -21,16 +21,16 @@ import 'package:wzty/utils/toast_utils.dart';
 
 const double _headHeight = 212.0;
 
-class AnchorDetailPage extends StatefulWidget {
-  final int anchorId;
+class LivePlaybackPage extends StatefulWidget {
+  final AnchorVideoModel videoModel;
 
-  const AnchorDetailPage({super.key, required this.anchorId});
+  const LivePlaybackPage({super.key, required this.videoModel});
 
   @override
-  State createState() => _AnchorDetailPageState();
+  State createState() => _LivePlaybackPageState();
 }
 
-class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
+class _LivePlaybackPageState extends KeepAliveLifeWidgetState<LivePlaybackPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -40,22 +40,18 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
 
   final List<Widget> _tabs = [
     const MatchDetailTabbarItemWidget(
-      tabName: '聊球',
+      tabName: '预告',
       index: 0,
     ),
     const MatchDetailTabbarItemWidget(
-      tabName: '预告',
-      index: 1,
-    ),
-    const MatchDetailTabbarItemWidget(
       tabName: '回放',
-      index: 2,
+      index: 1,
     ),
   ];
 
   LoadStatusType _layoutState = LoadStatusType.loading;
   AnchorDetailModel? _model;
-  AnchorDetailModel? _playInfo;
+  AnchorRecordModel? _playInfo;
 
   @override
   void initState() {
@@ -76,14 +72,16 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
   }
 
   _requestData() {
+    AnchorVideoModel model = widget.videoModel;
+
     ToastUtils.showLoading();
 
-    Future basic = AnchorService.requestDetailBasicInfo(widget.anchorId,
-        (success, result) {
+    Future basic =
+        AnchorService.requestDetailBasicInfo(model.anchorId, (success, result) {
       _model = result;
     });
-    Future play =
-        AnchorService.requestDetailPlayInfo(widget.anchorId, (success, result) {
+    Future play = AnchorService.requestPlaybackInfo(
+        model.anchorId, model.roomRecordId, (success, result) {
       _playInfo = result;
     });
 
@@ -91,19 +89,18 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
       ToastUtils.hideLoading();
 
       if (_model != null && _playInfo != null) {
-        _model!.updatePlayDataByModel(_playInfo!);
+        _model!.updatePlaybackDataByModel(_playInfo!);
 
         _layoutState = LoadStatusType.success;
       } else {
-        _layoutState = LoadStatusType.failure;
+        _layoutState = LoadStatusType.empty;
       }
 
       setState(() {});
     });
   }
 
-  String _attemptPlayVideo() {
-    return "";
+  String _attempPlayPlayback() {
     late AnchorDetailModel model;
     if (_model == null) {
       return "";
@@ -111,7 +108,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
 
     model = _model!;
 
-    if (model.playAddr.isEmpty) {
+    if (model.recordAddr.isEmpty) {
       return "";
     }
 
@@ -119,42 +116,8 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
       return "";
     }
 
-    String videoUrl = "";
-    if (model.isRobot.isTrue()) {
-      videoUrl = _obtainVideoUrl(model.playAddr, "");
-    } else {
-      videoUrl = _obtainVideoUrl(model.playAddr, "sd");
-    }
-    return videoUrl;
+    return model.recordAddr["m3u8"] ?? "";
   }
-
-  String _obtainVideoUrl(Map<String, String> addrDic, String prefix) {
-    String videoUrl = "";
-    String key1 = "";
-    String key2 = "";
-    String key3 = "";
-
-    if (prefix.isNotEmpty) {
-      key1 = "${prefix}_flv";
-      key2 = "${prefix}_m3u8";
-      key3 = "${prefix}_rtmp";
-    } else {
-      key1 = "flv";
-      key2 = "m3u8";
-      key3 = "rtmp";
-    }
-
-    if (addrDic.containsKey(key1)) {
-      videoUrl = addrDic[key1]!;
-    } else if (addrDic.containsKey(key2)) {
-      videoUrl = addrDic[key2]!;
-    } else if (addrDic.containsKey(key3)) {
-      videoUrl = addrDic[key3]!;
-    }
-
-    return videoUrl;
-  }
-
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
@@ -167,6 +130,9 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     if (_model == null) {
       return const SizedBox();
     }
+
+    AnchorVideoModel model = widget.videoModel;
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context2) => _tabProvider),
@@ -174,8 +140,9 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
         ],
         child: Column(
           children: [
-            Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
-              String videoUrl = _attemptPlayVideo();
+            Consumer<MatchDetailDataProvider>(
+                builder: (context, provider, child) {
+              String videoUrl = _attempPlayPlayback();
               if (videoUrl.isNotEmpty) {
                 return MatchDetailHeadVideoWidget(
                     height: _headHeight, urlStr: videoUrl);
@@ -183,7 +150,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                 return MatchDetailHeadWebWidget(
                     height: _headHeight, urlStr: _model!.animUrl);
               } else {
-                 return SizedBox(
+                return SizedBox(
                     width: double.infinity,
                     height: _headHeight + ScreenUtil().statusBarHeight);
               }
@@ -217,15 +184,11 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                     controller: _pageController,
                     itemBuilder: (_, int index) {
                       if (index == 0) {
-                        return ChatPage(
-                            roomId: _model!.roomId.toString(),
-                            chatRoomId: _model!.chatId);
-                      } else if (index == 1) {
                         return AnchorDetailCalendarPage(
-                            anchorId: widget.anchorId);
+                            anchorId: model.anchorId);
                       } else {
                         return AnchorDetailPlaybackPage(
-                            anchorId: widget.anchorId,
+                            anchorId: model.anchorId,
                             nickName: _model!.nickname);
                       }
                     }))

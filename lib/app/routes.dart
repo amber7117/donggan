@@ -1,8 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_page.dart';
+import 'package:wzty/modules/anchor/page/live_playback_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_page.dart';
@@ -45,6 +47,8 @@ class Routes {
 
   static String anchor = "/anchor";
   static String anchorDetail = "/anchor/detail";
+
+  static String livePlayback = "/anchor/livePlayback";
 
   // ---------------------------------------------
 
@@ -119,6 +123,11 @@ class Routes {
         handler: Handler(handlerFunc: (context, params) {
       var args = context?.settings?.arguments as int;
       return AnchorDetailPage(anchorId: args);
+    }));
+    router.define(livePlayback,
+        handler: Handler(handlerFunc: (context, params) {
+      var model = context?.settings?.arguments as AnchorVideoModel;
+      return LivePlaybackPage(videoModel: model);
     }));
 
     // ---------------------------------------------

@@ -57,6 +57,7 @@ class AnchorService {
   static Future<void> requestDetailBasicInfo(
       int anchorId, BusinessCallback<AnchorDetailModel?> complete) async {
     Map<String, dynamic> params = {"anchorId": anchorId};
+    
     if (UserManager.instance.isLogin()) {
       params["currentUserId"] = UserManager.instance.uid;
     }
@@ -78,6 +79,7 @@ class AnchorService {
   static Future<void> requestDetailPlayInfo(
       int anchorId, BusinessCallback<AnchorDetailModel?> complete) async {
     Map<String, dynamic> params = {"anchorId": anchorId};
+
     if (UserManager.instance.isLogin()) {
       params["currentUserId"] = UserManager.instance.uid;
     }
@@ -123,6 +125,29 @@ class AnchorService {
       complete(true, retList);
     } else {
       complete(false, []);
+    }
+  }
+
+  static Future<void> requestPlaybackInfo(int anchorId, int recordId,
+      BusinessCallback<AnchorRecordModel?> complete) async {
+    Map<String, dynamic> params = {"anchorId": anchorId, "recordId": recordId};
+
+    if (UserManager.instance.isLogin()) {
+      params["currentUserId"] = UserManager.instance.uid;
+    }
+
+    HttpResultBean result = await HttpManager.request(
+        AnchorApi.playbackInfo, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      Map<String, dynamic> data = result.data["roomRecord"];
+
+      AnchorRecordModel model = AnchorRecordModel.fromJson(data);
+      complete(true, model);
+      return;
+    } else {
+      complete(false, null);
     }
   }
 }

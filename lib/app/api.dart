@@ -69,6 +69,9 @@ class AnchorApi {
   static String playbackList =
       "/live-product/anonymous/v1/app/anchor/record/page";
 
+  static String playbackInfo =
+      "/live-product/v2.0/anchorRelay";
+
   static String searchData = "/live-product/anonymous/v1/search";
 }
 
