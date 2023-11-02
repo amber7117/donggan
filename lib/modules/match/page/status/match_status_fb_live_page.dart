@@ -31,6 +31,10 @@ class _MatchStatusFBLivePageState extends State<MatchStatusFBLivePage> {
   }
 
   _prepareBuildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
+    
     if (widget.liveModelArr.isNotEmpty) {
       return _buildChild(context, widget.liveModelArr, false);
     } else {

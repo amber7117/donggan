@@ -177,14 +177,8 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   fontSize: 32,
                   fontWeight: TextStyleUtils.semibold),
             ),
-            Container(
-              width: 80,
-              height: 24,
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(12))),
-              child: _buildVideoUI(),
-            )
+            const SizedBox(height: 10),
+            _buildVideoUI(),
           ],
         ),
         Column(
@@ -210,6 +204,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
 
   _buildVideoUI() {
     MatchDetailModel model = widget.model;
+    MatchStatus matchStatus = matchStatusFromServerValue(model.matchStatus);
 
     bool animateBtnShow = false;
     bool videoBtnShow = false;
@@ -220,59 +215,79 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
     if (ConfigManager.instance.videoOk && model.hasPlayerUrl()) {
       videoBtnShow = true;
     }
+    if (matchStatus == MatchStatus.finished) {
+      videoBtnShow = false;
+    }
 
     if (animateBtnShow && videoBtnShow) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            "动画",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                fontWeight: TextStyleUtils.regual),
-          ).inkWell(() {
-            context.read<MatchDetailDataProvider>().setShowAnimate(true);
-          }),
-          const SizedBox(width: 10),
-          const SizedBox(width: 0.5, height: 8).colored(Colors.white),
-          const SizedBox(width: 10),
-          const Text(
-            "视频",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                fontWeight: TextStyleUtils.regual),
-          ).inkWell(() {
-            context.read<MatchDetailDataProvider>().setShowVideo(true);
-          }),
-        ],
+      return Container(
+        width: 80,
+        height: 24,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: const BorderRadius.all(Radius.circular(12))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "动画",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: TextStyleUtils.regual),
+            ).inkWell(() {
+              context.read<MatchDetailDataProvider>().setShowAnimate(true);
+            }),
+            const SizedBox(width: 10),
+            const SizedBox(width: 0.5, height: 8).colored(Colors.white),
+            const SizedBox(width: 10),
+            const Text(
+              "视频",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: TextStyleUtils.regual),
+            ).inkWell(() {
+              context.read<MatchDetailDataProvider>().setShowVideo(true);
+            }),
+          ],
+        ),
       );
     } else {
-      if (animateBtnShow) {
-        return const Text(
-          "动画",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-              fontWeight: TextStyleUtils.regual),
-        ).inkWell(() {
-          context.read<MatchDetailDataProvider>().setShowAnimate(true);
-        });
-      } else if (videoBtnShow) {
-        return const Text(
-          "视频",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-              fontWeight: TextStyleUtils.regual),
-        ).inkWell(() {
-          context.read<MatchDetailDataProvider>().setShowVideo(true);
-        });
+      if (animateBtnShow || videoBtnShow) {
+        return Container(
+            width: 80,
+            height: 24,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: const BorderRadius.all(Radius.circular(12))),
+            child: animateBtnShow
+                ? const Text(
+                    "动画",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: TextStyleUtils.regual),
+                  ).inkWell(() {
+                    context
+                        .read<MatchDetailDataProvider>()
+                        .setShowAnimate(true);
+                  })
+                : const Text(
+                    "视频",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: TextStyleUtils.regual),
+                  ).inkWell(() {
+                    context.read<MatchDetailDataProvider>().setShowVideo(true);
+                  }));
       } else {
         return const SizedBox();
       }

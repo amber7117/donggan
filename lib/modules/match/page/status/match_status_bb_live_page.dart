@@ -31,6 +31,10 @@ class _MatchStatusBBLivePageState extends State<MatchStatusBBLivePage> {
   }
 
   _prepareBuildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
+    
     MatchStatusBBLiveLocalModel liveModel;
     bool is2 = false;
     if (widget.liveModel != null) {
