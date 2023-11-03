@@ -115,8 +115,10 @@ class _MatchDetailPageState extends State<MatchDetailPage>
       return const SizedBox();
     }
 
+    MatchDetailModel model = _model!;
+
     SportType sportType = SportType.football;
-    if (_model!.sportId == SportType.basketball.value) {
+    if (model.sportId == SportType.basketball.value) {
       sportType = SportType.basketball;
     }
 
@@ -131,13 +133,17 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                 builder: (context, provider, child) {
               if (provider.showAnimate) {
                 return MatchDetailHeadWebWidget(
-                    height: _headHeight, urlStr: _model!.animUrl);
+                    height: _headHeight, urlStr: model.animUrl);
               } else if (provider.showVideo) {
+                 String urlStr = model.obtainFirstVideoUrl();
+                 if (urlStr.isEmpty) {
+                    urlStr = model.obtainSecondVideoUrl();
+                 }
                 return MatchDetailHeadVideoWidget(
-                    height: _headHeight, urlStr: _model!.obtainFirstVideoUrl());
+                    height: _headHeight, urlStr: urlStr);
               } else {
                 return MatchDetailHeadWidget(
-                    height: _headHeight, model: _model!);
+                    height: _headHeight, model: model);
               }
             }),
             SizedBox(
@@ -165,28 +171,28 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                       if (index == 0) {
                         if (sportType == SportType.football) {
                           return MatchDetailFBStatusPage(
-                              matchId: widget.matchId, detailModel: _model!);
+                              matchId: widget.matchId, detailModel: model);
                         } else {
                           return MatchDetailBBStatusPage(
-                              matchId: widget.matchId, detailModel: _model!);
+                              matchId: widget.matchId, detailModel: model);
                         }
                       } else if (index == 1) {
                         if (sportType == SportType.football) {
                           return MatchDetailFBLineupPage(
-                              matchId: widget.matchId, detailModel: _model!);
+                              matchId: widget.matchId, detailModel: model);
                         } else {
                           return MatchDetailBBLineupPage(
-                              matchId: widget.matchId, detailModel: _model!);
+                              matchId: widget.matchId, detailModel: model);
                         }
                       } else if (index == 2) {
                         return MatchDetailAnalysisPage(
-                            matchId: widget.matchId, detailModel: _model!);
+                            matchId: widget.matchId, detailModel: model);
                       } else if (index == 3) {
                         return MatchDetailAnchorPage(matchId: widget.matchId);
                       } else if (index == 4) {
                         return ChatPage(
-                            roomId: _model!.roomId,
-                            chatRoomId: _model!.matchId.toString());
+                            roomId: model.roomId,
+                            chatRoomId: model.matchId.toString());
                       }
                       return const SizedBox();
                     }))

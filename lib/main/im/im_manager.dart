@@ -83,19 +83,4 @@ class IMManager {
       callback(code, message);
     }));
   }
-
-  void addIMConnectionStatusChangeDelegate(
-      WZListCallback<int?, RCIMIWMessage?> callback) {
-    _engine.onConnectionStatusChanged = (status) {};
-  }
-
-  void addIMChatRoomStatusDelegate(
-      WZListCallback<int?, RCIMIWMessage?> callback) {
-    _engine.onChatRoomStatusChanged = (targetId, status) {};
-  }
-
-  void addIMReceiveMessageDelegate(
-      WZListCallback<int?, RCIMIWMessage?> callback) {
-    _engine.onMessageReceived = (message, left, offline, hasPackage) {};
-  }
 }

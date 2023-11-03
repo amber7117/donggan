@@ -29,9 +29,9 @@ class _DemoPageState extends State<DemoPage> {
         return MaterialApp(
           title: "王者体育",
           debugShowCheckedModeBanner: false,
-          home: WebviewScreen(
+          home: VideoScreen(
               url:
-                  'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'),
+                  'https://pull-new.52bch.com/live/6079249_lsd.flv?auth_info=Gav%2FVgjo3iXjoWbKlS9rTJqN4wJ%2BpVZ80gjJbgeRUJLYxvzWHp1XS8WgDJ2Zzejq.7975707371766768366f7a626976627a'),
         );
       },
     );
@@ -76,56 +76,3 @@ class _VideoScreenState extends State<VideoScreen> {
     player.release();
   }
 }
-
-class WebviewScreen extends StatefulWidget {
-  final String url;
-
-  const WebviewScreen({super.key, required this.url});
-
-  @override
-  State createState() => _WebviewScreenState();
-}
-
-class _WebviewScreenState extends State<WebviewScreen> {
-  late WebViewController controller;
-
-  _WebviewScreenState();
-
-  @override
-  void initState() {
-    super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse('https://flutter.dev'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Simple Example')),
-      body: WebViewWidget(controller: controller),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-}
-
-
-

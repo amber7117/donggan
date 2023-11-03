@@ -25,3 +25,4 @@ extension Style on Widget {
     );
   }
 }
+

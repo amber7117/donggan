@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
 // 测试环境开关
@@ -21,6 +22,13 @@ typedef WZListCallback<T1, T2> = void Function(T1 data1, T2 data2);
 const pageSize = 20;
 const pageSize100 = 100;
 const apiPlaceholder = "###";
+
+
+double popContentHeight() {
+  return ScreenUtil().screenHeight -
+      ScreenUtil().statusBarHeight -
+      ScreenUtil().bottomBarHeight;
+}
 
 enum SportType {
   football(value: 1),

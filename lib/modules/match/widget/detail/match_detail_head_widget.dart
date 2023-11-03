@@ -5,6 +5,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
+import 'package:wzty/common/widget/choose_menu_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/user/user_manager.dart';
@@ -60,6 +61,28 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
         ToastUtils.showError(result);
       }
     });
+  }
+
+  _preparePlayVideo() {
+    MatchDetailModel model = widget.model;
+    MatchStatus matchStatus = matchStatusFromServerValue(model.matchStatus);
+    if (matchStatus != MatchStatus.going) {
+      ToastUtils.showInfo("比赛未开始");
+      return;
+    }
+    context.read<MatchDetailDataProvider>().setShowVideo(true);
+  }
+
+  _preparePlayAnimate() {
+    return showDialog(context: context, builder: (context) {
+      return ChooseMenuWidget();
+    });
+    
+    // showBottomSheet(context: context, builder: (context) {
+    //   return ChooseMenuWidget();
+    // });
+
+    // context.read<MatchDetailDataProvider>().setShowAnimate(true);
   }
 
   @override
@@ -238,7 +261,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   fontSize: 10,
                   fontWeight: TextStyleUtils.regual),
             ).inkWell(() {
-              context.read<MatchDetailDataProvider>().setShowAnimate(true);
+              _preparePlayAnimate();
             }),
             const SizedBox(width: 10),
             const SizedBox(width: 0.5, height: 8).colored(Colors.white),
@@ -251,11 +274,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   fontSize: 10,
                   fontWeight: TextStyleUtils.regual),
             ).inkWell(() {
-              if (matchStatus != MatchStatus.going) {
-                ToastUtils.showInfo("比赛未开始");
-                return;
-              }
-              context.read<MatchDetailDataProvider>().setShowVideo(true);
+              _preparePlayVideo();
             }),
           ],
         ),
@@ -278,9 +297,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                         fontSize: 10,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
-                    context
-                        .read<MatchDetailDataProvider>()
-                        .setShowAnimate(true);
+                    _preparePlayAnimate();
                   })
                 : const Text(
                     "视频",
@@ -290,11 +307,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                         fontSize: 10,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
-                    if (matchStatus != MatchStatus.going) {
-                      ToastUtils.showInfo("比赛未开始");
-                      return;
-                    }
-                    context.read<MatchDetailDataProvider>().setShowVideo(true);
+                    _preparePlayVideo();
                   }));
       } else {
         return const SizedBox();

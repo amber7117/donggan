@@ -131,7 +131,11 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
   }
 
   _leaveIMRoom() {
-    IMManager.instance.engine.leaveChatRoom(widget.roomId);
+    IMManager.instance.engine.leaveChatRoom(widget.chatRoomId, callback: IRCIMIWLeaveChatRoomCallback(onChatRoomLeft: (int? code, String? targetId) {
+        if (code != null) {
+
+        }
+    }));
     IMManager.instance.engine.onConnectionStatusChanged = null;
     IMManager.instance.engine.onMessageReceived = null;
   }
