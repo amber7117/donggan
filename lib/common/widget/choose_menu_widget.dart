@@ -4,12 +4,20 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class ChooseMenuWidget extends StatelessWidget {
-  const ChooseMenuWidget({super.key});
+  final String title;
+  final List<String> dataArr;
+  final WZAnyCallback<int> callback;
+
+  const ChooseMenuWidget(
+      {super.key,
+      required this.title,
+      required this.dataArr,
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
-    double itemHeight = 40;
-    double marginY = (popContentHeight() - 160.0) * 0.5;
+    double itemHeight = 50;
+    double marginY = (popContentHeight() - 200.0) * 0.5;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: marginY),
       decoration: const BoxDecoration(
@@ -21,8 +29,8 @@ class ChooseMenuWidget extends StatelessWidget {
           Container(
             height: itemHeight,
             alignment: Alignment.center,
-            child: const Text("请选择动画类型",
-                style: TextStyle(
+            child: Text(title,
+                style: const TextStyle(
                     color: ColorUtils.black51,
                     fontSize: 15,
                     fontWeight: TextStyleUtils.regual)),
@@ -30,9 +38,12 @@ class ChooseMenuWidget extends StatelessWidget {
           SizedBox(
             height: itemHeight,
             child: TextButton(
-                onPressed: () {},
-                child: const Text("平台视角",
-                    style: TextStyle(
+                onPressed: () {
+                  callback(0);
+                  Navigator.pop(context);
+                },
+                child: Text(dataArr.first,
+                    style: const TextStyle(
                         color: ColorUtils.black34,
                         fontSize: 16,
                         fontWeight: TextStyleUtils.regual))),
@@ -40,9 +51,12 @@ class ChooseMenuWidget extends StatelessWidget {
           SizedBox(
             height: itemHeight,
             child: TextButton(
-                onPressed: () {},
-                child: const Text("看台视角",
-                    style: TextStyle(
+                onPressed: () {
+                  callback(1);
+                  Navigator.pop(context);
+                },
+                child: Text(dataArr.last,
+                    style: const TextStyle(
                         color: ColorUtils.black34,
                         fontSize: 16,
                         fontWeight: TextStyleUtils.regual))),

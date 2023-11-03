@@ -74,15 +74,40 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
   }
 
   _preparePlayAnimate() {
-    return showDialog(context: context, builder: (context) {
-      return ChooseMenuWidget();
-    });
-    
+    MatchDetailModel model = widget.model;
+
+    List<String> urlArr = [];
+    if (model.animUrl.isNotEmpty) {
+      urlArr.add(model.animUrl);
+    }
+    if (model.obliqueAnimUrl.isNotEmpty) {
+      urlArr.add(model.obliqueAnimUrl);
+    }
+
+    if (urlArr.isEmpty) {
+      ToastUtils.showToast("暂无动画播放地址");
+      return;
+    } else if (urlArr.length == 1) {
+      String url = urlArr[0];
+      context.read<MatchDetailDataProvider>().animateUrl = url;
+      context.read<MatchDetailDataProvider>().setShowAnimate(true);
+    } else {
+      return showDialog(
+          context: context,
+          builder: (context2) {
+            return ChooseMenuWidget(
+                title: "请选择动画类型",
+                dataArr: const ["平台视角", "看台视角"],
+                callback: (data) {
+                  String url = urlArr[data];
+                  context.read<MatchDetailDataProvider>().animateUrl = url;
+                  context.read<MatchDetailDataProvider>().setShowAnimate(true);
+                });
+          });
+    }
     // showBottomSheet(context: context, builder: (context) {
     //   return ChooseMenuWidget();
     // });
-
-    // context.read<MatchDetailDataProvider>().setShowAnimate(true);
   }
 
   @override
@@ -244,7 +269,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
 
     if (animateBtnShow && videoBtnShow) {
       return Container(
-        width: 80,
+        width: 100,
         height: 24,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -253,26 +278,30 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "动画",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: TextStyleUtils.regual),
+            const SizedBox(
+              width: 48,
+              child: Text(
+                "动画",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: TextStyleUtils.regual),
+              ),
             ).inkWell(() {
               _preparePlayAnimate();
             }),
-            const SizedBox(width: 10),
             const SizedBox(width: 0.5, height: 8).colored(Colors.white),
-            const SizedBox(width: 10),
-            const Text(
-              "视频",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: TextStyleUtils.regual),
+            const SizedBox(
+              width: 48,
+              child: Text(
+                "视频",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: TextStyleUtils.regual),
+              ),
             ).inkWell(() {
               _preparePlayVideo();
             }),
@@ -282,30 +311,36 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
     } else {
       if (animateBtnShow || videoBtnShow) {
         return Container(
-            width: 80,
+            width: 100,
             height: 24,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.1),
                 borderRadius: const BorderRadius.all(Radius.circular(12))),
             child: animateBtnShow
-                ? const Text(
-                    "动画",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: TextStyleUtils.regual),
+                ? const SizedBox(
+                    width: 48,
+                    child: Text(
+                      "动画",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: TextStyleUtils.regual),
+                    ),
                   ).inkWell(() {
                     _preparePlayAnimate();
                   })
-                : const Text(
-                    "视频",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: TextStyleUtils.regual),
+                : const SizedBox(
+                    width: 48,
+                    child: Text(
+                      "视频",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: TextStyleUtils.regual),
+                    ),
                   ).inkWell(() {
                     _preparePlayVideo();
                   }));
