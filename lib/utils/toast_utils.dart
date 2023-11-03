@@ -6,7 +6,7 @@ class ToastUtils {
   }
 
   static void showToast(String msg) {
-    EasyLoading.showSuccess(msg);
+    EasyLoading.showInfo(msg);
   }
 
   static void showInfo(String msg) {

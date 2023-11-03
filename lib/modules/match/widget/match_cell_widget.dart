@@ -411,7 +411,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
 
   _animateWidget(MatchListModel model) {
     if (ConfigManager.instance.videoOk &&
-        (model.hasVid > 0 && model.hasLive > 0)) {
+        (model.hasVid > 0 || model.hasLive > 0)) {
       return const JhAssetImage("match/iconMatchVideo", width: 24);
     } else if (ConfigManager.instance.animateOk && model.lmtMode > 0) {
       return const JhAssetImage("match/iconMatchAnimate", width: 24);

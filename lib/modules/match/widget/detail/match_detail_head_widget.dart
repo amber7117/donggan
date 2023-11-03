@@ -251,6 +251,10 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   fontSize: 10,
                   fontWeight: TextStyleUtils.regual),
             ).inkWell(() {
+              if (matchStatus != MatchStatus.going) {
+                ToastUtils.showInfo("比赛未开始");
+                return;
+              }
               context.read<MatchDetailDataProvider>().setShowVideo(true);
             }),
           ],
@@ -286,6 +290,10 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                         fontSize: 10,
                         fontWeight: TextStyleUtils.regual),
                   ).inkWell(() {
+                    if (matchStatus != MatchStatus.going) {
+                      ToastUtils.showInfo("比赛未开始");
+                      return;
+                    }
                     context.read<MatchDetailDataProvider>().setShowVideo(true);
                   }));
       } else {
