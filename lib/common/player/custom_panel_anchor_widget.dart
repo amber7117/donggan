@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 
@@ -11,7 +10,6 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
     final bool fill = false,
     final int duration = 4000,
     final bool doubleTap = true,
-    final bool snapShot = false,
     final VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
       Rect texturePos) {
@@ -24,7 +22,6 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
       texPos: texturePos,
       fill: fill,
       doubleTap: doubleTap,
-      snapShot: snapShot,
       hideDuration: duration,
     );
   };
@@ -38,7 +35,6 @@ class _CustomPanelAnchor extends StatefulWidget {
   final Rect texPos;
   final bool fill;
   final bool doubleTap;
-  final bool snapShot;
   final int hideDuration;
 
   const _CustomPanelAnchor(
@@ -50,7 +46,6 @@ class _CustomPanelAnchor extends StatefulWidget {
       required this.texPos,
       required this.fill,
       required this.doubleTap,
-      required this.snapShot,
       required this.hideDuration});
 
   @override
@@ -79,10 +74,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
   StreamSubscription? _bufferPosSubs;
 
   late StreamController<double> _valController;
-
-  // snapshot
-  ImageProvider? _imageProvider;
-  Timer? _snapshotTimer;
 
   // Is it needed to clear seek data in WZFijkData (widget.data)
   bool _needClearSeekData = true;
@@ -142,7 +133,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     _valController.close();
     _hideTimer?.cancel();
     _statelessTimer?.cancel();
-    _snapshotTimer?.cancel();
     _currentPosSubs?.cancel();
     _bufferPosSubs?.cancel();
     player.removeListener(_playerValueChanged);
@@ -373,56 +363,13 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     }
   }
 
-  void takeSnapshot() {
-    player.takeSnapShot().then((v) {
-      var provider = MemoryImage(v);
-      precacheImage(provider, context).then((_) {
-        setState(() {
-          _imageProvider = provider;
-        });
-      });
-      FijkLog.d("get snapshot succeed");
-    }).catchError((e) {
-      FijkLog.d("get snapshot failed");
-    });
-  }
-
   Widget buildPanel(BuildContext context) {
     double height = panelHeight();
 
-    bool fullScreen = player.value.fullScreen;
     Widget centerWidget = Container(
       color: const Color(0x00000000),
     );
 
-    Widget centerChild = Container(
-      color: const Color(0x00000000),
-    );
-
-    if (fullScreen && widget.snapShot) {
-      centerWidget = Row(
-        children: <Widget>[
-          Expanded(child: centerChild),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                  padding: const EdgeInsets.all(0),
-                  color: const Color(0xFFFFFFFF),
-                  icon: const Icon(Icons.camera_alt),
-                  onPressed: () {
-                    takeSnapshot();
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-      );
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -551,25 +498,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
           color: Color(0x99FFFFFF),
         ),
       );
-    } else if (_imageProvider != null) {
-      _snapshotTimer?.cancel();
-      _snapshotTimer = Timer(const Duration(milliseconds: 1500), () {
-        if (mounted) {
-          setState(() {
-            _imageProvider = null;
-          });
-        }
-      });
-      return Center(
-        child: IgnorePointer(
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.yellowAccent, width: 3)),
-            child:
-                Image(height: 200, fit: BoxFit.contain, image: _imageProvider!),
-          ),
-        ),
-      );
     } else {
       return Container();
     }
@@ -586,8 +514,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     } else if (player.state == FijkState.asyncPreparing) {
       ws.add(buildStateless());
     } else if (player.state == FijkState.error) {
-      ws.add(buildStateless());
-    } else if (_imageProvider != null) {
       ws.add(buildStateless());
     }
     ws.add(buildGestureDetector(context));

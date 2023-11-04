@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:wzty/common/extension/extension_app.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
@@ -12,14 +12,12 @@ import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_video_widget.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
-import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
-
-const double _headHeight = 212.0;
 
 class LivePlaybackPage extends StatefulWidget {
   final AnchorVideoModel videoModel;
@@ -118,6 +116,7 @@ class _LivePlaybackPageState extends KeepAliveLifeWidgetState<LivePlaybackPage>
 
     return model.recordAddr["m3u8"] ?? "";
   }
+
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
@@ -144,15 +143,14 @@ class _LivePlaybackPageState extends KeepAliveLifeWidgetState<LivePlaybackPage>
                 builder: (context, provider, child) {
               String videoUrl = _attempPlayPlayback();
               if (videoUrl.isNotEmpty) {
-                return MatchDetailHeadVideoWidget(
-                    height: _headHeight, urlStr: videoUrl);
+                return AnchorDetailHeadVideoWidget(
+                    height: videoHeight(), urlStr: videoUrl, isAnchor: false);
               } else if (_model!.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
-                    height: _headHeight, urlStr: _model!.animUrl);
+                    height: videoHeight(), urlStr: _model!.animUrl);
               } else {
                 return SizedBox(
-                    width: double.infinity,
-                    height: _headHeight + ScreenUtil().statusBarHeight);
+                    width: double.infinity, height: videoStatusBarHeight());
               }
             }),
             Row(

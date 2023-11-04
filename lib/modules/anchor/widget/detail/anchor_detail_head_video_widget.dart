@@ -6,9 +6,13 @@ import 'package:wzty/common/widget/wz_back_button.dart';
 class AnchorDetailHeadVideoWidget extends StatefulWidget {
   final double height;
   final String urlStr;
+  final bool isAnchor;
 
   const AnchorDetailHeadVideoWidget(
-      {super.key, required this.height, required this.urlStr});
+      {super.key,
+      required this.height,
+      required this.urlStr,
+      this.isAnchor = true});
 
   @override
   State createState() => _AnchorDetailHeadVideoWidgetState();
@@ -29,7 +33,10 @@ class _AnchorDetailHeadVideoWidgetState
                 width: double.infinity,
                 height: widget.height,
                 child: WZPlayerPage(
-                    urlStr: widget.urlStr, type: WZPlayerType.anchor),
+                    urlStr: widget.urlStr,
+                    type: widget.isAnchor
+                        ? WZPlayerType.anchor
+                        : WZPlayerType.playback),
               ),
               const WZBackButton(),
             ],

@@ -173,17 +173,16 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
           children: [
             Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
               String videoUrl = _attemptPlayVideo();
-              double headHeight = videoHeight(); 
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
-                    height: headHeight, urlStr: videoUrl);
+                    height: videoHeight(), urlStr: videoUrl);
               } else if (_model!.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
-                    height: headHeight, urlStr: _model!.animUrl);
+                    height: videoHeight(), urlStr: _model!.animUrl);
               } else {
                  return SizedBox(
                     width: double.infinity,
-                    height: headHeight);
+                    height: videoStatusBarHeight());
               }
             }),
             Row(

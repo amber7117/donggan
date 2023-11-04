@@ -133,17 +133,17 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                 builder: (context, provider, child) {
               if (provider.showAnimate) {
                 return MatchDetailHeadWebWidget(
-                    height: _headHeight, urlStr: model.animUrl);
+                    height: videoHeight(), urlStr: model.animUrl);
               } else if (provider.showVideo) {
                  String urlStr = model.obtainFirstVideoUrl();
                  if (urlStr.isEmpty) {
                     urlStr = model.obtainSecondVideoUrl();
                  }
                 return MatchDetailHeadVideoWidget(
-                    height: _headHeight, urlStr: urlStr);
+                    height: videoHeight(), urlStr: urlStr);
               } else {
                 return MatchDetailHeadWidget(
-                    height: _headHeight, model: model);
+                    height: videoHeight(), model: model);
               }
             }),
             SizedBox(
