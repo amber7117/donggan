@@ -21,7 +21,7 @@ class EmojiUtil {
 
       if (idx == 0) {
         arr1.add(emoji);
-      } else if ((idx + 1) % 49 == 0) {
+      } else if ((idx + 1) % 50 == 0) {
         arr1.add("iconDelete");
         arr2.add(arr1);
 
