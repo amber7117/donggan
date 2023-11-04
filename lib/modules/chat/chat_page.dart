@@ -275,11 +275,12 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
 
   bool _emojiShowing = false;
   late StateSetter _emojiSetter;
+  final GlobalKey<ChatBarWidgetState> _chatBarKey = GlobalKey();
 
   @override
   Widget buildWidget(BuildContext context) {
     return GestureDetector(
-       onTap: () {
+      onTap: () {
         Routes.unfocus();
         _hideEmojiUI();
       },
@@ -292,18 +293,26 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
                   itemBuilder: (context, index) {
                     return ChatCellWidget(model: _msgList[index]);
                   }).colored(Colors.white)),
-          ChatBarWidget(callback: (data) {
-            if (data == ChatBarEvent.edit) {
-              _hideEmojiUI();
-            } else if (data == ChatBarEvent.emoji) {
-              _showEmojiUI();
-            }
-          }),
+          ChatBarWidget(
+              key: _chatBarKey,
+              callback: (data) {
+                if (data == ChatBarEvent.edit) {
+                  _hideEmojiUI();
+                } else if (data == ChatBarEvent.emoji) {
+                  _showEmojiUI();
+                }
+              }),
           StatefulBuilder(builder: (context, setState) {
             _emojiSetter = setState;
             return Offstage(
                 offstage: !_emojiShowing,
-                child: EmojiWidget());
+                child: EmojiWidget(callback: (data) {
+                  if (data.isEmpty) {
+                    _chatBarKey.currentState?.deleteEmoji();
+                  } else {
+                    _chatBarKey.currentState?.insertEmoji(data);
+                  }
+                }));
           }),
         ],
       ),

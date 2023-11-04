@@ -8,7 +8,9 @@ import 'package:wzty/utils/color_utils.dart';
 const emojiWidgetHeight = 230.0;
 
 class EmojiWidget extends StatefulWidget {
-  const EmojiWidget({super.key});
+  final WZAnyCallback<String> callback;
+
+  const EmojiWidget({super.key, required this.callback});
 
   @override
   State createState() => _EmojiWidgetState();
@@ -60,7 +62,9 @@ class _EmojiWidgetState extends State<EmojiWidget> {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return EmojiContentWidget(
-                  dataArr: _emojiArr2[index], callback: (data) {});
+                  dataArr: _emojiArr2[index], callback: (data) {
+                    widget.callback(data);
+                  });
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -28,15 +29,22 @@ class EmojiContentWidget extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         String emojiStr = dataArr[index];
         if (emojiStr == "iconDelete") {
-          return JhAssetImage("anchor/iconDelete", width: itemWidth);
+          return InkWell(
+              onTap: () {
+                callback("");
+              },
+              child: JhAssetImage("anchor/iconDelete", width: itemWidth));
         } else {
-          return Align(
-            alignment: Alignment.center,
-            child: Text(emojiStr,
-                style: const TextStyle(
-                    color: ColorUtils.black51,
-                    fontSize: 22,
-                    fontWeight: TextStyleUtils.regual)),
+          return InkWell(
+            onTap: () {
+              callback(emojiStr);
+            },
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(emojiStr,
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: TextStyleUtils.regual)),
+            ),
           );
         }
       },

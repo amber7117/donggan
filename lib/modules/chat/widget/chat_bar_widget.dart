@@ -17,10 +17,30 @@ class ChatBarWidget extends StatefulWidget {
   const ChatBarWidget({super.key, required this.callback});
 
   @override
-  State createState() => _ChatBarWidgetState();
+  State createState() => ChatBarWidgetState();
 }
 
-class _ChatBarWidgetState extends State<ChatBarWidget> {
+class ChatBarWidgetState extends State<ChatBarWidget> {
+  textFocus(String emoji) {
+    if (!_nodeText1.hasFocus) {
+      _nodeText1.requestFocus();
+    }
+  }
+
+  unfocus(String emoji) {
+    if (_nodeText1.hasFocus) {
+      _nodeText1.unfocus();
+    }
+  }
+
+  insertEmoji(String emoji) {
+    _nameController.text = _nameController.text + emoji;
+  }
+
+  deleteEmoji() {}
+
+  // -------------------------------------------
+
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
 
@@ -80,7 +100,16 @@ class _ChatBarWidgetState extends State<ChatBarWidget> {
                   ),
                   IconButton(
                       onPressed: () {
-                        widget.callback(ChatBarEvent.emoji);
+                        if (_nodeText1.hasFocus) {
+                          _nodeText1.unfocus();
+
+                          // Future.delayed(const Duration(milliseconds: 200), () {
+                            widget.callback(ChatBarEvent.emoji);
+                          // });
+                          
+                        } else {
+                          _nodeText1.requestFocus();
+                        }
                       },
                       icon: const JhAssetImage(
                         "anchor/iconMsgEmoji",

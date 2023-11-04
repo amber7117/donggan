@@ -177,7 +177,9 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     return LoadStateWidget(
         state: _layoutState,
         successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+            backgroundColor: ColorUtils.gray248,
+            // resizeToAvoidBottomInset: false,
+            body: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {
@@ -191,7 +193,8 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
         ],
         child: Column(
           children: [
-            Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
+            Consumer<MatchDetailDataProvider>(
+                builder: (context, provider, child) {
               String videoUrl = _attemptPlayVideo();
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
@@ -200,9 +203,8 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                 return MatchDetailHeadWebWidget(
                     height: videoHeight(), urlStr: _model!.animUrl);
               } else {
-                 return SizedBox(
-                    width: double.infinity,
-                    height: videoStatusBarHeight());
+                return SizedBox(
+                    width: double.infinity, height: videoStatusBarHeight());
               }
             }),
             Row(
