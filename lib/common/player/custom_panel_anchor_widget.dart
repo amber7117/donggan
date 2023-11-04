@@ -223,9 +223,12 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     );
   }
 
-  Widget buildRefreshButton(BuildContext context) {
+  Widget buildRefreshButton(BuildContext context)  {
     return InkWell(
-        onTap: () {},
+        onTap: () async {
+          await player.reset();
+          player.setDataSource(player.dataSource!, autoPlay: true);
+        },
         child: const Padding(
             padding: EdgeInsets.all(10),
             child: JhAssetImage("anchor/iconRefresh", width: 24)));
@@ -250,9 +253,9 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
   Widget buildFullScreenButton(BuildContext context) {
     String imgPath;
     if (player.value.fullScreen) {
-      imgPath = "anchor/iconQaunPing2";
+      imgPath = "anchor/iconQuanPing2";
     } else {
-      imgPath = "anchor/iconQaunPing";
+      imgPath = "anchor/iconQuanPing";
     }
     return InkWell(
         onTap: () {

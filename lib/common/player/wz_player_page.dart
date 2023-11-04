@@ -32,7 +32,11 @@ class _WZPlayerPageState extends State<WZPlayerPage> {
   void dispose() {
     super.dispose();
 
-    player.stop();
+    // todo 销毁好像有异常
+    if (player.state == FijkState.started) {
+       player.stop();
+    }
+   
     player.release();
   }
 
@@ -53,6 +57,7 @@ class _WZPlayerPageState extends State<WZPlayerPage> {
       fit: FijkFit.ar16_9,
       fsFit: FijkFit.ar16_9,
       cover: AssetImage(JhImageUtils.obtainImgPath("anchor/imgLiveBg", x2: false)),
+      color: Colors.black,
     );
   }
 }

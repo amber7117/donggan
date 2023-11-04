@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/player/wz_player_page.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 
@@ -26,7 +27,8 @@ class _AnchorDetailHeadVideoWidgetState
       height: widget.height + ScreenUtil().statusBarHeight,
       child: Column(
         children: [
-          SizedBox(height: ScreenUtil().statusBarHeight),
+          SizedBox(width: double.infinity, height: ScreenUtil().statusBarHeight)
+              .colored(Colors.black),
           Stack(
             children: [
               SizedBox(
