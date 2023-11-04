@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -18,8 +19,6 @@ import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
-
-const double _headHeight = 212.0;
 
 class AnchorDetailPage extends StatefulWidget {
   final int anchorId;
@@ -174,16 +173,17 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
           children: [
             Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
               String videoUrl = _attemptPlayVideo();
+              double headHeight = videoHeight(); 
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
-                    height: _headHeight, urlStr: videoUrl);
+                    height: headHeight, urlStr: videoUrl);
               } else if (_model!.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
-                    height: _headHeight, urlStr: _model!.animUrl);
+                    height: headHeight, urlStr: _model!.animUrl);
               } else {
                  return SizedBox(
                     width: double.infinity,
-                    height: _headHeight + ScreenUtil().statusBarHeight);
+                    height: headHeight);
               }
             }),
             Row(

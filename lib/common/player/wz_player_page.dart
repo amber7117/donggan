@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wzty/common/player/custom_panel_anchor_widget.dart';
 import 'package:wzty/common/player/custom_panel_match_widget.dart';
 import 'package:wzty/common/player/custom_panel_playback_widget.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 
 enum WZPlayerType { match, anchor, playback }
 
@@ -38,9 +39,9 @@ class _WZPlayerPageState extends State<WZPlayerPage> {
   Widget build(BuildContext context) {
     FijkPanelWidgetBuilder builder;
     if (widget.type == WZPlayerType.match) {
-      builder = matchPanelBuilder(fill: true);
+      builder = matchPanelBuilder();
     } else if (widget.type == WZPlayerType.anchor) {
-      builder = anchorPanelBuilder(fill: true);
+      builder = anchorPanelBuilder();
     } else {
       builder = playbackPanelBuilder();
     }
@@ -48,7 +49,9 @@ class _WZPlayerPageState extends State<WZPlayerPage> {
     return FijkView(
       player: player,
       panelBuilder: builder,
-      fit: FijkFit.cover,
+      fit: FijkFit.ar16_9,
+      fsFit: FijkFit.ar16_9,
+      cover: AssetImage(JhImageUtils.obtainImgPath("anchor/imgLiveBg", x2: false)),
     );
   }
 }

@@ -30,6 +30,14 @@ double popContentHeight() {
       ScreenUtil().bottomBarHeight;
 }
 
+double videoHeight() {
+  return ScreenUtil().screenWidth / 16 * 9;
+}
+
+double videoStatusBarHeight() {
+  return ScreenUtil().screenWidth / 16 * 9 + ScreenUtil().statusBarHeight;
+}
+
 enum SportType {
   football(value: 1),
   basketball(value: 2);
