@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/emoji/emoji_widget.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/im/im_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -256,6 +260,8 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
     });
   }
 
+    bool _emojiShowing = false;
+    
   @override
   Widget buildWidget(BuildContext context) {
     return Column(
@@ -267,7 +273,19 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
                 itemBuilder: (context, index) {
                   return ChatCellWidget(model: _msgList[index]);
                 }).colored(Colors.white)),
-        ChatBarWidget(),
+        ChatBarWidget(callback: (data) {
+          _emojiShowing = !_emojiShowing;
+          setState(() {
+            
+          }); 
+        }),
+        Offstage(
+          offstage: !_emojiShowing,
+          child: SizedBox(
+            height: 250,
+            child: EmojiWidget()
+          ),
+        ),
       ],
     );
   }

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/wz_text_view.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+enum ChatBarEvent { msgSet, emoji, msgSend }
+
 class ChatBarWidget extends StatefulWidget {
-  const ChatBarWidget({super.key});
+  final WZAnyCallback<ChatBarEvent> callback;
+
+  const ChatBarWidget({super.key, required this.callback});
 
   @override
   State createState() => _ChatBarWidgetState();
@@ -53,7 +58,9 @@ class _ChatBarWidgetState extends State<ChatBarWidget> {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        widget.callback(ChatBarEvent.emoji);
+                      },
                       icon: const JhAssetImage(
                         "anchor/iconMsgEmoji",
                         width: 24,
@@ -62,11 +69,10 @@ class _ChatBarWidgetState extends State<ChatBarWidget> {
               ),
             ),
             InkWell(
-              onTap: () {
-                
-              },
+              onTap: () {},
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 alignment: Alignment.center,
                 child: const Text("发送",
                     style: TextStyle(
