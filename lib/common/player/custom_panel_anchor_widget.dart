@@ -4,11 +4,12 @@ import 'dart:math';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/common/player/custom_panel_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 
 FijkPanelWidgetBuilder anchorPanelBuilder(
     {Key? key,
     final bool fill = false,
-    final int duration = 4000,
+    final int duration = 5000,
     final bool doubleTap = true,
     final VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
@@ -65,24 +66,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
   double? _volume;
   double? _brightness;
 
-  double _seekPos = -1.0;
-  Duration _duration = const Duration();
-  Duration _currentPos = const Duration();
-  Duration _bufferPos = const Duration();
-
-  StreamSubscription? _currentPosSubs;
-  StreamSubscription? _bufferPosSubs;
-
   late StreamController<double> _valController;
-
-  // Is it needed to clear seek data in WZFijkData (widget.data)
-  bool _needClearSeekData = true;
-
-  static const FijkSliderColors sliderColors = FijkSliderColors(
-      cursorColor: Color.fromARGB(240, 250, 100, 10),
-      playedColor: Color.fromARGB(200, 240, 90, 50),
-      baselineColor: Color.fromARGB(100, 20, 20, 20),
-      bufferedColor: Color.fromARGB(180, 200, 200, 200));
 
   @override
   void initState() {
@@ -91,38 +75,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     _valController = StreamController.broadcast();
     _prepared = player.state.index >= FijkState.prepared.index;
     _playing = player.state == FijkState.started;
-    _duration = player.value.duration;
-    _currentPos = player.currentPos;
-    _bufferPos = player.bufferPos;
-
-    _currentPosSubs = player.onCurrentPosUpdate.listen((v) {
-      if (_hideStuff == false) {
-        setState(() {
-          _currentPos = v;
-        });
-      } else {
-        _currentPos = v;
-      }
-      if (_needClearSeekData) {
-        widget.data.clearValue(WZFijkData.fijkViewPanelSeekto);
-      }
-      _needClearSeekData = false;
-    });
-
-    if (widget.data.contains(WZFijkData.fijkViewPanelSeekto)) {
-      var pos = widget.data.getValue(WZFijkData.fijkViewPanelSeekto) as double;
-      _currentPos = Duration(milliseconds: pos.toInt());
-    }
-
-    _bufferPosSubs = player.onBufferPosUpdate.listen((v) {
-      if (_hideStuff == false) {
-        setState(() {
-          _bufferPos = v;
-        });
-      } else {
-        _bufferPos = v;
-      }
-    });
 
     player.addListener(_playerValueChanged);
   }
@@ -133,8 +85,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     _valController.close();
     _hideTimer?.cancel();
     _statelessTimer?.cancel();
-    _currentPosSubs?.cancel();
-    _bufferPosSubs?.cancel();
     player.removeListener(_playerValueChanged);
   }
 
@@ -145,15 +95,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
   void _playerValueChanged() {
     FijkValue value = player.value;
 
-    if (value.duration != _duration) {
-      if (_hideStuff == false) {
-        setState(() {
-          _duration = value.duration;
-        });
-      } else {
-        _duration = value.duration;
-      }
-    }
     bool playing = (value.state == FijkState.started);
     bool prepared = value.prepared;
     if (playing != _playing ||
@@ -174,6 +115,8 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
       });
     });
   }
+
+  // MARK: - Method
 
   void onTapFun() {
     if (_hideStuff == true) {
@@ -267,108 +210,75 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     _brightness = null;
   }
 
-  Widget buildPlayButton(BuildContext context, double height) {
-    Icon icon = (player.state == FijkState.started)
-        ? const Icon(Icons.pause)
-        : const Icon(Icons.play_arrow);
-    bool fullScreen = player.value.fullScreen;
+  // MARK: - UI & Property
+
+  Widget buildBack(BuildContext context) {
     return IconButton(
-      padding: const EdgeInsets.all(0),
-      iconSize: fullScreen ? height : height * 0.8,
-      color: const Color(0xFFFFFFFF),
-      icon: icon,
-      onPressed: playOrPause,
-    );
-  }
-
-  Widget buildFullScreenButton(BuildContext context, double height) {
-    Icon icon = player.value.fullScreen
-        ? const Icon(Icons.fullscreen_exit)
-        : const Icon(Icons.fullscreen);
-    bool fullScreen = player.value.fullScreen;
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      iconSize: fullScreen ? height : height * 0.8,
-      color: const Color(0xFFFFFFFF),
-      icon: icon,
-      onPressed: () {
-        player.value.fullScreen
-            ? player.exitFullScreen()
-            : player.enterFullScreen();
-      },
-    );
-  }
-
-  Widget buildTimeText(BuildContext context, double height) {
-    String text =
-        "${duration2String(_currentPos)}/${duration2String(_duration)}";
-    return Text(text,
-        style: const TextStyle(fontSize: 12, color: Color(0xFFFFFFFF)));
-  }
-
-  Widget buildSlider(BuildContext context) {
-    double duration = dura2double(_duration);
-
-    double currentValue = _seekPos > 0 ? _seekPos : dura2double(_currentPos);
-    currentValue = currentValue.clamp(0.0, duration);
-
-    double bufferPos = dura2double(_bufferPos);
-    bufferPos = bufferPos.clamp(0.0, duration);
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 3),
-      child: FijkSlider(
-        colors: sliderColors,
-        value: currentValue,
-        cacheValue: bufferPos,
-        min: 0.0,
-        max: duration,
-        onChanged: (v) {
-          _restartHideTimer();
-          setState(() {
-            _seekPos = v;
-          });
-        },
-        onChangeEnd: (v) {
-          setState(() {
-            player.seekTo(v.toInt());
-            _currentPos = Duration(milliseconds: _seekPos.toInt());
-            widget.data.setValue(WZFijkData.fijkViewPanelSeekto, _seekPos);
-            _needClearSeekData = true;
-            _seekPos = -1.0;
-          });
-        },
+      padding: const EdgeInsets.only(left: 5),
+      icon: const Icon(
+        Icons.arrow_back_ios,
+        color: Color(0xDDFFFFFF),
       ),
+      onPressed: widget.onBack,
     );
+  }
+
+  Widget buildRefreshButton(BuildContext context) {
+    return InkWell(
+        onTap: () {},
+        child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: JhAssetImage("anchor/iconRefresh", width: 24)));
+  }
+
+  Widget buildDanmuButton(BuildContext context) {
+    return InkWell(
+        onTap: () {},
+        child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: JhAssetImage("anchor/iconDanmu", width: 24)));
+  }
+
+  Widget buildDanmuSetButton(BuildContext context) {
+    return InkWell(
+        onTap: () {},
+        child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: JhAssetImage("anchor/iconDanmuS", width: 24)));
+  }
+
+  Widget buildFullScreenButton(BuildContext context) {
+    String imgPath;
+    if (player.value.fullScreen) {
+      imgPath = "anchor/iconQaunPing2";
+    } else {
+      imgPath = "anchor/iconQaunPing";
+    }
+    return InkWell(
+        onTap: () {
+          player.value.fullScreen
+              ? player.exitFullScreen()
+              : player.enterFullScreen();
+        },
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: JhAssetImage(imgPath, width: 24)));
   }
 
   Widget buildBottom(BuildContext context, double height) {
-    if (_duration.inMilliseconds > 0) {
-      return Row(
-        children: <Widget>[
-          buildPlayButton(context, height),
-          buildTimeText(context, height),
-          Expanded(child: buildSlider(context)),
-          buildFullScreenButton(context, height),
-        ],
-      );
-    } else {
-      return Row(
-        children: <Widget>[
-          buildPlayButton(context, height),
-          Expanded(child: Container()),
-          buildFullScreenButton(context, height),
-        ],
-      );
-    }
+    return Row(
+      children: <Widget>[
+        buildRefreshButton(context),
+        const Expanded(child: SizedBox()),
+        buildDanmuButton(context),
+        buildDanmuSetButton(context),
+        buildFullScreenButton(context),
+      ],
+    );
   }
 
   Widget buildPanel(BuildContext context) {
     double height = panelHeight();
-
-    Widget centerWidget = Container(
-      color: const Color(0x00000000),
-    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -383,8 +293,8 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
             ),
           ),
         ),
-        Expanded(
-          child: centerWidget,
+        const Expanded(
+          child: ColoredBox(color: Color(0x00000000)),
         ),
         Container(
           height: height > 80 ? 80 : height / 2,
@@ -398,7 +308,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
           alignment: Alignment.bottomCenter,
           child: Container(
             height: height > 80 ? 45 : height / 2,
-            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
+            padding: const EdgeInsets.only(left: 8, right: 8),
             child: buildBottom(context, height > 80 ? 40 : height / 2),
           ),
         )
@@ -422,46 +332,6 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
           child: buildPanel(context),
         ),
       ),
-    );
-  }
-
-  Rect panelRect() {
-    Rect rect = player.value.fullScreen || (true == widget.fill)
-        ? Rect.fromLTWH(0, 0, widget.viewSize.width, widget.viewSize.height)
-        : Rect.fromLTRB(
-            max(0.0, widget.texPos.left),
-            max(0.0, widget.texPos.top),
-            min(widget.viewSize.width, widget.texPos.right),
-            min(widget.viewSize.height, widget.texPos.bottom));
-    return rect;
-  }
-
-  double panelHeight() {
-    if (player.value.fullScreen || (true == widget.fill)) {
-      return widget.viewSize.height;
-    } else {
-      return min(widget.viewSize.height, widget.texPos.bottom) -
-          max(0.0, widget.texPos.top);
-    }
-  }
-
-  double panelWidth() {
-    if (player.value.fullScreen || (true == widget.fill)) {
-      return widget.viewSize.width;
-    } else {
-      return min(widget.viewSize.width, widget.texPos.right) -
-          max(0.0, widget.texPos.left);
-    }
-  }
-
-  Widget buildBack(BuildContext context) {
-    return IconButton(
-      padding: const EdgeInsets.only(left: 5),
-      icon: const Icon(
-        Icons.arrow_back_ios,
-        color: Color(0xDDFFFFFF),
-      ),
-      onPressed: widget.onBack,
     );
   }
 
@@ -524,5 +394,36 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
       rect: rect,
       child: Stack(children: ws as List<Widget>),
     );
+  }
+
+  // MARK: - Utils
+
+  Rect panelRect() {
+    Rect rect = player.value.fullScreen || (true == widget.fill)
+        ? Rect.fromLTWH(0, 0, widget.viewSize.width, widget.viewSize.height)
+        : Rect.fromLTRB(
+            max(0.0, widget.texPos.left),
+            max(0.0, widget.texPos.top),
+            min(widget.viewSize.width, widget.texPos.right),
+            min(widget.viewSize.height, widget.texPos.bottom));
+    return rect;
+  }
+
+  double panelHeight() {
+    if (player.value.fullScreen || (true == widget.fill)) {
+      return widget.viewSize.height;
+    } else {
+      return min(widget.viewSize.height, widget.texPos.bottom) -
+          max(0.0, widget.texPos.top);
+    }
+  }
+
+  double panelWidth() {
+    if (player.value.fullScreen || (true == widget.fill)) {
+      return widget.viewSize.width;
+    } else {
+      return min(widget.viewSize.width, widget.texPos.right) -
+          max(0.0, widget.texPos.left);
+    }
   }
 }

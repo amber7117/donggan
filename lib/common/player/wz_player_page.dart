@@ -32,6 +32,7 @@ class _WZPlayerPageState extends State<WZPlayerPage> {
   void dispose() {
     super.dispose();
 
+    player.stop();
     player.release();
   }
 
