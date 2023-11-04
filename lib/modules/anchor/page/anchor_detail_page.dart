@@ -11,10 +11,10 @@ import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_video_widget.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
-import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -175,7 +175,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
             Consumer<MatchDetailDataProvider>(builder: (context, provider, child) {
               String videoUrl = _attemptPlayVideo();
               if (videoUrl.isNotEmpty) {
-                return MatchDetailHeadVideoWidget(
+                return AnchorDetailHeadVideoWidget(
                     height: _headHeight, urlStr: videoUrl);
               } else if (_model!.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(

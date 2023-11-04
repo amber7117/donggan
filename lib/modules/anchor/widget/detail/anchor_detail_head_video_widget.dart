@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/webview/wz_webview_page.dart';
+import 'package:wzty/common/player/wz_player_page.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 
-class MatchDetailHeadWebWidget extends StatefulWidget {
+class AnchorDetailHeadVideoWidget extends StatefulWidget {
   final double height;
   final String urlStr;
 
-  const MatchDetailHeadWebWidget(
+  const AnchorDetailHeadVideoWidget(
       {super.key, required this.height, required this.urlStr});
 
   @override
-  State createState() => _MatchDetailHeadWebWidgetState();
+  State createState() => _AnchorDetailHeadVideoWidgetState();
 }
 
-class _MatchDetailHeadWebWidgetState extends State<MatchDetailHeadWebWidget> {
+class _AnchorDetailHeadVideoWidgetState
+    extends State<AnchorDetailHeadVideoWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,7 +28,8 @@ class _MatchDetailHeadWebWidgetState extends State<MatchDetailHeadWebWidget> {
               SizedBox(
                 width: double.infinity,
                 height: widget.height,
-                child: WZWebviewPage(urlStr: widget.urlStr),
+                child: WZPlayerPage(
+                    urlStr: widget.urlStr, type: WZPlayerType.anchor),
               ),
               const WZBackButton(),
             ],

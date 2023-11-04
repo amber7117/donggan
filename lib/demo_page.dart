@@ -1,7 +1,7 @@
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:wzty/common/player/custom_panel_playback_widget.dart';
 
 class DemoPage extends StatefulWidget {
   const DemoPage({super.key});
@@ -31,7 +31,7 @@ class _DemoPageState extends State<DemoPage> {
           debugShowCheckedModeBanner: false,
           home: VideoScreen(
               url:
-                  'https://pull-new.52bch.com/live/6079249_lsd.flv?auth_info=Gav%2FVgjo3iXjoWbKlS9rTJqN4wJ%2BpVZ80gjJbgeRUJLYxvzWHp1XS8WgDJ2Zzejq.7975707371766768366f7a626976627a'),
+                  'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'),
         );
       },
     );
@@ -66,6 +66,8 @@ class _VideoScreenState extends State<VideoScreen> {
           alignment: Alignment.center,
           child: FijkView(
             player: player,
+            // panelBuilder: fijkPanel2Builder(),
+            panelBuilder: playbackPanelBuilder(),
           ),
         ));
   }

@@ -1,10 +1,17 @@
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:wzty/common/player/custom_panel_anchor_widget.dart';
+import 'package:wzty/common/player/custom_panel_match_widget.dart';
+import 'package:wzty/common/player/custom_panel_playback_widget.dart';
+
+enum WZPlayerType { match, anchor, playback }
 
 class WZPlayerPage extends StatefulWidget {
   final String urlStr;
 
-  const WZPlayerPage({super.key, required this.urlStr});
+  final WZPlayerType type;
+
+  const WZPlayerPage({super.key, required this.urlStr, required this.type});
 
   @override
   State createState() => _WZPlayerPageState();
@@ -23,14 +30,25 @@ class _WZPlayerPageState extends State<WZPlayerPage> {
   @override
   void dispose() {
     super.dispose();
-    
+
     player.release();
   }
 
   @override
   Widget build(BuildContext context) {
+    FijkPanelWidgetBuilder builder;
+    if (widget.type == WZPlayerType.match) {
+      builder = matchPanelBuilder(fill: true);
+    } else if (widget.type == WZPlayerType.anchor) {
+      builder = anchorPanelBuilder(fill: true);
+    } else {
+      builder = playbackPanelBuilder();
+    }
+    
     return FijkView(
       player: player,
+      panelBuilder: builder,
+      fit: FijkFit.cover,
     );
   }
 }
