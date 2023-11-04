@@ -132,7 +132,6 @@ class _NewsPageState extends KeepAliveWidgetState
               ),
               Expanded(
                   child: PageView.builder(
-                      
                       itemCount: _tabs.length,
                       onPageChanged: _onPageChange,
                       controller: _pageController,

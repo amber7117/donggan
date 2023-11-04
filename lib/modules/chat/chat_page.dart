@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 import 'package:wzty/app/app.dart';
@@ -260,33 +257,56 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
     });
   }
 
-    bool _emojiShowing = false;
-    
+  // -------------------------------------------
+
+  _showEmojiUI() {
+    if (!_emojiShowing) {
+      _emojiShowing = true;
+      _emojiSetter(() {});
+    }
+  }
+
+  _hideEmojiUI() {
+    if (_emojiShowing) {
+      _emojiShowing = false;
+      _emojiSetter(() {});
+    }
+  }
+
+  bool _emojiShowing = false;
+  late StateSetter _emojiSetter;
+
   @override
   Widget buildWidget(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            child: ListView.builder(
-                padding: const EdgeInsets.only(top: 3),
-                itemCount: _msgList.length,
-                itemBuilder: (context, index) {
-                  return ChatCellWidget(model: _msgList[index]);
-                }).colored(Colors.white)),
-        ChatBarWidget(callback: (data) {
-          _emojiShowing = !_emojiShowing;
-          setState(() {
-            
-          }); 
-        }),
-        Offstage(
-          offstage: !_emojiShowing,
-          child: SizedBox(
-            height: 250,
-            child: EmojiWidget()
-          ),
-        ),
-      ],
+    return GestureDetector(
+       onTap: () {
+        Routes.unfocus();
+        _hideEmojiUI();
+      },
+      child: Column(
+        children: [
+          Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 3),
+                  itemCount: _msgList.length,
+                  itemBuilder: (context, index) {
+                    return ChatCellWidget(model: _msgList[index]);
+                  }).colored(Colors.white)),
+          ChatBarWidget(callback: (data) {
+            if (data == ChatBarEvent.edit) {
+              _hideEmojiUI();
+            } else if (data == ChatBarEvent.emoji) {
+              _showEmojiUI();
+            }
+          }),
+          StatefulBuilder(builder: (context, setState) {
+            _emojiSetter = setState;
+            return Offstage(
+                offstage: !_emojiShowing,
+                child: EmojiWidget());
+          }),
+        ],
+      ),
     );
   }
 }

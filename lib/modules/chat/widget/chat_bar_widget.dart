@@ -7,7 +7,9 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum ChatBarEvent { msgSet, emoji, msgSend }
+enum ChatBarEvent { msgSet, edit, editEnd, emoji, msgSend }
+
+const chatBarHeight = 44.0;
 
 class ChatBarWidget extends StatefulWidget {
   final WZAnyCallback<ChatBarEvent> callback;
@@ -23,24 +25,43 @@ class _ChatBarWidgetState extends State<ChatBarWidget> {
   final FocusNode _nodeText1 = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    _nodeText1.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _nodeText1.removeListener(_onFocusChange);
+    _nodeText1.dispose();
+
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (_nodeText1.hasFocus) {
+      widget.callback(ChatBarEvent.edit);
+    } else {
+      widget.callback(ChatBarEvent.editEnd);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 52 + ScreenUtil().bottomBarHeight,
+      height: chatBarHeight + ScreenUtil().bottomBarHeight,
       child: Column(
         children: [
           const Divider(height: 0.5, thickness: 1.0, color: ColorUtils.gray248),
           Row(children: [
-            Container(
-              color: Colors.yellow,
-              child: IconButton(
-                  onPressed: () {},
-                  iconSize: 44,
-                  icon: const JhAssetImage(
-                    "anchor/iconMsgSet",
-                    width: 24,
-                  )),
-            ),
+            IconButton(
+                onPressed: () {},
+                iconSize: 44,
+                icon: const JhAssetImage(
+                  "anchor/iconMsgSet",
+                  width: 24,
+                )),
             Expanded(
               child: Container(
                 height: 36,

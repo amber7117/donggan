@@ -5,7 +5,7 @@ import 'package:wzty/common/emoji/emoji_content_widget.dart';
 import 'package:wzty/common/emoji/emoji_util.dart';
 import 'package:wzty/utils/color_utils.dart';
 
-const emojiWidgetHeight = 250.0;
+const emojiWidgetHeight = 230.0;
 
 class EmojiWidget extends StatefulWidget {
   const EmojiWidget({super.key});
@@ -46,41 +46,46 @@ class _EmojiWidgetState extends State<EmojiWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(alignment: Alignment.bottomRight, children: [
-      ListView.builder(
-          padding: const EdgeInsets.only(top: 3),
-          itemCount: _emojiArr2.length,
-          itemExtent: pageWidth,
-          controller: _controller,
-          physics: const PageScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return EmojiContentWidget(
-                dataArr: _emojiArr2[index], callback: (data) {});
-          }),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: _emojiArr2.asMap().entries.map((entry) {
-          return GestureDetector(
-            onTap: () => _controller.animateTo(
-              pageWidth,
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.ease,
-            ),
-            child: Container(
-              width: 8.0,
-              height: 8.0,
-              margin:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _current == entry.key
-                      ? ColorUtils.red235
-                      : Colors.black.withOpacity(0.2)),
-            ),
-          );
-        }).toList(),
-      )
-    ]);
+    return SizedBox(
+      width: double.infinity,
+      height: emojiWidgetHeight + ScreenUtil().bottomBarHeight,
+      child: Stack(
+        alignment: Alignment.bottomRight, children: [
+        ListView.builder(
+            padding: const EdgeInsets.only(top: 3),
+            itemCount: _emojiArr2.length,
+            itemExtent: pageWidth,
+            controller: _controller,
+            physics: const PageScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return EmojiContentWidget(
+                  dataArr: _emojiArr2[index], callback: (data) {});
+            }),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _emojiArr2.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => _controller.animateTo(
+                pageWidth,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.ease,
+              ),
+              child: Container(
+                width: 8.0,
+                height: 8.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _current == entry.key
+                        ? ColorUtils.red235
+                        : Colors.black.withOpacity(0.2)),
+              ),
+            );
+          }).toList(),
+        )
+      ]),
+    );
   }
 }
