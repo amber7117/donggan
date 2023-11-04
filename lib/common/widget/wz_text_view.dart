@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum WZTextViewType { personalDesc }
+enum WZTextViewType { personalDesc, chat }
 
 class WZTextView extends StatefulWidget {
   final WZTextViewType textType;

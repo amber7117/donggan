@@ -7,6 +7,7 @@ import 'package:wzty/main/im/im_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
+import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
@@ -131,10 +132,10 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
   }
 
   _leaveIMRoom() {
-    IMManager.instance.engine.leaveChatRoom(widget.chatRoomId, callback: IRCIMIWLeaveChatRoomCallback(onChatRoomLeft: (int? code, String? targetId) {
-        if (code != null) {
-
-        }
+    IMManager.instance.engine.leaveChatRoom(widget.chatRoomId, callback:
+        IRCIMIWLeaveChatRoomCallback(
+            onChatRoomLeft: (int? code, String? targetId) {
+      if (code != null) {}
     }));
     IMManager.instance.engine.onConnectionStatusChanged = null;
     IMManager.instance.engine.onMessageReceived = null;
@@ -232,13 +233,14 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
       return;
     }
 
-    IMManager.instance.sendMsgToIMRoom(widget.chatRoomId, msgStr, (data1, data2) {
+    IMManager.instance.sendMsgToIMRoom(widget.chatRoomId, msgStr,
+        (data1, data2) {
       if (data2 != null) {
         ChatMsgModel? msgTmp = ChatMsgModel.getMsgByRcMsg(data2);
         if (msgTmp == null) {
           return;
         }
-        
+
         _msgList.add(msgTmp);
 
         if (msgTmp.type == ChatMsgType.enter) {
@@ -254,14 +256,19 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
     });
   }
 
-  
   @override
   Widget buildWidget(BuildContext context) {
-    return ListView.builder(
-        padding: const EdgeInsets.only(top: 3),
-        itemCount: _msgList.length,
-        itemBuilder: (context, index) {
-          return ChatCellWidget(model: _msgList[index]);
-        }).colored(Colors.white);
+    return Column(
+      children: [
+        Expanded(
+            child: ListView.builder(
+                padding: const EdgeInsets.only(top: 3),
+                itemCount: _msgList.length,
+                itemBuilder: (context, index) {
+                  return ChatCellWidget(model: _msgList[index]);
+                }).colored(Colors.white)),
+        ChatBarWidget(),
+      ],
+    );
   }
 }
