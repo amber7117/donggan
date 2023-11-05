@@ -8,12 +8,14 @@ class MatchHeadDateWidget extends StatefulWidget {
   final List<String> dateArr;
   final int selectIdx;
   final WZAnyCallback<int> callback;
+  final VoidCallback calendarCb;
 
   const MatchHeadDateWidget(
       {super.key,
       required this.dateArr,
       required this.selectIdx,
-      required this.callback});
+      required this.callback,
+      required this.calendarCb});
 
   @override
   State createState() => _MatchHeadDateWidgetState();
@@ -48,9 +50,14 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
                       child: _buildCellWidget(index),
                     );
                   })),
-          const Padding(
-              padding: EdgeInsets.all(12),
-              child: JhAssetImage("match/iconCalendar", width: 24)),
+          InkWell(
+            onTap: () {
+              widget.calendarCb();
+            },
+            child: const Padding(
+                padding: EdgeInsets.all(12),
+                child: JhAssetImage("match/iconCalendar", width: 24)),
+          ),
         ],
       ),
     );

@@ -78,8 +78,7 @@ dependencies:
   # 轮播图
   carousel_slider: ^4.2.1
   # 表情
-  emoji_picker_flutter: ^1.6.3
-
+  table_calendar: ^3.0.9
   
 dev_dependencies:
   flutter_test:

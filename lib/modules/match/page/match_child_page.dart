@@ -7,6 +7,7 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_filter_manager.dart';
+import 'package:wzty/modules/match/page/calendar/match_calendar_widget.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
@@ -173,6 +174,29 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     });
   }
 
+  _showCalendarUI() {
+    return showDialog(
+        context: context,
+        builder: (context2) {
+          return MatchCalendarWidget(callback: (data) {
+            int dataIdx = -1;
+            for (int idx = 0; idx < _dateStrArr.length; idx++) {
+              String str = _dateStrArr[idx];
+              if (str == data) {
+                dataIdx = idx;
+                break;
+              }
+            }
+
+            if (dataIdx != -1) {
+              _selectIdx = dataIdx;
+            } 
+            
+            _requestData(loading: true, calendarDate: data); 
+          });
+        });
+  }
+
   @override
   bool isAutomaticKeepAlive() {
     return true;
@@ -196,6 +220,8 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
               callback: (data) {
                 _selectIdx = data;
                 _requestData(loading: true);
+              }, calendarCb: () {
+                _showCalendarUI(); 
               }),
           Expanded(
             child: LoadStateWidget(
