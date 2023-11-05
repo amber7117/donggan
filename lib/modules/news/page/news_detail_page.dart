@@ -89,8 +89,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                   itemCount: _model!.currentNews.length,
                   itemExtent: newsChildCellHeight,
                   itemBuilder: (context, index) {
-                    return NewsCellWidget(
-                        model: _model!.currentNews[index]);
+                    return NewsCellWidget(model: _model!.currentNews[index]);
                   }),
               const SliverToBoxAdapter(
                   child: NewsDetailSectionHeaderWidget(
@@ -106,7 +105,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             ],
           ),
         ),
-        const NewsDetailBottomWidget(),
+        NewsDetailBottomWidget(model: _model!.news!),
       ],
     );
   }

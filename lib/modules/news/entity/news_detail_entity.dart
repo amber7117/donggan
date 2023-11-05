@@ -1,7 +1,7 @@
 import 'package:wzty/modules/news/entity/news_list_entity.dart';
 
 class NewsDetailModel {
-  NewsDetilInfoModel? news;
+  NewsDetailInfoModel? news;
   List<NewsListModel> currentNews;
 
   NewsDetailModel({
@@ -12,7 +12,7 @@ class NewsDetailModel {
   factory NewsDetailModel.fromJson(Map<String, dynamic> json) {
     return NewsDetailModel(
         news: json['news'] != null
-            ? NewsDetilInfoModel.fromJson(json['news'])
+            ? NewsDetailInfoModel.fromJson(json['news'])
             : null,
         currentNews: json['currentNews'] != null
             ? List<NewsListModel>.from(
@@ -21,7 +21,7 @@ class NewsDetailModel {
   }
 }
 
-class NewsDetilInfoModel {
+class NewsDetailInfoModel {
   int categoryId;
   int lableType;
   String name;
@@ -42,7 +42,7 @@ class NewsDetilInfoModel {
   String headImgUrl;
   String nickName;
 
-  NewsDetilInfoModel(
+  NewsDetailInfoModel(
       {required this.categoryId,
       required this.lableType,
       required this.name,
@@ -63,8 +63,8 @@ class NewsDetilInfoModel {
       required this.headImgUrl,
       required this.nickName});
 
-  factory NewsDetilInfoModel.fromJson(Map<String, dynamic> json) {
-    return NewsDetilInfoModel(
+  factory NewsDetailInfoModel.fromJson(Map<String, dynamic> json) {
+    return NewsDetailInfoModel(
         categoryId: json['categoryId'] ?? 0,
         lableType: json['lableType'] ?? 0,
         name: json['name'] ?? '',

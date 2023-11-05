@@ -53,7 +53,7 @@ class WZFollowWhiteBtnState extends State<WZFollowWhiteBtn> {
             _isFollowd
                 ? const Text('已关注',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: ColorUtils.gray149,
                         fontSize: 10,
                         fontWeight: TextStyleUtils.medium))
                 : const Text('关注',

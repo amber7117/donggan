@@ -7,7 +7,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class NewsDetailHeaderWidget extends StatefulWidget {
-  final NewsDetilInfoModel model;
+  final NewsDetailInfoModel model;
 
   const NewsDetailHeaderWidget({super.key, required this.model});
 
@@ -47,7 +47,7 @@ class _NewsDetailHeaderWidgetState extends State<NewsDetailHeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    NewsDetilInfoModel model = widget.model;
+    NewsDetailInfoModel model = widget.model;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14),
       child: Column(

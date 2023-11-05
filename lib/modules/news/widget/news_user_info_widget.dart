@@ -9,7 +9,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class NewsUserInfoWidget extends StatefulWidget {
-  final NewsDetilInfoModel model;
+  final NewsDetailInfoModel model;
 
   const NewsUserInfoWidget({super.key, required this.model});
 
@@ -19,7 +19,7 @@ class NewsUserInfoWidget extends StatefulWidget {
 
 class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
   Future<bool> _requestFollowUser() async {
-    NewsDetilInfoModel model = widget.model;
+    NewsDetailInfoModel model = widget.model;
 
     bool isFollow = !model.isAttention;
 
@@ -38,7 +38,7 @@ class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    NewsDetilInfoModel model = widget.model;
+    NewsDetailInfoModel model = widget.model;
     return Row(
       children: [
         Padding(

@@ -85,6 +85,12 @@ class NewsApi {
   static String detail = "/qiutx-news/app/news/###";
 
   static String detailComment = "/qiutx-news/app/news/comments";
+
+  static String collect = "qiutx-news/app/news/favorites/###";
+
+  static String collectCancel = "qiutx-news/app/news/favorites/removeConcerns/###";
+
+  static String like = "qiutx-news/app/news/like/###";
 }
 
 class MeApi {
