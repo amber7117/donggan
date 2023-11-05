@@ -34,7 +34,7 @@ class _AnchorBannerWidgetState extends State<AnchorBannerWidget> {
               builder: (BuildContext context) {
                 return InkWell(
                   onTap: () {
-                    model.jump();
+                    model.jump(context);
                   },
                   child: buildNetImage(model.img,
                     width: ScreenUtil().screenWidth,

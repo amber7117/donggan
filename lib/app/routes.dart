@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/webview/wz_webview_page.dart';
 import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_page.dart';
@@ -82,6 +83,10 @@ class Routes {
   // ---------------------------------------------
 
   static String login = "/login";
+
+  static String web = "/web";
+
+  // ---------------------------------------------
 
   static void configureRoutes(FluroRouter router) {
     // ---------------------------------------------
@@ -210,6 +215,11 @@ class Routes {
 
     router.define(login, handler: Handler(handlerFunc: (context, params) {
       return const LoginPage();
+    }));
+
+    router.define(web, handler: Handler(handlerFunc: (context, params) {
+      var urlStr = context?.settings?.arguments as String;
+      return WZWebviewPage(urlStr: urlStr);
     }));
   }
 
