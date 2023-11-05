@@ -21,13 +21,13 @@ class ChatBarWidget extends StatefulWidget {
 }
 
 class ChatBarWidgetState extends State<ChatBarWidget> {
-  textFocus(String emoji) {
+  textFocus() {
     if (!_nodeText1.hasFocus) {
       _nodeText1.requestFocus();
     }
   }
 
-  unfocus(String emoji) {
+  textUnfocus() {
     if (_nodeText1.hasFocus) {
       _nodeText1.unfocus();
     }

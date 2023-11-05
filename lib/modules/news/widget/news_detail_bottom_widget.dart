@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/api.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
-import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -15,7 +13,9 @@ const newsDetailBottomHeight = 56.0;
 class NewsDetailBottomWidget extends StatefulWidget {
   final NewsDetailInfoModel model;
 
-  const NewsDetailBottomWidget({super.key, required this.model});
+  final VoidCallback commentCb;
+
+  const NewsDetailBottomWidget({super.key, required this.model, required this.commentCb});
 
   @override
   State createState() => _NewsDetailBottomWidgetState();
@@ -76,25 +76,30 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
               .colored(ColorUtils.gray229),
           Row(children: [
             Expanded(
-              child: Container(
-                height: 36,
-                margin: const EdgeInsets.only(top: 10, bottom: 10, left: 18),
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(247, 247, 250, 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(18))),
-                child: const Row(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 12, right: 12),
-                        child: JhAssetImage("news/iconZixunHuabi", width: 20)),
-                    Text(
-                      "我也来说几句",
-                      style: TextStyle(
-                          color: ColorUtils.gray179,
-                          fontSize: 14,
-                          fontWeight: TextStyleUtils.regual),
-                    ),
-                  ],
+              child: InkWell(
+                onTap: () {
+                  widget.commentCb();
+                },
+                child: Container(
+                  height: 36,
+                  margin: const EdgeInsets.only(top: 10, bottom: 10, left: 18),
+                  decoration: const BoxDecoration(
+                      color: Color.fromRGBO(247, 247, 250, 1.0),
+                      borderRadius: BorderRadius.all(Radius.circular(18))),
+                  child: const Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(left: 12, right: 12),
+                          child: JhAssetImage("news/iconZixunHuabi", width: 20)),
+                      Text(
+                        "我也来说几句",
+                        style: TextStyle(
+                            color: ColorUtils.gray179,
+                            fontSize: 14,
+                            fontWeight: TextStyleUtils.regual),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

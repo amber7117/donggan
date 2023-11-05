@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
@@ -9,6 +10,7 @@ import 'package:wzty/modules/news/widget/news_detail_bottom_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_comment_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_header_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_section_header_widget.dart';
+import 'package:wzty/modules/news/widget/news_detail_text_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class NewsDetailPage extends StatefulWidget {
@@ -31,7 +33,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   void initState() {
     super.initState();
 
-    _requestData();
+    _requestData(loading: true);
   }
 
   _requestData({bool loading = false}) async {
@@ -59,6 +61,37 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     });
   }
 
+  _requestNewsComment() {
+    String content = _textBarKey.currentState?.getText();
+
+    if (content.isEmpty) {
+      ToastUtils.showInfo("请输入有爱的评论");
+      return;
+    }
+
+    NewsDetailInfoModel model = _model!.news!;
+    ToastUtils.showLoading();
+
+    NewsService.requestNewsComment(model.getNewsId(), content,
+        (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        _textBarKey.currentState?.clearText();
+
+        if (result != null) {
+          model.commentCount += 1;
+          _commentArr.insert(0, result);
+        }
+
+        Routes.unfocus();
+
+        ToastUtils.showSuccess("评论成功");
+      } else {
+        ToastUtils.showError("评论失败");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +100,33 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
         body: LoadStateWidget(
             state: _layoutState, successWidget: _buildChild(context)));
   }
+
+  // -------------------------------------------
+
+  _showTextBar() {
+    if (!_textShowing) {
+      _textShowing = true;
+      _textBarKey.currentState?.textFocus();
+    }
+  }
+
+  _hideTextBar() {
+    if (_textShowing) {
+      _textShowing = false;
+    }
+  }
+
+  _handleTextBarEvent(NewsDetailTextEvent event) async {
+    if (event == NewsDetailTextEvent.edit) {
+    } else if (event == NewsDetailTextEvent.editEnd) {
+      _hideTextBar();
+    } else if (event == NewsDetailTextEvent.msgSend) {
+      _requestNewsComment();
+    }
+  }
+
+  bool _textShowing = false;
+  final GlobalKey<NewsDetailTextWidgetState> _textBarKey = GlobalKey();
 
   _buildChild(BuildContext context) {
     if (_model == null) {
@@ -100,12 +160,23 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     return NewsDetailCommentWidget(model: _commentArr[index]);
                   }),
               const SliverToBoxAdapter(
-                child: SizedBox(height: 56),
+                child: SizedBox(height: newsDetailBottomHeight),
               ),
             ],
           ),
         ),
-        NewsDetailBottomWidget(model: _model!.news!),
+        Visibility(
+          visible: !_textShowing,
+          child: NewsDetailBottomWidget(
+              model: _model!.news!,
+              commentCb: () {
+                _showTextBar();
+              }),
+        ),
+        Offstage(
+            offstage: !_textShowing,
+            child: NewsDetailTextWidget(
+                key: _textBarKey, callback: _handleTextBarEvent)),
       ],
     );
   }
