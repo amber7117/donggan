@@ -1,3 +1,5 @@
+import 'package:wzty/utils/wz_date_utils.dart';
+
 class NewsCommentModel {
   int id;
   String newsId;
@@ -18,6 +20,8 @@ class NewsCommentModel {
   bool isLike;
   int likeCount;
 
+  late String createdDateNew;
+
   NewsCommentModel(
       {required this.id,
       required this.newsId,
@@ -36,7 +40,13 @@ class NewsCommentModel {
       required this.commentType,
       required this.sonNum,
       required this.isLike,
-      required this.likeCount});
+      required this.likeCount}) {
+    if (createdDate.isNotEmpty) {
+      createdDateNew = WZDateUtils.getDateDesc(createdDate);
+    } else {
+      createdDateNew = "";
+    }
+  }
 
   factory NewsCommentModel.fromJson(Map<String, dynamic> json) {
     return NewsCommentModel(

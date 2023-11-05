@@ -94,7 +94,8 @@ class NewsService {
       "pageNum": 1,
       "pageSize": pageSize50,
       "order": "desc",
-      "orderField": "heat",
+      // "orderField": "heat",
+      "orderField": "time",
     };
 
     HttpResultBean result = await HttpManager.request(

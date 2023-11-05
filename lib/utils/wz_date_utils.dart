@@ -27,6 +27,52 @@ class WZDateUtils {
   }
 
   /// 时间戳转成事件字符串
+  static String getDateDesc(String timeStr) {
+    DateTime timeDate = DateTime.parse(timeStr);
+
+    Duration timeInterval = DateTime.now().difference(timeDate);
+
+    int tmp = timeInterval.inSeconds;
+    String desc = "";
+    while (true) {
+      if (timeInterval.inSeconds < 60) {
+        desc = "刚刚";
+        break;
+      }
+
+      tmp = tmp ~/ 60;
+      if (tmp < 60) {
+        desc = "$tmp分钟前";
+        break;
+      }
+
+      tmp = tmp ~/ 60;
+      if (tmp < 24) {
+        desc = "$tmp小时前";
+        break;
+      }
+
+      tmp = tmp ~/ 24;
+      if (tmp < 30) {
+        desc = "$tmp天前";
+        break;
+      }
+
+      tmp = tmp ~/ 30;
+      if (tmp < 12) {
+        desc = "$tmp月前";
+        break;
+      }
+
+      tmp = tmp ~/ 12;
+      desc = "$tmp年前";
+      break;
+    }
+
+    return desc;
+  }
+
+  /// 时间戳转成事件字符串
   static String getDateString(int timestamp, String format) {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
     return DateFormat(format).format(date);

@@ -98,9 +98,9 @@ class _NewsDetailCommentCellWidgetState
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      const Text(
-                        "2h之前",
-                        style: TextStyle(
+                       Text(
+                        model.createdDateNew,
+                        style: const TextStyle(
                             color: ColorUtils.gray153,
                             fontSize: 12,
                             fontWeight: TextStyleUtils.regual),
