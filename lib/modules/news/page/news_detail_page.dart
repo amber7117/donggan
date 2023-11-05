@@ -7,7 +7,7 @@ import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
 import 'package:wzty/modules/news/widget/news_cell_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_bottom_widget.dart';
-import 'package:wzty/modules/news/widget/news_detail_comment_widget.dart';
+import 'package:wzty/modules/news/widget/news_detail_comment_cell_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_header_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_section_header_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_text_widget.dart';
@@ -157,7 +157,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               SliverList.builder(
                   itemCount: _commentArr.length,
                   itemBuilder: (context, index) {
-                    return NewsDetailCommentWidget(model: _commentArr[index]);
+                    return NewsDetailCommentCellWidget(model: _commentArr[index]);
                   }),
               const SliverToBoxAdapter(
                 child: SizedBox(height: newsDetailBottomHeight),

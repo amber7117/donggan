@@ -3,20 +3,44 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
+import 'package:wzty/modules/news/service/news_service.dart';
 import 'package:wzty/modules/news/widget/news_like_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
-class NewsDetailCommentWidget extends StatefulWidget {
+class NewsDetailCommentCellWidget extends StatefulWidget {
   final NewsCommentModel model;
 
-  const NewsDetailCommentWidget({super.key, required this.model});
+  const NewsDetailCommentCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _NewsDetailCommentWidgetState();
+  State createState() => _NewsDetailCommentCellWidgetState();
 }
 
-class _NewsDetailCommentWidgetState extends State<NewsDetailCommentWidget> {
+class _NewsDetailCommentCellWidgetState
+    extends State<NewsDetailCommentCellWidget> {
+  _requestCommentLike() async {
+    NewsCommentModel model = widget.model;
+
+    if (model.isLike) return;
+
+    ToastUtils.showLoading();
+
+    NewsService.requestCommentLike(model.id.toString(), (success, result) {
+      ToastUtils.hideLoading();
+      if (result.isNotEmpty) {
+        ToastUtils.showError(result);
+      } else {
+        ToastUtils.showSuccess("点赞成功");
+        model.isLike = true;
+        model.likeCount++;
+
+        setState(() {});
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     NewsCommentModel model = widget.model;
@@ -48,7 +72,13 @@ class _NewsDetailCommentWidgetState extends State<NewsDetailCommentWidget> {
                               fontSize: 14,
                               fontWeight: TextStyleUtils.regual),
                         ),
-                        NewsLikeWidget(model: model),
+                        InkWell(
+                          onTap: () {
+                            _requestCommentLike();
+                          },
+                          child: NewsLikeWidget(
+                              likeCount: model.likeCount, isLike: model.isLike),
+                        ),
                       ],
                     ),
                   ),

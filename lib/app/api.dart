@@ -90,7 +90,9 @@ class NewsApi {
 
   static String collectCancel = "/qiutx-news/app/news/favorites/removeConcerns/###";
 
-  static String like = "/qiutx-news/app/news/like/###";
+  static String newsLike = "/qiutx-news/app/news/like/###";
+
+  static String commentLike = "/qiutx-news/app/news/commentlike/###";
 
   static String newsComment = "/qiutx-news/app/news/savecomment";
 }

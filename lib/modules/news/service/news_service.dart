@@ -112,7 +112,7 @@ class NewsService {
     return;
   }
 
-  static Future<void> requestCollect(
+  static Future<void> requestNewsCollect(
       String newsId, bool isCollect, BusinessCallback<String> complete) async {
     String api = isCollect ? NewsApi.collect : NewsApi.collectCancel;
     String path = api.replaceAll(apiPlaceholder, newsId);
@@ -126,9 +126,22 @@ class NewsService {
     return;
   }
 
-  static Future<void> requestLike(
+  static Future<void> requestNewsLike(
       String newsId, BusinessCallback<String> complete) async {
-    String path = NewsApi.like.replaceAll(apiPlaceholder, newsId);
+    String path = NewsApi.newsLike.replaceAll(apiPlaceholder, newsId);
+    HttpResultBean result = await HttpManager.request(path, HttpMethod.post);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+    return;
+  }
+
+  static Future<void> requestCommentLike(
+      String commentId, BusinessCallback<String> complete) async {
+    String path = NewsApi.commentLike.replaceAll(apiPlaceholder, commentId);
     HttpResultBean result = await HttpManager.request(path, HttpMethod.post);
 
     if (result.isSuccess()) {

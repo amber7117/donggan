@@ -29,7 +29,7 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
 
     ToastUtils.showLoading();
 
-    NewsService.requestCollect(model.getNewsId(), isCollect, (success, result) {
+    NewsService.requestNewsCollect(model.getNewsId(), isCollect, (success, result) {
       ToastUtils.hideLoading();
       if (result.isNotEmpty) {
         ToastUtils.showError(result);
@@ -49,7 +49,7 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
 
     ToastUtils.showLoading();
 
-    NewsService.requestLike(model.getNewsId(), (success, result) {
+    NewsService.requestNewsLike(model.getNewsId(), (success, result) {
       ToastUtils.hideLoading();
       if (result.isNotEmpty) {
         ToastUtils.showError(result);
