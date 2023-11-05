@@ -33,29 +33,56 @@ class ChatBarWidgetState extends State<ChatBarWidget> {
     }
   }
 
+  getText() {
+    return _nameController.text;
+  }
+
+  clearText() {
+    _nameController.text = "";
+  }
+
   insertEmoji(String emoji) {
+    _lastEmoji = emoji;
     _nameController.text = _nameController.text + emoji;
   }
 
-  deleteEmoji() {}
+  deleteEmoji() {
+    if (_lastEmoji.isEmpty) {
+      return;
+    }
+    String text = _nameController.text;
+    _nameController.text = _nameController.text.substring(0, text.length - _lastEmoji.length);
+    _lastEmoji = "";
+  }
 
   // -------------------------------------------
 
   final TextEditingController _nameController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
 
+  late StateSetter _btnSetter;
+  bool _canSend = false;
+
+  String _lastEmoji = "";
+
   @override
   void initState() {
     super.initState();
     _nodeText1.addListener(_onFocusChange);
+    _nameController.addListener(_textVerify);
   }
 
   @override
   void dispose() {
     _nodeText1.removeListener(_onFocusChange);
-    _nodeText1.dispose();
+    _nameController.removeListener(_textVerify);
 
     super.dispose();
+  }
+
+  _textVerify() {
+    _canSend = _nameController.text.isNotEmpty;
+    _btnSetter(() {});
   }
 
   void _onFocusChange() {
@@ -104,9 +131,8 @@ class ChatBarWidgetState extends State<ChatBarWidget> {
                           _nodeText1.unfocus();
 
                           // Future.delayed(const Duration(milliseconds: 200), () {
-                            widget.callback(ChatBarEvent.emoji);
+                          widget.callback(ChatBarEvent.emoji);
                           // });
-                          
                         } else {
                           _nodeText1.requestFocus();
                         }
@@ -118,19 +144,27 @@ class ChatBarWidgetState extends State<ChatBarWidget> {
                 ]),
               ),
             ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                alignment: Alignment.center,
-                child: const Text("发送",
-                    style: TextStyle(
-                        color: ColorUtils.gray179,
-                        fontSize: 12,
-                        fontWeight: TextStyleUtils.regual)),
-              ),
-            )
+            StatefulBuilder(builder: (context, setState) {
+              _btnSetter = setState;
+              return InkWell(
+                onTap: _canSend
+                    ? () {
+                        widget.callback(ChatBarEvent.msgSend);
+                      }
+                    : null,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  alignment: Alignment.center,
+                  child: Text("发送",
+                      style: TextStyle(
+                          color:
+                              _canSend ? ColorUtils.red233 : ColorUtils.gray179,
+                          fontSize: 16,
+                          fontWeight: TextStyleUtils.regual)),
+                ),
+              );
+            }),
           ]),
         ],
       ),

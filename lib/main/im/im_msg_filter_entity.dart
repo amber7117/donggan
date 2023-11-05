@@ -2,7 +2,7 @@ class IMMsgFilterModel {
   bool success;
   String desc;
   String sign;
-  String pushTime;
+  int pushTime;
 
   IMMsgFilterModel({
     required this.success,
@@ -16,7 +16,7 @@ class IMMsgFilterModel {
       success: json['success'] ?? false,
       desc: json['desc'] ?? "",
       sign: json['sign'] ?? "",
-      pushTime: json['pushTime'] ?? "",
+      pushTime: json['pushTime'] ?? 0,
     );
   }
 }

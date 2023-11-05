@@ -46,7 +46,7 @@ class IMService {
       "enumItem": enumType
     };
     HttpResultBean result = await HttpManager.request(
-        IMApi.tokenInfo, HttpMethod.get,
+        IMApi.msgVerify, HttpMethod.post,
         params: params);
 
     if (result.isSuccess()) {

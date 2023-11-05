@@ -7,6 +7,7 @@ import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/im/im_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/modules/chat/chat_page_mixin.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
 import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
@@ -28,7 +29,7 @@ class ChatPage extends StatefulWidget {
   State createState() => _ChatPageState();
 }
 
-class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
+class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   int _msgStartTime = 0;
   int _msgCnt = 0;
 
@@ -117,17 +118,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
     }
     _alreadyJoinRoom = true;
 
-    ChatMsgModel msgEnter = ChatMsgModel.empty();
-    msgEnter.type = ChatMsgType.enter;
-    msgEnter.content = "进入直播间";
-
-    if (UserManager.instance.isLogin()) {
-      msgEnter.userId = UserManager.instance.uid;
-      msgEnter.nickname = UserManager.instance.user!.nickName;
-    } else {
-      msgEnter.userId = await UserManager.instance.obtainTouristId();
-      msgEnter.nickname = "游客${msgEnter.userId}";
-    }
+    ChatMsgModel msgEnter = await prepareSendEnterMsg();
 
     _sendMsg(msgEnter);
   }
@@ -273,6 +264,29 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
     }
   }
 
+  _handleChatBarEvent(ChatBarEvent event) async {
+    if (event == ChatBarEvent.edit) {
+      _hideEmojiUI();
+    } else if (event == ChatBarEvent.emoji) {
+      _showEmojiUI();
+    } else if (event == ChatBarEvent.msgSend) {
+      String content = _chatBarKey.currentState?.getText();
+      ChatMsgModel? msg = await chatbarSendMsg(content, _forbidChat);
+      if (msg != null) {
+        _chatBarKey.currentState?.clearText();
+        _sendMsg(msg);
+      }
+    } else if (event == ChatBarEvent.msgSet) {}
+  }
+
+  _handleEmojiEvent(String emoji) {
+    if (emoji.isEmpty) {
+      _chatBarKey.currentState?.deleteEmoji();
+    } else {
+      _chatBarKey.currentState?.insertEmoji(emoji);
+    }
+  }
+
   bool _emojiShowing = false;
   late StateSetter _emojiSetter;
   final GlobalKey<ChatBarWidgetState> _chatBarKey = GlobalKey();
@@ -293,26 +307,12 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> {
                   itemBuilder: (context, index) {
                     return ChatCellWidget(model: _msgList[index]);
                   }).colored(Colors.white)),
-          ChatBarWidget(
-              key: _chatBarKey,
-              callback: (data) {
-                if (data == ChatBarEvent.edit) {
-                  _hideEmojiUI();
-                } else if (data == ChatBarEvent.emoji) {
-                  _showEmojiUI();
-                }
-              }),
+          ChatBarWidget(key: _chatBarKey, callback: _handleChatBarEvent),
           StatefulBuilder(builder: (context, setState) {
             _emojiSetter = setState;
             return Offstage(
                 offstage: !_emojiShowing,
-                child: EmojiWidget(callback: (data) {
-                  if (data.isEmpty) {
-                    _chatBarKey.currentState?.deleteEmoji();
-                  } else {
-                    _chatBarKey.currentState?.insertEmoji(data);
-                  }
-                }));
+                child: EmojiWidget(callback: _handleEmojiEvent));
           }),
         ],
       ),
