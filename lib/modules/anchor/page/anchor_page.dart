@@ -7,6 +7,7 @@ import 'package:wzty/common/widget/home_search_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/home_tabbar_item_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/anchor/page/anchor_child_hot_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_child_page.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -92,11 +93,17 @@ class _AnchorPageState extends KeepAliveWidgetState
                   children: [
                     SizedBox(height: ScreenUtil().statusBarHeight),
                     HomeSearchWidget(
-                        type: HomeSearchType.match,
+                        type: HomeSearchType.live,
                         searchTap: () {
                           Routes.present(context, Routes.search);
                         },
-                        rightTap: () {}),
+                        rightTap: () {
+                          if (!UserManager.instance.isLogin()) {
+                            Routes.goLoginPage(context);
+                            return;
+                          }
+                          Routes.push(context, Routes.meFollow);
+                        }),
                     const SizedBox(height: 6.0),
                     SizedBox(
                       width: double.infinity,
