@@ -20,6 +20,12 @@ class HomeSearchWidget extends StatefulWidget {
 class _HomeSearchWidgetState extends State<HomeSearchWidget> {
   @override
   Widget build(BuildContext context) {
+    String rightImgPath = "";
+    if (widget.type == HomeSearchType.live) {
+      rightImgPath = "common/iconNavGuanzhu";
+    } else {
+      rightImgPath = "common/iconNavSaixuan";
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -49,9 +55,9 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
             ? const SizedBox()
             : InkWell(
                 onTap: widget.rightTap,
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 22, left: 22),
-                  child: JhAssetImage("match/iconSaixuan", width: 24),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 22, left: 22),
+                  child: JhAssetImage(rightImgPath, width: 24),
                 ))
       ],
     );

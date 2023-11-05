@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/widget/login_content_widget.dart';
@@ -62,6 +64,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
       if (success) {
         context.read<UserProvider>().updateUserInfo(result);
         Routes.goBack(context);
+
+        eventBusManager.emit(LoginStatusEvent(login: true));
       } else {
         ToastUtils.showError(result as String);
       }

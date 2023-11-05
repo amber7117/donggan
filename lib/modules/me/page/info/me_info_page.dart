@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/common/widget/wz_sure_button.dart';
 import 'package:wzty/main/user/user_entity.dart';
@@ -49,6 +51,8 @@ class _MeInfoPageState extends State<MeInfoPage> {
     Routes.goBack(context);
 
     context.read<UserProvider>().updateUserInfo(null);
+
+    eventBusManager.emit(LoginStatusEvent(login: false));
   }
 
   @override
