@@ -92,7 +92,7 @@ class NewsService {
     Map<String, dynamic> params = {
       "newsId": newsId,
       "pageNum": 1,
-      "pageSize": pageSize,
+      "pageSize": pageSize50,
       "order": "desc",
       "orderField": "heat",
     };

@@ -103,7 +103,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
   }
 
   String _attemptPlayVideo() {
-    return "";
+    // return "";
     if (_model == null) {
       return "";
     }

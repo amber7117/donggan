@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_button.dart';
+import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class NewsUserInfoWidget extends StatefulWidget {
   final NewsDetilInfoModel model;
@@ -15,6 +18,24 @@ class NewsUserInfoWidget extends StatefulWidget {
 }
 
 class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
+  Future<bool> _requestFollowUser() async {
+    NewsDetilInfoModel model = widget.model;
+
+    bool isFollow = !model.isAttention;
+
+    ToastUtils.showLoading();
+
+    HttpResultBean result =
+        await MeService.requestUserFocus(model.userId.toString(), isFollow);
+
+    ToastUtils.hideLoading();
+    if (!result.isSuccess()) {
+      ToastUtils.showError(result.msg ?? result.data);
+    }
+
+    return result.isSuccess();
+  }
+
   @override
   Widget build(BuildContext context) {
     NewsDetilInfoModel model = widget.model;
@@ -47,7 +68,7 @@ class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
             ],
           ),
         ),
-        WZFollowBtn(followed: model.isAttention)
+        WZFollowBtn(followed: model.isAttention, handleFollow: _requestFollowUser)
       ],
     );
   }

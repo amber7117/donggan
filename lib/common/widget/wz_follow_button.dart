@@ -4,10 +4,9 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class WZFollowBtn extends StatefulWidget {
-  const WZFollowBtn({super.key, this.handleFollow, required this.followed});
-
   final bool followed;
   final Future<bool> Function()? handleFollow;
+  const WZFollowBtn({super.key, required this.followed, this.handleFollow});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,6 +24,8 @@ class WZFollowBtnState extends State<WZFollowBtn> {
   }
 
   Future<void> _handleTap() async {
+    if (widget.handleFollow == null) return;
+
     bool isSuccess = await widget.handleFollow!();
     if (!isSuccess) return;
 
@@ -62,13 +63,17 @@ class WZFollowBtnState extends State<WZFollowBtn> {
             _isFollowd
                 ? const SizedBox()
                 : const JhAssetImage("common/iconGuanzhuJH", width: 16),
-            Text('关注',
-                style: TextStyle(
-                    color: _isFollowd
-                        ? const Color.fromRGBO(216, 216, 216, 1.0)
-                        : Colors.white,
-                    fontSize: 12,
-                    fontWeight: TextStyleUtils.regual))
+            _isFollowd
+                ? const Text('已关注',
+                    style: TextStyle(
+                        color: Color.fromRGBO(216, 216, 216, 1.0),
+                        fontSize: 12,
+                        fontWeight: TextStyleUtils.regual))
+                : const Text('关注',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: TextStyleUtils.regual))
           ],
         ),
       ),

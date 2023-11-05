@@ -50,11 +50,17 @@ class WZFollowWhiteBtnState extends State<WZFollowWhiteBtn> {
             _isFollowd
                 ? const SizedBox()
                 : const JhAssetImage("common/iconGuanzhuJH2", width: 12),
-            Text(_isFollowd ? '已关注' : '关注',
-                style: TextStyle(
-                    color: _isFollowd ? Colors.grey : ColorUtils.red233,
-                    fontSize: 10,
-                    fontWeight: TextStyleUtils.medium))
+            _isFollowd
+                ? const Text('已关注',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                        fontWeight: TextStyleUtils.medium))
+                : const Text('关注',
+                    style: TextStyle(
+                        color: ColorUtils.red233,
+                        fontSize: 10,
+                        fontWeight: TextStyleUtils.medium))
           ],
         ),
       ),
