@@ -41,20 +41,18 @@ class WZFollowWhiteBtnState extends State<WZFollowWhiteBtn> {
       child: Container(
         width: 60,
         height: 22,
-        decoration: BoxDecoration(
-            color: _isFollowd ? Colors.grey : Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(11))),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(11))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _isFollowd
                 ? const SizedBox()
                 : const JhAssetImage("common/iconGuanzhuJH2", width: 12),
-            Text('关注',
+            Text(_isFollowd ? '已关注' : '关注',
                 style: TextStyle(
-                    color: _isFollowd
-                        ?  Colors.grey
-                        : ColorUtils.red233,
+                    color: _isFollowd ? Colors.grey : ColorUtils.red233,
                     fontSize: 10,
                     fontWeight: TextStyleUtils.medium))
           ],
