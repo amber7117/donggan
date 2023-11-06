@@ -9,14 +9,10 @@ import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 
 class ConfigManager {
-  factory ConfigManager() => _getInstance;
+  // ---------------------------------------------
 
-  static ConfigManager get instance => _getInstance;
-
-  static final ConfigManager _getInstance = ConfigManager._internal();
-
-  ConfigManager._internal();
-
+  late StreamSubscription eventSub;
+  
   // ---------------------------------------------
 
   LiveBlockModel? liveBlockData;
@@ -63,6 +59,10 @@ class ConfigManager {
   // ---------------------------------------------
   
   requestConfig() {
+     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
+        _requestMatchFollowInfo();
+     });
+
     ConfigService.requestLiveBlock((success, result) {
       if (success) {
         liveBlockData = result;
@@ -102,6 +102,22 @@ class ConfigManager {
       }
     });
 
+    _requestMatchFollowInfo();
+
+    ConfigService.requestConfigInfo((success, result) {
+      if (success) {
+        contactQQ = result ?? "";
+      }
+    });
+
+    ConfigService.requestChannelInfo((success, result) {
+      if (success) {
+        onlineKefu = result ?? "";
+      }
+    });
+  }
+
+  _requestMatchFollowInfo() {
     MatchService.requestMatchListAttr(SportType.football, (success, result) {
       if (success) {
         int cnt = MatchCollectManager.instance
@@ -119,17 +135,17 @@ class ConfigManager {
             MatchCollectDataEvent(sportType: SportType.basketball, value: cnt));
       }
     });
-
-    ConfigService.requestConfigInfo((success, result) {
-      if (success) {
-        contactQQ = result ?? "";
-      }
-    });
-
-    ConfigService.requestChannelInfo((success, result) {
-      if (success) {
-        onlineKefu = result ?? "";
-      }
-    });
   }
+
+  // ---------------------------------------------
+
+  factory ConfigManager() => _getInstance;
+
+  static ConfigManager get instance => _getInstance;
+
+  static final ConfigManager _getInstance = ConfigManager._internal();
+
+  ConfigManager._internal(
+   
+  );
 }
