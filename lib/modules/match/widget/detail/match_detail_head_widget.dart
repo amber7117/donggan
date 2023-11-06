@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/data/app_data_utils.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/choose_menu_widget.dart';
@@ -51,10 +52,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
         ToastUtils.showSuccess(isAdd ? "收藏成功" : "取消收藏成功");
         model.focus = isAdd.toInt();
 
-        // int cnt = MatchCollectManager.instance
-        //     .updateCollectData(widget.sportType, model);
-
-        // context.read<TabDotProvider>().setDotNum(cnt);
+        AppDataUtils().matchCollectChanged = true;
 
         setState(() {});
       } else {

@@ -12,14 +12,7 @@ import 'package:wzty/utils/shared_preference_utils.dart';
 enum DomainPullFrom { local, server, cdn, npm }
 
 class DomainManager {
-  factory DomainManager() => _getInstance;
-
-  static DomainManager get instance => _getInstance;
-
-  static final DomainManager _getInstance = DomainManager._internal();
-
-  DomainManager._internal();
-
+  
   // ---------------------------------------------
 
   List<DomainEntity> _domainList = [];
@@ -229,4 +222,15 @@ class DomainManager {
     String domainStr = jsonEncode(modelArr);
     SpUtils.save(SpKeys.domainCache, domainStr);
   }
+
+  // ---------------------------------------------
+
+  factory DomainManager() => _getInstance;
+
+  static DomainManager get instance => _getInstance;
+
+  static final DomainManager _getInstance = DomainManager._internal();
+
+  DomainManager._internal();
+
 }

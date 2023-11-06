@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/data/app_data_utils.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
@@ -42,7 +43,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
       Routes.goLoginPage(context);
       return;
     }
-    
+
     if (widget.listModel != null) {
       _requestMatchCollect();
     } else {
@@ -61,18 +62,23 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
       ToastUtils.hideLoading();
       if (success) {
         ToastUtils.showSuccess(isAdd ? "收藏成功" : "取消收藏成功");
-        model.focus = isAdd;
-
-        int cnt = MatchCollectManager.instance
-            .updateCollectData(widget.sportType!, model);
-
-        context.read<TabDotProvider>().setDotNum(cnt);
-
-        setState(() {});
+        
+        _updateMatchCollectStatus(model, isAdd);
       } else {
         ToastUtils.showError(result);
       }
     });
+  }
+
+  _updateMatchCollectStatus(MatchListModel model, bool focus) {
+    model.focus = focus;
+
+    int cnt = MatchCollectManager.instance
+        .updateCollectData(widget.sportType!, model);
+
+    context.read<TabDotProvider>().setDotNum(cnt);
+
+    setState(() {});
   }
 
   _requestMatchBook() {
@@ -111,12 +117,18 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
 
     return InkWell(
         onTap: () {
-          Routes.push(context, Routes.matchDetail, arguments: model.matchId);
+          Routes.pushAndCallback(context, Routes.matchDetail, (data) { 
+            if (AppDataUtils().matchCollectChanged) {
+              AppDataUtils().matchCollectChanged = false;
+              _updateMatchCollectStatus(model, !model.focus);
+            }
+          }, arguments: model.matchId);
+          // Routes.push(context, Routes.matchDetail, arguments: model.matchId);
         },
         child: Container(
           height: matchChildCellHeight,
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, top: 10),
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -336,10 +348,14 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                       child: InkWell(
                         onTap: _prepareMatchOperate,
                         child: model.userIsAppointment
-                            ? const JhAssetImage("match/iconMatchCollectS",
-                                width: 20)
-                            : const JhAssetImage("match/iconMatchCollect",
-                                width: 20),
+                            ? const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: JhAssetImage("match/iconMatchCollectS",
+                                    width: 20))
+                            : const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: JhAssetImage("match/iconMatchCollect",
+                                    width: 20)),
                       ),
                     ),
                   ),
@@ -394,12 +410,15 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
         const SizedBox(width: 10),
         const SizedBox(width: 1, height: 26)
             .colored(Colors.black.withOpacity(0.1)),
-        const SizedBox(width: 10),
         InkWell(
           onTap: _prepareMatchOperate,
           child: model.focus
-              ? const JhAssetImage("match/iconMatchCollectS", width: 20)
-              : const JhAssetImage("match/iconMatchCollect", width: 20),
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: JhAssetImage("match/iconMatchCollectS", width: 20))
+              : const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: JhAssetImage("match/iconMatchCollect", width: 20)),
         ),
       ];
     } else {

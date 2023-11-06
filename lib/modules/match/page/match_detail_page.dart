@@ -135,10 +135,10 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                 return MatchDetailHeadWebWidget(
                     height: videoHeight(), urlStr: model.animUrl);
               } else if (provider.showVideo) {
-                 String urlStr = model.obtainFirstVideoUrl();
-                 if (urlStr.isEmpty) {
-                    urlStr = model.obtainSecondVideoUrl();
-                 }
+                String urlStr = model.obtainFirstVideoUrl();
+                if (urlStr.isEmpty) {
+                  urlStr = model.obtainSecondVideoUrl();
+                }
                 return MatchDetailHeadVideoWidget(
                     height: videoHeight(), urlStr: urlStr);
               } else {
