@@ -6,6 +6,7 @@ import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
+import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/manager/match_filter_manager.dart';
 import 'package:wzty/modules/match/page/calendar/match_calendar_widget.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
@@ -156,7 +157,8 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
             modelArrTmp = result.going?.matches ?? [];
           }
 
-          // modelArr = processListCollectStatus(data: modelArrTmp);
+          modelArrTmp = _processListCollectStatus(modelArrTmp);
+
           _dataArr = modelArrTmp;
         }
         if (_dataArr.isNotEmpty) {
@@ -174,6 +176,17 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     });
   }
 
+  /// 更新列表收藏状态
+  List<MatchListModel> _processListCollectStatus(List<MatchListModel> data) {
+    for (MatchListModel model in data) {
+      bool focus = MatchCollectManager.instance
+          .judgeMatchCollectStatus(widget.sportType, model);
+      model.focus = focus;
+    }
+    return data;
+  }
+
+  /// 展示日历UI
   _showCalendarUI() {
     return showDialog(
         context: context,
@@ -190,9 +203,9 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
 
             if (dataIdx != -1) {
               _selectIdx = dataIdx;
-            } 
-            
-            _requestData(loading: true, calendarDate: data); 
+            }
+
+            _requestData(loading: true, calendarDate: data);
           });
         });
   }
@@ -220,8 +233,9 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
               callback: (data) {
                 _selectIdx = data;
                 _requestData(loading: true);
-              }, calendarCb: () {
-                _showCalendarUI(); 
+              },
+              calendarCb: () {
+                _showCalendarUI();
               }),
           Expanded(
             child: LoadStateWidget(

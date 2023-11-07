@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -103,6 +104,12 @@ class _AppAboutPageState extends State<AppAboutPage> {
   }
 
   _buildListItemWidget(AboutListItemType type) {
+    String valueStr = "";
+    if (type == AboutListItemType.versionInfo) {
+      valueStr = "v1.0.0";
+    } else if (type == AboutListItemType.versionInfo) {
+      valueStr = ConfigManager.instance.onlineKefu;
+    }
     return Container(
       color: Colors.white,
       height: 55.h,
@@ -118,7 +125,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
                 fontWeight: TextStyleUtils.regual),
           ),
           Text(
-            type.title,
+            valueStr,
             style: const TextStyle(
                 color: ColorUtils.gray179,
                 fontSize: 15,

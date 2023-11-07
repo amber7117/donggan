@@ -83,8 +83,7 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+        successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {

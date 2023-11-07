@@ -129,7 +129,7 @@ class DomainManager {
       if (retArr.isEmpty) {
         pullDomainFromCDN();
       } else {
-        pullDomainFromServer();
+        // pullDomainFromServer();
 
         notifyDomainAvaliable(_domainList);
       }

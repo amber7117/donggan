@@ -15,7 +15,8 @@ class NewsDetailBottomWidget extends StatefulWidget {
 
   final VoidCallback commentCb;
 
-  const NewsDetailBottomWidget({super.key, required this.model, required this.commentCb});
+  const NewsDetailBottomWidget(
+      {super.key, required this.model, required this.commentCb});
 
   @override
   State createState() => _NewsDetailBottomWidgetState();
@@ -29,7 +30,8 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
 
     ToastUtils.showLoading();
 
-    NewsService.requestNewsCollect(model.getNewsId(), isCollect, (success, result) {
+    NewsService.requestNewsCollect(model.getNewsId(), isCollect,
+        (success, result) {
       ToastUtils.hideLoading();
       if (result.isNotEmpty) {
         ToastUtils.showError(result);
@@ -90,7 +92,8 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
                     children: [
                       Padding(
                           padding: EdgeInsets.only(left: 12, right: 12),
-                          child: JhAssetImage("news/iconZixunHuabi", width: 20)),
+                          child:
+                              JhAssetImage("news/iconZixunHuabi", width: 20)),
                       Text(
                         "我也来说几句",
                         style: TextStyle(
@@ -105,9 +108,13 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
             ),
             InkWell(
               onTap: _requestNewsCollect,
-              child: const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: JhAssetImage("news/iconNewsCollect", width: 20)),
+              child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: JhAssetImage(
+                      model.isFavorites
+                          ? "news/iconNewsCollectS"
+                          : "iconNewsCollect",
+                      width: 20)),
             ),
             InkWell(
               onTap: _requestNewsLink,
