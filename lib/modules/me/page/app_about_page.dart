@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -44,12 +45,20 @@ class _AppAboutPageState extends State<AppAboutPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "用户协议",
-                style: TextStyle(
-                    color: Color.fromRGBO(91, 162, 214, 1.0),
-                    fontSize: 13,
-                    fontWeight: TextStyleUtils.regual),
+              InkWell(
+                onTap: () {
+                  Routes.push(context, Routes.webLocal, arguments: {
+                    "title": "用户协议",
+                    "htmlName": "user-agreement.html"
+                  });
+                },
+                child: const Text(
+                  "用户协议",
+                  style: TextStyle(
+                      color: Color.fromRGBO(91, 162, 214, 1.0),
+                      fontSize: 13,
+                      fontWeight: TextStyleUtils.regual),
+                ),
               ),
               const SizedBox(width: 10.0),
               Container(
@@ -57,12 +66,20 @@ class _AppAboutPageState extends State<AppAboutPage> {
                   height: 14.h,
                   color: const Color.fromRGBO(91, 162, 214, 1.0)),
               const SizedBox(width: 10.0),
-              const Text(
-                "隐私政策",
-                style: TextStyle(
-                    color: Color.fromRGBO(91, 162, 214, 1.0),
-                    fontSize: 13,
-                    fontWeight: TextStyleUtils.regual),
+              InkWell(
+                onTap: () {
+                  Routes.push(context, Routes.webLocal, arguments: {
+                    "title": "隐私政策",
+                    "htmlName": "privacy-policy.html"
+                  });
+                },
+                child: const Text(
+                  "隐私政策",
+                  style: TextStyle(
+                      color: Color.fromRGBO(91, 162, 214, 1.0),
+                      fontSize: 13,
+                      fontWeight: TextStyleUtils.regual),
+                ),
               ),
             ],
           ),

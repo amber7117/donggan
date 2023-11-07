@@ -52,6 +52,7 @@ class _MePageState extends KeepAliveLifeWidgetState {
   _handleEvent(MeEvent event) {
     if (event == MeEvent.set) {
       Routes.push(context, Routes.appSet);
+      return;
     }
 
     if (context.read<UserProvider>().user == null) {
