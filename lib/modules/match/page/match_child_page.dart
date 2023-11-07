@@ -37,6 +37,20 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     _requestData(loading: true);
   }
 
+  _setMenuSelectData(bool isHot) {
+    if (widget.sportType == SportType.football) {
+      filterType = isHot ? MatchFilterType.footballHot : MatchFilterType.unknown;
+    } else {
+      filterType =
+          isHot ? MatchFilterType.basketballHot : MatchFilterType.unknown;
+    }
+
+    leagueIdArr = [];
+
+    _requestData(loading: true);
+  }
+
+
   getMatchDateStr() {
     return _dateStrArr[_selectIdx];
   }
@@ -50,6 +64,8 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
 
   MatchFilterType filterType = MatchFilterType.unknown;
   List<int> leagueIdArr = [];
+
+  bool _selectAllBtn = true;
 
   final EasyRefreshController _refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
@@ -224,7 +240,12 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
       alignment: Alignment.bottomRight,
       children: [
         _buildChildWidget(),
-        MatchMenuWidget(selectIdx: 0)
+        MatchMenuWidget(selectAll: true, callback: (selectAll) {
+          if (_selectAllBtn == selectAll) return;
+
+          _selectAllBtn = selectAll;
+          _setMenuSelectData(!selectAll);
+        })
       ],
     );
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchMenuWidget extends StatefulWidget {
-  final int selectIdx;
+  final bool selectAll;
+  final WZAnyCallback<bool> callback;
 
-  const MatchMenuWidget({super.key, required this.selectIdx});
+  const MatchMenuWidget(
+      {super.key, required this.selectAll, required this.callback});
 
   @override
   State createState() => _MatchMenuWidgetState();
@@ -18,7 +21,21 @@ class _MatchMenuWidgetState extends State<MatchMenuWidget> {
   @override
   void initState() {
     super.initState();
-    _selectIdx = widget.selectIdx;
+    _selectIdx = widget.selectAll ? 1 : 0;
+  }
+
+  _handleItemClick(String title) {
+    if (_showAll) {
+      if (title == "热门") {
+        _selectIdx = 0;
+        widget.callback(false);
+      } else {
+        _selectIdx = 1;
+        widget.callback(true);
+      }
+    }
+    _showAll = !_showAll;
+    setState(() {});
   }
 
   @override
@@ -68,36 +85,46 @@ class _MatchMenuWidgetState extends State<MatchMenuWidget> {
   }
 
   _buildItem(String title) {
-    return Container(
-        width: 40,
-        height: 40,
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: TextStyleUtils.medium),
-        ));
+    return InkWell(
+      onTap: () {
+        _handleItemClick(title);
+      },
+      child: Container(
+          width: 40,
+          height: 40,
+          alignment: Alignment.center,
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                fontWeight: TextStyleUtils.medium),
+          )),
+    );
   }
 
   _buildSelectItem(String title) {
-    return Container(
-        width: 40,
-        height: 40,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: ColorUtils.red233,
-            border: Border.all(width: 1.0, color: Colors.white),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: TextStyleUtils.medium),
-        ));
+    return InkWell(
+      onTap: () {
+        _handleItemClick(title);
+      },
+      child: Container(
+          width: 40,
+          height: 40,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: ColorUtils.red233,
+              border: Border.all(width: 1.0, color: Colors.white),
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: TextStyleUtils.medium),
+          )),
+    );
   }
 }
