@@ -1,22 +1,34 @@
 import 'package:wzty/utils/shared_preference_utils.dart';
 
 class SearchManager {
-  List<String> keyWordArr = [];
+  final List<String> _keyWordArr = [];
 
   // ---------------------------------------------
-  
-  void updateKeyWordData(String keyWord) {
-    int idx = keyWordArr.indexOf(keyWord);
-    if (idx != -1) {
-      keyWordArr.removeAt(idx);
-    }
-    keyWordArr.insert(0, keyWord);
 
-    SpUtils.save(SpKeys.searchHistory, keyWordArr.join(","));
+  Future<List<String>> obtainKeyWordData() async {
+    if (_keyWordArr.isEmpty) {
+      String keywordStr = await SpUtils.getString(SpKeys.searchHistory);
+
+      if (keywordStr.isNotEmpty) {
+        _keyWordArr.addAll(keywordStr.split(","));
+      }
+    }
+
+    return _keyWordArr;
+  }
+
+  void updateKeyWordData(String keyWord) {
+    int idx = _keyWordArr.indexOf(keyWord);
+    if (idx != -1) {
+      _keyWordArr.removeAt(idx);
+    }
+    _keyWordArr.insert(0, keyWord);
+
+    SpUtils.save(SpKeys.searchHistory, _keyWordArr.join(","));
   }
 
   void cleanAllKeyWord() {
-    keyWordArr.clear();
+    _keyWordArr.clear();
 
     SpUtils.save(SpKeys.searchHistory, "");
   }
@@ -29,15 +41,5 @@ class SearchManager {
 
   static final SearchManager _getInstance = SearchManager._internal();
 
-  SearchManager._internal() {
-    _obtainData();
-  }
-
-  _obtainData() async {
-    String keywordStr = await SpUtils.getString(SpKeys.searchHistory);
-
-    if (keywordStr.isNotEmpty) {
-      keyWordArr.addAll(keywordStr.split(","));
-    }
-  }
+  SearchManager._internal();
 }

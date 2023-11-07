@@ -8,7 +8,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 class SearchHistoryPage extends StatefulWidget {
   final WZAnyCallback callback;
-  
+
   const SearchHistoryPage({super.key, required this.callback});
 
   @override
@@ -22,7 +22,12 @@ class _SearchHistoryPageState extends State<SearchHistoryPage> {
   void initState() {
     super.initState();
 
-    _keyWordArr = SearchManager.instance.keyWordArr;
+    _requestData();
+  }
+
+  _requestData() async {
+    _keyWordArr = await SearchManager.instance.obtainKeyWordData();
+    setState(() {});
   }
 
   @override
@@ -67,9 +72,11 @@ class _SearchHistoryPageState extends State<SearchHistoryPage> {
           ),
           itemCount: _keyWordArr.length,
           itemBuilder: (BuildContext context, int index) {
-            return SearchHistoryCellWidget(keyWord: _keyWordArr[index], callback: (data) {
-              widget.callback(data);
-            });
+            return SearchHistoryCellWidget(
+                keyWord: _keyWordArr[index],
+                callback: (data) {
+                  widget.callback(data);
+                });
           },
         ),
       ),

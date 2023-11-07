@@ -98,4 +98,12 @@ class AppBusinessUtils {
       return "$hot";
     }
   }
+
+  static String obtainFansDesc(int hot) {
+    if (hot > 10000) {
+      return "${(hot / 10000.0).toStringAsFixed(2)}万";
+    } else {
+      return "$hot";
+    }
+  }
 }
