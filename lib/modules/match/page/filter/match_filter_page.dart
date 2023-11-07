@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
@@ -299,7 +298,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
 
     // callback?.call();
 
-    Routes.goBack(context);
+    Navigator.pop(context, "1");
   }
 
   // -------------------------------------------

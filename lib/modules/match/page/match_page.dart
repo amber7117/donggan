@@ -166,6 +166,7 @@ class _MatchPageState extends KeepAliveWidgetState<MatchPage>
                               : () {
                                   Routes.pushAndCallback(
                                       context, Routes.matchFilter, (data) {
+                                        if (data == null) return;
                                         _setConditionData();
                                       },
                                       arguments: {

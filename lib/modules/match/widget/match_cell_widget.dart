@@ -128,7 +128,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
         child: Container(
           height: matchChildCellHeight,
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, top: 10),
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -157,13 +157,16 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                   ),
                   SizedBox(
                     width: _teamW,
-                    child: Text(
-                      model.matchTimeNew,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                          color: ColorUtils.gray153,
-                          fontSize: 10,
-                          fontWeight: TextStyleUtils.medium),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(
+                        model.matchTimeNew,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                            color: ColorUtils.gray153,
+                            fontSize: 10,
+                            fontWeight: TextStyleUtils.medium),
+                      ),
                     ),
                   ),
                 ],
