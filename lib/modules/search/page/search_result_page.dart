@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/search/entity/search_entity.dart';
@@ -28,7 +29,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
     SearchResultModel model = widget.model;
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.zero,
       itemCount: 2,
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
@@ -36,14 +37,14 @@ class _SearchResultPageState extends State<SearchResultPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                  padding: EdgeInsets.only(top: 16, bottom: 12),
+                  padding: EdgeInsets.only(top: 16, bottom: 12, left: 12),
                   child: Text("相关主播",
                       style: TextStyle(
                           color: ColorUtils.black34,
                           fontSize: 14,
                           fontWeight: TextStyleUtils.semibold))),
               ListView.builder(
-                  padding: EdgeInsets.zero,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   itemCount: model.anchors.length,
                   itemExtent: searchResultCellHeight,
                   shrinkWrap: true,
@@ -52,13 +53,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     return SearchResultCellWidget(anchor: model.anchors[index]);
                   }),
             ],
-          );
+          ).colored(Colors.white);
         } else {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                  padding: EdgeInsets.only(top: 16, bottom: 12),
+                  padding: EdgeInsets.only(top: 16, bottom: 12, left: 12),
                   child: Text("相关赛事",
                       style: TextStyle(
                           color: ColorUtils.black34,
@@ -77,6 +78,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
           );
         }
       },
-    );
+    ).colored(ColorUtils.gray248);
   }
 }
