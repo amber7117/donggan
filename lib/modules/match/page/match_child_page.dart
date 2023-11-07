@@ -8,10 +8,11 @@ import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/manager/match_filter_manager.dart';
-import 'package:wzty/modules/match/page/calendar/match_calendar_widget.dart';
+import 'package:wzty/modules/match/widget/calendar/match_calendar_widget.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
+import 'package:wzty/modules/match/widget/match_menu_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 import 'package:wzty/utils/wz_date_utils.dart';
 
@@ -219,7 +220,13 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
   Widget buildWidget(BuildContext context) {
     // return LoadStateWidget(
     //     state: _layoutState, successWidget: _buildChildWidget());
-    return _buildChildWidget();
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        _buildChildWidget(),
+        MatchMenuWidget(selectIdx: 0)
+      ],
+    );
   }
 
   _buildChildWidget() {

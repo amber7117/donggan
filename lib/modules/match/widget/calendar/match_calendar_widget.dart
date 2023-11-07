@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/modules/match/page/calendar/utils.dart';
+import 'package:wzty/modules/match/widget/calendar/utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
