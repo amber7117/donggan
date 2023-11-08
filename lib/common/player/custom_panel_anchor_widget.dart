@@ -3,28 +3,36 @@ import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/custom_panel_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
+
+enum playPanelEvent { danmu }
 
 FijkPanelWidgetBuilder anchorPanelBuilder(
     {Key? key,
-    final bool fill = false,
-    final int duration = 5000,
-    final bool doubleTap = true,
-    final VoidCallback? onBack}) {
+    bool fill = false,
+    int animTime = 5000,
+    bool doubleTap = true,
+    final String? title,
+    required WZAnyCallback callback,
+    VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
       Rect texturePos) {
     return _CustomPanelAnchor(
       key: key,
       player: player,
       data: data,
-      onBack: onBack,
       viewSize: viewSize,
       texPos: texturePos,
       fill: fill,
       doubleTap: doubleTap,
-      hideDuration: duration,
+      hideDuration: animTime,
+      title: title,
+      callback: callback,
+      onBack: onBack,
     );
   };
 }
@@ -32,23 +40,29 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
 class _CustomPanelAnchor extends StatefulWidget {
   final FijkPlayer player;
   final FijkData data;
-  final VoidCallback? onBack;
   final Size viewSize;
   final Rect texPos;
   final bool fill;
   final bool doubleTap;
   final int hideDuration;
 
-  const _CustomPanelAnchor(
-      {super.key,
-      required this.player,
-      required this.data,
-      this.onBack,
-      required this.viewSize,
-      required this.texPos,
-      required this.fill,
-      required this.doubleTap,
-      required this.hideDuration});
+  final String? title;
+  final WZAnyCallback callback;
+  final VoidCallback? onBack;
+
+  const _CustomPanelAnchor({
+    super.key,
+    required this.player,
+    required this.data,
+    required this.viewSize,
+    required this.texPos,
+    required this.fill,
+    required this.doubleTap,
+    required this.hideDuration,
+    this.title,
+    required this.callback,
+    this.onBack,
+  });
 
   @override
   State createState() => __CustomPanelAnchorState();
@@ -213,7 +227,8 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
 
   // MARK: - UI & Property
 
-  Widget buildBack(BuildContext context) {
+  /// 返回按钮
+  Widget buildBackButtom(BuildContext context) {
     return IconButton(
       padding: const EdgeInsets.only(left: 5),
       icon: const Icon(
@@ -224,7 +239,8 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     );
   }
 
-  Widget buildRefreshButton(BuildContext context)  {
+  /// 刷新按钮
+  Widget buildRefreshButton(BuildContext context) {
     return InkWell(
         onTap: () async {
           await player.reset();
@@ -235,6 +251,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
             child: JhAssetImage("anchor/iconRefresh", width: 24)));
   }
 
+  /// 弹幕按钮
   Widget buildDanmuButton(BuildContext context) {
     return InkWell(
         onTap: () {},
@@ -243,6 +260,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
             child: JhAssetImage("anchor/iconDanmu", width: 24)));
   }
 
+  /// 弹幕设置按钮
   Widget buildDanmuSetButton(BuildContext context) {
     return InkWell(
         onTap: () {},
@@ -251,6 +269,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
             child: JhAssetImage("anchor/iconDanmuS", width: 24)));
   }
 
+  /// 弹幕全屏按钮
   Widget buildFullScreenButton(BuildContext context) {
     String imgPath;
     if (player.value.fullScreen) {
@@ -269,11 +288,12 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
             child: JhAssetImage(imgPath, width: 24)));
   }
 
+  /// 底部菜单栏
   Widget buildBottom(BuildContext context, double height) {
     return Row(
       children: <Widget>[
         buildRefreshButton(context),
-        const Expanded(child: SizedBox()),
+        const Spacer(),
         buildDanmuButton(context),
         buildDanmuSetButton(context),
         buildFullScreenButton(context),
@@ -281,14 +301,64 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     );
   }
 
+  /// 分辨率按钮
+  Widget buildResolutionButton(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 20,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          border: Border.all(width: 1.0, color: Colors.white),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
+      child: Text("标清",
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: TextStyleUtils.regual)),
+    );
+  }
+
+  /// 更多按钮
+  Widget buildMoreButton(BuildContext context) {
+    return InkWell(
+        onTap: () {},
+        child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: JhAssetImage("anchor/iconGengduo", width: 24)));
+  }
+
+  /// 顶部菜单栏
+  Widget buildTop(BuildContext context, double height) {
+    return Row(
+      children: <Widget>[
+        const SizedBox(width: 44),
+        Expanded(
+          child: Text(widget.title ?? "",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: TextStyleUtils.regual)),
+        ),
+        const SizedBox(width: 20),
+        buildResolutionButton(context),
+        player.value.fullScreen ? const SizedBox() : buildMoreButton(context),
+      ],
+    );
+  }
+
+  /// 面板UI
   Widget buildPanel(BuildContext context) {
     double height = panelHeight();
+    double toolHeight = height > 80 ? 80 : height / 5;
+    double toolItemHeight = height > 80 ? 45 : height / 2;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          height: height > 200 ? 80 : height / 5,
+          height: toolHeight,
+          alignment: Alignment.topCenter,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0x88000000), Color(0x00000000)],
@@ -296,25 +366,20 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
               end: Alignment.bottomCenter,
             ),
           ),
+          child: buildTop(context, toolItemHeight),
         ),
-        const Expanded(
-          child: ColoredBox(color: Color(0x00000000)),
-        ),
+        const Spacer(),
         Container(
-          height: height > 80 ? 80 : height / 2,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0x88000000), Color(0x00000000)],
-              end: Alignment.topCenter,
-              begin: Alignment.bottomCenter,
-            ),
-          ),
+          height: toolHeight,
           alignment: Alignment.bottomCenter,
-          child: Container(
-            height: height > 80 ? 45 : height / 2,
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: buildBottom(context, height > 80 ? 40 : height / 2),
-          ),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0x88000000), Color(0x00000000)],
+                end: Alignment.topCenter,
+                begin: Alignment.bottomCenter,
+              ),
+              color: Colors.green),
+          child: buildBottom(context, toolItemHeight),
         )
       ],
     );
@@ -369,7 +434,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
         child: const Icon(
           Icons.error,
           size: 30,
-          color: Color(0x99FFFFFF),
+          color: ColorUtils.red233,
         ),
       );
     } else {
@@ -392,7 +457,7 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
     }
     ws.add(buildGestureDetector(context));
     if (widget.onBack != null) {
-      ws.add(buildBack(context));
+      ws.add(buildBackButtom(context));
     }
     return Positioned.fromRect(
       rect: rect,

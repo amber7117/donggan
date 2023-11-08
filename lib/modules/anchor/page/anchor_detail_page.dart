@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
@@ -187,6 +186,9 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     if (_model == null) {
       return const SizedBox();
     }
+
+     AnchorDetailModel model = _model!;
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context2) => _tabProvider),
@@ -199,10 +201,10 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
               String videoUrl = _attemptPlayVideo();
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
-                    height: videoHeight(), urlStr: videoUrl);
-              } else if (_model!.animUrl.isNotEmpty) {
+                    height: videoHeight(), titleStr: model.liveTitle, urlStr: videoUrl);
+              } else if (model.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
-                    height: videoHeight(), urlStr: _model!.animUrl);
+                    height: videoHeight(), urlStr: model.animUrl);
               } else {
                 return SizedBox(
                     width: double.infinity, height: videoStatusBarHeight());
@@ -224,7 +226,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                       labelPadding: const EdgeInsets.only(right: 4),
                       tabs: _tabs),
                 ),
-                AnchorDetailUserInfoWidget(model: _model!),
+                AnchorDetailUserInfoWidget(model: model),
               ],
             ),
             const ColoredBox(
@@ -238,15 +240,15 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                     itemBuilder: (_, int index) {
                       if (index == 0) {
                         return ChatPage(
-                            roomId: _model!.roomId.toString(),
-                            chatRoomId: _model!.chatId);
+                            roomId: model.roomId.toString(),
+                            chatRoomId: model.chatId);
                       } else if (index == 1) {
                         return AnchorDetailCalendarPage(
                             anchorId: widget.anchorId);
                       } else {
                         return AnchorDetailPlaybackPage(
                             anchorId: widget.anchorId,
-                            nickName: _model!.nickname);
+                            nickName: model.nickname);
                       }
                     }))
           ],

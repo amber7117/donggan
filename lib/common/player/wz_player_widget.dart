@@ -8,11 +8,16 @@ import 'package:wzty/utils/jh_image_utils.dart';
 enum WZPlayerType { match, anchor, playback }
 
 class WZPlayerWidget extends StatefulWidget {
+  final String? titleStr;
   final String urlStr;
 
   final WZPlayerType type;
 
-  const WZPlayerWidget({super.key, required this.urlStr, required this.type});
+  const WZPlayerWidget(
+      {super.key,
+      required this.urlStr,
+      required this.type,
+      this.titleStr});
 
   @override
   State createState() => _WZPlayerWidgetState();
@@ -34,9 +39,9 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
 
     // todo 销毁好像有异常
     if (player.state == FijkState.started) {
-       player.stop();
+      player.stop();
     }
-   
+
     player.release();
   }
 
@@ -46,17 +51,18 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
     if (widget.type == WZPlayerType.match) {
       builder = matchPanelBuilder();
     } else if (widget.type == WZPlayerType.anchor) {
-      builder = anchorPanelBuilder();
+      builder = anchorPanelBuilder(title: widget.titleStr, callback: (data) {});
     } else {
       builder = playbackPanelBuilder();
     }
-    
+
     return FijkView(
       player: player,
       panelBuilder: builder,
       fit: FijkFit.ar16_9,
       fsFit: FijkFit.ar16_9,
-      cover: AssetImage(JhImageUtils.obtainImgPath("anchor/imgLiveBg", x2: false)),
+      cover:
+          AssetImage(JhImageUtils.obtainImgPath("anchor/imgLiveBg", x2: false)),
       color: Colors.black,
     );
   }
