@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_provider.dart';
@@ -80,10 +81,16 @@ class _MePageState extends KeepAliveLifeWidgetState {
       Routes.push(context, Routes.meJilu);
     } else if (type == MeListItemType.huodong) {
       Routes.push(context, Routes.meHuodong);
+
     } else if (type == MeListItemType.wenti) {
       Routes.push(context, Routes.meWenti);
+
     } else if (type == MeListItemType.kefu) {
-      Routes.push(context, Routes.meKefu);
+      String linkNew = Uri.encodeQueryComponent(ConfigManager.instance.onlineKefu);
+      // linkNew = "https://www.baidu.com";
+      Routes.push(context, Routes.web,
+          arguments: {"title": "在线客服", "urlStr": linkNew});
+
     } else {
       Routes.push(context, Routes.meAbout);
     }

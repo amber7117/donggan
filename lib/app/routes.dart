@@ -13,7 +13,6 @@ import 'package:wzty/modules/match/page/filter/match_filter_page.dart';
 import 'package:wzty/modules/match/page/match_detail_page.dart';
 import 'package:wzty/modules/me/page/app_about_page.dart';
 import 'package:wzty/modules/me/page/app_act_page.dart';
-import 'package:wzty/modules/me/page/app_kefu_page.dart';
 import 'package:wzty/modules/me/page/app_problem_page.dart';
 import 'package:wzty/modules/me/page/app_set_page.dart';
 import 'package:wzty/modules/me/page/info/me_info_account_page.dart';
@@ -201,9 +200,6 @@ class Routes {
     }));
     router.define(meWenti, handler: Handler(handlerFunc: (context, params) {
       return const AppProblemPage();
-    }));
-    router.define(meKefu, handler: Handler(handlerFunc: (context, params) {
-      return const AppKefuPage();
     }));
     router.define(meAbout, handler: Handler(handlerFunc: (context, params) {
       return const AppAboutPage();
