@@ -127,7 +127,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             _showReportUI();
           },
           child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: JhAssetImage("news/iconMore", width: 22)),
         )),
         backgroundColor: Colors.white,

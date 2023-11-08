@@ -78,6 +78,7 @@ class _AnchorDetailUserInfoWidgetState
           const SizedBox(width: 6.0),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(model.nickname,

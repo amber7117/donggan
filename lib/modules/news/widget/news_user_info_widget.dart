@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -19,6 +21,11 @@ class NewsUserInfoWidget extends StatefulWidget {
 
 class _NewsUserInfoWidgetState extends State<NewsUserInfoWidget> {
   Future<bool> _requestFollowUser() async {
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+      return false;
+    }
+    
     NewsDetailInfoModel model = widget.model;
 
     bool isFollow = !model.isAttention;
