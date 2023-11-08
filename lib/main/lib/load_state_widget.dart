@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'load_empty_widget.dart';
 
 enum LoadStatusType {
@@ -18,6 +19,7 @@ class LoadStateWidget extends StatelessWidget {
   final Color? bgColor;
   final Widget? emptyWidget;
   final Widget? errorWidget;
+  final bool needLoading;
 
   const LoadStateWidget({
     Key? key,
@@ -28,6 +30,7 @@ class LoadStateWidget extends StatelessWidget {
     this.bgColor,
     this.emptyWidget,
     this.errorWidget,
+    this.needLoading = false,
   }) : super(key: key);
 
   @override
@@ -42,7 +45,7 @@ class LoadStateWidget extends StatelessWidget {
   Widget _buildWidget() {
     switch (state) {
       case LoadStatusType.loading:
-        return Container();
+        return needLoading ? _buildLoadingWidget() : const SizedBox();
 
       case LoadStatusType.success:
         return successWidget;
@@ -50,7 +53,9 @@ class LoadStateWidget extends StatelessWidget {
       case LoadStatusType.failure:
         return InkWell(
           onTap: errorRetry,
-          child: errorWidget ?? const LoadEmptyWidget(hintText: "加载失败", imageAsset: "common/iconLoadError"),
+          child: errorWidget ??
+              const LoadEmptyWidget(
+                  hintText: "加载失败", imageAsset: "common/iconLoadError"),
         );
       case LoadStatusType.empty:
         return InkWell(
@@ -58,7 +63,19 @@ class LoadStateWidget extends StatelessWidget {
           child: emptyWidget ?? const LoadEmptyWidget(),
         );
       default:
-        return Container();
+        return const SizedBox();
     }
+  }
+
+  _buildLoadingWidget() {
+    return Container(
+      alignment: Alignment.center,
+      child: const SizedBox(
+        width: 30,
+        height: 30,
+        child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation(ColorUtils.red233)),
+      ),
+    );
   }
 }
