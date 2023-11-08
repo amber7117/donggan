@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
-import 'package:wzty/common/webview/wz_webview_page.dart';
+import 'package:wzty/common/webview/wz_webview_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_status_tabbar_item_widget.dart';
@@ -148,7 +148,7 @@ class _MatchDetailBBStatusPageState
                           child: SizedBox(
                             width: double.infinity,
                             height: 62, //110
-                            child: WZWebviewPage(urlStr: model.trendAnim),
+                            child: WZWebviewWidget(urlStr: model.trendAnim),
                           ),
                         )
                       : const SliverToBoxAdapter(child: SizedBox());

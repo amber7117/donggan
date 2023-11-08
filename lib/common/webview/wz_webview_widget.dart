@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wzty/main/lib/appbar.dart';
 
-class WZWebviewPage extends StatefulWidget {
-  final String title;
+class WZWebviewWidget extends StatefulWidget {
+
   final String urlStr;
 
-  const WZWebviewPage(
-      {super.key, required this.title, required this.urlStr});
+  const WZWebviewWidget({super.key, required this.urlStr});
 
   @override
-  State createState() => _WZWebviewPageState();
+  State createState() => _WZWebviewWidgetState();
 }
 
-class _WZWebviewPageState extends State<WZWebviewPage> {
-  late WebViewController controller;
+class _WZWebviewWidgetState extends State<WZWebviewWidget> {
 
+  late WebViewController controller;
+  
   @override
   void initState() {
     super.initState();
-
+    
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       // ..setBackgroundColor(const Color(0x00000000))
       ..setBackgroundColor(Colors.white)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {},
+          onProgress: (int progress) {
+          },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
@@ -40,9 +40,6 @@ class _WZWebviewPageState extends State<WZWebviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: buildAppBar(titleText: widget.title),
-        body: WebViewWidget(controller: controller));
+    return WebViewWidget(controller: controller);
   }
 }

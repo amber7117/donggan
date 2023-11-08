@@ -7,18 +7,18 @@ import 'package:wzty/utils/jh_image_utils.dart';
 
 enum WZPlayerType { match, anchor, playback }
 
-class WZPlayerPage extends StatefulWidget {
+class WZPlayerWidget extends StatefulWidget {
   final String urlStr;
 
   final WZPlayerType type;
 
-  const WZPlayerPage({super.key, required this.urlStr, required this.type});
+  const WZPlayerWidget({super.key, required this.urlStr, required this.type});
 
   @override
-  State createState() => _WZPlayerPageState();
+  State createState() => _WZPlayerWidgetState();
 }
 
-class _WZPlayerPageState extends State<WZPlayerPage> {
+class _WZPlayerWidgetState extends State<WZPlayerWidget> {
   final FijkPlayer player = FijkPlayer();
 
   @override

@@ -47,7 +47,8 @@ class BannerModel {
         String linkNew = Uri.encodeQueryComponent(link);
         if (redirectType == 1) {
         } else {}
-        Routes.push(context, Routes.web, arguments: linkNew);
+        Routes.push(context, Routes.web,
+            arguments: {"title": title, "urlStr": linkNew});
         break;
       case 8:
         Routes.push(context, Routes.anchorDetail, arguments: link.toInt());

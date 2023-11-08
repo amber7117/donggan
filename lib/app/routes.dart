@@ -220,8 +220,10 @@ class Routes {
     }));
 
     router.define(web, handler: Handler(handlerFunc: (context, params) {
-      var urlStr = context?.settings?.arguments as String;
-      return WZWebviewPage(urlStr: urlStr);
+      var params = context?.settings?.arguments as Map<String, String>;
+      String title = params["title"] ?? "";
+      String urlStr = params["urlStr"] ?? "";
+      return WZWebviewPage(title: title, urlStr: urlStr);
     }));
     router.define(webLocal, handler: Handler(handlerFunc: (context, params) {
       var params = context?.settings?.arguments as Map<String, String>;
