@@ -98,7 +98,7 @@ class NewsApi {
 }
 
 class MeApi {
-  static String userInfo = "/qiutx-news/app/post/author/space/###";
+  static String userInfo2 = "/qiutx-news/app/post/author/space/###";
 
   static String modifyUserMobile = "/qiutx-usercenter/v2/user/personal";
   static String modifyUserPwd = "/qiutx-usercenter/v2/app/findpwd/reset";

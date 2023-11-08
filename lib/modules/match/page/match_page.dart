@@ -45,7 +45,7 @@ class _MatchPageState extends KeepAliveWidgetState<MatchPage>
 
   final List<Widget> _tabs = [
     const HomeTabbarDotItemWidget(
-      tabName: '及时',
+      tabName: '即时',
       index: 0,
     ),
     const HomeTabbarDotItemWidget(

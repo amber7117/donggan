@@ -12,7 +12,7 @@ class ConfigManager {
   // ---------------------------------------------
 
   late StreamSubscription eventSub;
-  
+
   // ---------------------------------------------
 
   LiveBlockModel? liveBlockData;
@@ -35,7 +35,7 @@ class ConfigManager {
   Timer? userReportTimer;
 
   // ---------------------------------------------
-  
+
   bool videoIsBlock(int leagueId) {
     if (!liveOk) {
       return true;
@@ -57,11 +57,11 @@ class ConfigManager {
   }
 
   // ---------------------------------------------
-  
+
   requestConfig() {
-     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
-        _requestMatchFollowInfo();
-     });
+    eventSub = eventBusManager.on<LoginStatusEvent>((event) {
+      _requestMatchFollowInfo();
+    });
 
     ConfigService.requestLiveBlock((success, result) {
       if (success) {
@@ -145,7 +145,5 @@ class ConfigManager {
 
   static final ConfigManager _getInstance = ConfigManager._internal();
 
-  ConfigManager._internal(
-   
-  );
+  ConfigManager._internal();
 }

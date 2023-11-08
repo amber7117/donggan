@@ -1,12 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_entity.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
+import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
+import 'package:wzty/modules/me/entity/user_info_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -22,7 +29,7 @@ class MePage extends StatefulWidget {
   }
 }
 
-class _MePageState extends KeepAliveLifeWidgetState {
+class _MePageState extends KeepAliveLifeWidgetState<MePage> {
   List<Widget> _buildListItemWidgetArr() {
     return [
       _buildListItemWidget(MeListItemType.pingbi),
@@ -34,20 +41,57 @@ class _MePageState extends KeepAliveLifeWidgetState {
     ];
   }
 
+  late StreamSubscription eventSub;
+  UserInfoEntity? userInfo2;
+  List<SysMsgModel> msgList = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _requestData();
+
+    eventSub = eventBusManager.on<LoginStatusEvent>((event) {
+      _handleLoginEvent(event);
+    });
+  }
+
+  @override
+  void onPageResume() {
+    super.onPageResume();
+  }
+
   _requestData() {
-    // if (provider.user)
-    // ToastUtils.showLoading();
+    if (!UserManager.instance.isLogin()) return;
 
-    // MeService.requestUserInfo(uid, (success, result) { })
-    // MeService.requestSysMsgList((success, result) {
-    //   ToastUtils.hideLoading();
-    //   if (success) {
+    Future info =
+        MeService.requestUserInfo(UserManager.instance.uid, (success, result) {
+      userInfo2 = result;
+    });
 
-    //   } else {
+    Future msg = MeService.requestSysMsgList((success, result) {
+      msgList = result;
+    });
 
-    //   }
-    //   setState(() {});
-    // });
+    Future.wait([info, msg]).then((value) {
+      String desc = userInfo2?.personalDesc ?? "";
+      if (desc.isNotEmpty) {
+        UserManager.instance.updateUserPersonalDesc(desc);
+        context.read<UserProvider>().updateUserInfoPart(personalDesc: desc);
+      } else {
+        setState(() {});
+      }
+    });
+  }
+
+  _handleLoginEvent(LoginStatusEvent event) {
+    if (event.login) {
+      _requestData();
+    } else {
+      userInfo2 = null;
+      msgList = [];
+      setState(() {});
+    }
   }
 
   _handleEvent(MeEvent event) {
@@ -81,16 +125,14 @@ class _MePageState extends KeepAliveLifeWidgetState {
       Routes.push(context, Routes.meJilu);
     } else if (type == MeListItemType.huodong) {
       Routes.push(context, Routes.meHuodong);
-
     } else if (type == MeListItemType.wenti) {
       Routes.push(context, Routes.meWenti);
-
     } else if (type == MeListItemType.kefu) {
-      String linkNew = Uri.encodeQueryComponent(ConfigManager.instance.onlineKefu);
+      String linkNew =
+          Uri.encodeQueryComponent(ConfigManager.instance.onlineKefu);
       // linkNew = "https://www.baidu.com";
       Routes.push(context, Routes.web,
           arguments: {"title": "在线客服", "urlStr": linkNew});
-
     } else {
       Routes.push(context, Routes.meAbout);
     }
@@ -132,7 +174,7 @@ class _MePageState extends KeepAliveLifeWidgetState {
                       children: [
                         InkWell(
                           child: _buildCardWidget(
-                              "me/iconMessage", "消息通知", "0条未读"),
+                              "me/iconMessage", "消息通知", "${msgList.length}条未读"),
                           onTap: () {
                             _handleEvent(MeEvent.msg);
                           },
@@ -234,6 +276,7 @@ class _MePageState extends KeepAliveLifeWidgetState {
                           fontSize: 16,
                           fontWeight: TextStyleUtils.bold),
                     ),
+                    const SizedBox(height: 5),
                     Text(
                       user != null ? (user.personalDesc ?? "") : "您还没有登录，请登录",
                       style: TextStyle(
@@ -257,9 +300,11 @@ class _MePageState extends KeepAliveLifeWidgetState {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            "1566",
-            style: TextStyle(
+          Text(
+            isFollow
+                ? "${userInfo2?.focusCount ?? 0}"
+                : "${userInfo2?.fansCount ?? 0}",
+            style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
                 fontWeight: TextStyleUtils.medium),

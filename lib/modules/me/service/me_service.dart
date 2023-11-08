@@ -17,15 +17,19 @@ enum FollowListType {
 
 class MeService {
   static Future<void> requestUserInfo(
-      String uid, BusinessCallback<String> complete) async {
-    String path = MeApi.userInfo.replaceAll(apiPlaceholder, uid);
+      String uid, BusinessCallback<UserInfoEntity?> complete) async {
+    String path = MeApi.userInfo2.replaceAll(apiPlaceholder, uid);
 
-    HttpResultBean result = await HttpManager.request(path, HttpMethod.post);
+    HttpResultBean result = await HttpManager.request(path, HttpMethod.get);
 
     if (result.isSuccess()) {
-      complete(true, "");
+      UserInfoEntity model =
+          UserInfoEntity.fromJson(result.data);
+      complete(true, model);
+      return;
     } else {
-      complete(false, result.msg ?? result.data);
+      complete(false, null);
+      return;
     }
   }
 
@@ -150,8 +154,10 @@ class MeService {
       List<SysMsgModel> retList =
           tmpList.map((dataMap) => SysMsgModel.fromJson(dataMap)).toList();
       complete(true, retList);
+      return;
     } else {
       complete(false, []);
+      return;
     }
   }
 

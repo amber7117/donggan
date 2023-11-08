@@ -26,6 +26,13 @@ abstract class LifecycleAwareState<T extends StatefulWidget> extends State<T> wi
     getRouteObserver().subscribe(this, modalRoute as PageRoute);
   }
 
+  /// 当从B页面打开C页面时，B页面该方法被调起。
+  @override
+  void didPushNext() {
+    super.didPushNext();
+    onPagePaused();
+  }
+
   /// 当由B打开C页面时，在C页面关闭后，B页面调起该方法；
   @override
   void didPopNext() {
@@ -40,13 +47,6 @@ abstract class LifecycleAwareState<T extends StatefulWidget> extends State<T> wi
     onPageStart();
   }
   
-  /// 当从B页面打开C页面时，B页面该方法被调起。
-  @override
-  void didPushNext() {
-    super.didPushNext();
-    onPagePaused();
-  }
-
   /// 当B页面关闭时，B页面调起该方法；
   @override
   void dispose() {

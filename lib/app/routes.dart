@@ -263,7 +263,7 @@ class Routes {
       clearStack: clearStack,
       transition: TransitionType.native,
       routeSettings: RouteSettings(
-        arguments: arguments,
+        arguments: arguments ?? {},
       ),
     );
   }

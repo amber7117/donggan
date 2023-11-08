@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/demo_page.dart';
+// import 'package:wzty/demo_page.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
+import 'package:wzty/main/lib/lifecycle_aware_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 
@@ -33,7 +34,11 @@ void main() async {
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 
-  // runApp(DemoApp());
+  // runApp(MaterialApp(
+  //   title: 'Navigation Test',
+  //   home: StartWidget(),
+  //   navigatorObservers: <NavigatorObserver>[routeObserver],
+  // ));
   // return;
 
   await UserManager.instance.obtainData();
@@ -75,6 +80,7 @@ class _MyAppState extends State {
               debugShowCheckedModeBanner: false,
               onGenerateRoute: router.generator,
               builder: EasyLoading.init(),
+              navigatorObservers: <NavigatorObserver>[routeObserver],
             ));
       },
     );
