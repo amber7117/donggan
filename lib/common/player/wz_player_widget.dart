@@ -4,6 +4,7 @@ import 'package:wzty/common/player/player_panel_anchor_widget.dart';
 import 'package:wzty/common/player/custom_panel_match_widget.dart';
 import 'package:wzty/common/player/custom_panel_playback_widget.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
+import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 enum WZPlayerType { match, anchor, playback }
@@ -43,7 +44,7 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
     player.release();
   }
 
-  _showReportUI() {
+  _showReporBlocktUI() {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
@@ -53,7 +54,34 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
             ReportBlockType.blockAnchor,
             ReportBlockType.blockLive
           ];
-          return ReportBlockSheetWidget(dataArr: dataArr);
+          return ReportBlockSheetWidget(
+              dataArr: dataArr,
+              callback: (data) {
+                if (data == ReportBlockType.reportLive) {
+                  _showReportUI();
+                } else if (data == ReportBlockType.reportLive) {
+                } else if (data == ReportBlockType.reportLive) {}
+              });
+        });
+  }
+
+  _showReportUI() {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          List<String> dataArr = [
+            "色情低俗", 
+            "未成年相关",
+            "违规营销",
+            "不实信息",
+            "违法违规",
+            "政治敏感",
+          ];
+          return ReportSheetWidget(
+              dataArr: dataArr,
+              callback: (data) {
+              });
         });
   }
 
@@ -67,7 +95,7 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
           title: widget.titleStr,
           callback: (data) {
             if (data == PlayPanelEvent.more) {
-              _showReportUI();
+              _showReporBlocktUI();
             }
           });
     } else {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -9,19 +10,22 @@ enum ReportBlockType { reportLive, blockAnchor, blockLive }
 class ReportBlockSheetWidget extends StatelessWidget {
   final List<ReportBlockType> dataArr;
 
-  const ReportBlockSheetWidget({super.key, required this.dataArr});
+  final WZAnyCallback<ReportBlockType> callback;
+
+  const ReportBlockSheetWidget(
+      {super.key, required this.dataArr, required this.callback});
 
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [];
     children.add(const SizedBox(width: 10));
     for (var type in dataArr) {
-      children.add(_buildItemWidget(type));
+      children.add(_buildItemWidget(context, type));
     }
 
     return Container(
       width: double.infinity,
-      height: 186 + ScreenUtil().bottomBarHeight, //34
+      height: 186 + ScreenUtil().bottomBarHeight,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -49,7 +53,7 @@ class ReportBlockSheetWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildItemWidget(ReportBlockType type) {
+  Widget _buildItemWidget(BuildContext context, ReportBlockType type) {
     String imgPath;
     String title;
     if (type == ReportBlockType.reportLive) {
@@ -65,20 +69,28 @@ class ReportBlockSheetWidget extends StatelessWidget {
       imgPath = "anchor/icon_report";
       title = "举报";
     }
-    return Container(
-      width: 60,
-      height: 80,
-      margin: const EdgeInsets.only(left: 10, right: 10),
-      child: Column(
-        children: [
-          JhAssetImage(imgPath, width: 56),
-          const SizedBox(height: 7),
-          Text(title,
-              style: const TextStyle(
-                  color: ColorUtils.gray153,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal)),
-        ],
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+        Future.delayed(const Duration(milliseconds: 500), () {
+          callback(type);
+        });
+      },
+      child: Container(
+        width: 60,
+        height: 80,
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        child: Column(
+          children: [
+            JhAssetImage(imgPath, width: 56),
+            const SizedBox(height: 7),
+            Text(title,
+                style: const TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal)),
+          ],
+        ),
       ),
     );
   }
