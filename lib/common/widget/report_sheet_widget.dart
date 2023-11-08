@@ -4,7 +4,6 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 
-
 const double reportSheetItemHeight = 56.0;
 
 class ReportSheetWidget extends StatelessWidget {
@@ -29,17 +28,22 @@ class ReportSheetWidget extends StatelessWidget {
       child: Column(
         children: [
           ListView.separated(
+              padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: dataArr.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                String title = dataArr[index];
                 return InkWell(
                   onTap: () {
-                    
+                    Navigator.pop(context);
+                    callback(title);
+
                   },
-                  child: SizedBox(
+                  child: Container(
                     height: reportSheetItemHeight - 0.5,
-                    child: Text(dataArr[index],
+                    alignment: Alignment.center,
+                    child: Text(title,
                         style: const TextStyle(
                             color: ColorUtils.black34,
                             fontSize: 14,
@@ -53,7 +57,6 @@ class ReportSheetWidget extends StatelessWidget {
                     indent: 0,
                     height: 0.5);
               }),
-          const SizedBox(height: 20),
           const SizedBox(width: double.infinity, height: 10)
               .colored(ColorUtils.gray248),
           Container(

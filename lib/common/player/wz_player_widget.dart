@@ -6,6 +6,7 @@ import 'package:wzty/common/player/custom_panel_playback_widget.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 enum WZPlayerType { match, anchor, playback }
 
@@ -81,6 +82,10 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
           return ReportSheetWidget(
               dataArr: dataArr,
               callback: (data) {
+                ToastUtils.showLoading();
+                Future.delayed(const Duration(seconds: 2), () {
+                  ToastUtils.showSuccess("举报成功");
+                });
               });
         });
   }
