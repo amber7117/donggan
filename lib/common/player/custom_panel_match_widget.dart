@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
-import 'package:wzty/common/player/custom_panel_utils.dart';
+import 'package:wzty/common/player/player_panel_utils.dart';
 
 FijkPanelWidgetBuilder matchPanelBuilder(
     {Key? key,

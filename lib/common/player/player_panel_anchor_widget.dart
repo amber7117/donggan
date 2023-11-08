@@ -4,12 +4,12 @@ import 'dart:math';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/common/player/custom_panel_utils.dart';
+import 'package:wzty/common/player/player_panel_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum playPanelEvent { danmu }
+enum PlayPanelEvent { resolution, more, danmu,  }
 
 FijkPanelWidgetBuilder anchorPanelBuilder(
     {Key? key,
@@ -17,11 +17,11 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
     int animTime = 5000,
     bool doubleTap = true,
     final String? title,
-    required WZAnyCallback callback,
+    required WZAnyCallback<PlayPanelEvent> callback,
     VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
       Rect texturePos) {
-    return _CustomPanelAnchor(
+    return _PlayerPanelAnchor(
       key: key,
       player: player,
       data: data,
@@ -37,7 +37,7 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
   };
 }
 
-class _CustomPanelAnchor extends StatefulWidget {
+class _PlayerPanelAnchor extends StatefulWidget {
   final FijkPlayer player;
   final FijkData data;
   final Size viewSize;
@@ -47,10 +47,10 @@ class _CustomPanelAnchor extends StatefulWidget {
   final int hideDuration;
 
   final String? title;
-  final WZAnyCallback callback;
+  final WZAnyCallback<PlayPanelEvent> callback;
   final VoidCallback? onBack;
 
-  const _CustomPanelAnchor({
+  const _PlayerPanelAnchor({
     super.key,
     required this.player,
     required this.data,
@@ -65,10 +65,10 @@ class _CustomPanelAnchor extends StatefulWidget {
   });
 
   @override
-  State createState() => __CustomPanelAnchorState();
+  State createState() => __PlayerPanelAnchorState();
 }
 
-class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
+class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
   FijkPlayer get player => widget.player;
 
   Timer? _hideTimer;
@@ -321,7 +321,9 @@ class __CustomPanelAnchorState extends State<_CustomPanelAnchor> {
   /// 更多按钮
   Widget buildMoreButton(BuildContext context) {
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          widget.callback(PlayPanelEvent.more);
+        },
         child: const Padding(
             padding: EdgeInsets.all(10),
             child: JhAssetImage("anchor/iconGengduo", width: 24)));
