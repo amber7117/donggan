@@ -72,7 +72,7 @@ class _AnchorChildHotPageState
   }
 
   _buildChild(BuildContext context) {
-    if (_anchorArr.isEmpty) {
+    if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
 

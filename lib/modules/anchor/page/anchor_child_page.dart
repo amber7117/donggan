@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -24,15 +25,20 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
 
   List<AnchorListModel> _anchorArr = [];
 
+  final EasyRefreshController _refreshCtrl = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
+
   @override
   void initState() {
     super.initState();
 
-    _requestData();
+    _requestData(loading: true);
   }
 
-  _requestData() {
-    ToastUtils.showLoading();
+  _requestData({bool loading = false}) async {
+    if (loading) ToastUtils.showLoading();
 
     AnchorService.requestTypeList(widget.type, (success, result) {
       ToastUtils.hideLoading();
@@ -47,6 +53,9 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
       } else {
         _layoutState = LoadStatusType.failure;
       }
+
+      _refreshCtrl.finishRefresh();
+
       setState(() {});
     });
   }
@@ -54,50 +63,52 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        state: _layoutState,
-        successWidget: _buildChild(context));
+        state: _layoutState, successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {
-    if (_anchorArr.isEmpty) {
+    if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           Row(
+    return EasyRefresh(
+        controller: _refreshCtrl,
+        onRefresh: () async {
+          _requestData();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                  padding:
-                      EdgeInsets.only(top: 12, bottom: 12, right: 5),
-                  child: JhAssetImage("anchor/iconFire2", width: 16)),
-              Text("${widget.type.title}直播",
-                  style: const TextStyle(
-                      color: ColorUtils.black34,
-                      fontSize: 14,
-                      fontWeight: TextStyleUtils.semibold)),
+              Row(
+                children: [
+                  const Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 5),
+                      child: JhAssetImage("anchor/iconFire2", width: 16)),
+                  Text("${widget.type.title}直播",
+                      style: const TextStyle(
+                          color: ColorUtils.black34,
+                          fontSize: 14,
+                          fontWeight: TextStyleUtils.semibold)),
+                ],
+              ),
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.zero,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: anchorCellRatio,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 9,
+                  ),
+                  itemCount: _anchorArr.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AnchorCellWidget(model: _anchorArr[index]);
+                  },
+                ),
+              ),
             ],
           ),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: anchorCellRatio,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 9,
-              ),
-              itemCount: _anchorArr.length,
-              itemBuilder: (BuildContext context, int index) {
-                return AnchorCellWidget(model: _anchorArr[index]);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
