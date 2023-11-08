@@ -113,7 +113,7 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
                   child: JhAssetImage(
                       model.isFavorites
                           ? "news/iconNewsCollectS"
-                          : "iconNewsCollect",
+                          : "news/iconNewsCollect",
                       width: 20)),
             ),
             InkWell(

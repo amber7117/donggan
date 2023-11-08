@@ -6,7 +6,7 @@ AppBar buildAppBar({
   final Color? backIconColor,
   final Widget? leading,
   final double? leadingWidth,
-  final bool leadingNull = false,
+  final Widget? trailing,
   final Widget? title,
   final String? titleText,
   final double? titleTextFontSize,
@@ -18,22 +18,19 @@ AppBar buildAppBar({
       leadingWidth: leadingWidth,
       backgroundColor: backgroundColor ?? Colors.white,
       elevation: 0,
-      leading: leadingNull == true
-          ? null
-          : leading ??
-              Builder(
-                builder: (BuildContext context) {
-                  return IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: backIconColor ?? ColorUtils.black34,
-                    ),
-                    iconSize: 24,
-                    onPressed:
-                        onBackPressed ?? () => Navigator.maybePop(context),
-                  );
-                },
-              ),
+      leading: leading ??
+          Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: backIconColor ?? ColorUtils.black34,
+                ),
+                iconSize: 24,
+                onPressed: onBackPressed ?? () => Navigator.maybePop(context),
+              );
+            },
+          ),
       title: title ??
           Text(
             titleText ?? '',
@@ -43,6 +40,7 @@ AppBar buildAppBar({
               fontWeight: TextStyleUtils.bold,
             ),
           ),
+      actions: trailing != null ? [trailing] : null,
       bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 0.5),
           child: Container(color: ColorUtils.gray248, height: 1.0)));

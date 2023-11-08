@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
@@ -11,6 +12,7 @@ import 'package:wzty/modules/news/widget/news_detail_comment_cell_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_header_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_section_header_widget.dart';
 import 'package:wzty/modules/news/widget/news_detail_text_widget.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class NewsDetailPage extends StatefulWidget {
@@ -92,10 +94,42 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     });
   }
 
+  _showReportUI() {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          List<String> dataArr = [
+            "色情低俗",
+            "未成年相关",
+            "违规营销",
+            "不实信息",
+            "违法违规",
+            "政治敏感",
+          ];
+          return ReportSheetWidget(
+              dataArr: dataArr,
+              callback: (data) {
+                ToastUtils.showLoading();
+                Future.delayed(const Duration(seconds: 2), () {
+                  ToastUtils.showSuccess("举报成功");
+                });
+              });
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(),
+        appBar: buildAppBar(
+            trailing: InkWell(
+          onTap: () {
+            _showReportUI();
+          },
+          child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: JhAssetImage("news/iconMore", width: 22)),
+        )),
         backgroundColor: Colors.white,
         body: LoadStateWidget(
             state: _layoutState, successWidget: _buildChild(context)));
@@ -157,7 +191,8 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               SliverList.builder(
                   itemCount: _commentArr.length,
                   itemBuilder: (context, index) {
-                    return NewsDetailCommentCellWidget(model: _commentArr[index]);
+                    return NewsDetailCommentCellWidget(
+                        model: _commentArr[index]);
                   }),
               const SliverToBoxAdapter(
                 child: SizedBox(height: newsDetailBottomHeight),

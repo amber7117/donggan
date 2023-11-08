@@ -38,7 +38,6 @@ class ReportSheetWidget extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     callback(title);
-
                   },
                   child: Container(
                     height: reportSheetItemHeight - 0.5,
