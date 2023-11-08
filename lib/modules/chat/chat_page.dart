@@ -11,6 +11,7 @@ import 'package:wzty/modules/chat/chat_page_mixin.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
 import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
+import 'package:wzty/modules/chat/widget/chat_enter_msg_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class ChatPage extends StatefulWidget {
@@ -276,7 +277,16 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
         _chatBarKey.currentState?.clearText();
         _sendMsg(msg);
       }
-    } else if (event == ChatBarEvent.msgSet) {}
+    } else if (event == ChatBarEvent.msgSet) {
+      showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          context: context,
+          builder: (context) {
+            return ChatEnterMsgWidget(
+                callback: (data) {
+                });
+          });
+    }
   }
 
   _handleEmojiEvent(String emoji) {

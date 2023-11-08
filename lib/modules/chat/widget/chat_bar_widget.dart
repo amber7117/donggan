@@ -103,7 +103,9 @@ class ChatBarWidgetState extends State<ChatBarWidget> {
           const Divider(height: 0.5, thickness: 1.0, color: ColorUtils.gray248),
           Row(children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.callback(ChatBarEvent.msgSet);
+                },
                 iconSize: 44,
                 icon: const JhAssetImage(
                   "anchor/iconMsgSet",

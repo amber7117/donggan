@@ -15,6 +15,7 @@ class SpKeys {
   
   static const String searchHistory = 'searchHistory';
 
+  static const String chatEnterMsg = 'chatEnterMsg';
 }
 
 /// desc：本地储存
