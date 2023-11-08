@@ -6,6 +6,7 @@ import 'package:wzty/modules/match/entity/detail/match_analysis_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/service/match_detail_analysis_service.dart';
 import 'package:wzty/modules/match/widget/analysis/match_analysis_history_cell_widget.dart';
+import 'package:wzty/modules/match/widget/analysis/match_analysis_history_foot_widget.dart';
 import 'package:wzty/modules/match/widget/analysis/match_analysis_history_head_widget.dart';
 import 'package:wzty/modules/match/widget/analysis/match_analysis_rank_cell_widget.dart';
 import 'package:wzty/modules/match/widget/analysis/match_analysis_rank_head_widget.dart';
@@ -164,7 +165,13 @@ class _MatchDetailAnalysisPageState
                   model: historyModel!.matches[index],
                   sportType: sportType,
                   mainTeamName: widget.detailModel.hostTeamName);
-            })
+            }),
+        MatchAnalysisHistoryFootWidget(
+          sportType: sportType,
+          model: historyModel!,
+          logo: widget.detailModel.hostTeamLogo,
+          team: widget.detailModel.hostTeamName,
+        )
       ],
     );
   }

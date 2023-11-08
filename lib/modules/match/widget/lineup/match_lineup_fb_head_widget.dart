@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
