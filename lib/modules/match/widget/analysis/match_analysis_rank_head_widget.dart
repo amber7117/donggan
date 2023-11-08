@@ -5,24 +5,18 @@ import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchAnalysisRankHeadWidget extends StatefulWidget {
+class MatchAnalysisRankHeadWidget extends StatelessWidget {
   final SportType sportType;
 
   const MatchAnalysisRankHeadWidget({super.key, required this.sportType});
 
-  @override
-  State createState() => _MatchAnalysisRankHeadWidgetState();
-}
-
-class _MatchAnalysisRankHeadWidgetState
-    extends State<MatchAnalysisRankHeadWidget> {
   @override
   Widget build(BuildContext context) {
     String text1;
     String text2;
     String text3;
     String text4;
-    if (widget.sportType == SportType.football) {
+    if (sportType == SportType.football) {
       text1 = "已赛";
       text2 = "胜/平/负";
       text3 = "进/失";

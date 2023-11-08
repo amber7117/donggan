@@ -4,7 +4,7 @@ import 'package:wzty/modules/match/entity/detail/match_analysis_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchAnalysisScheduleCellWidget extends StatefulWidget {
+class MatchAnalysisScheduleCellWidget extends StatelessWidget {
   final MatchAnalysisMatchModel model;
   final String mainTeamName;
 
@@ -12,18 +12,10 @@ class MatchAnalysisScheduleCellWidget extends StatefulWidget {
       {super.key, required this.model, required this.mainTeamName});
 
   @override
-  State createState() => _MatchAnalysisScheduleCellWidgetState();
-}
-
-class _MatchAnalysisScheduleCellWidgetState
-    extends State<MatchAnalysisScheduleCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchAnalysisMatchModel model = widget.model;
-
     Color text1Color = ColorUtils.black34;
     Color text2Color = ColorUtils.black34;
-    if (model.hostTeamName == widget.mainTeamName) {
+    if (model.hostTeamName == mainTeamName) {
       text2Color = ColorUtils.gray153;
     } else {
       text1Color = ColorUtils.gray153;

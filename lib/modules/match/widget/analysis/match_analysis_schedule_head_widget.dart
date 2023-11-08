@@ -6,21 +6,15 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 enum MatchAnalysisScheduleHeadType { future1, future2 }
 
-class MatchAnalysisScheduleHeadWidget extends StatefulWidget {
+class MatchAnalysisScheduleHeadWidget extends StatelessWidget {
   final MatchAnalysisScheduleHeadType type;
 
   const MatchAnalysisScheduleHeadWidget({super.key, required this.type});
 
   @override
-  State createState() => _MatchAnalysisScheduleHeadWidgetState();
-}
-
-class _MatchAnalysisScheduleHeadWidgetState
-    extends State<MatchAnalysisScheduleHeadWidget> {
-  @override
   Widget build(BuildContext context) {
     String title = "主队赛程";
-    if (widget.type == MatchAnalysisScheduleHeadType.future2) {
+    if (type == MatchAnalysisScheduleHeadType.future2) {
       title = "客队赛程";
     }
 

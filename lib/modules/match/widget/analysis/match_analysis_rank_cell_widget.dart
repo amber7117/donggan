@@ -6,7 +6,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchAnalysisRankCellWidget extends StatefulWidget {
+class MatchAnalysisRankCellWidget extends StatelessWidget {
   final MatchAnalysisRankTeamModel model;
   final SportType sportType;
 
@@ -14,19 +14,12 @@ class MatchAnalysisRankCellWidget extends StatefulWidget {
       {super.key, required this.model, required this.sportType});
 
   @override
-  State createState() => _MatchAnalysisRankCellWidgetState();
-}
-
-class _MatchAnalysisRankCellWidgetState
-    extends State<MatchAnalysisRankCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchAnalysisRankTeamModel model = widget.model;
     String text1;
     String text2;
     String text3;
     String text4;
-    if (widget.sportType == SportType.football) {
+    if (sportType == SportType.football) {
       text1 = "${model.matchCount}";
       text2 = "${model.win}/${model.draw}/${model.lost}";
       text3 = "${model.goal}/${model.lostGoal}";

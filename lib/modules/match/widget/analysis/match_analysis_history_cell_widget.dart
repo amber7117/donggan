@@ -5,7 +5,7 @@ import 'package:wzty/modules/match/entity/detail/match_analysis_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchAnalysisHistoryCellWidget extends StatefulWidget {
+class MatchAnalysisHistoryCellWidget extends StatelessWidget {
   final MatchAnalysisMatchModel model;
   final SportType sportType;
   final String mainTeamName;
@@ -17,18 +17,10 @@ class MatchAnalysisHistoryCellWidget extends StatefulWidget {
       required this.mainTeamName});
 
   @override
-  State createState() => _MatchAnalysisHistoryCellWidgetState();
-}
-
-class _MatchAnalysisHistoryCellWidgetState
-    extends State<MatchAnalysisHistoryCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchAnalysisMatchModel model = widget.model;
-
     double vsWidth = 44.0.w;
     double vsPadding = 11.0.w;
-    if (widget.sportType == SportType.basketball) {
+    if (sportType == SportType.basketball) {
       vsWidth = 54.0.w;
       vsPadding = 1.0.w;
     }
@@ -36,7 +28,7 @@ class _MatchAnalysisHistoryCellWidgetState
     Color text1Color = ColorUtils.black34;
     Color text2Color = ColorUtils.black34;
     Color scoreColor = ColorUtils.black34;
-    if (model.hostTeamName == widget.mainTeamName) {
+    if (model.hostTeamName == mainTeamName) {
       text2Color = ColorUtils.gray153;
       if (model.hostTeamScore > model.guestTeamScore) {
         scoreColor = ColorUtils.red255;
