@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
+import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 const liveMatchCellHeight = 99.0;
+const liveMatchCellWidth = 162.0;
 const liveMatchCellRatio = 99 / 162;
 
 class AnchorMatchCellWidget extends StatefulWidget {
@@ -19,9 +23,34 @@ class AnchorMatchCellWidget extends StatefulWidget {
 }
 
 class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
+
+  _requestMatchBook() {
+    MatchListModel model = widget.model!;
+    bool isBook = !model.userIsAppointment;
+
+    ToastUtils.showLoading();
+
+    MatchService.requestMatchBook(model.matchId, isBook, (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        ToastUtils.showSuccess(isBook ? "预约成功" : "取消预约成功");
+        model.userIsAppointment = isBook;
+
+        setState(() {});
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     MatchListModel model = widget.model;
+    MatchStatus matchStatus = matchStatusFromServerValue(model.status);
+    bool showScore = false;
+    if (matchStatus == MatchStatus.going) {
+      showScore = true;
+    }
 
     return InkWell(
       onTap: () {
@@ -78,41 +107,71 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
                 ),
               ),
             ),
-            const SizedBox(height: 11),
-            _buildTeamInfoWidget(
-                model.hostTeamLogo, model.hostTeamName, model.hostTeamScore),
-            const SizedBox(height: 8),
-            _buildTeamInfoWidget(
-                model.guestTeamLogo, model.guestTeamName, model.guestTeamScore),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildTeamInfoWidget(
+                            model.hostTeamLogo, model.hostTeamName),
+                        const SizedBox(height: 8),
+                        _buildTeamInfoWidget(
+                            model.guestTeamLogo, model.guestTeamName),
+                      ],
+                    ),
+                  ),
+                  showScore
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("${model.hostTeamScore}",
+                                style: const TextStyle(
+                                    color: ColorUtils.black34,
+                                    fontSize: 14,
+                                    fontWeight: TextStyleUtils.semibold)),
+                            const SizedBox(height: 8),
+                            Text("${model.guestTeamScore}",
+                                style: const TextStyle(
+                                    color: ColorUtils.black34,
+                                    fontSize: 14,
+                                    fontWeight: TextStyleUtils.semibold)),
+                          ],
+                        )
+                      : InkWell(
+                          onTap: _requestMatchBook,
+                          child: JhAssetImage(
+                              model.userIsAppointment
+                                  ? "anchor/icon_bookS"
+                                  : "anchor/icon_book",
+                              width: 24)),
+                  const SizedBox(width: 10)
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  _buildTeamInfoWidget(String logo, String name, int score) {
+  _buildTeamInfoWidget(String logo, String name) {
     return Row(
       children: [
         const SizedBox(width: 10),
         buildNetImage(logo, width: 20, placeholder: "common/logoQiudui"),
         const SizedBox(width: 8),
-        Expanded(
-          child: SizedBox(
-            width: 70.w,
-            child: Text(name,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    color: ColorUtils.black34,
-                    fontSize: 12,
-                    fontWeight: TextStyleUtils.medium)),
-          ),
+        SizedBox(
+          width: 70.w,
+          child: Text(name,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  color: ColorUtils.black34,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.medium)),
         ),
-        Text("$score",
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 14,
-                fontWeight: TextStyleUtils.semibold)),
-        const SizedBox(width: 10),
       ],
     );
   }

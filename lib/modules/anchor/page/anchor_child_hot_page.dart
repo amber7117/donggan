@@ -80,6 +80,21 @@ class _AnchorChildHotPageState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AnchorBannerWidget(bannerArr: _bannerArr),
+        // Container(
+        //   width: double.infinity,
+        //   height: liveMatchCellHeight + 24.0,
+        //   padding: const EdgeInsets.symmetric(horizontal: 12),
+          
+        //   child: ListView.builder(
+        //     padding: const EdgeInsets.symmetric(horizontal: 12),
+        //       itemCount: _matchArr.length,
+        //       itemExtent: liveMatchCellWidth,
+
+        //     scrollDirection: Axis.horizontal,
+        //     itemBuilder: (context, index) {
+        //     return AnchorMatchCellWidget(model: _matchArr[index]);
+        //   }),
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: SizedBox(

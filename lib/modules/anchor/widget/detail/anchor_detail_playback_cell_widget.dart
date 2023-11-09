@@ -7,7 +7,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const playbackCellHeight = 102.0;
 
-class AnchorDetailPlaybackCellWidget extends StatefulWidget {
+class AnchorDetailPlaybackCellWidget extends StatelessWidget {
   final AnchorVideoModel model;
   final String nickName;
 
@@ -15,14 +15,7 @@ class AnchorDetailPlaybackCellWidget extends StatefulWidget {
       {super.key, required this.model, required this.nickName});
 
   @override
-  State createState() => _AnchorDetailPlaybackCellWidgetState();
-}
-
-class _AnchorDetailPlaybackCellWidgetState
-    extends State<AnchorDetailPlaybackCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    AnchorVideoModel model = widget.model;
     return InkWell(
       onTap: () {
         Routes.push(context, Routes.livePlayback, arguments: model);
