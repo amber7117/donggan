@@ -4,13 +4,16 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/emoji/emoji_widget.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
+import 'package:wzty/common/widget/common_alert_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/chat/chat_page_mixin.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
+import 'package:wzty/modules/chat/entity/chat_user_info_entity.dart';
 import 'package:wzty/modules/chat/manager/msg_block_manager.dart';
+import 'package:wzty/modules/chat/service/chat_service.dart';
 import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_enter_msg_widget.dart';
@@ -392,5 +395,95 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
         ],
       ),
     );
+  }
+
+// -------------------------------------------
+
+  @override
+  String getRoomId() {
+    return widget.roomId;
+  }
+
+  @override
+  String getChatRoomId() {
+    return widget.chatRoomId;
+  }
+
+  // -------------------------------------------
+
+  ChatUserInfo? chatInfoSelf;
+
+  // -------------------------------------------
+
+  void requestChatInfoData() {
+    if (!UserManager.instance.isLogin()) {
+      return;
+    }
+
+    ChatService.requestUserChatInfo(widget.roomId, UserManager.instance.uid,
+        (success, result) {
+      chatInfoSelf = result;
+    });
+  }
+
+  void showMsgOperateUI(ChatMsgModel msg) {
+    if (chatInfoSelf == null) {
+      return;
+    }
+
+    if (chatInfoSelf!.isRoot()) {
+      prepareDeleteMsg(msg);
+    } else {
+      prepareBlockMsg(msg);
+    }
+  }
+
+  void prepareBlockMsg(ChatMsgModel msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CommonAlertWidget(
+              type: CommonAlertType.blockUserMsg,
+              content: msg.nickname,
+              callback: () {
+                MsgBlockManager.instance.blockUserMsg(msg.userId);
+
+                List<ChatMsgModel> msgListNew = [];
+
+                for (ChatMsgModel tmpMsg in _msgList) {
+                  if (!MsgBlockManager.instance
+                      .getMsgBlockStatus(tmpMsg.userId)) {
+                    msgListNew.add(tmpMsg);
+                  }
+                }
+
+                _msgList = msgListNew;
+                setState(() {});
+              });
+        });
+  }
+
+  void prepareDeleteMsg(ChatMsgModel msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CommonAlertWidget(
+              type: CommonAlertType.deleteUserMsg,
+              content: msg.contentNew,
+              callback: () {
+                requestDeleteMsg(msg, () {
+                  List<ChatMsgModel> msgListNew = [];
+
+                  for (ChatMsgModel tmpMsg in _msgList) {
+                    if (tmpMsg.messageUId != msg.messageUId) {
+                      msgListNew.add(tmpMsg);
+                    }
+                  }
+
+                  _msgList = msgListNew;
+                  setState(() {});
+                });
+              });
+        });
   }
 }
