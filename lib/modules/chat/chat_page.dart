@@ -12,6 +12,7 @@ import 'package:wzty/modules/chat/entity/chat_entity.dart';
 import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_enter_msg_widget.dart';
+import 'package:wzty/utils/shared_preference_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class ChatPage extends StatefulWidget {
@@ -40,11 +41,13 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
 
   // ChatUserInfo? chatInfoSelf = 0;
   bool _forbidChat = false;
+  bool _blockEnterMsg = false;
 
   @override
   void initState() {
     super.initState();
 
+    _initData();
     _prepareJoinIMRoom();
   }
 
@@ -53,6 +56,10 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
     super.dispose();
 
     _leaveIMRoom();
+  }
+
+  _initData() async {
+    _blockEnterMsg = await SpUtils.getBool(SpKeys.chatEnterMsg);
   }
 
   _prepareJoinIMRoom() {
@@ -282,8 +289,10 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
           backgroundColor: Colors.transparent,
           context: context,
           builder: (context) {
-            return ChatEnterMsgWidget(
+            return ChatEnterMsgWidget(blockMsg: _blockEnterMsg,
                 callback: (data) {
+                  _blockEnterMsg = data;
+                  SpUtils.save(SpKeys.chatEnterMsg, data);
                 });
           });
     }

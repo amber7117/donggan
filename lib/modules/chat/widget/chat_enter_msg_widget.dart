@@ -8,14 +8,16 @@ import 'package:wzty/utils/jh_image_utils.dart';
 const double chatEnterMsgItemHeight = 56.0;
 
 class ChatEnterMsgWidget extends StatelessWidget {
+  final bool blockMsg;
   final WZAnyCallback<bool> callback;
 
-  const ChatEnterMsgWidget({super.key, required this.callback});
+  const ChatEnterMsgWidget(
+      {super.key, required this.callback, required this.blockMsg});
 
   @override
   Widget build(BuildContext context) {
     double height = chatEnterMsgItemHeight * 2 + 10;
-    String iconPath = "login/iconSelect";
+
     return Container(
       width: double.infinity,
       height: height + ScreenUtil().bottomBarHeight,
@@ -28,25 +30,31 @@ class ChatEnterMsgWidget extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.pop(context);
-              callback(true);
+              callback(!blockMsg);
             },
             child: Container(
                 width: double.infinity,
                 height: chatEnterMsgItemHeight - 0.5,
-                decoration: const BoxDecoration(
-                    color: Colors.yellow,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
+                decoration: blockMsg
+                    ? const BoxDecoration(
+                        color: Color.fromRGBO(250, 240, 242, 1),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)))
+                    : const BoxDecoration(),
                 child: Row(
                   children: [
                     const SizedBox(width: 20),
-                    JhAssetImage(iconPath, width: 20),
-                    const Expanded(
+                    JhAssetImage(
+                        blockMsg ? "login/iconSelect" : "login/iconSelectNo",
+                        width: 20),
+                    Expanded(
                       child: Text("屏蔽入场消息",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: ColorUtils.black34,
+                              color: blockMsg
+                                  ? ColorUtils.red233
+                                  : ColorUtils.black34,
                               fontSize: 14,
                               fontWeight: FontWeight.normal)),
                     ),
