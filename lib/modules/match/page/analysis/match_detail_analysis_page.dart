@@ -91,6 +91,55 @@ class _MatchDetailAnalysisPageState
     });
   }
 
+  _requestHistoryData(int data) {
+    int matchId = widget.matchId;
+    MatchDetailModel model = widget.detailModel;
+
+    bool isAll = false;
+    String leagueId = "";
+    if (data < 0) {
+      isAll = true;
+    } else if (data == 0) {
+      leagueId = model.leagueId.toString();
+    } else if (data == 1) {
+      isAll = false;
+    }
+    ToastUtils.showLoading();
+    MatchDetailAnalysisService.requestHistoryData(
+        matchId, model.hostTeamId, model.guestTeamId, isAll, (success, result) {
+      ToastUtils.hideLoading();
+      historyModel = result;
+      setState(() {});
+    }, leagueId: leagueId);
+  }
+
+  _requestRecentData(int data, bool isHost) {
+    int matchId = widget.matchId;
+    MatchDetailModel model = widget.detailModel;
+
+    bool isAll = false;
+    String leagueId = "";
+    if (data < 0) {
+      isAll = true;
+    } else if (data == 0) {
+      leagueId = model.leagueId.toString();
+    } else if (data == 1) {
+      isAll = false;
+    }
+    ToastUtils.showLoading();
+    MatchDetailAnalysisService.requestRecentData(SportType.football, matchId,
+        isHost ? model.hostTeamId : model.guestTeamId, isAll, (success, result) {
+      ToastUtils.hideLoading();
+      if (isHost) {
+        recent1Model = result;
+      } else {
+        recent2Model = result;
+      }
+
+      setState(() {});
+    }, leagueId: leagueId);
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
@@ -157,7 +206,10 @@ class _MatchDetailAnalysisPageState
         MatchAnalysisHistoryHeadWidget(
             key: const ValueKey(2),
             type: MatchAnalysisHistoryHeadType.history,
-            sportType: sportType),
+            sportType: sportType,
+            callback: (data) {
+              _requestHistoryData(data);
+            }),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: historyModel!.matches.length,
@@ -190,7 +242,10 @@ class _MatchDetailAnalysisPageState
         MatchAnalysisHistoryHeadWidget(
             key: const ValueKey(3),
             type: MatchAnalysisHistoryHeadType.recent1,
-            sportType: sportType),
+            sportType: sportType,
+            callback: (data) {
+              _requestRecentData(data, true);
+            }),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: recent1Model!.matches.length,
@@ -222,7 +277,10 @@ class _MatchDetailAnalysisPageState
         MatchAnalysisHistoryHeadWidget(
             key: const ValueKey(4),
             type: MatchAnalysisHistoryHeadType.recent2,
-            sportType: sportType),
+            sportType: sportType,
+            callback: (data) {
+              _requestRecentData(data, false);
+            }),
         ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: recent2Model!.matches.length,

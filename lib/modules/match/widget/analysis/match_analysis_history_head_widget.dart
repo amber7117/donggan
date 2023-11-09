@@ -8,30 +8,29 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 enum MatchAnalysisHistoryHeadType { history, recent1, recent2 }
 
-class MatchAnalysisHistoryHeadWidget extends StatefulWidget {
+class MatchAnalysisHistoryHeadWidget extends StatelessWidget {
   final MatchAnalysisHistoryHeadType type;
   final SportType sportType;
-  
-  const MatchAnalysisHistoryHeadWidget({super.key, required this.type, required this.sportType});
+  final WZAnyCallback<int> callback;
 
-  @override
-  State createState() => _MatchAnalysisHistoryHeadWidgetState();
-}
+  const MatchAnalysisHistoryHeadWidget(
+      {super.key,
+      required this.type,
+      required this.sportType,
+      required this.callback});
 
-class _MatchAnalysisHistoryHeadWidgetState
-    extends State<MatchAnalysisHistoryHeadWidget> {
   @override
   Widget build(BuildContext context) {
     String title = "历史交手";
-    if (widget.type == MatchAnalysisHistoryHeadType.recent1) {
+    if (type == MatchAnalysisHistoryHeadType.recent1) {
       title = "主队近况";
-    } else if (widget.type == MatchAnalysisHistoryHeadType.recent2) {
+    } else if (type == MatchAnalysisHistoryHeadType.recent2) {
       title = "客队近况";
     }
-  
+
     double vsWidth = 44.0.w;
     double vsPadding = 11.0.w;
-    if (widget.sportType == SportType.basketball) {
+    if (sportType == SportType.basketball) {
       vsWidth = 54.0.w;
       vsPadding = 1.0.w;
     }
@@ -58,7 +57,7 @@ class _MatchAnalysisHistoryHeadWidgetState
               ),
               const Spacer(),
               MatchAnalysisSegmentWidget(callback: (data) {
-                
+                callback(data);
               }),
               const SizedBox(width: 12),
             ],

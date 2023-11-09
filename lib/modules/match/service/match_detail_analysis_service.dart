@@ -35,7 +35,9 @@ class MatchDetailAnalysisService {
       int hostTeamId,
       int guestTeamId,
       bool isAll,
-      BusinessCallback<MatchAnalysisHistoryModel?> complete) async {
+      BusinessCallback<MatchAnalysisHistoryModel?> complete,
+      {String leagueId = ""}) async {
+    //主客就是YES，全部就是NO
     Map<String, dynamic> params = {
       "matchId": matchId,
       "hostTeamId": hostTeamId,
@@ -43,6 +45,11 @@ class MatchDetailAnalysisService {
       "size": 6,
       "fixed": isAll ? 0 : 1
     };
+
+    if (leagueId.isNotEmpty) {
+      //同赛事
+      params["leagueId"] = leagueId;
+    }
     HttpResultBean result = await HttpManager.request(
         MatchAnalysisApi.history, HttpMethod.get,
         params: params);
@@ -62,14 +69,18 @@ class MatchDetailAnalysisService {
       int matchId,
       int teamId,
       bool isAll,
-      BusinessCallback<MatchAnalysisHistoryModel?> complete) async {
+      BusinessCallback<MatchAnalysisHistoryModel?> complete,
+      {String leagueId = ""}) async {
     Map<String, dynamic> params = {
       "matchId": matchId,
       "teamId": teamId,
       "size": 6,
       "side": isAll ? "all" : "host",
     };
-
+    if (leagueId.isNotEmpty) {
+      //同赛事
+      params["leagueId"] = leagueId;
+    }
     HttpResultBean result = await HttpManager.request(
         sportType == SportType.football
             ? MatchAnalysisApi.fbRecent

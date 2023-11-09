@@ -15,8 +15,8 @@ class MatchAnalysisSegmentWidget extends StatefulWidget {
 class _MatchAnalysisSegmentWidgetState
     extends State<MatchAnalysisSegmentWidget> {
   final List<String> titleArr = ["同赛事", "同主客"];
-  int selectIdx = 0;
-  
+  int selectIdx = -1;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,21 +35,29 @@ class _MatchAnalysisSegmentWidgetState
       bool select = selectIdx == i;
       Widget child = InkWell(
         onTap: () {
-          widget.callback(i);
+          if (selectIdx == i) {
+            selectIdx = -1;
+          } else {
+            selectIdx = i;
+          }
+
+          setState(() {});
+
+          widget.callback(selectIdx);
         },
         child: Container(
           width: itemWidth,
           height: 20,
           alignment: Alignment.center,
-          decoration: select
-              ? const BoxDecoration(
-                  color: ColorUtils.red233,
-                  borderRadius: BorderRadius.all(Radius.circular(12)))
-              : const BoxDecoration(),
+          decoration: BoxDecoration(
+              color: select
+                  ? ColorUtils.red233
+                  : const Color.fromRGBO(250, 250, 250, 1),
+              borderRadius: const BorderRadius.all(Radius.circular(12))),
           child: Text(titleArr[i],
               style: TextStyle(
                   color: select ? Colors.white : ColorUtils.gray153,
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: TextStyleUtils.regual)),
         ),
       );
