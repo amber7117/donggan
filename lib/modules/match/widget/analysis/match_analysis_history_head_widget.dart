@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
+import 'package:wzty/modules/match/widget/analysis/match_analysis_segment_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
@@ -55,6 +56,11 @@ class _MatchAnalysisHistoryHeadWidgetState
                     fontSize: 12,
                     fontWeight: TextStyleUtils.regual),
               ),
+              const Spacer(),
+              MatchAnalysisSegmentWidget(callback: (data) {
+                
+              }),
+              const SizedBox(width: 12),
             ],
           ),
         ),
