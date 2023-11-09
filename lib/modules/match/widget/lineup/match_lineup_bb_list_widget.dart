@@ -10,7 +10,7 @@ const double lineupBBTeamInfoHeight = 40.0;
 const double lineupBBListItemWidth = 50.0;
 const double lineupBBListItemHeight = 36.0;
 
-class MatchLineupBBListWidget extends StatefulWidget {
+class MatchLineupBBListWidget extends StatelessWidget {
   final MatchLineupBBTeamModel team;
   final List<List<String>> dataArr2;
 
@@ -18,15 +18,7 @@ class MatchLineupBBListWidget extends StatefulWidget {
       {super.key, required this.team, required this.dataArr2});
 
   @override
-  State createState() => _MatchLineupBBListWidgetState();
-}
-
-class _MatchLineupBBListWidgetState extends State<MatchLineupBBListWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchLineupBBTeamModel team = widget.team;
-    List<List<String>> dataArr2 = widget.dataArr2;
-
     double listHeight = (team.playerStats.length + 1) * lineupBBListItemHeight +
         lineupBBTeamInfoHeight +
         10;
@@ -109,7 +101,6 @@ class _MatchLineupBBListWidgetState extends State<MatchLineupBBListWidget> {
     );
     children.add(header);
 
-    MatchLineupBBTeamModel team = widget.team;
     for (MatchLineupBBPlayerModel player in team.playerStats) {
       Widget playerItem = _buildPlayerItem(player);
       children.add(playerItem);

@@ -4,7 +4,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusSegmentWidget extends StatefulWidget {
+class MatchStatusSegmentWidget extends StatelessWidget {
   final List<String> titleArr;
   final int selectIdx;
 
@@ -17,13 +17,7 @@ class MatchStatusSegmentWidget extends StatefulWidget {
       required this.callback});
 
   @override
-  State createState() => _MatchStatusSegmentWidgetState();
-}
-
-class _MatchStatusSegmentWidgetState extends State<MatchStatusSegmentWidget> {
-  @override
   Widget build(BuildContext context) {
-    List<String> titleArr = widget.titleArr;
     if (titleArr.isEmpty) {
       return const SizedBox();
     }
@@ -47,14 +41,13 @@ class _MatchStatusSegmentWidgetState extends State<MatchStatusSegmentWidget> {
   }
 
   _buildChild(double itemWidth) {
-    List<String> titleArr = widget.titleArr;
     List<Widget> children = [];
 
     for (int i = 0; i < titleArr.length; i++) {
-      bool select = widget.selectIdx == i;
+      bool select = selectIdx == i;
       Widget child = InkWell(
         onTap: () {
-          widget.callback(i);
+          callback(i);
         },
         child: Container(
           width: itemWidth,

@@ -9,36 +9,29 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusFBLiveCellHeight = 72.0;
 
-class MatchStatusFBLiveCellWidget extends StatefulWidget {
+class MatchStatusFBLiveCellWidget extends StatelessWidget {
   final MatchStatusFBLiveModel? liveModel;
   final MatchStatusFBEventModel? live2Model;
 
-  const MatchStatusFBLiveCellWidget({super.key, this.liveModel, this.live2Model});
+  const MatchStatusFBLiveCellWidget(
+      {super.key, this.liveModel, this.live2Model});
 
-  @override
-  State createState() => _MatchStatusFBLiveCellWidgetState();
-}
-
-class _MatchStatusFBLiveCellWidgetState extends State<MatchStatusFBLiveCellWidget> {
   @override
   Widget build(BuildContext context) {
-    MatchStatusFBLiveModel? liveModel = widget.liveModel;
     String imgPath;
     String time;
     int team;
     String content;
     if (liveModel != null) {
-      imgPath = AppBusinessUtils.obtainStatusEventPic(liveModel.typeId);
-      time = "${liveModel.time}'";
-      team = liveModel.team;
-      content = liveModel.cnText;
+      imgPath = AppBusinessUtils.obtainStatusEventPic(liveModel!.typeId);
+      time = "${liveModel!.time}'";
+      team = liveModel!.team;
+      content = liveModel!.cnText;
     } else {
-      MatchStatusFBEventModel live2Model = widget.live2Model!;
-
-      imgPath = AppBusinessUtils.obtainStatusEventPic(live2Model.typeId);
-      time = "${live2Model.occurTime ~/ 60}'";
-      team = live2Model.team;
-      content = live2Model.content;
+      imgPath = AppBusinessUtils.obtainStatusEventPic(live2Model!.typeId);
+      time = "${live2Model!.occurTime ~/ 60}'";
+      team = live2Model!.team;
+      content = live2Model!.content;
     }
     Color lineColor;
     if (team == 1) {

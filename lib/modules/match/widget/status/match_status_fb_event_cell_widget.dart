@@ -7,20 +7,13 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusFBEventCellHeight = 40.0;
 
-class MatchStatusFBEventCellWidget extends StatefulWidget {
+class MatchStatusFBEventCellWidget extends StatelessWidget {
   final MatchStatusFBEventModel model;
 
   const MatchStatusFBEventCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _MatchStatusFBEventCellWidgetState();
-}
-
-class _MatchStatusFBEventCellWidgetState
-    extends State<MatchStatusFBEventCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchStatusFBEventModel model = widget.model;
     String imgPath1 = AppBusinessUtils.obtainStatusEventPic(model.typeId);
     String? imgPath2;
     String text1;

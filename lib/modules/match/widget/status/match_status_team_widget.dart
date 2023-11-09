@@ -4,31 +4,25 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusTeamWidget extends StatefulWidget {
+class MatchStatusTeamWidget extends StatelessWidget {
   final MatchDetailModel detailModel;
 
   const MatchStatusTeamWidget({super.key, required this.detailModel});
 
   @override
-  State createState() => _MatchStatusTeamWidgetState();
-}
-
-class _MatchStatusTeamWidgetState extends State<MatchStatusTeamWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchDetailModel model = widget.detailModel;
     return SizedBox(
       height: 48,
       child: Row(
         children: [
           const SizedBox(width: 12),
-          buildNetImage(model.hostTeamLogo,
+          buildNetImage(detailModel.hostTeamLogo,
               width: 24, placeholder: "common/logoQiudui"),
           const SizedBox(width: 5),
           SizedBox(
             width: 75,
             child: Text(
-              model.hostTeamName,
+              detailModel.hostTeamName,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: ColorUtils.black34,
@@ -49,7 +43,7 @@ class _MatchStatusTeamWidgetState extends State<MatchStatusTeamWidget> {
           SizedBox(
             width: 75,
             child: Text(
-              model.guestTeamName,
+              detailModel.guestTeamName,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: ColorUtils.black34,
@@ -58,7 +52,7 @@ class _MatchStatusTeamWidgetState extends State<MatchStatusTeamWidget> {
             ),
           ),
           const SizedBox(width: 5),
-          buildNetImage(model.guestTeamLogo,
+          buildNetImage(detailModel.guestTeamLogo,
               width: 24, placeholder: "common/logoQiudui"),
           const SizedBox(width: 12),
         ],

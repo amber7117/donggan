@@ -3,7 +3,7 @@ import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchLineupFbHeadWidget extends StatefulWidget {
+class MatchLineupFbHeadWidget extends StatelessWidget {
   final MatchLineupFBModel model;
   final bool isHost;
 
@@ -11,14 +11,7 @@ class MatchLineupFbHeadWidget extends StatefulWidget {
       {super.key, required this.model, required this.isHost});
 
   @override
-  State createState() => _MatchLineupFbHeadWidgetState();
-}
-
-class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchLineupFBModel model = widget.model;
-
     return Container(
       height: 519,
       decoration: BoxDecoration(
@@ -33,7 +26,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widget.isHost
+              children: isHost
                   ? _buildFormationUI(
                       model.hostFormation, model.hostMainPlayerList!)
                   : _buildFormationUI(
@@ -46,9 +39,6 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
   }
 
   Widget _buildInfoUI() {
-    bool isHost = widget.isHost;
-    MatchLineupFBModel model = widget.model;
-
     return Row(
       children: [
         const SizedBox(width: 12),
@@ -153,7 +143,7 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
 
   Widget _buildPlayerWidget(MatchLineupFBPlayerModel player) {
     String imgPath;
-    if (widget.isHost) {
+    if (isHost) {
       imgPath = "match/iconPlayerRed";
     } else {
       imgPath = "match/iconPlayerBlue";

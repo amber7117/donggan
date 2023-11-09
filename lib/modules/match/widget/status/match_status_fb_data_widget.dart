@@ -6,20 +6,13 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusFBDataWidget extends StatefulWidget {
+class MatchStatusFBDataWidget extends StatelessWidget {
   final MatchStatusFBTechModel? model;
 
   const MatchStatusFBDataWidget({super.key, this.model});
 
   @override
-  State createState() => _MatchStatusFBDataWidgetState();
-}
-
-class _MatchStatusFBDataWidgetState extends State<MatchStatusFBDataWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchStatusFBTechModel? model = widget.model;
-    
     int goalKicksTeam1 = model?.goalKicks?.team1 ?? 0;
     int goalKicksTeam2 = model?.goalKicks?.team2 ?? 0;
     int shootOnGoalTeam1 = model?.shootOnGoal?.team1 ?? 0;

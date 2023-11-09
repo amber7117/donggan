@@ -7,7 +7,7 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusBBLiveCellHeight = 79.0;
 
-class MatchStatusBbLiveCellWidget extends StatefulWidget {
+class MatchStatusBbLiveCellWidget extends StatelessWidget {
   final MatchStatusFBLiveModel? liveModel;
   final MatchStatusFBEventModel? live2Model;
 
@@ -15,34 +15,25 @@ class MatchStatusBbLiveCellWidget extends StatefulWidget {
       {super.key, this.liveModel, this.live2Model});
 
   @override
-  State createState() => _MatchStatusBbLiveCellWidgetState();
-}
-
-class _MatchStatusBbLiveCellWidgetState
-    extends State<MatchStatusBbLiveCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchStatusFBLiveModel? liveModel = widget.liveModel;
     String time;
     int team;
     String content;
     String score;
     if (liveModel != null) {
-      time = "${liveModel.time}'";
-      team = liveModel.team;
-      content = liveModel.cnText;
-      score = "${liveModel.hostScore}-${liveModel.guestScore}";
+      time = "${liveModel!.time}'";
+      team = liveModel!.team;
+      content = liveModel!.cnText;
+      score = "${liveModel!.hostScore}-${liveModel!.guestScore}";
     } else {
-      MatchStatusFBEventModel live2Model = widget.live2Model!;
-
-      int minute = live2Model.occurTime ~/ 60;
-      int second = live2Model.occurTime - minute * 60;
+      int minute = live2Model!.occurTime ~/ 60;
+      int second = live2Model!.occurTime - minute * 60;
 
       time =
-          "${live2Model.statusName} ${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')}";
-      team = live2Model.team;
-      content = live2Model.content;
-      score = live2Model.scores;
+          "${live2Model!.statusName} ${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')}";
+      team = live2Model!.team;
+      content = live2Model!.content;
+      score = live2Model!.scores;
     }
     Color lineColor;
     if (team == 1) {

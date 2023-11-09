@@ -7,16 +7,11 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double statusFBTechCellHeight = 50.0;
 
-class MatchStatusFBTechCellWidget extends StatefulWidget {
+class MatchStatusFBTechCellWidget extends StatelessWidget {
   final MatchStatusFBTechLocalModel model;
 
   const MatchStatusFBTechCellWidget({super.key, required this.model});
 
-  @override
-  State createState() => _MatchStatusFBTechCellWidgetState();
-}
-
-class _MatchStatusFBTechCellWidgetState extends State<MatchStatusFBTechCellWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +31,6 @@ class _MatchStatusFBTechCellWidgetState extends State<MatchStatusFBTechCellWidge
   }
 
   _buildProgressDataWidget() {
-    MatchStatusFBTechLocalModel model = widget.model;
     Color team1Color;
     Color team2Color;
     if (model.team1 > model.team2) {
@@ -73,7 +67,6 @@ class _MatchStatusFBTechCellWidgetState extends State<MatchStatusFBTechCellWidge
   }
 
   _buildProgressWidget() {
-    MatchStatusFBTechLocalModel model = widget.model;
     Color team1Color;
     Color team2Color;
     if (model.team1 > model.team2) {

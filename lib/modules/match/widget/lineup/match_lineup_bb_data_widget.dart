@@ -6,19 +6,13 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchLineupBBDataWidget extends StatefulWidget {
+class MatchLineupBBDataWidget extends StatelessWidget {
   final MatchLineupBBModel model;
 
   const MatchLineupBBDataWidget({super.key, required this.model});
 
   @override
-  State createState() => _MatchLineupBBDataWidgetState();
-}
-
-class _MatchLineupBBDataWidgetState extends State<MatchLineupBBDataWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchLineupBBModel model = widget.model;
     List<List<MatchLineupBBPlayerModel>> mvpList2 = model.mvpList2;
     return SizedBox(
       height: 294,

@@ -5,26 +5,22 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchLineupFbCellWidget extends StatefulWidget {
+class MatchLineupFbCellWidget extends StatelessWidget {
   final MatchLineupFBPlayerModel model;
   final bool isHost;
-  
-  const MatchLineupFbCellWidget({super.key, required this.model, required this.isHost});
 
-  @override
-  State createState() => _MatchLineupFbCellWidgetState();
-}
+  const MatchLineupFbCellWidget(
+      {super.key, required this.model, required this.isHost});
 
-class _MatchLineupFbCellWidgetState extends State<MatchLineupFbCellWidget> {
   @override
   Widget build(BuildContext context) {
     String imgPath;
-    if (widget.isHost) {
+    if (isHost) {
       imgPath = "match/iconPlayerRed";
     } else {
       imgPath = "match/iconPlayerBlue";
     }
-    MatchLineupFBPlayerModel player = widget.model;
+
     return SizedBox(
       height: 52,
       child: Row(
@@ -41,7 +37,7 @@ class _MatchLineupFbCellWidgetState extends State<MatchLineupFbCellWidget> {
                   fit: BoxFit.fitWidth),
             ),
             child: Text(
-              player.shirtNumber,
+              model.shirtNumber,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: Colors.white,
@@ -57,7 +53,7 @@ class _MatchLineupFbCellWidgetState extends State<MatchLineupFbCellWidget> {
               SizedBox(
                 width: 100,
                 child: Text(
-                  player.playerName,
+                  model.playerName,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: ColorUtils.black34,
@@ -66,7 +62,7 @@ class _MatchLineupFbCellWidgetState extends State<MatchLineupFbCellWidget> {
                 ),
               ),
               Text(
-                player.positionOften,
+                model.positionOften,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     color: ColorUtils.gray153,
@@ -88,11 +84,9 @@ class _MatchLineupFbCellWidgetState extends State<MatchLineupFbCellWidget> {
   }
 
   List<Widget> _buildEventUI() {
-    MatchLineupFBPlayerModel player = widget.model;
-
     List<Widget> rowChildren = [];
 
-    for (MatchLineupFBEventModel eventModel in player.eventList) {
+    for (MatchLineupFBEventModel eventModel in model.eventList) {
       String imgPath1 =
           AppBusinessUtils.obtainLineupEventPic(eventModel.resetTypeId);
       if (imgPath1.isEmpty) {

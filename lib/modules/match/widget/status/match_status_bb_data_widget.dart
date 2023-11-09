@@ -5,19 +5,14 @@ import 'package:wzty/modules/match/entity/detail/match_status_bb_tech_entity.dar
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusBBDataWidget extends StatefulWidget {
+class MatchStatusBBDataWidget extends StatelessWidget {
   final MatchStatusBBTechModel? techModel;
 
   const MatchStatusBBDataWidget({super.key, this.techModel});
 
   @override
-  State createState() => _MatchStatusBBDataWidgetState();
-}
-
-class _MatchStatusBBDataWidgetState extends State<MatchStatusBBDataWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchStatusBBTechModel? model = widget.techModel;
+    MatchStatusBBTechModel? model = techModel;
 
     int hostTwoPointMade = (model?.hostTwoPointMade ?? 0) * 2;
     int hostThrPntMade = (model?.hostThrPntMade ?? 0) * 3;

@@ -7,7 +7,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchStatusBBScoreWidget extends StatefulWidget {
+class MatchStatusBBScoreWidget extends StatelessWidget {
   final MatchDetailModel detailModel;
   final MatchStatusBBScoreModel? scoreModel;
 
@@ -15,13 +15,7 @@ class MatchStatusBBScoreWidget extends StatefulWidget {
       {super.key, required this.detailModel, this.scoreModel});
 
   @override
-  State createState() => _MatchStatusBBScoreWidgetState();
-}
-
-class _MatchStatusBBScoreWidgetState extends State<MatchStatusBBScoreWidget> {
-  @override
   Widget build(BuildContext context) {
-    MatchStatusBBScoreModel? scoreModel = widget.scoreModel;
     int cnt = scoreModel?.dataModelArr.length ?? 0;
     double width = cnt * statusBBScoreCellWidth;
     return SizedBox(
@@ -52,7 +46,6 @@ class _MatchStatusBBScoreWidgetState extends State<MatchStatusBBScoreWidget> {
   }
 
   _buildHeadWidget() {
-    MatchDetailModel model = widget.detailModel;
     return Column(
       children: [
         Container(
@@ -71,8 +64,8 @@ class _MatchStatusBBScoreWidgetState extends State<MatchStatusBBScoreWidget> {
                 ),
               ],
             )),
-        _buildTeamWidget(model.hostTeamLogo, model.hostTeamName),
-        _buildTeamWidget(model.guestTeamLogo, model.guestTeamName),
+        _buildTeamWidget(detailModel.hostTeamLogo, detailModel.hostTeamName),
+        _buildTeamWidget(detailModel.guestTeamLogo, detailModel.guestTeamName),
       ],
     );
   }
