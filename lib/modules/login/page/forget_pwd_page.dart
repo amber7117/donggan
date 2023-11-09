@@ -3,9 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
-import 'package:wzty/main/eventBus/event_bus_event.dart';
-import 'package:wzty/main/eventBus/event_bus_manager.dart';
-import 'package:wzty/main/user/user_provider.dart';
+import 'package:wzty/modules/login/page/set_pwd_page.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/widget/login_content_widget.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
@@ -27,21 +25,26 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
   final LoginDataProvider _loginProvider = LoginDataProvider();
 
   void _login() {
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return SetPwdPage(phone: "phone", ticket: "result");
+    //     });
+    //     return;
+
     ToastUtils.showLoading();
 
     String phone = _loginProvider.phone;
     String code = _loginProvider.verifyCode;
 
-    LoginService.requestLogin(phone, code, _loginProvider.isPwdLogin,
-        (success, result) {
+    LoginService.requestSetPwdTicket(phone, code, (success, result) { 
       ToastUtils.hideLoading();
       if (success) {
-        context.read<UserProvider>().updateUserInfo(result);
-        Routes.goBack(context);
-
-        eventBusManager.emit(LoginStatusEvent(login: true));
+        showDialog(context: context, builder: (context) {
+          return SetPwdPage(phone: phone, ticket: result);
+        });
       } else {
-        ToastUtils.showError(result as String);
+        ToastUtils.showError(result);
       }
     });
   }
@@ -116,7 +119,7 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
                           const SizedBox(
                               height: 234,
                               child: LoginContentWidget(
-                                  type: LoginContentType.verifyCode)),
+                                  type: LoginContentType.forgetPwd)),
                           Consumer<LoginDataProvider>(
                               builder: (context2, provider, child) {
                             return _buildLoginBtnWidget(provider.canLogin);
@@ -160,9 +163,10 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
 
   _buildLoginBtnWidget(bool canLogin) {
     return InkWell(
+      onTap: canLogin ? _login : null,
       child: Container(
-        margin: const EdgeInsets.only(left: 62, right: 62),
         height: 48,
+        margin: const EdgeInsets.only(left: 62, right: 62),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: canLogin
@@ -170,7 +174,7 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
                 : ColorUtils.red235.withOpacity(0.5),
             borderRadius: const BorderRadius.all(Radius.circular(24))),
         child: const Text(
-          "登录",
+          "下一步",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: Colors.white,
@@ -178,9 +182,7 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
               fontWeight: TextStyleUtils.bold),
         ),
       ),
-      onTap: () {
-        canLogin ? _login() : null;
-      },
+      
     );
   }
 }

@@ -89,7 +89,7 @@ class LoginService {
   }
 
   static Future<void> requestSetPwd(String phone, String pwd, String ticketS,
-      BusinessCallback<String> complete) async {
+      BusinessCallback<dynamic> complete) async {
     Map<String, dynamic> params = {
       "userName": phone,
       "areaNo": "86",
@@ -105,7 +105,7 @@ class LoginService {
       UserEntity user = UserEntity.fromJson(result.data);
       UserManager.instance.saveUser(user);
 
-      complete(true, "");
+      complete(true, user);
     } else {
       complete(false, result.msg ?? result.data);
     }

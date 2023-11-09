@@ -18,7 +18,7 @@ class LoginDataProvider extends ChangeNotifier {
         setCanLogin(false);
       }
     } else {
-      if (phone.length == 11 && pwd.length == 6) {
+      if (phone.length == 11 && verifyCode.length == 6) {
         setCanLogin(true);
       } else {
         setCanLogin(false);

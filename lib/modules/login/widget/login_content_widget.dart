@@ -9,8 +9,9 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
-class LoginContentWidget extends StatefulWidget {
+enum LoginContentType { verifyCode, pwd, forgetPwd }
 
+class LoginContentWidget extends StatefulWidget {
   final LoginContentType type;
 
   const LoginContentWidget({super.key, required this.type});
@@ -21,8 +22,7 @@ class LoginContentWidget extends StatefulWidget {
   }
 }
 
-class _LoginContentState extends State<LoginContentWidget>  {
-
+class _LoginContentState extends State<LoginContentWidget> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _pwdController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
@@ -35,7 +35,7 @@ class _LoginContentState extends State<LoginContentWidget>  {
     _phoneController.addListener(_phoneVerify);
     _pwdController.addListener(_codeVerify);
   }
-  
+
   @override
   void dispose() {
     _phoneController.removeListener(_phoneVerify);
@@ -45,9 +45,12 @@ class _LoginContentState extends State<LoginContentWidget>  {
   }
 
   void _phoneVerify() {
-    context.read<LoginDataProvider>().phone = _phoneController.text;
+    LoginDataProvider loginProvider = context.read<LoginDataProvider>();
+    loginProvider.phone = _phoneController.text;
+
+    loginProvider.checkLoginStatue();
   }
-  
+
   void _codeVerify() {
     LoginDataProvider loginProvider = context.read<LoginDataProvider>();
     if (widget.type == LoginContentType.pwd) {
@@ -69,8 +72,13 @@ class _LoginContentState extends State<LoginContentWidget>  {
 
     ToastUtils.showLoading();
 
+    VerifyCodeType verifyCodeType = VerifyCodeType.login;
+    if (widget.type == LoginContentType.forgetPwd) {
+      verifyCodeType = VerifyCodeType.forgetPwd;
+    }
+
     HttpResultBean result =
-        await LoginService.requestVerifyCode(phone, VerifyCodeType.login);
+        await LoginService.requestVerifyCode(phone, verifyCodeType);
 
     ToastUtils.hideLoading();
     if (!result.isSuccess()) {
@@ -85,9 +93,9 @@ class _LoginContentState extends State<LoginContentWidget>  {
     return Column(
       children: [
         _buildPhoneWidget(),
-        widget.type == LoginContentType.verifyCode
-            ? _buildVCodeWidget()
-            : _buildPwdWidget(),
+        widget.type == LoginContentType.pwd
+            ? _buildPwdWidget()
+            : _buildVCodeWidget()
       ],
     );
   }
@@ -194,8 +202,7 @@ class _LoginContentState extends State<LoginContentWidget>  {
           ),
           Row(
             children: [
-              const JhAssetImage("login/iconDengluMima",
-                  width: 20, height: 20),
+              const JhAssetImage("login/iconDengluMima", width: 20, height: 20),
               const SizedBox(width: 14),
               Expanded(
                 child: WZTextField(
@@ -212,12 +219,4 @@ class _LoginContentState extends State<LoginContentWidget>  {
       ),
     );
   }
-
 }
-
-
-enum LoginContentType {
-  verifyCode,
-  pwd
-}
-

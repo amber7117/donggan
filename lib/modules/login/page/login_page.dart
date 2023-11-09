@@ -235,9 +235,10 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
 
   _buildLoginBtnWidget(bool canLogin) {
     return InkWell(
+      onTap: canLogin ? _login : null,
       child: Container(
-        margin: const EdgeInsets.only(left: 62, right: 62),
         height: 48,
+        margin: const EdgeInsets.only(left: 62, right: 62),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: canLogin
@@ -253,9 +254,6 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
               fontWeight: TextStyleUtils.bold),
         ),
       ),
-      onTap: () {
-        canLogin ? _login() : null;
-      },
     );
   }
 
