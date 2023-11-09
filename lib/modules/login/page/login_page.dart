@@ -63,7 +63,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
     if (_tabController.index == 1) {
       code = _loginProvider.pwd;
     } else {
-      code = _loginProvider.pwd;
+      code = _loginProvider.verifyCode;
     }
     LoginService.requestLogin(phone, code, _loginProvider.isPwdLogin,
         (success, result) {
