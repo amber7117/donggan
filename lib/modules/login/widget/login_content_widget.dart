@@ -54,6 +54,7 @@ class _LoginContentState extends State<LoginContentWidget>  {
       loginProvider.isPwdLogin = true;
       loginProvider.pwd = _pwdController.text;
     } else {
+      loginProvider.isPwdLogin = false;
       loginProvider.verifyCode = _pwdController.text;
     }
 

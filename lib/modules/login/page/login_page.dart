@@ -32,6 +32,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   final TabProvider _tabProvider = TabProvider();
   final LoginDataProvider _loginProvider = LoginDataProvider();
 
+  bool _agreeProtocol = true;
+
   @override
   void initState() {
     super.initState();
@@ -49,11 +51,16 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
   }
 
   void _login() {
+    if (!_agreeProtocol) {
+      ToastUtils.showInfo("请同意用户协议");
+      return;
+    }
+
     ToastUtils.showLoading();
 
     String phone = _loginProvider.phone;
     String code;
-    if (_loginProvider.isPwdLogin) {
+    if (_tabController.index == 1) {
       code = _loginProvider.pwd;
     } else {
       code = _loginProvider.pwd;
@@ -97,7 +104,10 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: ScreenUtil().statusBarHeight),
-                  const WZBackButton(),
+                  Consumer<TabProvider>(
+                      builder: (context2, provider, child) {
+                    return _buildNavWidget(provider.index == 1);
+                  }),
                   const SizedBox(height: 15),
                   const Padding(
                     padding: EdgeInsets.only(left: 34),
@@ -172,31 +182,20 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                                   })),
                           Consumer<LoginDataProvider>(
                               builder: (context2, provider, child) {
-                            return InkWell(
-                              child: Container(
-                                width: ScreenUtil().screenWidth - 72 * 2,
-                                height: 48,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: provider.canLogin
-                                        ? ColorUtils.red235
-                                        : ColorUtils.red235.withOpacity(0.5),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(24))),
-                                child: const Text(
-                                  "登录",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: TextStyleUtils.bold),
-                                ),
-                              ),
-                              onTap: () {
-                                provider.canLogin ? _login() : null;
-                              },
-                            );
+                            return _buildLoginBtnWidget(provider.canLogin);
                           }),
+                          const SizedBox(height: 20),
+                          const Text(
+                            "手机验证码直接登录，无需注册",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color.fromRGBO(202, 184, 184, 1),
+                                fontSize: 10,
+                                fontWeight: TextStyleUtils.regual),
+                          ),
+                          const Spacer(),
+                          _buildProtocolWidget(),
+                          SizedBox(height: ScreenUtil().bottomBarHeight + 20)
                         ],
                       ),
                     ),
@@ -205,6 +204,118 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
               ),
             ),
           )),
+    );
+  }
+
+  _buildNavWidget(bool isPwdLogin) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const WZBackButton(),
+        Visibility(
+          visible: isPwdLogin,
+          child: InkWell(
+            onTap: () {
+              Routes.push(context, Routes.forgetPwd);
+            },
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text("忘记密码",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: TextStyleUtils.regual)),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  _buildLoginBtnWidget(bool canLogin) {
+    return InkWell(
+      child: Container(
+        margin: const EdgeInsets.only(left: 62, right: 62),
+        height: 48,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: canLogin
+                ? ColorUtils.red235
+                : ColorUtils.red235.withOpacity(0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(24))),
+        child: const Text(
+          "登录",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: TextStyleUtils.bold),
+        ),
+      ),
+      onTap: () {
+        canLogin ? _login() : null;
+      },
+    );
+  }
+
+  _buildProtocolWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            _agreeProtocol = !_agreeProtocol;
+            setState(() {});
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: JhAssetImage(
+                _agreeProtocol ? "login/iconSelect" : "login/iconSelectNo",
+                width: 16),
+          ),
+        ),
+        const Text(
+          "我已阅读并接受",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: ColorUtils.red233,
+              fontSize: 10,
+              fontWeight: TextStyleUtils.regual),
+        ),
+        InkWell(
+          onTap: () {
+            Routes.push(context, Routes.webLocal, arguments: {
+              "title": "隐私政策",
+              "htmlName": "privacy-policy.html"
+            });
+          },
+          child: const Text(
+            "《隐私协议》",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorUtils.red233,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Routes.push(context, Routes.webLocal, arguments: {
+              "title": "用户协议",
+              "htmlName": "user-agreement.html"
+            });
+          },
+          child: const Text(
+            "《用户协议》",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: ColorUtils.red233,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual),
+          ),
+        ),
+      ],
     );
   }
 

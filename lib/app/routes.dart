@@ -7,6 +7,7 @@ import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_page.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_page.dart';
 import 'package:wzty/modules/anchor/page/live_playback_page.dart';
+import 'package:wzty/modules/login/page/forget_pwd_page.dart';
 import 'package:wzty/modules/login/page/login_page.dart';
 import 'package:wzty/modules/main_page.dart';
 import 'package:wzty/modules/match/page/filter/match_filter_page.dart';
@@ -83,6 +84,7 @@ class Routes {
   // ---------------------------------------------
 
   static String login = "/login";
+  static String forgetPwd = "/forgetPwd";
 
   static String web = "/web";
   static String webLocal = "/webLocal";
@@ -213,6 +215,9 @@ class Routes {
 
     router.define(login, handler: Handler(handlerFunc: (context, params) {
       return const LoginPage();
+    }));
+    router.define(forgetPwd, handler: Handler(handlerFunc: (context, params) {
+      return const ForgetPwdPage();
     }));
 
     router.define(web, handler: Handler(handlerFunc: (context, params) {
