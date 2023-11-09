@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_analysis_entity.dart';
@@ -12,6 +13,7 @@ import 'package:wzty/modules/match/widget/analysis/match_analysis_rank_cell_widg
 import 'package:wzty/modules/match/widget/analysis/match_analysis_rank_head_widget.dart';
 import 'package:wzty/modules/match/widget/analysis/match_analysis_schedule_cell_widget.dart';
 import 'package:wzty/modules/match/widget/analysis/match_analysis_schedule_head_widget.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MatchDetailAnalysisPage extends StatefulWidget {
@@ -141,7 +143,9 @@ class _MatchDetailAnalysisPageState
             itemBuilder: (BuildContext context, int index) {
               return MatchAnalysisRankCellWidget(
                   model: rankArr[index], sportType: sportType);
-            })
+            }),
+        const SizedBox(width: double.infinity, height: 10)
+            .colored(ColorUtils.gray248),
       ],
     );
   }
@@ -171,7 +175,10 @@ class _MatchDetailAnalysisPageState
           model: historyModel!,
           logo: widget.detailModel.hostTeamLogo,
           team: widget.detailModel.hostTeamName,
-        )
+          isHost: true,
+        ),
+        const SizedBox(width: double.infinity, height: 10)
+            .colored(ColorUtils.gray248),
       ],
     );
   }
@@ -195,7 +202,15 @@ class _MatchDetailAnalysisPageState
                   model: recent1Model!.matches[index],
                   sportType: sportType,
                   mainTeamName: widget.detailModel.hostTeamName);
-            })
+            }),
+        MatchAnalysisHistoryFootWidget(
+          sportType: sportType,
+          model: recent1Model!,
+          logo: widget.detailModel.hostTeamLogo,
+          team: widget.detailModel.hostTeamName,
+        ),
+        const SizedBox(width: double.infinity, height: 10)
+            .colored(ColorUtils.gray248),
       ],
     );
   }
@@ -219,7 +234,15 @@ class _MatchDetailAnalysisPageState
                   model: recent2Model!.matches[index],
                   sportType: sportType,
                   mainTeamName: widget.detailModel.guestTeamName);
-            })
+            }),
+        MatchAnalysisHistoryFootWidget(
+          sportType: sportType,
+          model: recent2Model!,
+          logo: widget.detailModel.guestTeamLogo,
+          team: widget.detailModel.guestTeamName,
+        ),
+        const SizedBox(width: double.infinity, height: 10)
+            .colored(ColorUtils.gray248),
       ],
     );
   }
@@ -240,7 +263,9 @@ class _MatchDetailAnalysisPageState
               return MatchAnalysisScheduleCellWidget(
                   model: future1Arr[index],
                   mainTeamName: widget.detailModel.hostTeamName);
-            })
+            }),
+        const SizedBox(width: double.infinity, height: 10)
+            .colored(ColorUtils.gray248),
       ],
     );
   }
@@ -261,7 +286,9 @@ class _MatchDetailAnalysisPageState
               return MatchAnalysisScheduleCellWidget(
                   model: future2Arr[index],
                   mainTeamName: widget.detailModel.guestTeamName);
-            })
+            }),
+        const SizedBox(width: double.infinity, height: 10)
+            .colored(ColorUtils.gray248),
       ],
     );
   }

@@ -46,8 +46,8 @@ class _AnchorDetailHeadVideoWidgetState
               callback: (data) {
                 if (data == ReportBlockType.reportLive) {
                   _showReportUI();
-                } else if (data == ReportBlockType.reportLive ||
-                    data == ReportBlockType.reportLive) {
+                } else if (data == ReportBlockType.blockAnchor ||
+                    data == ReportBlockType.blockLive) {
                   UserBlockManger.instance.blockAnchor(model: widget.model!);
                   ToastUtils.showSuccess("屏蔽成功");
                 }

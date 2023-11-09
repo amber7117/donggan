@@ -201,7 +201,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
               String videoUrl = _attemptPlayVideo();
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
-                    height: videoHeight(), titleStr: model.liveTitle, urlStr: videoUrl);
+                    height: videoHeight(), titleStr: model.liveTitle, urlStr: videoUrl, model: model);
               } else if (model.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
                     height: videoHeight(), urlStr: model.animUrl);
