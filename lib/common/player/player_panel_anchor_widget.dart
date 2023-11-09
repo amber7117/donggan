@@ -455,13 +455,16 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
     } else if (player.state == FijkState.error) {
       ws.add(buildStateless());
     }
+    Widget waterLogo = const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
+
+    ws.add(waterLogo);
     ws.add(buildGestureDetector(context));
     if (widget.onBack != null) {
       ws.add(buildBackButtom(context));
     }
     return Positioned.fromRect(
       rect: rect,
-      child: Stack(children: ws as List<Widget>),
+      child: Stack(alignment: Alignment.topRight, children: ws as List<Widget>),
     );
   }
 

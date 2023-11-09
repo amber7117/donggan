@@ -79,12 +79,14 @@ class _AnchorChildHotPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AnchorBannerWidget(bannerArr: _bannerArr),
+        _bannerArr.isNotEmpty
+            ? AnchorBannerWidget(bannerArr: _bannerArr)
+            : const SizedBox(),
         // Container(
         //   width: double.infinity,
         //   height: liveMatchCellHeight + 24.0,
         //   padding: const EdgeInsets.symmetric(horizontal: 12),
-          
+
         //   child: ListView.builder(
         //     padding: const EdgeInsets.symmetric(horizontal: 12),
         //       itemCount: _matchArr.length,
