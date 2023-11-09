@@ -9,8 +9,6 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-enum PlayPanelEvent { resolution, more, danmu,  }
-
 FijkPanelWidgetBuilder anchorPanelBuilder(
     {Key? key,
     bool fill = false,

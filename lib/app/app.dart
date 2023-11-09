@@ -118,3 +118,10 @@ enum MatchFilterType {
 
   final int value;
 }
+
+
+enum PlayPanelEvent {
+  resolution,
+  more,
+  danmu,
+}

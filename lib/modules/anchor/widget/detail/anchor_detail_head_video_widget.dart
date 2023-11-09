@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/player/wz_player_widget.dart';
+import 'package:wzty/common/widget/report_block_sheet_widget.dart';
+import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
+import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
+import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
 class AnchorDetailHeadVideoWidget extends StatefulWidget {
   final double height;
-  final String? titleStr;
   final String urlStr;
   final bool isAnchor;
+  final String? titleStr;
+  final AnchorDetailModel? model;
 
   const AnchorDetailHeadVideoWidget(
       {super.key,
       required this.height,
       required this.urlStr,
       this.isAnchor = true,
-      this.titleStr});
+      this.titleStr,
+      this.model});
 
   @override
   State createState() => _AnchorDetailHeadVideoWidgetState();
@@ -23,6 +31,54 @@ class AnchorDetailHeadVideoWidget extends StatefulWidget {
 
 class _AnchorDetailHeadVideoWidgetState
     extends State<AnchorDetailHeadVideoWidget> {
+  _showReporBlocktUI() {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          List<ReportBlockType> dataArr = [
+            ReportBlockType.reportLive,
+            ReportBlockType.blockAnchor,
+            ReportBlockType.blockLive
+          ];
+          return ReportBlockSheetWidget(
+              dataArr: dataArr,
+              callback: (data) {
+                if (data == ReportBlockType.reportLive) {
+                  _showReportUI();
+                } else if (data == ReportBlockType.reportLive ||
+                    data == ReportBlockType.reportLive) {
+                  UserBlockManger.instance.blockAnchor(model: widget.model!);
+                  ToastUtils.showSuccess("屏蔽成功");
+                }
+              });
+        });
+  }
+
+  _showReportUI() {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          List<String> dataArr = [
+            "色情低俗",
+            "未成年相关",
+            "违规营销",
+            "不实信息",
+            "违法违规",
+            "政治敏感",
+          ];
+          return ReportSheetWidget(
+              dataArr: dataArr,
+              callback: (data) {
+                ToastUtils.showLoading();
+                Future.delayed(const Duration(seconds: 2), () {
+                  ToastUtils.showSuccess("举报成功");
+                });
+              });
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,11 +93,17 @@ class _AnchorDetailHeadVideoWidgetState
                 width: double.infinity,
                 height: widget.height,
                 child: WZPlayerWidget(
-                    urlStr: widget.urlStr,
-                    titleStr: widget.titleStr,
-                    type: widget.isAnchor
-                        ? WZPlayerType.anchor
-                        : WZPlayerType.playback),
+                  urlStr: widget.urlStr,
+                  titleStr: widget.titleStr,
+                  type: widget.isAnchor
+                      ? WZPlayerType.anchor
+                      : WZPlayerType.playback,
+                  callback: (data) {
+                    if (data == PlayPanelEvent.more) {
+                      _showReporBlocktUI();
+                    }
+                  },
+                ),
               ),
               const WZBackButton(),
             ],

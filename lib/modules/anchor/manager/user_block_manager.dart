@@ -21,7 +21,7 @@ class UserBlockManger {
     cacheBlockData(_blockAuthorArr);
   }
 
-  bool obtainBlockStatus({required int userId}) {
+  bool getBlockStatus({required int userId}) {
     for (var model in _blockAuthorArr) {
       if (model.userId == userId) {
         return true;

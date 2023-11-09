@@ -16,7 +16,11 @@ class MsgBlockManager {
     return _uidArr;
   }
 
-  void blockUserMsg({required String userId}) {
+  bool getMsgBlockStatus(String userId) {
+    return _uidArr.contains(userId);
+  }
+
+  void blockUserMsg(String userId) {
     if (_uidArr.contains(userId)) {
       return;
     }

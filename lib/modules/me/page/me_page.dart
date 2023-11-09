@@ -41,7 +41,7 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
     ];
   }
 
-  late StreamSubscription eventSub;
+  late StreamSubscription _eventSub;
   UserInfoEntity? userInfo2;
   List<SysMsgModel> msgList = [];
 
@@ -51,9 +51,16 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
 
     _requestData();
 
-    eventSub = eventBusManager.on<LoginStatusEvent>((event) {
+    _eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _handleLoginEvent(event);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    eventBusManager.off(_eventSub);
   }
 
   @override

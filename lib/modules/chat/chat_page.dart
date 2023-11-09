@@ -4,15 +4,19 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/emoji/emoji_widget.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/chat/chat_page_mixin.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
+import 'package:wzty/modules/chat/manager/msg_block_manager.dart';
 import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_enter_msg_widget.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/shared_preference_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class ChatPage extends StatefulWidget {
@@ -60,6 +64,8 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
 
   _initData() async {
     _blockEnterMsg = await SpUtils.getBool(SpKeys.chatEnterMsg);
+
+    MsgBlockManager.instance.obtainUidData();
   }
 
   _prepareJoinIMRoom() {
@@ -148,9 +154,14 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
       return;
     }
 
-    // if (MsgBlockManager.shared.uidArr.contains(msg.userId)) {
-    //   return;
-    // }
+    if (MsgBlockManager.instance.getMsgBlockStatus(msg.userId)) {
+      return;
+    }
+
+    // 屏蔽入场消息
+    if (_blockEnterMsg && msg.type == ChatMsgType.enter) {
+      return;
+    }
 
     if (msg.type == ChatMsgType.kickout) {
       //被踢出
@@ -241,11 +252,15 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
           return;
         }
 
-        _msgList.add(msgTmp);
-
         if (msgTmp.type == ChatMsgType.enter) {
           ChatMsgModel hintMsg = ChatMsgModel.getHintMsg();
           _msgList.add(hintMsg);
+
+          if (!_blockEnterMsg) {
+            _msgList.add(msgTmp);
+          }
+        } else {
+          _msgList.add(msgTmp);
         }
 
         setState(() {});
@@ -289,13 +304,31 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
           backgroundColor: Colors.transparent,
           context: context,
           builder: (context) {
-            return ChatEnterMsgWidget(blockMsg: _blockEnterMsg,
+            return ChatEnterMsgWidget(
+                blockMsg: _blockEnterMsg,
                 callback: (data) {
                   _blockEnterMsg = data;
                   SpUtils.save(SpKeys.chatEnterMsg, data);
+
+                  if (true) {
+                    _removeEnterMsg();
+                  }
                 });
           });
     }
+  }
+
+  _removeEnterMsg() {
+    List<ChatMsgModel> msgListNew = [];
+
+    for (ChatMsgModel tmpMsg in _msgList) {
+      if (tmpMsg.type != ChatMsgType.enter) {
+        msgListNew.add(tmpMsg);
+      }
+    }
+
+    _msgList = msgListNew;
+    setState(() {});
   }
 
   _handleEmojiEvent(String emoji) {
@@ -312,6 +345,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
 
   @override
   Widget buildWidget(BuildContext context) {
+    String notice = ConfigManager.instance.systemNotice;
     return GestureDetector(
       onTap: () {
         Routes.unfocus();
@@ -319,6 +353,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
       },
       child: Column(
         children: [
+          notice.isEmpty ? const SizedBox() : _buildNoticeWidget(notice),
           Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.only(top: 3),
@@ -333,6 +368,27 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
                 offstage: !_emojiShowing,
                 child: EmojiWidget(callback: _handleEmojiEvent));
           }),
+        ],
+      ),
+    );
+  }
+
+  _buildNoticeWidget(String notice) {
+    return Container(
+      width: double.infinity,
+      color: const Color.fromRGBO(255, 246, 228, 1),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      child: Row(
+        children: [
+          const JhAssetImage("anchor/iconNotice", width: 16),
+          const SizedBox(width: 5),
+          Expanded(
+            child: Text(notice,
+                style: const TextStyle(
+                    color: Color.fromRGBO(233, 176, 54, 1),
+                    fontSize: 12,
+                    fontWeight: TextStyleUtils.regual)),
+          ),
         ],
       ),
     );
