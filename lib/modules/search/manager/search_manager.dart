@@ -13,7 +13,6 @@ class SearchManager {
         _keyWordArr.addAll(keywordStr.split(","));
       }
     }
-
     return _keyWordArr;
   }
 

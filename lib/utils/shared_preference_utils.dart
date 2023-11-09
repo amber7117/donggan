@@ -16,6 +16,10 @@ class SpKeys {
   static const String searchHistory = 'searchHistory';
 
   static const String chatEnterMsg = 'chatEnterMsg';
+
+  static const String userBlockData = 'userBlockData';
+
+  static const String msgBlockData = 'msgBlockData';
 }
 
 /// desc：本地储存
