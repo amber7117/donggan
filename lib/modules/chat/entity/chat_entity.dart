@@ -44,7 +44,7 @@ class ChatMsgModel {
   factory ChatMsgModel.empty() => ChatMsgModel(
         wealthLevel: 0,
         nobleLevel: 0,
-        userId: '',
+        userId: "",
         nickname: '',
         headUrl: '',
         identity: 0,
@@ -57,21 +57,39 @@ class ChatMsgModel {
         messageUId: '',
       );
 
-  factory ChatMsgModel.fromJson(Map<String, dynamic> json) => ChatMsgModel(
-        wealthLevel: json['wealthLevel'] ?? 0,
-        nobleLevel: json['nobleLevel'] ?? 0,
-        userId: json['userId'] ?? '',
-        nickname: json['nickname'] ?? '',
-        headUrl: json['headUrl'] ?? '',
-        identity: json['identity'] ?? 0,
-        content: json['content'] ?? '',
-        isLink: json['isLink'] ?? false,
-        sign: json['sign'] ?? '',
-        sendTime: json['sendTime'] ?? 0,
-        pushTime: json['pushTime'] ?? 0,
-        type: ChatMsgTypeEnum.fromInt(json['type'] ?? 1),
-        messageUId: json['messageUId'] ?? '',
-      );
+  factory ChatMsgModel.fromJson(Map<String, dynamic> json) {
+    int wealthLevelValue = 0;
+    var wealthLevel = json['wealthLevel'];
+    if (wealthLevel is String) {
+      wealthLevelValue = int.parse(wealthLevel);
+    } else if (wealthLevel is String) {
+      wealthLevelValue = wealthLevel as int;
+    }
+
+    int nobleLevelValue = 0;
+    var nobleLevel = json['nobleLevel'];
+    if (nobleLevel is String) {
+      nobleLevelValue = int.parse(nobleLevel);
+    } else if (nobleLevel is String) {
+      nobleLevelValue = nobleLevel as int;
+    }
+    
+    return ChatMsgModel(
+      wealthLevel: wealthLevelValue,
+      nobleLevel: nobleLevelValue,
+      userId: json['userId'].toString(),
+      nickname: json['nickname'] ?? '',
+      headUrl: json['headUrl'] ?? '',
+      identity: json['identity'] ?? 0,
+      content: json['content'] ?? '',
+      isLink: json['isLink'] ?? false,
+      sign: json['sign'] ?? '',
+      sendTime: json['sendTime'] ?? 0,
+      pushTime: json['pushTime'] ?? 0,
+      type: ChatMsgTypeEnum.fromInt(json['type'] ?? 1),
+      messageUId: json['messageUId'] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'wealthLevel': wealthLevel,
