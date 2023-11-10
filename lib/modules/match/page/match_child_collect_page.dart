@@ -11,9 +11,9 @@ import 'package:wzty/utils/toast_utils.dart';
 
 class MatchChildCollectPage extends StatefulWidget {
   final SportType sportType;
-
+  final bool redDot;
   const MatchChildCollectPage(
-      {super.key, required this.sportType});
+      {super.key, required this.sportType, this.redDot = true});
 
   @override
   State<StatefulWidget> createState() {
@@ -87,9 +87,11 @@ class _MatchChildCollectPageState
                 itemExtent: matchChildCellHeight,
                 itemBuilder: (context, index) {
                   return MatchCellWidget(
-                      sportType: widget.sportType,
-                      listModel: _dataArr[index],
-                      isCollectCell: true);
+                    sportType: widget.sportType,
+                    listModel: _dataArr[index],
+                    isCollectCell: true,
+                    redDot: widget.redDot,
+                  );
                 })));
   }
 }

@@ -25,13 +25,15 @@ class MatchCellWidget extends StatefulWidget {
   final MatchListModel? listModel;
   final MatchCalendarEntity? calendarEntity;
   final bool isCollectCell;
+  final bool redDot;
 
   const MatchCellWidget(
       {super.key,
       this.sportType,
-      this.isCollectCell = false,
       this.listModel,
-      this.calendarEntity});
+      this.calendarEntity,
+      this.isCollectCell = false,
+      this.redDot = true});
 
   @override
   State createState() => _MatchCellWidgetState();
@@ -62,7 +64,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
       ToastUtils.hideLoading();
       if (success) {
         ToastUtils.showSuccess(isAdd ? "收藏成功" : "取消收藏成功");
-        
+
         _updateMatchCollectStatus(model, isAdd);
       } else {
         ToastUtils.showError(result);
@@ -76,7 +78,9 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
     int cnt = MatchCollectManager.instance
         .updateCollectData(widget.sportType!, model);
 
-    context.read<TabDotProvider>().setDotNum(cnt);
+    if (widget.redDot) {
+      context.read<TabDotProvider>().setDotNum(cnt);
+    }
 
     setState(() {});
   }
@@ -117,7 +121,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
 
     return InkWell(
         onTap: () {
-          Routes.pushAndCallback(context, Routes.matchDetail, (data) { 
+          Routes.pushAndCallback(context, Routes.matchDetail, (data) {
             if (AppDataUtils().matchCollectChanged) {
               AppDataUtils().matchCollectChanged = false;
               _updateMatchCollectStatus(model, !model.focus);

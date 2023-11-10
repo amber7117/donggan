@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/appbar.dart';
-import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
-import 'package:wzty/modules/me/service/me_service.dart';
+import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
+import 'package:wzty/main/tabbar/tab_provider.dart';
+import 'package:wzty/modules/match/page/match_child_collect_page.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/text_style_utils.dart';
-import 'package:wzty/utils/toast_utils.dart';
 
 class MeCollectPage extends StatefulWidget {
   const MeCollectPage({super.key});
@@ -17,34 +16,37 @@ class MeCollectPage extends StatefulWidget {
   }
 }
 
-class _MeCollectPageState extends State {
-  LoadStatusType _layoutState = LoadStatusType.loading;
-  List<SysMsgModel> _dataArr = [];
+class _MeCollectPageState extends State with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  late PageController _pageController;
+
+  final TabProvider _tabProvider = TabProvider();
+
+  final List<Widget> _tabs = [
+    const MatchDetailTabbarItemWidget(
+      tabName: '足球',
+      index: 0,
+    ),
+    const MatchDetailTabbarItemWidget(
+      tabName: '篮球',
+      index: 1,
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
 
-    _requestData();
+    _tabController = TabController(length: _tabs.length, vsync: this);
+    _pageController = PageController();
   }
 
-  _requestData() {
-    ToastUtils.showLoading();
-    
-    MeService.requestSysMsgList((success, result) {
-      ToastUtils.hideLoading();
-      if (success) {
-        if (result.isNotEmpty) {
-          _dataArr = result;
-          _layoutState = LoadStatusType.success;
-        } else {
-          _layoutState = LoadStatusType.empty;
-        }
-      } else {
-        _layoutState = LoadStatusType.failure;
-      }
-      setState(() {});
-    });
+  @override
+  void dispose() {
+    super.dispose();
+
+    _tabController.dispose();
+    _pageController.dispose();
   }
 
   @override
@@ -52,62 +54,54 @@ class _MeCollectPageState extends State {
     return Scaffold(
         appBar: buildAppBar(titleText: "我的收藏"),
         backgroundColor: ColorUtils.gray248,
-        body: LoadStateWidget(
-            state: _layoutState,
-            successWidget: ListView.separated(
-                padding: EdgeInsets.zero,
-                itemCount: _dataArr.length,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                      height: 0.5, color: ColorUtils.gray248, indent: 12);
-                },
-                itemBuilder: (context, index) {
-                  return _buildCellWidget(index);
-                })));
+        body: _buildChild(context));
   }
 
-  _buildCellWidget(int idx) {
-    SysMsgModel model = _dataArr[idx];
-    return Container(
-      height: 64,
-      color: Colors.white,
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  model.title ?? "",
-                  style: const TextStyle(
-                      color:  Color.fromRGBO(58, 58, 60, 1.0),
-                      fontSize: 14,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-                Text(
-                  model.content ?? "",
-                  style: const TextStyle(
-                      color: ColorUtils.gray149,
-                      fontSize: 11,
-                      fontWeight: TextStyleUtils.regual),
-                ),
-              ],
-            ),
-          )),
-          const Text(
-            "14分钟前",
-            style: TextStyle(
-                color: ColorUtils.gray149,
-                fontSize: 11,
-                fontWeight: TextStyleUtils.regual),
-          ),
+  _buildChild(BuildContext context) {
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context2) => _tabProvider),
         ],
-      ),
-    );
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: TabBar(
+                  onTap: (index) {
+                    if (!mounted) return;
+                    _pageController.jumpToPage(index);
+                  },
+                  isScrollable: false,
+                  controller: _tabController,
+                  indicator: const BoxDecoration(),
+                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                  tabs: _tabs),
+            ),
+            const ColoredBox(
+                color: Color.fromRGBO(236, 236, 236, 1.0),
+                child: SizedBox(width: double.infinity, height: 0.5)),
+            Expanded(
+                child: PageView.builder(
+                    itemCount: _tabs.length,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, int index) {
+                      if (index == 0) {
+                        return const MatchChildCollectPage(
+                            sportType: SportType.football, redDot: false);
+                      } else if (index == 1) {
+                        return const MatchChildCollectPage(
+                            sportType: SportType.basketball, redDot: false);
+                      }
+                      return const SizedBox();
+                    }))
+          ],
+        ));
+  }
+
+  void _onPageChange(int index) {
+    _tabProvider.setIndex(index);
+    _tabController.animateTo(index);
   }
 }

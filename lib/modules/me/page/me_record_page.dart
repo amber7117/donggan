@@ -29,7 +29,7 @@ class _MeRecordPageState extends State {
 
   _requestData() {
     ToastUtils.showLoading();
-    
+
     MeService.requestSysMsgList((success, result) {
       ToastUtils.hideLoading();
       if (success) {
@@ -52,17 +52,23 @@ class _MeRecordPageState extends State {
         appBar: buildAppBar(titleText: "浏览记录"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
-            state: _layoutState,
-            successWidget: ListView.separated(
-                padding: EdgeInsets.zero,
-                itemCount: _dataArr.length,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                      height: 0.5, color: ColorUtils.gray248, indent: 12);
-                },
-                itemBuilder: (context, index) {
-                  return _buildCellWidget(index);
-                })));
+            state: _layoutState, successWidget: _buildChild(context)));
+  }
+
+  _buildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
+    return ListView.separated(
+        padding: EdgeInsets.zero,
+        itemCount: _dataArr.length,
+        separatorBuilder: (context, index) {
+          return const Divider(
+              height: 0.5, color: ColorUtils.gray248, indent: 12);
+        },
+        itemBuilder: (context, index) {
+          return _buildCellWidget(index);
+        });
   }
 
   _buildCellWidget(int idx) {
