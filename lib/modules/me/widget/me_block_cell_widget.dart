@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_block_button.dart';
-import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/anchor/manager/user_block_entity.dart';
-import 'package:wzty/modules/me/service/me_service.dart';
+import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
-import 'package:wzty/utils/toast_utils.dart';
 
 class MeBlockCellWidget extends StatefulWidget {
   final UserBlockEntity model;
@@ -21,22 +19,15 @@ class MeBlockCellWidget extends StatefulWidget {
 
 class _MeBlockCellWidgetState extends State<MeBlockCellWidget> {
   Future<bool> _requestFollowUser() async {
+    UserBlockEntity model = widget.model;
+    bool remove = !model.removedBlock;
+    if (remove) {
+      UserBlockManger.instance.removeBlockById(userId: model.userId);
+    } else {
+      UserBlockManger.instance.addBlockData(model: model);
+    }
+
     return true;
-    // UserBlockEntity model = widget.model;
-
-    // bool isFollow = !model.isAttention;
-
-    // ToastUtils.showLoading();
-
-    // HttpResultBean result =
-    //     await MeService.requestUserFocus(model.userId, isFollow);
-
-    // ToastUtils.hideLoading();
-    // if (!result.isSuccess()) {
-    //   ToastUtils.showError(result.msg ?? result.data);
-    // }
-
-    // return result.isSuccess();
   }
 
   @override

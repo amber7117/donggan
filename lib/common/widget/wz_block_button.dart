@@ -55,7 +55,7 @@ class WZBlockBtnState extends State<WZBlockBtn> {
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(4))),
+                borderRadius: BorderRadius.all(Radius.circular(12))),
         child: _isFollowd
             ? const Text('取消屏蔽',
                 style: TextStyle(
