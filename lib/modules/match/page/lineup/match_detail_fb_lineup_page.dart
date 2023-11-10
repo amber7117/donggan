@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
@@ -65,6 +66,11 @@ class _MatchDetailFBLineupPageState
     if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
+
+    MatchStatus matchStatus =
+        matchStatusFromServerValue(widget.detailModel.matchStatus);
+    bool uncoming = matchStatus == MatchStatus.uncoming;
+
     List<MatchLineupFBPlayerModel> playerList1 = [];
     List<MatchLineupFBPlayerModel> playerList2 = [];
     bool isHost = true;
@@ -88,11 +94,12 @@ class _MatchDetailFBLineupPageState
                 })),
         SliverToBoxAdapter(
             child: MatchLineupFbHeadWidget(
-                model: model!, isHost: isHost)),
+                model: model!, isHost: isHost, uncoming: uncoming)),
         SliverList.builder(
             itemCount: playerList1.length,
             itemBuilder: (context, index) {
-              return MatchLineupFbCellWidget(model: playerList1[index], isHost: isHost);
+              return MatchLineupFbCellWidget(
+                  model: playerList1[index], isHost: isHost);
             }),
         SliverToBoxAdapter(
             child: Container(
@@ -112,7 +119,8 @@ class _MatchDetailFBLineupPageState
         SliverList.builder(
             itemCount: playerList2.length,
             itemBuilder: (context, index) {
-              return MatchLineupFbCellWidget(model: playerList2[index], isHost: isHost);
+              return MatchLineupFbCellWidget(
+                  model: playerList2[index], isHost: isHost);
             }),
       ],
     );

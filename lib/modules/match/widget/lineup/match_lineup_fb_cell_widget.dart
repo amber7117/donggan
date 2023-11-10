@@ -93,12 +93,9 @@ class MatchLineupFbCellWidget extends StatelessWidget {
         continue;
       }
 
-      Widget img = JhAssetImage(imgPath1, width: 12);
-      rowChildren.add(img);
-
       if (eventModel.resetTypeId == 8 || eventModel.resetTypeId == 9) {
         Widget label = Text(
-          "${eventModel.time ~/ 60}",
+          "${eventModel.time ~/ 60}'",
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
               color: ColorUtils.gray153,
@@ -108,6 +105,9 @@ class MatchLineupFbCellWidget extends StatelessWidget {
 
         rowChildren.add(label);
       }
+
+      Widget img = JhAssetImage(imgPath1, width: 12);
+      rowChildren.add(img);
     }
 
     return rowChildren;

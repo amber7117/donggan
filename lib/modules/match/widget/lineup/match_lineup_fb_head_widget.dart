@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
+import 'package:wzty/utils/app_business_utils.dart';
+import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
 class MatchLineupFbHeadWidget extends StatelessWidget {
   final MatchLineupFBModel model;
   final bool isHost;
+  final bool uncoming;
 
   const MatchLineupFbHeadWidget(
-      {super.key, required this.model, required this.isHost});
+      {super.key,
+      required this.model,
+      required this.isHost,
+      required this.uncoming});
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +85,12 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
                 ),
               ],
             )),
-        const Expanded(
+        Expanded(
           child: Text(
-            "当前为预测首发阵容",
+            uncoming ? "当前为预测首发阵容" : "当前为官方首发名单",
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white,
                 fontSize: 11,
                 fontWeight: TextStyleUtils.regual),
@@ -149,39 +155,138 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
       imgPath = "match/iconPlayerBlue";
     }
 
-    return SizedBox(
-      width: 80,
-      height: 60,
-      child: Column(
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        SizedBox(
+          width: 80,
+          height: 60,
+          child: Column(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: JhImageUtils.getAssetImage(imgPath),
+                      fit: BoxFit.fitWidth),
+                ),
+                child: Text(
+                  player.shirtNumber,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: TextStyleUtils.medium),
+                ),
+              ),
+              Text(
+                player.playerName,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: TextStyleUtils.regual),
+              ),
+            ],
+          ),
+        ),
+        _buildEventUI(player),
+      ],
+    );
+  }
+
+  Widget _buildEventUI(MatchLineupFBPlayerModel model) {
+    List<Widget> rowChildren = [];
+    List<Widget> resetTypeChildren = [];
+    for (MatchLineupFBEventModel eventModel in model.eventList) {
+      String imgPath1 =
+          AppBusinessUtils.obtainLineupEventPic(eventModel.resetTypeId);
+      if (imgPath1.isEmpty) {
+        continue;
+      }
+
+      if (eventModel.resetTypeId == 8 || eventModel.resetTypeId == 9) {
+        Widget img = JhAssetImage(imgPath1, width: 12);
+        resetTypeChildren.add(img);
+
+        Widget label = Text(
+          "${eventModel.time ~/ 60}'",
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: TextStyleUtils.regual),
+        );
+        resetTypeChildren.add(label);
+      } else {
+        Widget img = JhAssetImage(imgPath1, width: 12);
+        rowChildren.add(img);
+      }
+    }
+
+    if (resetTypeChildren.isNotEmpty && rowChildren.isNotEmpty) {
+      return Column(
         children: [
           Container(
-            width: 32,
-            height: 32,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: JhImageUtils.getAssetImage(imgPath),
-                  fit: BoxFit.fitWidth),
-            ),
-            child: Text(
-              player.shirtNumber,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: TextStyleUtils.medium),
+            width: 34,
+            height: 14,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0.4),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(7))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: resetTypeChildren,
             ),
           ),
-          Text(
-            player.playerName,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                fontWeight: TextStyleUtils.regual),
-          ),
+          Row(
+            children: rowChildren,
+          )
         ],
-      ),
-    );
+      );
+    } else {
+      if (resetTypeChildren.isNotEmpty) {
+        return Container(
+          width: 34,
+          height: 14,
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromRGBO(0, 0, 0, 0.4),
+                  Color.fromRGBO(0, 0, 0, 0.2),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(7))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: resetTypeChildren,
+          ),
+        );
+      } else if (rowChildren.isNotEmpty) {
+        return Column(
+          children: [
+            const SizedBox(height: 20),
+            SizedBox(
+              width: 25,
+              child: Row(
+                children: rowChildren,
+              ),
+            ),
+          ],
+        );
+      } else {
+        return const SizedBox();
+      }
+    }
   }
 }
