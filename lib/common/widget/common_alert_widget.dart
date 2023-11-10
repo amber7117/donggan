@@ -7,6 +7,7 @@ enum CommonAlertType {
   blockUserMsg,
   deleteUserMsg,
   forbidUserChat,
+  forbidUserChatNo,
   kickoutUser,
 }
 
@@ -14,13 +15,22 @@ class CommonAlertWidget extends StatelessWidget {
   final CommonAlertType type;
   final String content;
   final VoidCallback callback;
-  
+
   const CommonAlertWidget(
-      {super.key, required this.type, required this.content, required this.callback});
+      {super.key,
+      required this.type,
+      required this.content,
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
-    double marginY = (popContentHeight() - 148.0) * 0.5;
+    double marginY;
+    if (type == CommonAlertType.blockUserMsg) {
+      marginY = (popContentHeight() - 172.0) * 0.5;
+    } else {
+      marginY = (popContentHeight() - 148.0) * 0.5;
+    }
+
     Widget titleWidget;
     if (type == CommonAlertType.blockUserMsg) {
       titleWidget = _buildBlockMsgWidget();
@@ -109,11 +119,15 @@ class CommonAlertWidget extends StatelessWidget {
                     fontWeight: TextStyleUtils.regual)),
           ],
         ),
-        const Text("选择屏蔽用户之后，将不再向您展示该用户的聊天内容",
-            style: TextStyle(
-                color: ColorUtils.black51,
-                fontSize: 16,
-                fontWeight: TextStyleUtils.regual)),
+        const SizedBox(height: 10),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text("选择屏蔽用户之后，将不再向您展示该用户的聊天内容",
+              style: TextStyle(
+                  color: ColorUtils.black51,
+                  fontSize: 16,
+                  fontWeight: TextStyleUtils.regual)),
+        ),
       ],
     );
   }
@@ -137,10 +151,19 @@ class CommonAlertWidget extends StatelessWidget {
   }
 
   _buildAdminOperateWidget() {
+    String title;
+
+    if (type == CommonAlertType.forbidUserChat) {
+      title = "禁言";
+    } else if (type == CommonAlertType.forbidUserChatNo) {
+      title = "解除禁言";
+    } else {
+      title = "踢出";
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(type == CommonAlertType.forbidUserChat ? "禁言" : "踢出",
+        Text(title,
             style: const TextStyle(
                 color: ColorUtils.black34,
                 fontSize: 16,

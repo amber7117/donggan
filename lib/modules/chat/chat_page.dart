@@ -48,7 +48,6 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
 
   List<ChatMsgModel> _msgList = [];
 
-  // ChatUserInfo? chatInfoSelf = 0;
   bool _forbidChat = false;
   bool _blockEnterMsg = false;
 
@@ -71,6 +70,8 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
     _blockEnterMsg = await SpUtils.getBool(SpKeys.chatEnterMsg);
 
     MsgBlockManager.instance.obtainUidData();
+
+    requestChatInfoData();
   }
 
   _prepareJoinIMRoom() {
@@ -364,10 +365,15 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
                   padding: const EdgeInsets.only(top: 3),
                   itemCount: _msgList.length,
                   itemBuilder: (context, index) {
+                    ChatMsgModel model = _msgList[index];
                     return ChatCellWidget(
-                        model: _msgList[index],
-                        adminOperate: () {},
-                        msgOperate: () {});
+                        model: model,
+                        adminOperate: () {
+                          showAdmainOperateUI(model);
+                        },
+                        msgOperate: () {
+                          showMsgOperateUI(model);
+                        });
                   }).colored(Colors.white)),
           ChatBarWidget(key: _chatBarKey, callback: _handleChatBarEvent),
           StatefulBuilder(builder: (context, setState) {
@@ -495,9 +501,9 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   }
 
   void showAdmainOperateUI(ChatMsgModel msg) {
-    if (chatInfoSelf == null || !chatInfoSelf!.isRoot()) {
-      return;
-    }
+    // if (chatInfoSelf == null || !chatInfoSelf!.isRoot()) {
+    //   return;
+    // }
 
     ToastUtils.showLoading();
     ChatService.requestUserChatInfo(widget.roomId, msg.userId,
@@ -525,16 +531,14 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   }
 
   void prepareForbidUser(ChatUserInfo chatInfo) {
-    String title = chatInfo.isMute.isTrue()
-        ? "解除禁言 ${chatInfo.nickname}"
-        : "禁言 ${chatInfo.nickname}";
-
     showDialog(
         context: context,
         builder: (context) {
           return CommonAlertWidget(
-              type: CommonAlertType.forbidUserChat,
-              content: title,
+              type: chatInfo.isMute.isTrue()
+                  ? CommonAlertType.forbidUserChatNo
+                  : CommonAlertType.forbidUserChat,
+              content: chatInfo.nickname,
               callback: () {
                 requestForbidUser(chatInfo);
               });

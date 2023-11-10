@@ -45,10 +45,16 @@ class ChatCellWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        adminOperate();
+        if (model.type == ChatMsgType.common &&
+            UserManager.isSelf(model.userId)) {
+          adminOperate();
+        }
       },
       onLongPress: () {
-        msgOperate();
+        if (model.type == ChatMsgType.common &&
+            UserManager.isSelf(model.userId)) {
+          msgOperate();
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
