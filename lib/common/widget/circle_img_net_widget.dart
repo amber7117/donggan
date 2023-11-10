@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
-class CirclImgNetWidget extends StatefulWidget {
+class CirclImgNetWidget extends StatelessWidget {
   final String imgUrl;
   final double width;
 
@@ -14,16 +14,10 @@ class CirclImgNetWidget extends StatefulWidget {
       this.boxFit = BoxFit.cover});
 
   @override
-  State createState() => _CirclImgNetWidgetState();
-}
-
-class _CirclImgNetWidgetState extends State<CirclImgNetWidget> {
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: widget.width,
-        height: widget.width,
-        child: CircleAvatar(
-            backgroundImage: JhImageUtils.getNetImage(widget.imgUrl)));
+        width: width,
+        height: width,
+        child: CircleAvatar(backgroundImage: JhImageUtils.getNetImage(imgUrl)));
   }
 }

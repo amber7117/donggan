@@ -1,5 +1,5 @@
 name: wzty
-description: A new Flutter project.
+description: wzty.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -79,8 +79,10 @@ dependencies:
   carousel_slider: ^4.2.1
   # 表情
   table_calendar: ^3.0.9
-  # 文件目录插件
+  # 文件目录
   path_provider: ^2.1.1
+  # 弹幕
+  flutter_barrage: ^0.5.5
   
 dev_dependencies:
   flutter_test:

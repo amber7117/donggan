@@ -4,7 +4,8 @@ import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/banner/entity/banner_entity.dart';
 
 enum BannerReqType {
-  anchor(value: 1);
+  anchor(value: 1),
+  act(value: 16);
 
   const BannerReqType({
     required this.value,

@@ -3,7 +3,7 @@ import 'package:wzty/utils/jh_image_utils.dart';
 
 enum HomeSearchType { live, match }
 
-class HomeSearchWidget extends StatefulWidget {
+class HomeSearchWidget extends StatelessWidget {
   final HomeSearchType type;
 
   final VoidCallback searchTap;
@@ -14,14 +14,9 @@ class HomeSearchWidget extends StatefulWidget {
       {super.key, required this.type, required this.searchTap, this.rightTap});
 
   @override
-  State createState() => _HomeSearchWidgetState();
-}
-
-class _HomeSearchWidgetState extends State<HomeSearchWidget> {
-  @override
   Widget build(BuildContext context) {
     String rightImgPath = "";
-    if (widget.type == HomeSearchType.live) {
+    if (type == HomeSearchType.live) {
       rightImgPath = "common/iconNavGuanzhu";
     } else {
       rightImgPath = "common/iconNavSaixuan";
@@ -30,7 +25,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
-            onTap: widget.searchTap,
+            onTap: searchTap,
             child: Container(
               width: 108,
               height: 32,
@@ -51,10 +46,10 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                 ],
               ),
             )),
-        widget.rightTap == null
+        rightTap == null
             ? const SizedBox()
             : InkWell(
-                onTap: widget.rightTap,
+                onTap: rightTap,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 22, left: 22),
                   child: JhAssetImage(rightImgPath, width: 24),

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
-class CircleImgPlaceWidget extends StatefulWidget {
+class CircleImgPlaceWidget extends StatelessWidget {
   final String imgUrl;
   final double width;
 
@@ -16,17 +16,12 @@ class CircleImgPlaceWidget extends StatefulWidget {
       this.placeholder});
 
   @override
-  State createState() => _CircleImgPlaceWidgetState();
-}
-
-class _CircleImgPlaceWidgetState extends State<CircleImgPlaceWidget> {
-  @override
   Widget build(BuildContext context) {
     return ClipOval(
         child: SizedBox(
-            width: widget.width,
-            height: widget.width,
-            child: buildNetImage(widget.imgUrl,
-                width: widget.width, placeholder: widget.placeholder)));
+            width: width,
+            height: width,
+            child:
+                buildNetImage(imgUrl, width: width, placeholder: placeholder)));
   }
 }
