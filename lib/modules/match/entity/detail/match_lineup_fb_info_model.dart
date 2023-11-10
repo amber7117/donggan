@@ -86,6 +86,8 @@ class MatchLineupFBPlayerInfoModel {
   }
 
   _processData() {
+    itemArr2 = [];
+    
     List<MatchLineupFBPlayerInfoItemModel> tmpArr = [];
 
     MatchLineupFBPlayerInfoItemModel item =

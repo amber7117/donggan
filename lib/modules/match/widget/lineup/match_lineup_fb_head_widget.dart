@@ -1,23 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
+import 'package:wzty/modules/match/service/match_detail_lineup_service.dart';
+import 'package:wzty/modules/match/widget/lineup/match_lineup_player_widget.dart';
 import 'package:wzty/utils/app_business_utils.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 
-class MatchLineupFbHeadWidget extends StatelessWidget {
+class MatchLineupFbHeadWidget extends StatefulWidget {
   final MatchLineupFBModel model;
   final bool isHost;
   final bool uncoming;
+  final MatchDetailModel detailModel;
 
   const MatchLineupFbHeadWidget(
       {super.key,
       required this.model,
       required this.isHost,
-      required this.uncoming});
+      required this.uncoming,
+      required this.detailModel});
+
+  @override
+  State createState() => _MatchLineupFbHeadWidgetState();
+}
+
+class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
+  void _requestPlayerData(MatchLineupFBPlayerModel player) {
+    ToastUtils.showLoading();
+
+    MatchDetailLineupService.requestFBPlayerInfo(
+        widget.detailModel.matchId, player.teamId, player.playerId,
+        (success, result) {
+      ToastUtils.hideLoading();
+      if (result != null) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return MatchLineupPlayerWidget(model: result);
+            });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    MatchLineupFBModel model = widget.model;
     return Container(
       height: 519,
       decoration: BoxDecoration(
@@ -32,7 +60,7 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: isHost
+              children: widget.isHost
                   ? _buildFormationUI(
                       model.hostFormation, model.hostMainPlayerList!)
                   : _buildFormationUI(
@@ -45,6 +73,7 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
   }
 
   Widget _buildInfoUI() {
+    MatchLineupFBModel model = widget.model;
     return Row(
       children: [
         const SizedBox(width: 12),
@@ -64,8 +93,10 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                buildNetImage(isHost ? model.hostTeamLogo : model.guestTeamLogo,
-                    width: 20, placeholder: "common/logoQiudui"),
+                buildNetImage(
+                    widget.isHost ? model.hostTeamLogo : model.guestTeamLogo,
+                    width: 20,
+                    placeholder: "common/logoQiudui"),
                 const SizedBox(width: 5),
                 const Text(
                   "阵型：",
@@ -76,7 +107,7 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
                       fontWeight: TextStyleUtils.regual),
                 ),
                 Text(
-                  isHost ? model.hostFormation : model.guestFormation,
+                  widget.isHost ? model.hostFormation : model.guestFormation,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: Colors.white,
@@ -87,7 +118,7 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
             )),
         Expanded(
           child: Text(
-            uncoming ? "当前为预测首发阵容" : "当前为官方首发名单",
+            widget.uncoming ? "当前为预测首发阵容" : "当前为官方首发名单",
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
             style: const TextStyle(
@@ -149,51 +180,56 @@ class MatchLineupFbHeadWidget extends StatelessWidget {
 
   Widget _buildPlayerWidget(MatchLineupFBPlayerModel player) {
     String imgPath;
-    if (isHost) {
+    if (widget.isHost) {
       imgPath = "match/iconPlayerRed";
     } else {
       imgPath = "match/iconPlayerBlue";
     }
 
-    return Stack(
-      alignment: Alignment.topRight,
-      children: [
-        SizedBox(
-          width: 80,
-          height: 60,
-          child: Column(
-            children: [
-              Container(
-                width: 32,
-                height: 32,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: JhImageUtils.getAssetImage(imgPath),
-                      fit: BoxFit.fitWidth),
+    return InkWell(
+      onTap: () {
+        _requestPlayerData(player);
+      },
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          SizedBox(
+            width: 80,
+            height: 60,
+            child: Column(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: JhImageUtils.getAssetImage(imgPath),
+                        fit: BoxFit.fitWidth),
+                  ),
+                  child: Text(
+                    player.shirtNumber,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: TextStyleUtils.medium),
+                  ),
                 ),
-                child: Text(
-                  player.shirtNumber,
+                Text(
+                  player.playerName,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: TextStyleUtils.medium),
+                      fontSize: 10,
+                      fontWeight: TextStyleUtils.regual),
                 ),
-              ),
-              Text(
-                player.playerName,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: TextStyleUtils.regual),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        _buildEventUI(player),
-      ],
+          _buildEventUI(player),
+        ],
+      ),
     );
   }
 

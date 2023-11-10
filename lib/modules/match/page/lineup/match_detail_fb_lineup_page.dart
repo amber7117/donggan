@@ -94,7 +94,10 @@ class _MatchDetailFBLineupPageState
                 })),
         SliverToBoxAdapter(
             child: MatchLineupFbHeadWidget(
-                model: model!, isHost: isHost, uncoming: uncoming)),
+                model: model!,
+                isHost: isHost,
+                uncoming: uncoming,
+                detailModel: widget.detailModel)),
         SliverList.builder(
             itemCount: playerList1.length,
             itemBuilder: (context, index) {
