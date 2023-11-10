@@ -41,7 +41,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
     ToastUtils.showLoading();
 
     SportType sportType = SportType.football;
-    if (widget.model.sportId == SportType.basketball.value) {
+    if (model.sportId == SportType.basketball.value) {
       sportType = SportType.basketball;
     }
 
@@ -107,11 +107,21 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
 
   @override
   Widget build(BuildContext context) {
+    MatchDetailModel model = widget.model;
+
     String imgPath;
-    if (widget.model.sportId == SportType.football.value) {
+    if (model.sportId == SportType.football.value) {
       imgPath = "match/imgZuqiuBg";
     } else {
       imgPath = "match/imgLanqiuBg";
+    }
+    String matchDesc = model.matchStatusDesc;
+    if (matchDesc.length > 3) {
+      if (matchDesc.contains("点球")) {
+        matchDesc = "点球";
+      } else {
+        matchDesc = matchDesc.substring(0, 3);
+      }
     }
 
     return Container(
@@ -134,7 +144,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                   color: Colors.white.withOpacity(0.1),
                   borderRadius: const BorderRadius.all(Radius.circular(6))),
               child: Text(
-                widget.model.matchStatusDesc,
+                matchDesc,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     color: Colors.white,

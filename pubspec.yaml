@@ -106,7 +106,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/html/
     - assets/images/common/
     - assets/images/anchor/
     - assets/images/match/
@@ -115,6 +114,8 @@ flutter:
     - assets/images/me/
     - assets/images/login/
     - assets/images/tab/
+    - assets/html/
+    - assets/json/
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

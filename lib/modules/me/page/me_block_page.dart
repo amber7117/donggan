@@ -5,7 +5,6 @@ import 'package:wzty/modules/anchor/manager/user_block_entity.dart';
 import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
 import 'package:wzty/modules/me/widget/me_block_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/toast_utils.dart';
 
 class MeBlockPage extends StatefulWidget {
   const MeBlockPage({super.key});
@@ -18,7 +17,7 @@ class MeBlockPage extends StatefulWidget {
 
 class _MeBlockPageState extends State {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  List<UserBlockEntity> _blockAuthorArr = [];
+  List<UserBlockEntity> _dataArr = [];
 
   @override
   void initState() {
@@ -28,15 +27,11 @@ class _MeBlockPageState extends State {
   }
 
   _requestData() async {
-    ToastUtils.showLoading();
-
     List<UserBlockEntity> result =
         await UserBlockManger.instance.obtainBlockData();
 
-    ToastUtils.hideLoading();
-
     if (result.isNotEmpty) {
-      _blockAuthorArr = result;
+      _dataArr = result;
       _layoutState = LoadStatusType.success;
     } else {
       _layoutState = LoadStatusType.empty;
@@ -59,13 +54,13 @@ class _MeBlockPageState extends State {
     }
     return ListView.separated(
         padding: EdgeInsets.zero,
-        itemCount: _blockAuthorArr.length,
+        itemCount: _dataArr.length,
         separatorBuilder: (context, index) {
           return const Divider(
               height: 0.5, color: ColorUtils.gray248, indent: 12);
         },
         itemBuilder: (context, index) {
-          return MeBlockCellWidget(model: _blockAuthorArr[index]);
+          return MeBlockCellWidget(model: _dataArr[index]);
         });
   }
 }

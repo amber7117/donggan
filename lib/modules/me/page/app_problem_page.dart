@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
-import 'package:wzty/modules/me/service/me_service.dart';
+import 'package:wzty/modules/me/entity/problem_entity.dart';
 import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
-import 'package:wzty/utils/toast_utils.dart';
 
 class AppProblemPage extends StatefulWidget {
   const AppProblemPage({super.key});
@@ -18,7 +21,7 @@ class AppProblemPage extends StatefulWidget {
 
 class _AppProblemPageState extends State {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  List<SysMsgModel> _dataArr = [];
+  List<ProblemEntity> _dataArr = [];
 
   @override
   void initState() {
@@ -27,23 +30,17 @@ class _AppProblemPageState extends State {
     _requestData();
   }
 
-  _requestData() {
-    ToastUtils.showLoading();
-    
-    MeService.requestSysMsgList((success, result) {
-      ToastUtils.hideLoading();
-      if (success) {
-        if (result.isNotEmpty) {
-          _dataArr = result;
-          _layoutState = LoadStatusType.success;
-        } else {
-          _layoutState = LoadStatusType.empty;
-        }
-      } else {
-        _layoutState = LoadStatusType.failure;
-      }
-      setState(() {});
-    });
+  _requestData() async {
+    String fileText = await rootBundle.loadString('assets/json/question.json');
+
+    Map<String, dynamic> data = jsonDecode(fileText);
+    List tmpList = data["data"];
+    List<ProblemEntity> retList =
+        tmpList.map((dataMap) => ProblemEntity.fromJson(dataMap)).toList();
+
+    _dataArr = retList;
+    _layoutState = LoadStatusType.success;
+    setState(() {});
   }
 
   @override
@@ -52,61 +49,104 @@ class _AppProblemPageState extends State {
         appBar: buildAppBar(titleText: "常见问题"),
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
-            state: _layoutState,
-            successWidget: ListView.separated(
-                padding: EdgeInsets.zero,
-                itemCount: _dataArr.length,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                      height: 0.5, color: ColorUtils.gray248, indent: 12);
-                },
-                itemBuilder: (context, index) {
-                  return _buildCellWidget(index);
-                })));
+            state: _layoutState, successWidget: _buildChild(context)));
   }
 
-  _buildCellWidget(int idx) {
-    SysMsgModel model = _dataArr[idx];
-    return Container(
-      height: 64,
-      color: Colors.white,
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+  _buildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: _dataArr.length,
+        itemBuilder: (context, index) {
+          ProblemEntity model = _dataArr[index];
+          if (model.showAll) {
+            return Column(
               children: [
-                Text(
-                  model.title ?? "",
-                  style: const TextStyle(
-                      color: Color.fromRGBO(58, 58, 60, 1.0),
-                      fontSize: 14,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-                Text(
-                  model.content ?? "",
-                  style: const TextStyle(
-                      color: ColorUtils.gray149,
-                      fontSize: 11,
-                      fontWeight: TextStyleUtils.regual),
-                ),
+                _buildTitleWidget(model.question, model),
+                ListView.separated(
+                    padding: EdgeInsets.zero,
+                    itemCount: model.answerList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index2) {
+                      return _buildCellWidget(model.answerList[index2]);
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                          height: 0.5, color: ColorUtils.gray216, indent: 12);
+                    }),
+                const SizedBox(width: double.infinity, height: 20)
+                    .colored(ColorUtils.gray248),
               ],
-            ),
-          )),
-          const Text(
-            "14分钟前",
-            style: TextStyle(
-                color: ColorUtils.gray149,
-                fontSize: 11,
-                fontWeight: TextStyleUtils.regual),
+            );
+          } else {
+            return Column(
+              children: [
+                _buildTitleWidget(model.question, model),
+                const SizedBox(),
+                const SizedBox(width: double.infinity, height: 20)
+                    .colored(ColorUtils.gray248),
+              ],
+            );
+          }
+        });
+  }
+
+  _buildTitleWidget(String title, ProblemEntity problemEntity) {
+    return Container(
+      width: double.infinity,
+      height: 40,
+      color: Colors.white,
+      child: Row(
+        children: [
+          const SizedBox(width: 20),
+          Expanded(
+            child: Text(title,
+                style: const TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 14,
+                    fontWeight: TextStyleUtils.regual)),
           ),
+          InkWell(
+            onTap: () {
+              problemEntity.showAll = !problemEntity.showAll;
+              setState(() {});
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: problemEntity.showAll
+                  ? const JhAssetImage("me/icon_arrow_up", width: 16)
+                  : const JhAssetImage("me/icon_arrow_down", width: 16),
+            ),
+          ),
+          const SizedBox(width: 10),
         ],
       ),
+    );
+  }
+
+  _buildCellWidget(AnswerList model) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text("问：${model.ask}",
+              style: const TextStyle(
+                  color: ColorUtils.gray149,
+                  fontSize: 13,
+                  fontWeight: TextStyleUtils.regual)),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text("答：${model.answer}",
+              style: const TextStyle(
+                  color: ColorUtils.gray149,
+                  fontSize: 13,
+                  fontWeight: TextStyleUtils.regual)),
+        ),
+      ],
     );
   }
 }
