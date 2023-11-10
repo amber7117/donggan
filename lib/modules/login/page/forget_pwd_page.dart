@@ -31,7 +31,7 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
     //       return SetPwdPage(phone: "phone", ticket: "result");
     //     });
     //     return;
-
+    
     ToastUtils.showLoading();
 
     String phone = _loginProvider.phone;
@@ -41,7 +41,7 @@ class _ForgetPwdPageState extends State with SingleTickerProviderStateMixin {
       ToastUtils.hideLoading();
       if (success) {
         showDialog(context: context, builder: (context) {
-          return SetPwdPage(phone: phone, ticket: result);
+          return SetPwdPage(type: SetPwdType.forgetSetPwd, phone: phone, ticket: result);
         });
       } else {
         ToastUtils.showError(result);

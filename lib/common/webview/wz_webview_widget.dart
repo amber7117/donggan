@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/utils/toast_utils.dart';
 
 class WZWebviewWidget extends StatefulWidget {
   final String urlStr;

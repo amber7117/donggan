@@ -1,4 +1,3 @@
-
 import 'package:wzty/app/api.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
@@ -17,8 +16,8 @@ enum VerifyCodeType {
 }
 
 class LoginService {
-
-  static Future<HttpResultBean> requestVerifyCode(String phone, VerifyCodeType type) async {
+  static Future<HttpResultBean> requestVerifyCode(
+      String phone, VerifyCodeType type) async {
     Map<String, dynamic> params = {
       "type": type.value,
       "areaNo": "86",
@@ -67,8 +66,8 @@ class LoginService {
     }
   }
 
-  static Future<void> requestSetPwdTicket(String phone, String code,
-      BusinessCallback<String> complete) async {
+  static Future<void> requestSetPwdTicket(
+      String phone, String code, BusinessCallback<String> complete) async {
     Map<String, dynamic> params = {
       "type": "iOS",
       "areaNo": "86",
@@ -111,6 +110,25 @@ class LoginService {
     }
   }
 
+  static Future<void> requestLoginSetPwd(String phone, String pwd,
+      String ticketS, BusinessCallback<dynamic> complete) async {
+    Map<String, dynamic> params = {
+      "userName": phone,
+      "passWord": pwd,
+      "ticket": ticketS,
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        LoginApi.loginSetPwd, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
+
   static Future<void> requestLogout(BusinessCallback<String> complete) async {
     Map<String, dynamic> params = {"userId": UserManager.instance.uid};
 
@@ -124,6 +142,4 @@ class LoginService {
     }
     complete(result.isSuccess(), msg);
   }
-  
-
 }

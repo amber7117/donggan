@@ -127,7 +127,7 @@ class LoginApi {
 
   static String logout = '/qiutx-passport/auth/logout';
 
-  static String modifyPwd = '/qiutx-usercenter/v2/app/findpwd/reset';
+  static String loginSetPwd = '/qiutx-usercenter/app/setpwd';
 }
 
 class DomainApi {

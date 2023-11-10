@@ -12,10 +12,18 @@ import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
+enum SetPwdType { loginSetPwd, forgetSetPwd }
+
 class SetPwdPage extends StatefulWidget {
+  final SetPwdType type;
   final String phone;
   final String ticket;
-  const SetPwdPage({super.key, required this.phone, required this.ticket});
+  const SetPwdPage({
+    super.key,
+    required this.type,
+    required this.phone,
+    required this.ticket,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -54,7 +62,7 @@ class _SetPwdPageState extends State<SetPwdPage> {
     _loginBtnSetter(() {});
   }
 
-  void _login() {
+  void _forgetSetpwd() {
     Routes.unfocus();
 
     ToastUtils.showLoading();
@@ -65,10 +73,30 @@ class _SetPwdPageState extends State<SetPwdPage> {
         ToastUtils.showSuccess("设置成功");
 
         context.read<UserProvider>().updateUserInfo(result);
+        eventBusManager.emit(LoginStatusEvent(login: true));
 
         Future.delayed(const Duration(seconds: 1), () {
-          eventBusManager.emit(LoginStatusEvent(login: true));
-          
+          Navigator.popUntil(context, (route) {
+            return route.isFirst;
+          });
+        });
+      } else {
+        ToastUtils.showError(result as String);
+      }
+    });
+  }
+
+  void _loginSetpwd() {
+    Routes.unfocus();
+
+    ToastUtils.showLoading();
+  
+    LoginService.requestLoginSetPwd(widget.phone, _pwd, widget.ticket,
+        (success, result) {
+      if (success) {
+        ToastUtils.showSuccess("设置成功");
+
+        Future.delayed(const Duration(seconds: 1), () {
           Navigator.popUntil(context, (route) {
             return route.isFirst;
           });
@@ -142,7 +170,13 @@ class _SetPwdPageState extends State<SetPwdPage> {
     return StatefulBuilder(builder: (context, setState) {
       _loginBtnSetter = setState;
       return InkWell(
-        onTap: _clickable ? _login : null,
+        onTap: _clickable ? () {
+          if (widget.type == SetPwdType.loginSetPwd) {
+            _loginSetpwd();
+          } else {
+            _forgetSetpwd();
+          }
+        } : null,
         child: Container(
           height: 48,
           margin: const EdgeInsets.only(left: 54, right: 54),

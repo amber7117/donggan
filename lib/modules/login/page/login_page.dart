@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
+import 'package:wzty/main/user/user_entity.dart';
 import 'package:wzty/main/user/user_provider.dart';
+import 'package:wzty/modules/login/page/set_pwd_page.dart';
 import 'package:wzty/modules/login/provider/login_data_provider.dart';
 import 'package:wzty/modules/login/widget/login_content_widget.dart';
 import 'package:wzty/modules/login/service/login_service.dart';
@@ -56,6 +59,8 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
       return;
     }
 
+    Routes.unfocus();
+    
     ToastUtils.showLoading();
 
     String phone = _loginProvider.phone;
@@ -69,10 +74,22 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
         (success, result) {
       ToastUtils.hideLoading();
       if (success) {
-        context.read<UserProvider>().updateUserInfo(result);
-        Routes.goBack(context);
-
+        UserEntity user = result as UserEntity;
+        context.read<UserProvider>().updateUserInfo(user);
         eventBusManager.emit(LoginStatusEvent(login: true));
+
+        if (user.isRes.isTrue()) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return SetPwdPage(
+                    type: SetPwdType.loginSetPwd,
+                    phone: phone,
+                    ticket: user.ticket);
+              });
+        } else {
+          Routes.goBack(context);
+        }
       } else {
         ToastUtils.showError(result as String);
       }
@@ -104,8 +121,7 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: ScreenUtil().statusBarHeight),
-                  Consumer<TabProvider>(
-                      builder: (context2, provider, child) {
+                  Consumer<TabProvider>(builder: (context2, provider, child) {
                     return _buildNavWidget(provider.index == 1);
                   }),
                   const SizedBox(height: 15),
