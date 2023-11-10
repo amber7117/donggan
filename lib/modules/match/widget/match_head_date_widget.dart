@@ -4,7 +4,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchHeadDateWidget extends StatefulWidget {
+class MatchHeadDateWidget extends StatelessWidget {
   final List<String> dateArr;
   final int selectIdx;
   final WZAnyCallback<int> callback;
@@ -18,11 +18,6 @@ class MatchHeadDateWidget extends StatefulWidget {
       required this.calendarCb});
 
   @override
-  State createState() => _MatchHeadDateWidgetState();
-}
-
-class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       height: 54,
@@ -35,7 +30,7 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
               child: GridView.builder(
                   padding: const EdgeInsets.only(top: 10, left: 12, bottom: 10),
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.dateArr.length,
+                  itemCount: dateArr.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 5,
                     mainAxisSpacing: 0,
@@ -45,14 +40,14 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        widget.callback(index);
+                        callback(index);
                       },
                       child: _buildCellWidget(index),
                     );
                   })),
           InkWell(
             onTap: () {
-              widget.calendarCb();
+              calendarCb();
             },
             child: const Padding(
                 padding: EdgeInsets.all(12),
@@ -64,14 +59,14 @@ class _MatchHeadDateWidgetState extends State<MatchHeadDateWidget> {
   }
 
   _buildCellWidget(int index) {
-    String dateStr = widget.dateArr[index];
+    String dateStr = dateArr[index];
     String dateStr2 = "";
     if (dateStr.contains("\n")) {
       List<String> ret = dateStr.split("\n");
       dateStr = ret.first;
       dateStr2 = ret.last;
     }
-    bool selected = widget.selectIdx == index;
+    bool selected = selectIdx == index;
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(

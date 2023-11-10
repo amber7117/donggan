@@ -9,22 +9,16 @@ enum NewsDetailSectionHeaderType {
   comment,
 }
 
-class NewsDetailSectionHeaderWidget extends StatefulWidget {
+class NewsDetailSectionHeaderWidget extends StatelessWidget {
   final NewsDetailSectionHeaderType type;
 
   const NewsDetailSectionHeaderWidget({super.key, required this.type});
 
   @override
-  State createState() => _NewsDetailSectionHeaderWidgetState();
-}
-
-class _NewsDetailSectionHeaderWidgetState
-    extends State<NewsDetailSectionHeaderWidget> {
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widget.type == NewsDetailSectionHeaderType.news
+        type == NewsDetailSectionHeaderType.news
             ? const SizedBox(height: 0)
             : const SizedBox(height: 8),
         const SizedBox(width: double.infinity, height: 0.5)
@@ -35,12 +29,12 @@ class _NewsDetailSectionHeaderWidgetState
                 padding: const EdgeInsets.only(
                     top: 13, bottom: 13, left: 14, right: 8),
                 child: JhAssetImage(
-                    widget.type == NewsDetailSectionHeaderType.news
+                    type == NewsDetailSectionHeaderType.news
                         ? "news/iconZixunXgwz"
                         : "news/iconZixunQbpl",
                     width: 18)),
             Text(
-              widget.type == NewsDetailSectionHeaderType.news ? "相关文章" : "全部评论",
+              type == NewsDetailSectionHeaderType.news ? "相关文章" : "全部评论",
               style: const TextStyle(
                   color: ColorUtils.black34,
                   fontSize: 14,

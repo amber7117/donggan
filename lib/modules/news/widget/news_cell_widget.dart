@@ -9,20 +9,13 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const double newsChildCellHeight = 94.5;
 
-class NewsCellWidget extends StatefulWidget {
+class NewsCellWidget extends StatelessWidget {
   final NewsListModel model;
 
   const NewsCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _NewsCellWidgetState();
-}
-
-class _NewsCellWidgetState extends State<NewsCellWidget> {
-  @override
   Widget build(BuildContext context) {
-    NewsListModel model = widget.model;
-
     return InkWell(
       onTap: () {
         Routes.push(context, Routes.newsDetail, arguments: model.getNewsId());

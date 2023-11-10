@@ -10,22 +10,15 @@ import 'package:wzty/utils/text_style_utils.dart';
 
 const anchorCellRatio = 171 / 134;
 
-class AnchorCellWidget extends StatefulWidget {
+class AnchorCellWidget extends StatelessWidget {
   final AnchorListModel model;
 
   const AnchorCellWidget({super.key, required this.model});
 
   @override
-  State createState() => _AnchorCellWidgetState();
-}
-
-class _AnchorCellWidgetState extends State<AnchorCellWidget> {
-  @override
   Widget build(BuildContext context) {
     double cellWidth = (ScreenUtil().screenWidth - 24 - 9) * 0.5;
     double coverHeight = cellWidth / 171 * 96;
-
-    AnchorListModel model = widget.model;
 
     return InkWell(
       onTap: () {
