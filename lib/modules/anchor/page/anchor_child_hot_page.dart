@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
@@ -29,6 +30,10 @@ class _AnchorChildHotPageState
   List<MatchListModel> _matchArr = [];
   List<AnchorListModel> _anchorArr = [];
 
+  final EasyRefreshController _refreshCtrl = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
   int _page = 1;
 
   @override
@@ -82,41 +87,18 @@ class _AnchorChildHotPageState
         _bannerArr.isNotEmpty
             ? AnchorBannerWidget(bannerArr: _bannerArr)
             : const SizedBox(),
-        // Container(
-        //   width: double.infinity,
-        //   height: liveMatchCellHeight + 24.0,
-        //   padding: const EdgeInsets.symmetric(horizontal: 12),
-
-        //   child: ListView.builder(
-        //     padding: const EdgeInsets.symmetric(horizontal: 12),
-        //       itemCount: _matchArr.length,
-        //       itemExtent: liveMatchCellWidth,
-
-        //     scrollDirection: Axis.horizontal,
-        //     itemBuilder: (context, index) {
-        //     return AnchorMatchCellWidget(model: _matchArr[index]);
-        //   }),
-        // ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SizedBox(
-            width: double.infinity,
-            height: liveMatchCellHeight + 24.0,
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                childAspectRatio: liveMatchCellRatio,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 9,
-              ),
+        Container(
+          width: double.infinity,
+          height: liveMatchCellHeight + 24.0,
+          padding: const EdgeInsets.only(top: 12, bottom: 12),
+          child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               itemCount: _matchArr.length,
-              itemBuilder: (BuildContext context, int index) {
+              itemExtent: liveMatchCellWidth,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
                 return AnchorMatchCellWidget(model: _matchArr[index]);
-              },
-            ),
-          ),
+              }),
         ),
         const Row(
           children: [

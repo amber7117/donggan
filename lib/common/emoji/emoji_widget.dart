@@ -36,7 +36,7 @@ class _EmojiWidgetState extends State<EmojiWidget> {
         page++;
       }
 
-      logger.d("EmojiWidget page---------$page ");
+      logger.d("EmojiWidget page --------- $page ");
     });
   }
 

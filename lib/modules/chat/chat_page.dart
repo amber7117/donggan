@@ -210,7 +210,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
       }
 
       _msgList = msgListNew;
-      // self.reloadTableData();
+
       setState(() {});
       return;
     }
@@ -231,15 +231,24 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
         msgListNew.add(msg);
         _msgList = msgListNew;
 
-        // self.reloadTableDataAndScroll(animated: false);
-        setState(() {});
+        _reloadListAndScroll(false);
       } else {
         _msgList.add(msg);
-        setState(() {});
-        // self.reloadTableDataAndScroll(animated: true);
+        _reloadListAndScroll(true);
 
         // self.receiveBarrage(msg: msg);
       }
+    }
+  }
+
+  _reloadListAndScroll(bool animated) {
+    setState(() {});
+    
+    if (animated) {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200), curve: Curves.ease);
+    } else {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     }
   }
 
@@ -349,6 +358,8 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   late StateSetter _emojiSetter;
   final GlobalKey<ChatBarWidgetState> _chatBarKey = GlobalKey();
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget buildWidget(BuildContext context) {
     String notice = ConfigManager.instance.systemNotice;
@@ -364,6 +375,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
               child: ListView.builder(
                   padding: const EdgeInsets.only(top: 3),
                   itemCount: _msgList.length,
+                  controller: _scrollController,
                   itemBuilder: (context, index) {
                     ChatMsgModel model = _msgList[index];
                     return ChatCellWidget(
@@ -501,9 +513,9 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   }
 
   void showAdmainOperateUI(ChatMsgModel msg) {
-    // if (chatInfoSelf == null || !chatInfoSelf!.isRoot()) {
-    //   return;
-    // }
+    if (chatInfoSelf == null || !chatInfoSelf!.isRoot()) {
+      return;
+    }
 
     ToastUtils.showLoading();
     ChatService.requestUserChatInfo(widget.roomId, msg.userId,

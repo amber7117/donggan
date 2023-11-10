@@ -10,8 +10,8 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 const liveMatchCellHeight = 99.0;
-const liveMatchCellWidth = 162.0;
-const liveMatchCellRatio = 99 / 162;
+const liveMatchCellWidth = 161.0;
+const liveMatchCellRatio = 99.0 / 161.0;
 
 class AnchorMatchCellWidget extends StatefulWidget {
   final MatchListModel model;
@@ -57,7 +57,8 @@ class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
         Routes.push(context, Routes.matchDetail, arguments: model.matchId);
       },
       child: Container(
-        // height: 99.0, //这里属性没用
+        height: liveMatchCellHeight, //这里属性没用
+        margin: const EdgeInsets.only(right: 12),
         decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: [
