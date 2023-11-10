@@ -5,7 +5,7 @@ import 'package:wzty/modules/chat/entity/chat_user_info_entity.dart';
 
 class ChatService {
   static Future<HttpResultBean> requestUserChatInfo(String roomId,
-      String userId, BusinessCallback<ChatUserInfo?> complete) async {
+      String userId, BusinessCallback<dynamic> complete) async {
     Map<String, dynamic> params = {"roomId": roomId, "userId": userId};
 
     HttpResultBean result = await HttpManager.request(
@@ -16,7 +16,7 @@ class ChatService {
 
       complete(true, chatInfo);
     } else {
-      complete(false, null);
+      complete(false, result.msg ?? result.data);
     }
     return result;
   }

@@ -3,6 +3,7 @@ import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/emoji/emoji_widget.dart';
+import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/common_alert_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
@@ -14,6 +15,7 @@ import 'package:wzty/modules/chat/entity/chat_entity.dart';
 import 'package:wzty/modules/chat/entity/chat_user_info_entity.dart';
 import 'package:wzty/modules/chat/manager/msg_block_manager.dart';
 import 'package:wzty/modules/chat/service/chat_service.dart';
+import 'package:wzty/modules/chat/widget/chat_admin_operate_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_bar_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_cell_widget.dart';
 import 'package:wzty/modules/chat/widget/chat_enter_msg_widget.dart';
@@ -362,7 +364,10 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
                   padding: const EdgeInsets.only(top: 3),
                   itemCount: _msgList.length,
                   itemBuilder: (context, index) {
-                    return ChatCellWidget(model: _msgList[index]);
+                    return ChatCellWidget(
+                        model: _msgList[index],
+                        adminOperate: () {},
+                        msgOperate: () {});
                   }).colored(Colors.white)),
           ChatBarWidget(key: _chatBarKey, callback: _handleChatBarEvent),
           StatefulBuilder(builder: (context, setState) {
@@ -422,7 +427,9 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
 
     ChatService.requestUserChatInfo(widget.roomId, UserManager.instance.uid,
         (success, result) {
-      chatInfoSelf = result;
+      if (success) {
+        chatInfoSelf = result;
+      }
     });
   }
 
@@ -483,6 +490,66 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
                   _msgList = msgListNew;
                   setState(() {});
                 });
+              });
+        });
+  }
+
+  void showAdmainOperateUI(ChatMsgModel msg) {
+    if (chatInfoSelf == null || !chatInfoSelf!.isRoot()) {
+      return;
+    }
+
+    ToastUtils.showLoading();
+    ChatService.requestUserChatInfo(widget.roomId, msg.userId,
+        (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return ChatAdminOperateWidget(
+                  chatInfo: result,
+                  callback: (data) {
+                    if (data == 0) {
+                      prepareForbidUser(result);
+                    } else if (data == 1) {
+                      prepareKickoutUser(result);
+                    }
+                  });
+            });
+      } else {
+        ToastUtils.showError(result as String);
+      }
+    });
+  }
+
+  void prepareForbidUser(ChatUserInfo chatInfo) {
+    String title = chatInfo.isMute.isTrue()
+        ? "解除禁言 ${chatInfo.nickname}"
+        : "禁言 ${chatInfo.nickname}";
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CommonAlertWidget(
+              type: CommonAlertType.forbidUserChat,
+              content: title,
+              callback: () {
+                requestForbidUser(chatInfo);
+              });
+        });
+  }
+
+  void prepareKickoutUser(ChatUserInfo chatInfo) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CommonAlertWidget(
+              type: CommonAlertType.kickoutUser,
+              content: chatInfo.nickname,
+              callback: () {
+                requestKickoutUser(chatInfo);
               });
         });
   }

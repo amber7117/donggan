@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/common/widget/wz_follow_button.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
@@ -48,15 +49,10 @@ class _MeFollowCellWidgetState extends State<MeFollowCellWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipOval(
-              child: SizedBox(
-                  width: 36,
-                  height: 36,
-                  child: buildNetImage(model.headImgUrl,
-                      width: 36.0,
-                      height: 36.0,
-                      fit: BoxFit.cover,
-                      placeholder: "common/iconTouxiang"))),
+          CircleImgPlaceWidget(
+              imgUrl: model.headImgUrl,
+              width: 36,
+              placeholder: "common/iconTouxiang"),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 8),

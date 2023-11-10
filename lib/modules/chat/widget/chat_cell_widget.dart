@@ -3,20 +3,19 @@ import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/chat/entity/chat_entity.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class ChatCellWidget extends StatefulWidget {
+class ChatCellWidget extends StatelessWidget {
   final ChatMsgModel model;
+  final VoidCallback adminOperate;
+  final VoidCallback msgOperate;
 
-  const ChatCellWidget({super.key, required this.model});
+  const ChatCellWidget(
+      {super.key,
+      required this.model,
+      required this.adminOperate,
+      required this.msgOperate});
 
-  @override
-  State createState() => _ChatCellWidgetState();
-}
-
-class _ChatCellWidgetState extends State<ChatCellWidget> {
   @override
   Widget build(BuildContext context) {
-    ChatMsgModel model = widget.model;
-
     Color bgColor = const Color.fromRGBO(248, 248, 248, 1.0);
     Color nameColor = const Color.fromRGBO(91, 162, 214, 1.0);
     Color contentColor = const Color.fromRGBO(153, 153, 153, 1.0);
@@ -45,7 +44,12 @@ class _ChatCellWidgetState extends State<ChatCellWidget> {
     String contentNew = model.contentNew;
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        adminOperate();
+      },
+      onLongPress: () {
+        msgOperate();
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),

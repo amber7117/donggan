@@ -42,11 +42,11 @@ class DomainEntity {
   }
 
   factory DomainEntity.fromJson(Map<String, dynamic> json) => DomainEntity(
-        domain: json["domain"],
-        token: json["token"],
-        cdn: json["cdn"],
-        openFlag: json["openFlag"],
-        weight: json["weight"],
+        domain: json["domain"] ?? "",
+        token: json["token"] ?? "",
+        cdn: json["cdn"] ?? "",
+        openFlag: json["openFlag"] ?? true,
+        weight: json["weight"] ?? 0,
         signType: json["signType"] ?? "",
       );
 
