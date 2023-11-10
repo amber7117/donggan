@@ -5,6 +5,7 @@ import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
+import 'package:wzty/modules/news/entity/news_list_entity.dart';
 
 enum FollowListType {
   anchor(value: 2),
@@ -23,8 +24,7 @@ class MeService {
     HttpResultBean result = await HttpManager.request(path, HttpMethod.get);
 
     if (result.isSuccess()) {
-      UserInfoEntity model =
-          UserInfoEntity.fromJson(result.data);
+      UserInfoEntity model = UserInfoEntity.fromJson(result.data);
       complete(true, model);
       return;
     } else {
@@ -97,7 +97,8 @@ class MeService {
     String path = MeApi.modifyUserInfo
         .replaceAll(apiPlaceholder, UserManager.instance.uid);
 
-    HttpResultBean result = await HttpManager.request(path, HttpMethod.get, params: params);
+    HttpResultBean result =
+        await HttpManager.request(path, HttpMethod.get, params: params);
 
     if (result.isSuccess()) {
       complete(true, "");
@@ -108,7 +109,9 @@ class MeService {
 
   static Future<void> requestModifyUserMobile(
       Map<String, dynamic> params, BusinessCallback<String> complete) async {
-    HttpResultBean result = await HttpManager.request(MeApi.modifyUserMobile, HttpMethod.post, params: params);
+    HttpResultBean result = await HttpManager.request(
+        MeApi.modifyUserMobile, HttpMethod.post,
+        params: params);
 
     if (result.isSuccess()) {
       complete(true, "");
@@ -146,8 +149,8 @@ class MeService {
 
   static Future<void> requestSysMsgList(
       BusinessCallback<List<SysMsgModel>> complete) async {
-    HttpResultBean result = await HttpManager.request(
-        MeApi.sysMsgList, HttpMethod.get);
+    HttpResultBean result =
+        await HttpManager.request(MeApi.sysMsgList, HttpMethod.get);
 
     if (result.isSuccess()) {
       List tmpList = result.data;
@@ -161,4 +164,26 @@ class MeService {
     }
   }
 
+  static Future<void> requestFootprintData(
+      int page, BusinessCallback<List<NewsListModel>> complete) async {
+    Map<String, dynamic> params = {
+      "pageNum": page,
+      "pageSize": pageSize,
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        MeApi.footprint, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data["list"];
+      List<NewsListModel> retList =
+          tmpList.map((dataMap) => NewsListModel.fromJson(dataMap)).toList();
+      complete(true, retList);
+      return;
+    } else {
+      complete(false, []);
+      return;
+    }
+  }
 }

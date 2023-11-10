@@ -129,6 +129,11 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
     if (type == MeListItemType.pingbi) {
       Routes.push(context, Routes.mePingbi);
     } else if (type == MeListItemType.jilu) {
+      if (context.read<UserProvider>().user == null) {
+        Routes.goLoginPage(context);
+        return;
+      }
+
       Routes.push(context, Routes.meJilu);
     } else if (type == MeListItemType.huodong) {
       Routes.push(context, Routes.meHuodong);

@@ -1,10 +1,11 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
+import 'package:wzty/modules/news/entity/news_list_entity.dart';
+import 'package:wzty/modules/news/widget/news_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class MeRecordPage extends StatefulWidget {
@@ -18,7 +19,13 @@ class MeRecordPage extends StatefulWidget {
 
 class _MeRecordPageState extends State {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  List<SysMsgModel> _dataArr = [];
+  List<NewsListModel> _dataArr = [];
+
+  final EasyRefreshController _refreshCtrl = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
+  int _page = 1;
 
   @override
   void initState() {
@@ -30,20 +37,36 @@ class _MeRecordPageState extends State {
   _requestData() {
     ToastUtils.showLoading();
 
-    MeService.requestSysMsgList((success, result) {
+    MeService.requestFootprintData(_page, (success, result) {
       ToastUtils.hideLoading();
-      if (success) {
-        if (result.isNotEmpty) {
-          _dataArr = result;
-          _layoutState = LoadStatusType.success;
-        } else {
-          _layoutState = LoadStatusType.empty;
-        }
-      } else {
-        _layoutState = LoadStatusType.failure;
-      }
-      setState(() {});
+
+      _handleResultData(success, result);
     });
+  }
+
+  _handleResultData(bool success, List<NewsListModel> result) {
+    bool isMore = _page > 1;
+
+    if (success) {
+      if (result.isNotEmpty) {
+        if (isMore) {
+          _dataArr.addAll(result);
+        } else {
+          _dataArr = result;
+        }
+
+        _layoutState = LoadStatusType.success;
+      } else {
+        _layoutState = LoadStatusType.empty;
+      }
+    } else {
+      _layoutState = LoadStatusType.failure;
+    }
+
+    _refreshCtrl.finishRefresh();
+    _refreshCtrl.finishLoad();
+
+    setState(() {});
   }
 
   @override
@@ -56,63 +79,26 @@ class _MeRecordPageState extends State {
   }
 
   _buildChild(BuildContext context) {
-    if (_layoutState != LoadStatusType.success) {
+    if (_dataArr.isEmpty) {
       return const SizedBox();
     }
-    return ListView.separated(
-        padding: EdgeInsets.zero,
-        itemCount: _dataArr.length,
-        separatorBuilder: (context, index) {
-          return const Divider(
-              height: 0.5, color: ColorUtils.gray248, indent: 12);
-        },
-        itemBuilder: (context, index) {
-          return _buildCellWidget(index);
-        });
-  }
 
-  _buildCellWidget(int idx) {
-    SysMsgModel model = _dataArr[idx];
-    return Container(
-      height: 64,
-      color: Colors.white,
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  model.title ?? "",
-                  style: const TextStyle(
-                      color: Color.fromRGBO(58, 58, 60, 1.0),
-                      fontSize: 14,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-                Text(
-                  model.content ?? "",
-                  style: const TextStyle(
-                      color: ColorUtils.gray149,
-                      fontSize: 11,
-                      fontWeight: TextStyleUtils.regual),
-                ),
-              ],
-            ),
-          )),
-          const Text(
-            "14分钟前",
-            style: TextStyle(
-                color: ColorUtils.gray149,
-                fontSize: 11,
-                fontWeight: TextStyleUtils.regual),
-          ),
-        ],
-      ),
-    );
+    return EasyRefresh(
+        controller: _refreshCtrl,
+        onRefresh: () async {
+          _page = 1;
+          _requestData();
+        },
+        onLoad: () {
+          _page++;
+          _requestData();
+        },
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: _dataArr.length,
+            itemExtent: newsChildCellHeight,
+            itemBuilder: (context, index) {
+              return NewsCellWidget(model: _dataArr[index]);
+            }));
   }
 }

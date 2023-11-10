@@ -95,6 +95,8 @@ class NewsApi {
   static String commentLike = "/qiutx-news/app/news/commentlike/###";
 
   static String newsComment = "/qiutx-news/app/news/savecomment";
+
+  
 }
 
 class MeApi {
@@ -111,9 +113,11 @@ class MeApi {
 
   static String userFocus = "/qiutx-news/app/post/attention/###";
 
-  static String userFocusCancel = "qiutx-news/app/post/attention/###/cancel";
+  static String userFocusCancel = "/qiutx-news/app/post/attention/###/cancel";
 
   static String sysMsgList = "/qiutx-sms/user/message/listNew";
+
+  static String footprint = "/qiutx-news/app/personal/footprint";
 }
 
 class LoginApi {
