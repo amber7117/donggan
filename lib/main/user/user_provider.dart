@@ -18,6 +18,7 @@ class UserProvider extends ChangeNotifier {
     String? mobile,
     String? pwd,
     String? personalDesc,
+    bool notify = true,
   }) {
     if (headImg != null) {
       _user!.headImg = headImg;
@@ -32,7 +33,7 @@ class UserProvider extends ChangeNotifier {
     if (personalDesc != null) {
       _user!.personalDesc = personalDesc;
     }
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   void refresh() {

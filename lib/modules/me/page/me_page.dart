@@ -84,10 +84,11 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
       String desc = userInfo2?.personalDesc ?? "";
       if (desc.isNotEmpty) {
         UserManager.instance.updateUserPersonalDesc(desc);
-        context.read<UserProvider>().updateUserInfoPart(personalDesc: desc);
-      } else {
-        setState(() {});
+        context
+            .read<UserProvider>()
+            .updateUserInfoPart(personalDesc: desc, notify: false);
       }
+      setState(() {});
     });
   }
 

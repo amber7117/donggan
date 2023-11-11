@@ -192,7 +192,8 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                       } else if (index == 4) {
                         return ChatPage(
                             roomId: model.roomId,
-                            chatRoomId: model.matchId.toString());
+                            chatRoomId: model.matchId.toString(),
+                            isMatch: true);
                       }
                       return const SizedBox();
                     }))

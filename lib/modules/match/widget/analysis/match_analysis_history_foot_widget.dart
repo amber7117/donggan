@@ -84,7 +84,23 @@ class MatchAnalysisHistoryFootWidget extends StatelessWidget {
 
       children.addAll(_buildChidItem3("${model.guestScore}", ColorUtils.green0,
           "失", "球", ColorUtils.gray153));
-    } else {}
+    } else {
+      children.addAll(_buildChidItem2(
+          "${model.winNum}", ColorUtils.red255, "胜", ColorUtils.gray153));
+      children.add(const SizedBox(width: 5));
+
+      children.addAll(_buildChidItem2(
+          "${model.loseNum}", ColorUtils.green0, "负", ColorUtils.gray153));
+      children.add(const SizedBox(width: 5));
+
+      children.addAll(_buildChidItem22(model.pointsGetPerGame,
+          ColorUtils.red255, "场均得分", ColorUtils.gray153));
+      children.add(const SizedBox(width: 5));
+
+      children.addAll(_buildChidItem22(model.pointsLostPerGame,
+          ColorUtils.green0, "失分", ColorUtils.gray153));
+      children.add(const SizedBox(width: 5));
+    }
 
     return children;
   }
@@ -102,6 +118,21 @@ class MatchAnalysisHistoryFootWidget extends StatelessWidget {
           color: titleColor, fontSize: 10, fontWeight: TextStyleUtils.regual),
     );
     return [text1, text2];
+  }
+
+  _buildChidItem22(
+      String value, Color valueColor, String title, Color titleColor) {
+    Widget text1 = Text(
+      value,
+      style: TextStyle(
+          color: valueColor, fontSize: 10, fontWeight: TextStyleUtils.regual),
+    );
+    Widget text2 = Text(
+      title,
+      style: TextStyle(
+          color: titleColor, fontSize: 10, fontWeight: TextStyleUtils.regual),
+    );
+    return [text2, text1];
   }
 
   _buildChidItem3(String value, Color valueColor, String title1, String title2,

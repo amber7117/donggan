@@ -243,7 +243,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
 
   _reloadListAndScroll(bool animated) {
     setState(() {});
-    
+
     if (animated) {
       _scrollController.animateTo(_scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 200), curve: Curves.ease);
@@ -370,7 +370,9 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
       },
       child: Column(
         children: [
-          notice.isEmpty ? const SizedBox() : _buildNoticeWidget(notice),
+          !widget.isMatch && notice.isNotEmpty
+              ? _buildNoticeWidget(notice)
+              : const SizedBox(),
           Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.only(top: 3),
