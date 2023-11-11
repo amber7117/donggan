@@ -8,8 +8,10 @@ import 'package:wzty/utils/jh_image_utils.dart';
 
 class MatchLineupCoachWidget extends StatelessWidget {
   final MatchLineupFBCoachInfoModel model;
+  final VoidCallback callback;
 
-  const MatchLineupCoachWidget({super.key, required this.model});
+  const MatchLineupCoachWidget(
+      {super.key, required this.model, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class MatchLineupCoachWidget extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 32, vertical: marginY),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(26))),
@@ -25,9 +27,25 @@ class MatchLineupCoachWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildInfoUI(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _buildMiddleUI(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
+          const Divider(height: 1, color: ColorUtils.line233),
+          Expanded(
+            child: InkWell(
+              onTap: callback,
+              child: SizedBox(
+                width: double.infinity,
+                child: const Text(
+                  "关闭",
+                  style: TextStyle(
+                      color: ColorUtils.black34,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ).alignment(),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -76,7 +94,7 @@ class MatchLineupCoachWidget extends StatelessWidget {
                 Text(
                   model.identity,
                   style: const TextStyle(
-                      color: ColorUtils.red233,
+                      color: ColorUtils.gray153,
                       fontSize: 11,
                       fontWeight: FontWeight.w400),
                 )
@@ -141,7 +159,28 @@ class MatchLineupCoachWidget extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
             ],
-          )
+          ),
+          const SizedBox(width: 1, height: 22).colored(ColorUtils.line233),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                model.score,
+                style: const TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                "场均得分",
+                style: TextStyle(
+                    color: ColorUtils.gray153,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
         ],
       ),
     );

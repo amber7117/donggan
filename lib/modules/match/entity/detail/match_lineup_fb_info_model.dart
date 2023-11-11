@@ -314,7 +314,7 @@ class MatchLineupFBCoachInfoModel {
       age: json['age'] ?? "-",
       identity: json['identity'] ?? "-",
       careerStartEnd: json['careerStartEnd'] ?? "？～至今",
-      teamLogo: json['teamLogo'] ?? "-",
+      teamLogo: json['teamLogo'] ?? "",
       count: json['count'] ?? "-",
       winRate: json['winRate'] ?? "-",
       score: json['score'] ?? "-",

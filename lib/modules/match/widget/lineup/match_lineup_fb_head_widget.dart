@@ -28,7 +28,6 @@ class MatchLineupFbHeadWidget extends StatefulWidget {
 }
 
 class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
-  
   void _requestPlayerData(MatchLineupFBPlayerModel player) {
     ToastUtils.showLoading();
 
@@ -40,7 +39,11 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
         showDialog(
             context: context,
             builder: (context) {
-              return MatchLineupPlayerWidget(model: result);
+              return MatchLineupPlayerWidget(
+                  model: result,
+                  callback: () {
+                    Navigator.pop(context);
+                  });
             });
       } else {
         ToastUtils.showInfo(result);
@@ -66,7 +69,11 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
         showDialog(
             context: context,
             builder: (context) {
-              return MatchLineupCoachWidget(model: result);
+              return MatchLineupCoachWidget(
+                  model: result,
+                  callback: () {
+                    Navigator.pop(context);
+                  });
             });
       } else {
         ToastUtils.showInfo(result);
@@ -86,7 +93,11 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
         showDialog(
             context: context,
             builder: (context) {
-              return MatchLineupRefereeWidget(model: result);
+              return MatchLineupRefereeWidget(
+                  model: result,
+                  callback: () {
+                    Navigator.pop(context);
+                  });
             });
       } else {
         ToastUtils.showInfo(result);
@@ -109,13 +120,43 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
           const SizedBox(height: 20),
           _buildInfoUI(),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widget.isHost
-                  ? _buildFormationUI(
-                      model.hostFormation, model.hostMainPlayerList!)
-                  : _buildFormationUI(
-                      model.guestFormation, model.guestMainPlayerList!),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: widget.isHost
+                      ? _buildFormationUI(
+                          model.hostFormation, model.hostMainPlayerList!)
+                      : _buildFormationUI(
+                          model.guestFormation, model.guestMainPlayerList!),
+                ),
+                InkWell(
+                  onTap: _requestRefereeData,
+                  child: Container(
+                    width: 106,
+                    height: 22,
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(0, 0, 0, 0.6),
+                        borderRadius: BorderRadius.all(Radius.circular(11))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const JhAssetImage("match/iconZuqiushijianBisaikaishi10",
+                            width: 10),
+                        Text(
+                          model.refereeName,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: TextStyleUtils.medium),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

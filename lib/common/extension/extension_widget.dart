@@ -18,6 +18,10 @@ extension Style on Widget {
     return ColoredBox(color: color, child: this);
   }
 
+  alignment() {
+    return Align(alignment: Alignment.center, child: this);
+  }
+
   inkWell(VoidCallback onTap) {
     return InkWell(
       onTap: onTap,

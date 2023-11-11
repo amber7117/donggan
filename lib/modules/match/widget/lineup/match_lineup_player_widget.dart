@@ -8,8 +8,8 @@ import 'package:wzty/utils/jh_image_utils.dart';
 
 class MatchLineupPlayerWidget extends StatelessWidget {
   final MatchLineupFBPlayerInfoModel model;
-
-  const MatchLineupPlayerWidget({super.key, required this.model});
+final VoidCallback callback;
+  const MatchLineupPlayerWidget({super.key, required this.model, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class MatchLineupPlayerWidget extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 32, vertical: marginY),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(26))),
@@ -25,9 +25,9 @@ class MatchLineupPlayerWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildInfoUI(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _buildMiddleUI(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
           const Text(
             "本场数据统计",
             style: TextStyle(
@@ -65,6 +65,21 @@ class MatchLineupPlayerWidget extends StatelessWidget {
                     ],
                   );
                 }),
+          ),
+          const Divider(height: 1, color: ColorUtils.line233),
+          InkWell(
+            onTap: callback,
+            child: SizedBox(
+              width: double.infinity,
+              height: 40.0,
+              child: const Text(
+                "关闭",
+                style: TextStyle(
+                    color: ColorUtils.black34,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ).alignment(),
+            ),
           ),
         ],
       ),

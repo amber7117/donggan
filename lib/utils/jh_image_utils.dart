@@ -52,8 +52,12 @@ buildNetImage(String imageUrl,
     BoxFit fit = BoxFit.cover,
     String? placeholder}) {
   height = height ?? width;
-  if (imageUrl.isEmpty && placeholder != null) {
-    return JhAssetImage(placeholder, width: width, height: height);
+  if (imageUrl.isEmpty) {
+    if (placeholder != null) {
+      return JhAssetImage(placeholder, width: width, height: height);
+    } else {
+      return const Icon(Icons.error);
+    }
   }
   return CachedNetworkImage(
       imageUrl: imageUrl,
@@ -66,7 +70,11 @@ buildNetImage(String imageUrl,
             : JhAssetImage(placeholder, width: width, height: height);
       },
       errorWidget: (context, url, error) {
-        return const Icon(Icons.error);
+        if (placeholder != null) {
+          return JhAssetImage(placeholder, width: width, height: height);
+        } else {
+          return const Icon(Icons.error);
+        }
       });
 }
 
