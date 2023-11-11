@@ -77,7 +77,7 @@ class MatchDetailLineupService {
   }
 
   static Future<void> requestFBPlayerInfo(int matchId, int teamId, int playerId,
-      BusinessCallback<MatchLineupFBPlayerInfoModel?> complete) async {
+      BusinessCallback<dynamic> complete) async {
     Map<String, dynamic> params = {
       "matchId": matchId,
       "teamId": teamId,
@@ -85,15 +85,15 @@ class MatchDetailLineupService {
     };
 
     HttpResultBean result = await HttpManager.request(
-        MatchLineupApi.fbLineup, HttpMethod.get,
+        MatchLineupApi.playerInfo, HttpMethod.get,
         params: params);
 
-    if (result.isSuccess()) {
+    if (result.isSuccess() && result.data is Map) {
       MatchLineupFBPlayerInfoModel model =
           MatchLineupFBPlayerInfoModel.fromJson(result.data);
       complete(true, model);
     } else {
-      complete(false, null);
+      complete(false, result.msg ?? result.data);
     }
   }
 
@@ -106,7 +106,7 @@ class MatchDetailLineupService {
     };
 
     HttpResultBean result = await HttpManager.request(
-        MatchLineupApi.fbLineup, HttpMethod.get,
+        MatchLineupApi.coachInfo, HttpMethod.get,
         params: params);
 
     if (result.isSuccess()) {
@@ -127,7 +127,7 @@ class MatchDetailLineupService {
     };
 
     HttpResultBean result = await HttpManager.request(
-        MatchLineupApi.fbLineup, HttpMethod.get,
+        MatchLineupApi.refereeInfo, HttpMethod.get,
         params: params);
 
     if (result.isSuccess()) {

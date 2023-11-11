@@ -39,6 +39,8 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
             builder: (context) {
               return MatchLineupPlayerWidget(model: result);
             });
+      } else {
+        ToastUtils.showInfo(result);
       }
     });
   }

@@ -113,7 +113,6 @@ class MatchStatusFBEventCellWidget extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: TextStyleUtils.regual),
           ),
-          const SizedBox(width: 3),
           imgPath2 == null
               ? const SizedBox()
               : JhAssetImage(imgPath2, width: 12),
@@ -143,7 +142,6 @@ class MatchStatusFBEventCellWidget extends StatelessWidget {
           imgPath2 == null
               ? const SizedBox()
               : JhAssetImage(imgPath2, width: 12),
-          const SizedBox(width: 3),
           Text(
             text2,
             overflow: TextOverflow.ellipsis,

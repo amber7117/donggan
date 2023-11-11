@@ -10,8 +10,8 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 const liveMatchCellHeight = 99.0;
-const liveMatchCellWidth = 161.0;
-const liveMatchCellRatio = 99.0 / 161.0;
+const liveMatchCellWidth = 162.0;
+const liveMatchCellRatio = 99.0 / 162.0;
 
 class AnchorMatchCellWidget extends StatefulWidget {
   final MatchListModel model;

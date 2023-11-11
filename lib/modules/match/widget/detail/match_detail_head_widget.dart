@@ -210,13 +210,17 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                 padding: const EdgeInsets.only(left: 38, right: 38, bottom: 12),
                 child: buildNetImage(model.hostTeamLogo,
                     width: 50, placeholder: "common/logoQiudui")),
-            Text(
-              model.hostTeamName,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: TextStyleUtils.medium),
+            SizedBox(
+              width: 100,
+              child: Text(
+                model.hostTeamName,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: TextStyleUtils.medium),
+              ),
             ),
           ],
         ),
@@ -241,13 +245,17 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
                 padding: const EdgeInsets.only(left: 38, right: 38, bottom: 12),
                 child: buildNetImage(model.guestTeamLogo,
                     width: 50, placeholder: "common/logoQiudui")),
-            Text(
-              model.guestTeamName,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: TextStyleUtils.medium),
+            SizedBox(
+              width: 100,
+              child: Text(
+                model.guestTeamName,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: TextStyleUtils.medium),
+              ),
             ),
           ],
         ),

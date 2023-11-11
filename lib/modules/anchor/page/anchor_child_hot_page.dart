@@ -30,10 +30,10 @@ class _AnchorChildHotPageState
   List<MatchListModel> _matchArr = [];
   List<AnchorListModel> _anchorArr = [];
 
-  final EasyRefreshController _refreshCtrl = EasyRefreshController(
-    controlFinishRefresh: true,
-    controlFinishLoad: true,
-  );
+  // final EasyRefreshController _refreshCtrl = EasyRefreshController(
+  //   controlFinishRefresh: true,
+  //   controlFinishLoad: true,
+  // );
   int _page = 1;
 
   @override

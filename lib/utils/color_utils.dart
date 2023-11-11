@@ -26,7 +26,7 @@ class ColorUtils {
   static const Color gray240 = Color.fromRGBO(229, 229, 234, 1.0);
   static const Color gray248 = Color.fromRGBO(248, 248, 248, 1.0);
   
-  
+  static const Color line233 = Color.fromRGBO(233, 234, 235, 1.0);
 
   static Color rgb(int r, int g, int b, {double alpha = 1}) {
     return Color.fromRGBO(r, g, b, alpha);
