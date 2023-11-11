@@ -98,7 +98,7 @@ class MatchDetailLineupService {
   }
 
   static Future<void> requestFBCoachInfo(int matchId, int teamId, int coachId,
-      BusinessCallback<MatchLineupFBCoachInfoModel?> complete) async {
+      BusinessCallback<dynamic> complete) async {
     Map<String, dynamic> params = {
       "matchId": matchId,
       "teamId": teamId,
@@ -109,17 +109,17 @@ class MatchDetailLineupService {
         MatchLineupApi.coachInfo, HttpMethod.get,
         params: params);
 
-    if (result.isSuccess()) {
+    if (result.isSuccess() && result.data is Map) {
       MatchLineupFBCoachInfoModel model =
           MatchLineupFBCoachInfoModel.fromJson(result.data);
       complete(true, model);
     } else {
-      complete(false, null);
+      complete(false, result.msg ?? result.data);
     }
   }
 
-  static Future<void> requestFBRefereeInfo(int matchId, int refereeId,
-      BusinessCallback<MatchLineupFBRefereeInfoModel?> complete) async {
+  static Future<void> requestFBRefereeInfo(
+      int matchId, int refereeId, BusinessCallback<dynamic> complete) async {
     Map<String, dynamic> params = {
       "matchId": matchId,
       "teamId": "",
@@ -130,12 +130,12 @@ class MatchDetailLineupService {
         MatchLineupApi.refereeInfo, HttpMethod.get,
         params: params);
 
-    if (result.isSuccess()) {
+    if (result.isSuccess() && result.data is Map) {
       MatchLineupFBRefereeInfoModel model =
           MatchLineupFBRefereeInfoModel.fromJson(result.data);
       complete(true, model);
     } else {
-      complete(false, null);
+      complete(false, result.msg ?? result.data);
     }
   }
 }

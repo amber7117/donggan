@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
 import 'package:wzty/modules/match/service/match_detail_lineup_service.dart';
+import 'package:wzty/modules/match/widget/lineup/match_lineup_coach_widget.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_player_widget.dart';
+import 'package:wzty/modules/match/widget/lineup/match_lineup_referee_widget.dart';
 import 'package:wzty/utils/app_business_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -26,6 +28,7 @@ class MatchLineupFbHeadWidget extends StatefulWidget {
 }
 
 class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
+  
   void _requestPlayerData(MatchLineupFBPlayerModel player) {
     ToastUtils.showLoading();
 
@@ -33,11 +36,57 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
         widget.detailModel.matchId, player.teamId, player.playerId,
         (success, result) {
       ToastUtils.hideLoading();
-      if (result != null) {
+      if (success) {
         showDialog(
             context: context,
             builder: (context) {
               return MatchLineupPlayerWidget(model: result);
+            });
+      } else {
+        ToastUtils.showInfo(result);
+      }
+    });
+  }
+
+  void _requestCoachData() {
+    ToastUtils.showLoading();
+
+    MatchLineupFBModel model = widget.model;
+    int teamId = model.hostTeamId;
+    int coachId = model.hostCoachId;
+    if (!widget.isHost) {
+      teamId = model.guestTeamId;
+      coachId = model.guestCoachId;
+    }
+
+    MatchDetailLineupService.requestFBCoachInfo(
+        widget.detailModel.matchId, teamId, coachId, (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return MatchLineupCoachWidget(model: result);
+            });
+      } else {
+        ToastUtils.showInfo(result);
+      }
+    });
+  }
+
+  void _requestRefereeData() {
+    ToastUtils.showLoading();
+
+    MatchLineupFBModel model = widget.model;
+
+    MatchDetailLineupService.requestFBRefereeInfo(
+        widget.detailModel.matchId, model.refereeId, (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return MatchLineupRefereeWidget(model: result);
             });
       } else {
         ToastUtils.showInfo(result);
@@ -76,60 +125,85 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
 
   Widget _buildInfoUI() {
     MatchLineupFBModel model = widget.model;
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(width: 12),
-        Container(
-            width: 150,
-            height: 28,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(0, 0, 0, 0.3),
-                    Color.fromRGBO(0, 0, 0, 0.0),
+        Row(
+          children: [
+            const SizedBox(width: 12),
+            Container(
+                width: 150,
+                height: 28,
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color.fromRGBO(0, 0, 0, 0.3),
+                        Color.fromRGBO(0, 0, 0, 0.0),
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(14))),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    buildNetImage(
+                        widget.isHost
+                            ? model.hostTeamLogo
+                            : model.guestTeamLogo,
+                        width: 20,
+                        placeholder: "common/logoQiudui"),
+                    const SizedBox(width: 5),
+                    const Text(
+                      "阵型：",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: TextStyleUtils.regual),
+                    ),
+                    Text(
+                      widget.isHost
+                          ? model.hostFormation
+                          : model.guestFormation,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: TextStyleUtils.medium),
+                    ),
                   ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(14))),
-            child: Row(
-              children: [
-                const SizedBox(width: 10),
-                buildNetImage(
-                    widget.isHost ? model.hostTeamLogo : model.guestTeamLogo,
-                    width: 20,
-                    placeholder: "common/logoQiudui"),
-                const SizedBox(width: 5),
-                const Text(
-                  "阵型：",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: TextStyleUtils.regual),
-                ),
-                Text(
-                  widget.isHost ? model.hostFormation : model.guestFormation,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: TextStyleUtils.medium),
-                ),
-              ],
-            )),
-        Expanded(
-          child: Text(
-            widget.uncoming ? "当前为预测首发阵容" : "当前为官方首发名单",
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 11,
-                fontWeight: TextStyleUtils.regual),
+                )),
+            Expanded(
+              child: Text(
+                widget.uncoming ? "当前为预测首发阵容" : "当前为官方首发名单",
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: TextStyleUtils.regual),
+              ),
+            ),
+            const SizedBox(width: 12),
+          ],
+        ),
+        InkWell(
+          onTap: _requestCoachData,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, top: 5),
+            child: Text(
+              widget.isHost
+                  ? "教练：${model.hostCoachName}"
+                  : "教练：${model.guestCoachName}",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.regual),
+            ),
           ),
         ),
-        const SizedBox(width: 12),
       ],
     );
   }

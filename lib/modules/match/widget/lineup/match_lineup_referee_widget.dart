@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/modules/match/entity/detail/match_lineup_fb_info_model.dart';
 
 class MatchLineupRefereeWidget extends StatefulWidget {
-  const MatchLineupRefereeWidget({super.key});
+  final MatchLineupFBRefereeInfoModel model;
+
+  const MatchLineupRefereeWidget({super.key, required this.model});
 
   @override
   State createState() => _MatchLineupRefereeWidgetState();
