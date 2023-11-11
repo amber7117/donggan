@@ -87,6 +87,32 @@ class AnchorDetailModel {
     recordAddr = model.recordAddr;
   }
 
+  String obtainVideoUrl(String prefix) {
+    String videoUrl = "";
+    String key1 = "";
+    String key2 = "";
+    String key3 = "";
+
+    if (prefix.isNotEmpty) {
+      key1 = "${prefix}_flv";
+      key2 = "${prefix}_m3u8";
+      key3 = "${prefix}_rtmp";
+    } else {
+      key1 = "flv";
+      key2 = "m3u8";
+      key3 = "rtmp";
+    }
+
+    if (playAddr.containsKey(key1)) {
+      videoUrl = playAddr[key1]!;
+    } else if (playAddr.containsKey(key2)) {
+      videoUrl = playAddr[key2]!;
+    } else if (playAddr.containsKey(key3)) {
+      videoUrl = playAddr[key3]!;
+    }
+
+    return videoUrl;
+  }
 }
 
 

@@ -119,37 +119,10 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
 
     String videoUrl = "";
     if (model.isRobot.isTrue()) {
-      videoUrl = _obtainVideoUrl(model.playAddr, "");
+      videoUrl = model.obtainVideoUrl("");
     } else {
-      videoUrl = _obtainVideoUrl(model.playAddr, "sd");
+      videoUrl = model.obtainVideoUrl("sd");
     }
-    return videoUrl;
-  }
-
-  String _obtainVideoUrl(Map<String, String> addrDic, String prefix) {
-    String videoUrl = "";
-    String key1 = "";
-    String key2 = "";
-    String key3 = "";
-
-    if (prefix.isNotEmpty) {
-      key1 = "${prefix}_flv";
-      key2 = "${prefix}_m3u8";
-      key3 = "${prefix}_rtmp";
-    } else {
-      key1 = "flv";
-      key2 = "m3u8";
-      key3 = "rtmp";
-    }
-
-    if (addrDic.containsKey(key1)) {
-      videoUrl = addrDic[key1]!;
-    } else if (addrDic.containsKey(key2)) {
-      videoUrl = addrDic[key2]!;
-    } else if (addrDic.containsKey(key3)) {
-      videoUrl = addrDic[key3]!;
-    }
-
     return videoUrl;
   }
 
@@ -187,7 +160,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
       return const SizedBox();
     }
 
-     AnchorDetailModel model = _model!;
+    AnchorDetailModel model = _model!;
 
     return MultiProvider(
         providers: [
@@ -201,7 +174,10 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
               String videoUrl = _attemptPlayVideo();
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
-                    height: videoHeight(), titleStr: model.liveTitle, urlStr: videoUrl, model: model);
+                    height: videoHeight(),
+                    titleStr: model.liveTitle,
+                    urlStr: videoUrl,
+                    detailModel: model);
               } else if (model.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
                     height: videoHeight(), urlStr: model.animUrl);

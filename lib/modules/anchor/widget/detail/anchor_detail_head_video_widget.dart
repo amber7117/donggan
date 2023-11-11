@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
+import 'package:wzty/common/player/player_panel_anchor_widget.dart';
 import 'package:wzty/common/player/wz_player_widget.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
+import 'package:wzty/modules/anchor/widget/detail/anchor_video_resolution_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class AnchorDetailHeadVideoWidget extends StatefulWidget {
@@ -15,7 +18,7 @@ class AnchorDetailHeadVideoWidget extends StatefulWidget {
   final String urlStr;
   final bool isAnchor;
   final String? titleStr;
-  final AnchorDetailModel? model;
+  final AnchorDetailModel? detailModel;
 
   const AnchorDetailHeadVideoWidget(
       {super.key,
@@ -23,7 +26,7 @@ class AnchorDetailHeadVideoWidget extends StatefulWidget {
       required this.urlStr,
       this.isAnchor = true,
       this.titleStr,
-      this.model});
+      this.detailModel});
 
   @override
   State createState() => _AnchorDetailHeadVideoWidgetState();
@@ -31,6 +34,58 @@ class AnchorDetailHeadVideoWidget extends StatefulWidget {
 
 class _AnchorDetailHeadVideoWidgetState
     extends State<AnchorDetailHeadVideoWidget> {
+  bool _fullscreen = false;
+
+  bool _showVideoResolution = false;
+  String resolution = "标清";
+  late String url;
+  List<String> titleArr = [];
+  Map<String, String> playUrlDic = {};
+
+  bool _showDanmuSet = false;
+
+  final GlobalKey<WZPlayerWidgetState> _playerKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _requestData();
+  }
+
+  _requestData() {
+    if (widget.detailModel == null) {
+      return;
+    }
+
+    AnchorDetailModel model = widget.detailModel!;
+
+    String title = "";
+
+    if (model.isRobot.isTrue()) {
+      title = "原画";
+      titleArr.add(title);
+      playUrlDic[title] = widget.urlStr;
+
+      resolution = title;
+    } else {
+      List<String> tmpTitleArr = ["原画", "超清", "高清", "标清", "流畅", "自动"];
+      List<String> tmpPrefixArr = ["ori", "ud", "hd", "sd", "ld", "ori"];
+
+      for (int idx = 0; idx < tmpTitleArr.length; idx++) {
+        String url = model.obtainVideoUrl(tmpPrefixArr[idx]);
+        if (url.isNotEmpty) {
+          titleArr.add(tmpTitleArr[idx]);
+          playUrlDic[tmpTitleArr[idx]] = url;
+        }
+      }
+      resolution = "标清";
+    }
+    url = widget.urlStr;
+  }
+
+  // -------------------------------------------
+  
   _showReporBlocktUI() {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -48,7 +103,8 @@ class _AnchorDetailHeadVideoWidgetState
                   _showReportUI();
                 } else if (data == ReportBlockType.blockAnchor ||
                     data == ReportBlockType.blockLive) {
-                  UserBlockManger.instance.blockAnchor(model: widget.model!);
+                  UserBlockManger.instance
+                      .blockAnchor(model: widget.detailModel!);
                   ToastUtils.showSuccess("屏蔽成功");
                 }
               });
@@ -79,6 +135,22 @@ class _AnchorDetailHeadVideoWidgetState
         });
   }
 
+  // -------------------------------------------
+
+  handlePlayerEvent(PlayPanelEvent data) {
+    if (data == PlayPanelEvent.more) {
+      _showReporBlocktUI();
+    } else if (data == PlayPanelEvent.fullScreen) {
+      _fullscreen = !_fullscreen;
+    } else if (data == PlayPanelEvent.resolution) {
+      _showVideoResolution = true;
+      setState(() {});
+    } else if (data == PlayPanelEvent.danmu) {
+    } else if (data == PlayPanelEvent.danmuSet) {}
+  }
+
+  // -------------------------------------------
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -93,17 +165,23 @@ class _AnchorDetailHeadVideoWidgetState
                 width: double.infinity,
                 height: widget.height,
                 child: WZPlayerWidget(
+                  key: _playerKey,
                   urlStr: widget.urlStr,
                   titleStr: widget.titleStr,
                   type: widget.isAnchor
                       ? WZPlayerType.anchor
                       : WZPlayerType.playback,
-                  callback: (data) {
-                    if (data == PlayPanelEvent.more) {
-                      _showReporBlocktUI();
-                    }
-                  },
+                  callback: handlePlayerEvent,
                 ),
+              ),
+              Visibility(
+                visible: _showVideoResolution,
+                child: AnchorVideoResolutionWidget(
+                    selectedTitle: resolution,
+                    dataArr: titleArr,
+                    playUrlDic: playUrlDic,
+                    isFullScreen: true,
+                    callback: (data) {}),
               ),
               const WZBackButton(),
             ],

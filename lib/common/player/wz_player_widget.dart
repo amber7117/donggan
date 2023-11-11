@@ -24,11 +24,12 @@ class WZPlayerWidget extends StatefulWidget {
       this.callback});
 
   @override
-  State createState() => _WZPlayerWidgetState();
+  State createState() => WZPlayerWidgetState();
 }
 
-class _WZPlayerWidgetState extends State<WZPlayerWidget> {
+class WZPlayerWidgetState extends State<WZPlayerWidget> {
   final FijkPlayer player = FijkPlayer();
+  final GlobalKey<PlayerPanelAnchorState> _panelAnchorKey = GlobalKey();
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _WZPlayerWidgetState extends State<WZPlayerWidget> {
       builder = matchPanelBuilder();
     } else if (widget.type == WZPlayerType.anchor) {
       builder = anchorPanelBuilder(
+          key: _panelAnchorKey,
           title: widget.titleStr,
           callback: (data) {
             widget.callback!(data);

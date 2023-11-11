@@ -19,7 +19,7 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
     VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
       Rect texturePos) {
-    return _PlayerPanelAnchor(
+    return PlayerPanelAnchor(
       key: key,
       player: player,
       data: data,
@@ -35,7 +35,7 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
   };
 }
 
-class _PlayerPanelAnchor extends StatefulWidget {
+class PlayerPanelAnchor extends StatefulWidget {
   final FijkPlayer player;
   final FijkData data;
   final Size viewSize;
@@ -48,7 +48,7 @@ class _PlayerPanelAnchor extends StatefulWidget {
   final WZAnyCallback<PlayPanelEvent> callback;
   final VoidCallback? onBack;
 
-  const _PlayerPanelAnchor({
+  const PlayerPanelAnchor({
     super.key,
     required this.player,
     required this.data,
@@ -63,10 +63,10 @@ class _PlayerPanelAnchor extends StatefulWidget {
   });
 
   @override
-  State createState() => __PlayerPanelAnchorState();
+  State createState() => PlayerPanelAnchorState();
 }
 
-class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
+class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
   FijkPlayer get player => widget.player;
 
   Timer? _hideTimer;
@@ -252,7 +252,9 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
   /// 弹幕按钮
   Widget buildDanmuButton(BuildContext context) {
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          widget.callback(PlayPanelEvent.danmu);
+        },
         child: const Padding(
             padding: EdgeInsets.all(10),
             child: JhAssetImage("anchor/iconDanmu", width: 24)));
@@ -261,13 +263,15 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
   /// 弹幕设置按钮
   Widget buildDanmuSetButton(BuildContext context) {
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          widget.callback(PlayPanelEvent.danmuSet);
+        },
         child: const Padding(
             padding: EdgeInsets.all(10),
             child: JhAssetImage("anchor/iconDanmuS", width: 24)));
   }
 
-  /// 弹幕全屏按钮
+  /// 全屏按钮
   Widget buildFullScreenButton(BuildContext context) {
     String imgPath;
     if (player.value.fullScreen) {
@@ -280,6 +284,7 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
           player.value.fullScreen
               ? player.exitFullScreen()
               : player.enterFullScreen();
+          widget.callback(PlayPanelEvent.fullScreen);
         },
         child: Padding(
             padding: const EdgeInsets.all(10),
@@ -301,18 +306,23 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
 
   /// 分辨率按钮
   Widget buildResolutionButton(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 20,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          border: Border.all(width: 1.0, color: Colors.white),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Text("标清",
-          style: const TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-              fontWeight: TextStyleUtils.regual)),
+    return InkWell(
+      onTap: () {
+        widget.callback(PlayPanelEvent.resolution);
+      },
+      child: Container(
+        width: 40,
+        height: 20,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1.0, color: Colors.white),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: Text("标清",
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: TextStyleUtils.regual)),
+      ),
     );
   }
 
@@ -455,7 +465,8 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
     } else if (player.state == FijkState.error) {
       ws.add(buildStateless());
     }
-    Widget waterLogo = const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
+    Widget waterLogo =
+        const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
 
     ws.add(waterLogo);
     ws.add(buildGestureDetector(context));
