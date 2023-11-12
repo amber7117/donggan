@@ -10,9 +10,13 @@ import 'package:wzty/utils/toast_utils.dart';
 class AnchorDetailPlaybackPage extends StatefulWidget {
   final int anchorId;
   final String nickName;
+  final bool isDetailPage;
 
   const AnchorDetailPlaybackPage(
-      {super.key, required this.anchorId, required this.nickName});
+      {super.key,
+      required this.anchorId,
+      required this.nickName,
+      this.isDetailPage = true});
 
   @override
   State createState() => _AnchorDetailCalendarPageState();
@@ -78,7 +82,9 @@ class _AnchorDetailCalendarPageState
             itemExtent: playbackCellHeight,
             itemBuilder: (context, index) {
               return AnchorDetailPlaybackCellWidget(
-                  model: _dataArr[index], nickName: widget.nickName);
+                  model: _dataArr[index],
+                  nickName: widget.nickName,
+                  isDetailPage: widget.isDetailPage);
             }));
   }
 }

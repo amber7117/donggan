@@ -91,7 +91,7 @@ class _LivePlaybackPageState extends KeepAliveLifeWidgetState<LivePlaybackPage>
       eventBusManager.emit(PlayerStatusEvent(playerId: playerId, pause: true));
     }
   }
-  
+
   _requestData() {
     AnchorVideoModel model = widget.videoModel;
 
@@ -213,7 +213,8 @@ class _LivePlaybackPageState extends KeepAliveLifeWidgetState<LivePlaybackPage>
                       } else {
                         return AnchorDetailPlaybackPage(
                             anchorId: model.anchorId,
-                            nickName: _model!.nickname);
+                            nickName: _model!.nickname,
+                            isDetailPage: false);
                       }
                     }))
           ],

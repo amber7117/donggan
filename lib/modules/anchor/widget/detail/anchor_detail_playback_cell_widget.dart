@@ -10,15 +10,28 @@ const playbackCellHeight = 102.0;
 class AnchorDetailPlaybackCellWidget extends StatelessWidget {
   final AnchorVideoModel model;
   final String nickName;
+  final bool isDetailPage;
 
   const AnchorDetailPlaybackCellWidget(
-      {super.key, required this.model, required this.nickName});
+      {super.key,
+      required this.model,
+      required this.nickName,
+      required this.isDetailPage});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Routes.push(context, Routes.livePlayback, arguments: model);
+        if (isDetailPage) {
+          Routes.push(context, Routes.livePlayback, arguments: model);
+        } else {
+          Routes.push(
+            context,
+            Routes.livePlayback,
+            arguments: model,
+            replace: true,
+          );
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
