@@ -69,19 +69,18 @@ class VideoResolutionWidget extends StatelessWidget {
       onTap: () {
         callback("");
       },
-      child: SizedBox(
+      child: Container(
         width: playRect.width,
         height: playRect.height,
+        alignment: Alignment.centerRight,
         child: Container(
-            width: playRect.width * 0.5,
+            width: playRect.width * 0.4,
             height: playRect.height,
             color: Colors.black.withOpacity(0.6),
-            alignment: Alignment.centerRight,
-            child: Container(
-              color: Colors.yellow,
+            alignment: Alignment.center,
+            child: SizedBox(
               width: 270,
               height: 66,
-              alignment: Alignment.center,
               child: GridView.builder(
                   padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),

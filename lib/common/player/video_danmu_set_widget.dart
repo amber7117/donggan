@@ -34,9 +34,6 @@ class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
   }
 
   _buildNormalUI() {
-    String resolution = WZPlayerManager.instance.resolution;
-    List<String> titleArr = WZPlayerManager.instance.titleArr;
-
     return InkWell(
       onTap: () {
         widget.callback();
@@ -75,41 +72,45 @@ class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
   }
 
   _buildFullscreenUI() {
-    String resolution = WZPlayerManager.instance.resolution;
-    List<String> titleArr = WZPlayerManager.instance.titleArr;
-
+    Rect playRect = widget.playRect;
     return InkWell(
       onTap: () {
         widget.callback();
       },
-      child: SizedBox(
-        width: widget.playRect.width,
-        height: widget.playRect.height,
+      child: Container(
+        width: playRect.width,
+        height: playRect.height,
+        alignment: Alignment.centerRight,
         child: Container(
-            width: widget.playRect.width * 0.5,
-            height: widget.playRect.height,
-            color: Colors.black.withOpacity(0.6),
-            alignment: Alignment.centerRight,
-            child: Container(
-              color: Colors.yellow,
-              width: 270,
-              height: 66,
+          width: playRect.width * 0.4,
+          height: playRect.height,
+          alignment: Alignment.center,
+          color: Colors.black.withOpacity(0.6),
+          child: Container(
+              width: 285,
+              height: 112, 
               alignment: Alignment.center,
-              child: GridView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: titleArr.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 60 / 28,
-                  ),
-                  itemBuilder: (context, index) {
-                    String title = titleArr[index];
-                    return _buildFontItemWidget(title, title == resolution);
-                  }),
-            )),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("字幕字号",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400)),
+                  const SizedBox(height: 10),
+                  _buildFontMenuUI(),
+                  const SizedBox(height: 10),
+                  const Text("弹幕透明度",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400)),
+                  // const SizedBox(height: 10),
+                  _buildSldierUI(),
+                ],
+              )),
+        ),
       ),
     );
   }
