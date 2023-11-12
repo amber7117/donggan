@@ -20,6 +20,10 @@ class SpKeys {
   static const String userBlockData = 'userBlockData';
 
   static const String msgBlockData = 'msgBlockData';
+
+  static const String barrageOpen = 'barrageOpen';
+  static const String barrageFont = 'barrageFont';
+  static const String barrageOpacity = 'barrageOpacity';
 }
 
 /// desc：本地储存

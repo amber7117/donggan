@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/player/wz_player_manager.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 
 class VideoDanmuSetWidget extends StatefulWidget {
@@ -18,7 +20,9 @@ class VideoDanmuSetWidget extends StatefulWidget {
 }
 
 class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
-  double _sliderValue = 50.0;
+  int _fontSize = ConfigManager.instance.barrageFont;
+  double _sliderValue = ConfigManager.instance.barrageOpacity;
+  List<String> _fontArr = ["14", "16", "18"];
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +117,11 @@ class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
   Widget _buildFontMenuUI() {
     return Row(
       children: [
-        _buildFontItemWidget("14", false),
+        _buildFontItemWidget(_fontArr[0], _fontArr[0].toInt() == _fontSize),
         const SizedBox(width: 10),
-        _buildFontItemWidget("16", true),
+        _buildFontItemWidget(_fontArr[1], _fontArr[1].toInt() == _fontSize),
         const SizedBox(width: 10),
-        _buildFontItemWidget("18", false),
+        _buildFontItemWidget(_fontArr[2], _fontArr[2].toInt() == _fontSize),
       ],
     );
   }
@@ -125,6 +129,7 @@ class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
   _buildFontItemWidget(String title, bool selected) {
     return InkWell(
       onTap: () {
+        ConfigManager.instance.setBarrageFont(title.toInt());
         widget.callback();
       },
       child: Container(
@@ -166,11 +171,11 @@ class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
         value: _sliderValue,
         min: 0,
         max: 100,
-        divisions: 10,
+        // divisions: 10,
         onChanged: (v) {
-          setState(() {
-            _sliderValue = v;
-          });
+          _sliderValue = v;
+          ConfigManager.instance.setBarrageOpacity(v);
+          setState(() {});
         },
       ),
     );

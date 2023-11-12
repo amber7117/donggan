@@ -7,6 +7,7 @@ import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
+import 'package:wzty/utils/shared_preference_utils.dart';
 
 class ConfigManager {
   // ---------------------------------------------
@@ -34,6 +35,24 @@ class ConfigManager {
   Timer? userTimer;
   Timer? userReportTimer;
 
+  bool barrageOpen = false;
+  void setBarrageOpen(bool value) {
+    barrageOpen = value;
+    SpUtils.save(SpKeys.barrageOpen, value);
+  }
+
+  int barrageFont = 0;
+  void setBarrageFont(int value) {
+    barrageFont = value;
+    SpUtils.save(SpKeys.barrageFont, value);
+  }
+
+  double barrageOpacity = 0.0;
+  void setBarrageOpacity(double value) {
+    barrageOpacity = value;
+    SpUtils.save(SpKeys.barrageOpacity, value);
+  }
+
   // ---------------------------------------------
 
   bool videoIsBlock(int leagueId) {
@@ -58,7 +77,8 @@ class ConfigManager {
 
   // ---------------------------------------------
 
-  requestConfig() {
+  requestConfig() async {
+
     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _requestMatchFollowInfo();
     });
@@ -115,6 +135,16 @@ class ConfigManager {
         onlineKefu = result ?? "";
       }
     });
+
+    barrageOpen = await SpUtils.getBool(SpKeys.barrageOpen);
+    barrageFont = await SpUtils.getInt(SpKeys.barrageFont);
+    if (barrageFont < 1) {
+      barrageFont = 14;
+    }
+    barrageOpacity = await SpUtils.getDouble(SpKeys.barrageOpacity);
+    if (barrageOpacity < 1) {
+      barrageOpacity = 50.0;
+    }
   }
 
   _requestMatchFollowInfo() {
@@ -137,6 +167,7 @@ class ConfigManager {
     });
   }
 
+  
   // ---------------------------------------------
 
   factory ConfigManager() => _getInstance;

@@ -82,6 +82,7 @@ class _AnchorDetailUserInfoWidgetState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(model.nickname,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,

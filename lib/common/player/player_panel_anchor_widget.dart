@@ -8,6 +8,7 @@ import 'package:wzty/common/player/player_panel_utils.dart';
 import 'package:wzty/common/player/video_danmu_set_widget.dart';
 import 'package:wzty/common/player/video_resolution_widget.dart';
 import 'package:wzty/common/player/wz_player_manager.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -260,13 +261,21 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
 
   /// 弹幕按钮
   Widget buildDanmuButton(BuildContext context) {
+    String imgPath;
+    if (ConfigManager.instance.barrageOpen) {
+      imgPath = "anchor/iconDanmu3";
+    } else {
+      imgPath = "anchor/iconDanmu";
+    }
     return InkWell(
         onTap: () {
-          widget.callback(PlayPanelEvent.danmu);
+          ConfigManager.instance.barrageOpen =
+              !ConfigManager.instance.barrageOpen;
+          setState(() {});
         },
-        child: const Padding(
-            padding: EdgeInsets.all(10),
-            child: JhAssetImage("anchor/iconDanmu", width: 24)));
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: JhAssetImage(imgPath, width: 24)));
   }
 
   /// 弹幕设置按钮
