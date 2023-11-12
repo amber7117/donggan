@@ -142,16 +142,22 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const JhAssetImage("match/iconZuqiushijianBisaikaishi10",
+                        const SizedBox(width: 5),
+                        const JhAssetImage(
+                            "match/iconZuqiushijianBisaikaishi10",
                             width: 10),
-                        Text(
-                          model.refereeName,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: TextStyleUtils.medium),
+                        const SizedBox(width: 2),
+                        Expanded(
+                          child: Text(
+                            model.refereeName,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400),
+                          ),
                         ),
+                        const SizedBox(width: 5),
                       ],
                     ),
                   ),

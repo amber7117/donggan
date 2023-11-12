@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
+import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
@@ -18,8 +21,7 @@ import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
-
-const double _headHeight = 212.0;
+import 'package:wzty/utils/wz_string_utils.dart';
 
 class MatchDetailPage extends StatefulWidget {
   final int matchId;
@@ -30,7 +32,7 @@ class MatchDetailPage extends StatefulWidget {
   State createState() => _MatchDetailPageState();
 }
 
-class _MatchDetailPageState extends State<MatchDetailPage>
+class _MatchDetailPageState extends KeepAliveLifeWidgetState<MatchDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late PageController _pageController;
@@ -64,6 +66,8 @@ class _MatchDetailPageState extends State<MatchDetailPage>
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchDetailModel? _model;
 
+  final String playerId = WZStringUtils.generateRandomString(8);
+
   @override
   void initState() {
     super.initState();
@@ -80,6 +84,24 @@ class _MatchDetailPageState extends State<MatchDetailPage>
 
     _tabController.dispose();
     _pageController.dispose();
+  }
+
+  @override
+  void onPageResume() {
+    super.onPageResume();
+
+    if (_model != null) {
+      eventBusManager.emit(PlayerStatusEvent(playerId: playerId, pause: false));
+    }
+  }
+
+  @override
+  void onPagePaused() {
+    super.onPagePaused();
+
+    if (_model != null) {
+      eventBusManager.emit(PlayerStatusEvent(playerId: playerId, pause: true));
+    }
   }
 
   _requestData() {
@@ -103,7 +125,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
         successWidget: Scaffold(
@@ -140,7 +162,7 @@ class _MatchDetailPageState extends State<MatchDetailPage>
                   urlStr = model.obtainSecondVideoUrl();
                 }
                 return MatchDetailHeadVideoWidget(
-                    height: videoHeight(), urlStr: urlStr);
+                    height: videoHeight(), urlStr: urlStr, playerId: playerId);
               } else {
                 return MatchDetailHeadWidget(
                     height: videoHeight(), model: model);
@@ -204,5 +226,10 @@ class _MatchDetailPageState extends State<MatchDetailPage>
   void _onPageChange(int index) {
     _tabProvider.setIndex(index);
     _tabController.animateTo(index);
+  }
+
+  @override
+  bool isAutomaticKeepAlive() {
+    return true;
   }
 }

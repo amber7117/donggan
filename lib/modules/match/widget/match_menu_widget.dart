@@ -53,6 +53,14 @@ class _MatchMenuWidgetState extends State<MatchMenuWidget> {
         height: 88, // 90
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 44),
         decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1), // 阴影颜色
+                spreadRadius: 2, // 阴影扩散程度
+                blurRadius: 6, // 阴影模糊程度
+                offset: Offset(0, 2), // 阴影偏移量
+              ),
+            ],
             gradient: const LinearGradient(
               colors: [
                 Color.fromRGBO(255, 212, 212, 1),
@@ -81,6 +89,16 @@ class _MatchMenuWidgetState extends State<MatchMenuWidget> {
         height: 44,
         alignment: Alignment.center,
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 44),
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.1), // 阴影颜色
+              spreadRadius: 0, // 阴影扩散程度
+              blurRadius: 10, // 阴影模糊程度
+              offset: Offset(0, 2), // 阴影偏移量
+            ),
+          ],
+        ),
         child: _buildSelectItem(_selectIdx == 0 ? "热门" : "全部"));
   }
 

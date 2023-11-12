@@ -168,6 +168,7 @@ class _LivePlaybackPageState extends KeepAliveLifeWidgetState<LivePlaybackPage>
               if (videoUrl.isNotEmpty) {
                 return AnchorDetailHeadVideoWidget(
                     height: videoHeight(),
+                    titleStr: model.liveTitle,
                     urlStr: videoUrl,
                     isAnchor: false,
                     playerId: playerId);

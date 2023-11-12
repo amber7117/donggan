@@ -7,6 +7,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/player/player_panel_anchor_widget.dart';
+import 'package:wzty/common/player/player_panel_playback_widget.dart';
 import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
@@ -200,9 +201,14 @@ class _AnchorDetailHeadVideoWidgetState
   }
 
   Widget _buildPlayerUI() {
-    FijkPanelWidgetBuilder builder =
-        anchorPanelBuilder(title: widget.titleStr, callback: handlePlayerEvent);
-
+    FijkPanelWidgetBuilder builder;
+    if (widget.isAnchor) {
+      builder = anchorPanelBuilder(
+          title: widget.titleStr, callback: handlePlayerEvent);
+    } else {
+      builder = playbackPanelBuilder(
+          title: widget.titleStr, callback: handlePlayerEvent);
+    }
     return FijkView(
       player: player,
       panelBuilder: builder,

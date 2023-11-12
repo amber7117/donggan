@@ -3,60 +3,70 @@ import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/player_panel_utils.dart';
+import 'package:wzty/utils/color_utils.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:wzty/utils/text_style_utils.dart';
 
 FijkPanelWidgetBuilder matchPanelBuilder(
     {Key? key,
-    final bool fill = false,
-    final int duration = 4000,
-    final bool doubleTap = true,
-    final bool snapShot = false,
-    final VoidCallback? onBack}) {
+    bool fill = false,
+    int animTime = 5000,
+    bool doubleTap = true,
+    final String? title,
+    required WZAnyCallback<PlayPanelEvent> callback,
+    VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
       Rect texturePos) {
-    return _CustomPanelMatch(
+    return _PlayerPanelMatch(
       key: key,
       player: player,
       data: data,
-      onBack: onBack,
       viewSize: viewSize,
       texPos: texturePos,
       fill: fill,
       doubleTap: doubleTap,
-      snapShot: snapShot,
-      hideDuration: duration,
+      hideDuration: animTime,
+      title: title,
+      callback: callback,
+      onBack: onBack,
     );
   };
 }
 
-class _CustomPanelMatch extends StatefulWidget {
+class _PlayerPanelMatch extends StatefulWidget {
   final FijkPlayer player;
   final FijkData data;
-  final VoidCallback? onBack;
   final Size viewSize;
   final Rect texPos;
   final bool fill;
   final bool doubleTap;
-  final bool snapShot;
   final int hideDuration;
 
-  const _CustomPanelMatch(
-      {super.key,
-      required this.player,
-      required this.data,
-      this.onBack,
-      required this.viewSize,
-      required this.texPos,
-      required this.fill,
-      required this.doubleTap,
-      required this.snapShot,
-      required this.hideDuration});
+  final String? title;
+  final WZAnyCallback<PlayPanelEvent> callback;
+  final VoidCallback? onBack;
+
+  const _PlayerPanelMatch({
+    super.key,
+    required this.player,
+    required this.data,
+    required this.viewSize,
+    required this.texPos,
+    required this.fill,
+    required this.doubleTap,
+    required this.hideDuration,
+    this.title,
+    required this.callback,
+    this.onBack,
+  });
 
   @override
-  State createState() => __CustomPanelMatchState();
+  State createState() => __PlayerPanelMatchState();
 }
 
-class __CustomPanelMatchState extends State<_CustomPanelMatch> {
+class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
   FijkPlayer get player => widget.player;
 
   Timer? _hideTimer;
@@ -69,28 +79,7 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
   double? _volume;
   double? _brightness;
 
-  double _seekPos = -1.0;
-  Duration _duration = const Duration();
-  Duration _currentPos = const Duration();
-  Duration _bufferPos = const Duration();
-
-  StreamSubscription? _currentPosSubs;
-  StreamSubscription? _bufferPosSubs;
-
   late StreamController<double> _valController;
-
-  // snapshot
-  ImageProvider? _imageProvider;
-  Timer? _snapshotTimer;
-
-  // Is it needed to clear seek data in WZFijkData (widget.data)
-  bool _needClearSeekData = true;
-
-  static const FijkSliderColors sliderColors = FijkSliderColors(
-      cursorColor: Color.fromARGB(240, 250, 100, 10),
-      playedColor: Color.fromARGB(200, 240, 90, 50),
-      baselineColor: Color.fromARGB(100, 20, 20, 20),
-      bufferedColor: Color.fromARGB(180, 200, 200, 200));
 
   @override
   void initState() {
@@ -99,38 +88,6 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
     _valController = StreamController.broadcast();
     _prepared = player.state.index >= FijkState.prepared.index;
     _playing = player.state == FijkState.started;
-    _duration = player.value.duration;
-    _currentPos = player.currentPos;
-    _bufferPos = player.bufferPos;
-
-    _currentPosSubs = player.onCurrentPosUpdate.listen((v) {
-      if (_hideStuff == false) {
-        setState(() {
-          _currentPos = v;
-        });
-      } else {
-        _currentPos = v;
-      }
-      if (_needClearSeekData) {
-        widget.data.clearValue(WZFijkData.fijkViewPanelSeekto);
-      }
-      _needClearSeekData = false;
-    });
-
-    if (widget.data.contains(WZFijkData.fijkViewPanelSeekto)) {
-      var pos = widget.data.getValue(WZFijkData.fijkViewPanelSeekto) as double;
-      _currentPos = Duration(milliseconds: pos.toInt());
-    }
-
-    _bufferPosSubs = player.onBufferPosUpdate.listen((v) {
-      if (_hideStuff == false) {
-        setState(() {
-          _bufferPos = v;
-        });
-      } else {
-        _bufferPos = v;
-      }
-    });
 
     player.addListener(_playerValueChanged);
   }
@@ -141,9 +98,6 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
     _valController.close();
     _hideTimer?.cancel();
     _statelessTimer?.cancel();
-    _snapshotTimer?.cancel();
-    _currentPosSubs?.cancel();
-    _bufferPosSubs?.cancel();
     player.removeListener(_playerValueChanged);
   }
 
@@ -154,15 +108,6 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
   void _playerValueChanged() {
     FijkValue value = player.value;
 
-    if (value.duration != _duration) {
-      if (_hideStuff == false) {
-        setState(() {
-          _duration = value.duration;
-        });
-      } else {
-        _duration = value.duration;
-      }
-    }
     bool playing = (value.state == FijkState.started);
     bool prepared = value.prepared;
     if (playing != _playing ||
@@ -183,6 +128,8 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
       });
     });
   }
+
+  // MARK: - Method
 
   void onTapFun() {
     if (_hideStuff == true) {
@@ -276,157 +223,108 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
     _brightness = null;
   }
 
-  Widget buildPlayButton(BuildContext context, double height) {
-    Icon icon = (player.state == FijkState.started)
-        ? const Icon(Icons.pause)
-        : const Icon(Icons.play_arrow);
-    bool fullScreen = player.value.fullScreen;
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      iconSize: fullScreen ? height : height * 0.8,
-      color: const Color(0xFFFFFFFF),
-      icon: icon,
-      onPressed: playOrPause,
-    );
-  }
+  // MARK: - UI & Property
 
-  Widget buildFullScreenButton(BuildContext context, double height) {
-    Icon icon = player.value.fullScreen
-        ? const Icon(Icons.fullscreen_exit)
-        : const Icon(Icons.fullscreen);
-    bool fullScreen = player.value.fullScreen;
+  /// 返回按钮
+  Widget buildBackButton(BuildContext context) {
     return IconButton(
-      padding: const EdgeInsets.all(0),
-      iconSize: fullScreen ? height : height * 0.8,
-      color: const Color(0xFFFFFFFF),
-      icon: icon,
+      padding: const EdgeInsets.only(left: 5),
+      icon: const Icon(
+        Icons.arrow_back_ios,
+        color: Color(0xDDFFFFFF),
+      ),
       onPressed: () {
-        player.value.fullScreen
-            ? player.exitFullScreen()
-            : player.enterFullScreen();
+        if (player.value.fullScreen) {
+          player.exitFullScreen();
+        } else {
+          widget.onBack!();
+        }
       },
     );
   }
 
-  Widget buildTimeText(BuildContext context, double height) {
-    String text =
-        "${duration2String(_currentPos)}/${duration2String(_duration)}";
-    return Text(text,
-        style: const TextStyle(fontSize: 12, color: Color(0xFFFFFFFF)));
+  /// 刷新按钮
+  Widget buildRefreshButton(BuildContext context) {
+    return InkWell(
+        onTap: () async {
+          await player.reset();
+          player.setDataSource(player.dataSource!, autoPlay: true);
+        },
+        child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: JhAssetImage("anchor/iconRefresh", width: 24)));
   }
 
-  Widget buildSlider(BuildContext context) {
-    double duration = dura2double(_duration);
-
-    double currentValue = _seekPos > 0 ? _seekPos : dura2double(_currentPos);
-    currentValue = currentValue.clamp(0.0, duration);
-
-    double bufferPos = dura2double(_bufferPos);
-    bufferPos = bufferPos.clamp(0.0, duration);
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 3),
-      child: FijkSlider(
-        colors: sliderColors,
-        value: currentValue,
-        cacheValue: bufferPos,
-        min: 0.0,
-        max: duration,
-        onChanged: (v) {
-          _restartHideTimer();
-          setState(() {
-            _seekPos = v;
-          });
+  /// 全屏按钮
+  Widget buildFullScreenButton(BuildContext context) {
+    String imgPath;
+    if (player.value.fullScreen) {
+      imgPath = "anchor/iconQuanPing2";
+    } else {
+      imgPath = "anchor/iconQuanPing";
+    }
+    return InkWell(
+        onTap: () {
+          player.value.fullScreen
+              ? player.exitFullScreen()
+              : player.enterFullScreen();
+          widget.callback(PlayPanelEvent.fullScreen);
         },
-        onChangeEnd: (v) {
-          setState(() {
-            player.seekTo(v.toInt());
-            _currentPos = Duration(milliseconds: _seekPos.toInt());
-            widget.data.setValue(WZFijkData.fijkViewPanelSeekto, _seekPos);
-            _needClearSeekData = true;
-            _seekPos = -1.0;
-          });
-        },
-      ),
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: JhAssetImage(imgPath, width: 24)));
+  }
+
+  /// 底部菜单栏
+  Widget buildBottom(BuildContext context, double height) {
+    bool fullScreen = player.value.fullScreen;
+
+    return Row(
+      children: <Widget>[
+        fullScreen ? const SizedBox(width: 44) : const SizedBox(),
+        buildRefreshButton(context),
+        const Spacer(),
+        buildFullScreenButton(context),
+        fullScreen ? const SizedBox(width: 44) : const SizedBox(),
+      ],
     );
   }
 
-  Widget buildBottom(BuildContext context, double height) {
-    if (_duration.inMilliseconds > 0) {
-      return Row(
-        children: <Widget>[
-          buildPlayButton(context, height),
-          buildTimeText(context, height),
-          Expanded(child: buildSlider(context)),
-          buildFullScreenButton(context, height),
-        ],
-      );
-    } else {
-      return Row(
-        children: <Widget>[
-          buildPlayButton(context, height),
-          Expanded(child: Container()),
-          buildFullScreenButton(context, height),
-        ],
-      );
-    }
+  /// 顶部菜单栏
+  Widget buildTop(BuildContext context, double height) {
+    bool fullScreen = player.value.fullScreen;
+    bool showBack = widget.onBack != null || fullScreen;
+
+    return Row(
+      children: <Widget>[
+        const SizedBox(width: 44),
+        showBack ? buildBackButton(context) : const SizedBox(),
+        Expanded(
+          child: Text(widget.title ?? "",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: TextStyleUtils.regual)),
+        ),
+        const SizedBox(width: 44, height: 44)
+      ],
+    );
   }
 
-  void takeSnapshot() {
-    player.takeSnapShot().then((v) {
-      var provider = MemoryImage(v);
-      precacheImage(provider, context).then((_) {
-        setState(() {
-          _imageProvider = provider;
-        });
-      });
-      FijkLog.d("get snapshot succeed");
-    }).catchError((e) {
-      FijkLog.d("get snapshot failed");
-    });
-  }
-
+  /// 面板UI
   Widget buildPanel(BuildContext context) {
     double height = panelHeight();
-
     bool fullScreen = player.value.fullScreen;
-    Widget centerWidget = Container(
-      color: const Color(0x00000000),
-    );
+    double toolHeight = fullScreen ? height / 5 : 60;
+    double toolItemHeight = fullScreen ? height / 5 : 45;
 
-    Widget centerChild = Container(
-      color: const Color(0x00000000),
-    );
-
-    if (fullScreen && widget.snapShot) {
-      centerWidget = Row(
-        children: <Widget>[
-          Expanded(child: centerChild),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                  padding: const EdgeInsets.all(0),
-                  color: const Color(0xFFFFFFFF),
-                  icon: const Icon(Icons.camera_alt),
-                  onPressed: () {
-                    takeSnapshot();
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-      );
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          height: height > 200 ? 80 : height / 5,
+          height: toolHeight,
+          alignment: fullScreen ? Alignment.center : Alignment.topCenter,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0x88000000), Color(0x00000000)],
@@ -434,25 +332,20 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
               end: Alignment.bottomCenter,
             ),
           ),
+          child: buildTop(context, toolItemHeight),
         ),
-        Expanded(
-          child: centerWidget,
-        ),
+        const Spacer(),
         Container(
-          height: height > 80 ? 80 : height / 2,
+          height: toolHeight,
+          alignment: fullScreen ? Alignment.center : Alignment.bottomCenter,
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0x88000000), Color(0x00000000)],
-              end: Alignment.topCenter,
-              begin: Alignment.bottomCenter,
-            ),
-          ),
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: height > 80 ? 45 : height / 2,
-            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
-            child: buildBottom(context, height > 80 ? 40 : height / 2),
-          ),
+              gradient: LinearGradient(
+                colors: [Color(0x88000000), Color(0x00000000)],
+                end: Alignment.topCenter,
+                begin: Alignment.bottomCenter,
+              ),
+              color: Colors.green),
+          child: buildBottom(context, toolItemHeight),
         )
       ],
     );
@@ -476,6 +369,72 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
       ),
     );
   }
+
+  Widget buildStateless() {
+    var volume = _volume;
+    var brightness = _brightness;
+    if (volume != null || brightness != null) {
+      Widget toast = volume == null
+          ? defaultFijkBrightnessToast(brightness!, _valController.stream)
+          : defaultFijkVolumeToast(volume, _valController.stream);
+      return IgnorePointer(
+        child: AnimatedOpacity(
+          opacity: 1,
+          duration: const Duration(milliseconds: 500),
+          child: toast,
+        ),
+      );
+    } else if (player.state == FijkState.asyncPreparing) {
+      return Container(
+        alignment: Alignment.center,
+        child: const SizedBox(
+          width: 30,
+          height: 30,
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(ColorUtils.red233)),
+        ),
+      );
+    } else if (player.state == FijkState.error) {
+      return Container(
+        alignment: Alignment.center,
+        child: const Icon(
+          Icons.error,
+          size: 30,
+          color: ColorUtils.red233,
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Rect rect = panelRect();
+
+    List ws = <Widget>[];
+
+    if (_statelessTimer != null && _statelessTimer!.isActive) {
+      ws.add(buildStateless());
+    } else if (player.state == FijkState.asyncPreparing) {
+      ws.add(buildStateless());
+    } else if (player.state == FijkState.error) {
+      ws.add(buildStateless());
+    }
+
+    Widget waterLogo =
+        const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
+
+    ws.add(waterLogo);
+    ws.add(buildGestureDetector(context));
+
+    return Positioned.fromRect(
+      rect: rect,
+      child: Stack(alignment: Alignment.topRight, children: ws as List<Widget>),
+    );
+  }
+
+  // MARK: - Utils
 
   Rect panelRect() {
     Rect rect = player.value.fullScreen || (true == widget.fill)
@@ -504,98 +463,5 @@ class __CustomPanelMatchState extends State<_CustomPanelMatch> {
       return min(widget.viewSize.width, widget.texPos.right) -
           max(0.0, widget.texPos.left);
     }
-  }
-
-  Widget buildBack(BuildContext context) {
-    return IconButton(
-      padding: const EdgeInsets.only(left: 5),
-      icon: const Icon(
-        Icons.arrow_back_ios,
-        color: Color(0xDDFFFFFF),
-      ),
-      onPressed: widget.onBack,
-    );
-  }
-
-  Widget buildStateless() {
-    var volume = _volume;
-    var brightness = _brightness;
-    if (volume != null || brightness != null) {
-      Widget toast = volume == null
-          ? defaultFijkBrightnessToast(brightness!, _valController.stream)
-          : defaultFijkVolumeToast(volume, _valController.stream);
-      return IgnorePointer(
-        child: AnimatedOpacity(
-          opacity: 1,
-          duration: const Duration(milliseconds: 500),
-          child: toast,
-        ),
-      );
-    } else if (player.state == FijkState.asyncPreparing) {
-      return Container(
-        alignment: Alignment.center,
-        child: const SizedBox(
-          width: 30,
-          height: 30,
-          child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.white)),
-        ),
-      );
-    } else if (player.state == FijkState.error) {
-      return Container(
-        alignment: Alignment.center,
-        child: const Icon(
-          Icons.error,
-          size: 30,
-          color: Color(0x99FFFFFF),
-        ),
-      );
-    } else if (_imageProvider != null) {
-      _snapshotTimer?.cancel();
-      _snapshotTimer = Timer(const Duration(milliseconds: 1500), () {
-        if (mounted) {
-          setState(() {
-            _imageProvider = null;
-          });
-        }
-      });
-      return Center(
-        child: IgnorePointer(
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.yellowAccent, width: 3)),
-            child:
-                Image(height: 200, fit: BoxFit.contain, image: _imageProvider!),
-          ),
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Rect rect = panelRect();
-
-    List ws = <Widget>[];
-
-    if (_statelessTimer != null && _statelessTimer!.isActive) {
-      ws.add(buildStateless());
-    } else if (player.state == FijkState.asyncPreparing) {
-      ws.add(buildStateless());
-    } else if (player.state == FijkState.error) {
-      ws.add(buildStateless());
-    } else if (_imageProvider != null) {
-      ws.add(buildStateless());
-    }
-    ws.add(buildGestureDetector(context));
-    if (widget.onBack != null) {
-      ws.add(buildBack(context));
-    }
-    return Positioned.fromRect(
-      rect: rect,
-      child: Stack(children: ws as List<Widget>),
-    );
   }
 }

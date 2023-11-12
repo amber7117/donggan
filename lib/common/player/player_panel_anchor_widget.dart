@@ -23,7 +23,7 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
     VoidCallback? onBack}) {
   return (FijkPlayer player, FijkData data, BuildContext context, Size viewSize,
       Rect texturePos) {
-    return PlayerPanelAnchor(
+    return _PlayerPanelAnchor(
       key: key,
       player: player,
       data: data,
@@ -39,7 +39,7 @@ FijkPanelWidgetBuilder anchorPanelBuilder(
   };
 }
 
-class PlayerPanelAnchor extends StatefulWidget {
+class _PlayerPanelAnchor extends StatefulWidget {
   final FijkPlayer player;
   final FijkData data;
   final Size viewSize;
@@ -52,7 +52,7 @@ class PlayerPanelAnchor extends StatefulWidget {
   final WZAnyCallback<PlayPanelEvent> callback;
   final VoidCallback? onBack;
 
-  const PlayerPanelAnchor({
+  const _PlayerPanelAnchor({
     super.key,
     required this.player,
     required this.data,
@@ -67,10 +67,10 @@ class PlayerPanelAnchor extends StatefulWidget {
   });
 
   @override
-  State createState() => PlayerPanelAnchorState();
+  State createState() => __PlayerPanelAnchorState();
 }
 
-class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
+class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
   FijkPlayer get player => widget.player;
 
   Timer? _hideTimer;
