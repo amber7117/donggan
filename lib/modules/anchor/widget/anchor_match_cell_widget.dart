@@ -25,7 +25,7 @@ class AnchorMatchCellWidget extends StatefulWidget {
 class _AnchorMatchCellWidgetState extends State<AnchorMatchCellWidget> {
 
   _requestMatchBook() {
-    MatchListModel model = widget.model!;
+    MatchListModel model = widget.model;
     bool isBook = !model.userIsAppointment;
 
     ToastUtils.showLoading();

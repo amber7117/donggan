@@ -123,7 +123,5 @@ enum MatchFilterType {
 enum PlayPanelEvent {
   more,
   fullScreen,
-  resolution,
   danmu,
-  danmuSet,
 }

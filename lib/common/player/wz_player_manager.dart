@@ -1,13 +1,13 @@
 class WZPlayerManager {
   // ---------------------------------------------
 
-  bool _showVideoResolution = false;
+  bool showVideoResolution = false;
   String resolution = "标清";
   late String url;
   List<String> titleArr = [];
   Map<String, String> playUrlDic = {};
 
-  bool _showDanmuSet = false;
+  bool showDanmuSet = false;
 
   // ---------------------------------------------
 

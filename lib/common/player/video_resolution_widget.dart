@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class AnchorVideoResolutionWidget extends StatelessWidget {
-  final String selectedTitle;
-  final List<String> dataArr;
-  final Map<String, String> playUrlDic;
-  final bool isFullScreen;
+class VideoResolutionWidget extends StatelessWidget {
+  final Rect playRect;
+  final bool fullScreen;
   final WZAnyCallback callback;
 
-  const AnchorVideoResolutionWidget(
-      {super.key,
-      required this.selectedTitle,
-      required this.dataArr,
-      required this.playUrlDic,
-      required this.isFullScreen,
-      required this.callback});
+  const VideoResolutionWidget(
+      {super.key, required this.fullScreen, required this.callback, required this.playRect});
 
   @override
   Widget build(BuildContext context) {
+    String resolution = WZPlayerManager.instance.resolution;
+    List<String> titleArr = WZPlayerManager.instance.titleArr;
+
     return SizedBox(
-      width: double.infinity,
-      height: 200,
+      width: playRect.width,
+      height: playRect.height,
       child: Container(
           width: ScreenUtil().scaleWidth * 0.5,
-          height: 200,
-          color: Colors.black.withOpacity(0.6),
+          height: playRect.height,
+          color: Colors.yellow,
+          // color: Colors.black.withOpacity(0.6),
           alignment: Alignment.centerRight,
           child: SizedBox(
             width: 270,
@@ -35,7 +33,7 @@ class AnchorVideoResolutionWidget extends StatelessWidget {
             child: GridView.builder(
                 padding: const EdgeInsets.only(top: 10, left: 12, bottom: 10),
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: dataArr.length,
+                itemCount: titleArr.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5,
                   mainAxisSpacing: 0,
@@ -47,15 +45,14 @@ class AnchorVideoResolutionWidget extends StatelessWidget {
                     onTap: () {
                       callback(index);
                     },
-                    child: _buildCellWidget(index),
+                    child: _buildCellWidget(titleArr[index]),
                   );
                 }),
           )),
     );
   }
 
-  _buildCellWidget(int index) {
-    String title = dataArr[index];
+  _buildCellWidget(String title) {
     return Container(
         child: Text(title,
             style: const TextStyle(

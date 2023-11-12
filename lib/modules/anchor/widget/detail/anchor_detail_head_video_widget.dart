@@ -135,9 +135,7 @@ class _AnchorDetailHeadVideoWidgetState
     if (data == PlayPanelEvent.more) {
       _showReporBlocktUI();
     } else if (data == PlayPanelEvent.fullScreen) {
-    } else if (data == PlayPanelEvent.resolution) {
-    } else if (data == PlayPanelEvent.danmu) {
-    } else if (data == PlayPanelEvent.danmuSet) {}
+    } else if (data == PlayPanelEvent.danmu) {}
   }
 
   // -------------------------------------------

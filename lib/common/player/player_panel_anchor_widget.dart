@@ -5,6 +5,8 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/player_panel_utils.dart';
+import 'package:wzty/common/player/video_resolution_widget.dart';
+import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -270,7 +272,9 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
   Widget buildDanmuSetButton(BuildContext context) {
     return InkWell(
         onTap: () {
-          widget.callback(PlayPanelEvent.danmuSet);
+          WZPlayerManager.instance.showDanmuSet =
+              !WZPlayerManager.instance.showDanmuSet;
+          setState(() {});
         },
         child: const Padding(
             padding: EdgeInsets.all(10),
@@ -318,7 +322,9 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
   Widget buildResolutionButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        widget.callback(PlayPanelEvent.resolution);
+        WZPlayerManager.instance.showVideoResolution =
+            !WZPlayerManager.instance.showVideoResolution;
+        setState(() {});
       },
       child: Container(
         width: 40,
@@ -327,7 +333,7 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
         decoration: BoxDecoration(
             border: Border.all(width: 1.0, color: Colors.white),
             borderRadius: const BorderRadius.all(Radius.circular(10))),
-        child: Text("标清",
+        child: Text(WZPlayerManager.instance.resolution,
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 10,
@@ -487,6 +493,14 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
 
     ws.add(waterLogo);
     ws.add(buildGestureDetector(context));
+
+    if (WZPlayerManager.instance.showVideoResolution) {
+      ws.add(VideoResolutionWidget(
+        fullScreen: player.value.fullScreen,
+        callback: (data) {},
+        playRect: rect,
+      ));
+    }
 
     return Positioned.fromRect(
       rect: rect,
