@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/text_style_utils.dart';
 
 class VideoResolutionWidget extends StatelessWidget {
   final Rect playRect;

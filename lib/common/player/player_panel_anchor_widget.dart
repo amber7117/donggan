@@ -5,6 +5,7 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/player_panel_utils.dart';
+import 'package:wzty/common/player/video_danmu_set_widget.dart';
 import 'package:wzty/common/player/video_resolution_widget.dart';
 import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -507,6 +508,17 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
             await player.reset();
             player.setDataSource(url, autoPlay: true);
           }
+        },
+        playRect: rect,
+      ));
+    }
+
+    if (WZPlayerManager.instance.showDanmuSet) {
+      ws.add(VideoDanmuSetWidget(
+        fullScreen: player.value.fullScreen,
+        callback: () async {
+          WZPlayerManager.instance.showDanmuSet = false;
+          setState(() {});
         },
         playRect: rect,
       ));
