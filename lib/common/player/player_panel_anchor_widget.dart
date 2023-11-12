@@ -226,14 +226,20 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
   // MARK: - UI & Property
 
   /// 返回按钮
-  Widget buildBackButtom(BuildContext context) {
+  Widget buildBackButton(BuildContext context) {
     return IconButton(
       padding: const EdgeInsets.only(left: 5),
       icon: const Icon(
         Icons.arrow_back_ios,
         color: Color(0xDDFFFFFF),
       ),
-      onPressed: widget.onBack,
+      onPressed: () {
+        if (player.value.fullScreen) {
+          player.exitFullScreen();
+        } else {
+          widget.onBack!();
+        }
+      },
     );
   }
 
@@ -293,13 +299,17 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
 
   /// 底部菜单栏
   Widget buildBottom(BuildContext context, double height) {
+    bool fullScreen = player.value.fullScreen;
+
     return Row(
       children: <Widget>[
+        fullScreen ? const SizedBox(width: 44) : const SizedBox(),
         buildRefreshButton(context),
         const Spacer(),
         buildDanmuButton(context),
         buildDanmuSetButton(context),
         buildFullScreenButton(context),
+        fullScreen ? const SizedBox(width: 44) : const SizedBox(),
       ],
     );
   }
@@ -339,9 +349,13 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
 
   /// 顶部菜单栏
   Widget buildTop(BuildContext context, double height) {
+    bool fullScreen = player.value.fullScreen;
+    bool showBack = widget.onBack != null || fullScreen;
+
     return Row(
       children: <Widget>[
         const SizedBox(width: 44),
+        showBack ? buildBackButton(context) : const SizedBox(),
         Expanded(
           child: Text(widget.title ?? "",
               overflow: TextOverflow.ellipsis,
@@ -352,7 +366,8 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
         ),
         const SizedBox(width: 20),
         buildResolutionButton(context),
-        player.value.fullScreen ? const SizedBox() : buildMoreButton(context),
+        fullScreen ? const SizedBox() : buildMoreButton(context),
+        fullScreen ? const SizedBox(width: 44) : const SizedBox(),
       ],
     );
   }
@@ -360,15 +375,16 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
   /// 面板UI
   Widget buildPanel(BuildContext context) {
     double height = panelHeight();
-    double toolHeight = height > 80 ? 80 : height / 5;
-    double toolItemHeight = height > 80 ? 45 : height / 2;
+    bool fullScreen = player.value.fullScreen;
+    double toolHeight = fullScreen ? height / 5 : 60;
+    double toolItemHeight = fullScreen ? height / 5 : 45;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
           height: toolHeight,
-          alignment: Alignment.topCenter,
+          alignment: fullScreen ? Alignment.center : Alignment.topCenter,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0x88000000), Color(0x00000000)],
@@ -381,7 +397,7 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
         const Spacer(),
         Container(
           height: toolHeight,
-          alignment: Alignment.bottomCenter,
+          alignment: fullScreen ? Alignment.center : Alignment.bottomCenter,
           decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0x88000000), Color(0x00000000)],
@@ -465,14 +481,13 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
     } else if (player.state == FijkState.error) {
       ws.add(buildStateless());
     }
+
     Widget waterLogo =
         const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
 
     ws.add(waterLogo);
     ws.add(buildGestureDetector(context));
-    if (widget.onBack != null) {
-      ws.add(buildBackButtom(context));
-    }
+
     return Positioned.fromRect(
       rect: rect,
       child: Stack(alignment: Alignment.topRight, children: ws as List<Widget>),

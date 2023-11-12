@@ -3,14 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
-import 'package:wzty/common/player/player_panel_anchor_widget.dart';
+import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/common/player/wz_player_widget.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
-import 'package:wzty/modules/anchor/widget/detail/anchor_video_resolution_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class AnchorDetailHeadVideoWidget extends StatefulWidget {
@@ -34,18 +33,6 @@ class AnchorDetailHeadVideoWidget extends StatefulWidget {
 
 class _AnchorDetailHeadVideoWidgetState
     extends State<AnchorDetailHeadVideoWidget> {
-  bool _fullscreen = false;
-
-  bool _showVideoResolution = false;
-  String resolution = "标清";
-  late String url;
-  List<String> titleArr = [];
-  Map<String, String> playUrlDic = {};
-
-  bool _showDanmuSet = false;
-
-  final GlobalKey<WZPlayerWidgetState> _playerKey = GlobalKey();
-
   @override
   void initState() {
     super.initState();
@@ -60,10 +47,12 @@ class _AnchorDetailHeadVideoWidgetState
 
     AnchorDetailModel model = widget.detailModel!;
 
-    String title = "";
+    String resolution = "";
+    List<String> titleArr = [];
+    Map<String, String> playUrlDic = {};
 
     if (model.isRobot.isTrue()) {
-      title = "原画";
+      String title = "原画";
       titleArr.add(title);
       playUrlDic[title] = widget.urlStr;
 
@@ -81,11 +70,16 @@ class _AnchorDetailHeadVideoWidgetState
       }
       resolution = "标清";
     }
-    url = widget.urlStr;
+
+    WZPlayerManager.instance.resolution = resolution;
+    WZPlayerManager.instance.url = widget.urlStr;
+
+    WZPlayerManager.instance.titleArr = titleArr;
+    WZPlayerManager.instance.playUrlDic = playUrlDic;
   }
 
   // -------------------------------------------
-  
+
   _showReporBlocktUI() {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -141,10 +135,7 @@ class _AnchorDetailHeadVideoWidgetState
     if (data == PlayPanelEvent.more) {
       _showReporBlocktUI();
     } else if (data == PlayPanelEvent.fullScreen) {
-      _fullscreen = !_fullscreen;
     } else if (data == PlayPanelEvent.resolution) {
-      _showVideoResolution = true;
-      setState(() {});
     } else if (data == PlayPanelEvent.danmu) {
     } else if (data == PlayPanelEvent.danmuSet) {}
   }
@@ -165,7 +156,6 @@ class _AnchorDetailHeadVideoWidgetState
                 width: double.infinity,
                 height: widget.height,
                 child: WZPlayerWidget(
-                  key: _playerKey,
                   urlStr: widget.urlStr,
                   titleStr: widget.titleStr,
                   type: widget.isAnchor
@@ -173,15 +163,6 @@ class _AnchorDetailHeadVideoWidgetState
                       : WZPlayerType.playback,
                   callback: handlePlayerEvent,
                 ),
-              ),
-              Visibility(
-                visible: _showVideoResolution,
-                child: AnchorVideoResolutionWidget(
-                    selectedTitle: resolution,
-                    dataArr: titleArr,
-                    playUrlDic: playUrlDic,
-                    isFullScreen: true,
-                    callback: (data) {}),
               ),
               const WZBackButton(),
             ],

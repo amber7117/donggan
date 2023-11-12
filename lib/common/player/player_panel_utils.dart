@@ -3,11 +3,6 @@ import 'dart:collection';
 String duration2String(Duration duration) {
   if (duration.inMilliseconds < 0) return "-: negtive";
 
-  String twoDigits(int n) {
-    if (n >= 10) return "$n";
-    return "0$n";
-  }
-
   String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
   String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
   int inHours = duration.inHours;
@@ -16,6 +11,10 @@ String duration2String(Duration duration) {
       : "$twoDigitMinutes:$twoDigitSeconds";
 }
 
+String twoDigits(int n) {
+  if (n >= 10) return "$n";
+  return "0$n";
+}
 
 class WZFijkData {
   static String fijkViewPanelVolume = "__fijkview_panel_init_volume";

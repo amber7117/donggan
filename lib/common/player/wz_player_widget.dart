@@ -2,8 +2,8 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/player_panel_anchor_widget.dart';
-import 'package:wzty/common/player/custom_panel_match_widget.dart';
-import 'package:wzty/common/player/custom_panel_playback_widget.dart';
+import 'package:wzty/common/player/player_panel_match_widget.dart';
+import 'package:wzty/common/player/player_panel_playback_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 enum WZPlayerType { match, anchor, playback }
@@ -29,7 +29,6 @@ class WZPlayerWidget extends StatefulWidget {
 
 class WZPlayerWidgetState extends State<WZPlayerWidget> {
   final FijkPlayer player = FijkPlayer();
-  final GlobalKey<PlayerPanelAnchorState> _panelAnchorKey = GlobalKey();
 
   @override
   void initState() {
@@ -57,7 +56,6 @@ class WZPlayerWidgetState extends State<WZPlayerWidget> {
       builder = matchPanelBuilder();
     } else if (widget.type == WZPlayerType.anchor) {
       builder = anchorPanelBuilder(
-          key: _panelAnchorKey,
           title: widget.titleStr,
           callback: (data) {
             widget.callback!(data);
