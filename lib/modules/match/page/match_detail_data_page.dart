@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
+import 'package:wzty/modules/chat/chat_page.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/analysis/match_detail_analysis_page.dart';
 import 'package:wzty/modules/match/page/anchor/match_detail_anchor_page.dart';
@@ -14,29 +14,31 @@ import 'package:wzty/modules/match/page/status/match_detail_bb_status_page.dart'
 import 'package:wzty/modules/match/page/status/match_detail_fb_status_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
-class AnchorMatchDataPage extends StatefulWidget {
+class MatchDetailDataPage extends StatefulWidget {
   final int matchId;
+  final bool showChat;
+  final MatchDetailModel? model;
+  final VoidCallback? callback;
 
-  final VoidCallback callback;
-
-  const AnchorMatchDataPage(
-      {super.key, required this.matchId, required this.callback});
+  const MatchDetailDataPage(
+      {super.key,
+      required this.matchId,
+      this.showChat = true,
+      this.callback,
+      this.model});
 
   @override
-  State createState() => AnchorMatchDataPageState();
+  State createState() => MatchDetailDataPageState();
 }
 
-class AnchorMatchDataPageState
-    extends KeepAliveLifeWidgetState<AnchorMatchDataPage>
+class MatchDetailDataPageState
+    extends KeepAliveLifeWidgetState<MatchDetailDataPage>
     with SingleTickerProviderStateMixin {
-      
   setDetailModel(MatchDetailModel model) {
     if (_model != null) return;
-    
+
     _model = model;
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   late TabController _tabController;
@@ -68,6 +70,14 @@ class AnchorMatchDataPageState
   @override
   void initState() {
     super.initState();
+
+    _model = widget.model;
+    if (widget.showChat) {
+      _tabs.add(const MatchDetailTabbarItemWidget(
+        tabName: '聊球',
+        index: 4,
+      ));
+    }
 
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
@@ -148,26 +158,34 @@ class AnchorMatchDataPageState
                             matchId: widget.matchId, detailModel: model);
                       } else if (index == 3) {
                         return MatchDetailAnchorPage(matchId: widget.matchId);
+                      } else if (index == 4) {
+                        return ChatPage(
+                            roomId: model.roomId,
+                            chatRoomId: model.matchId.toString(),
+                            isMatch: true);
                       }
                       return const SizedBox();
                     }),
-                InkWell(
-                  onTap: widget.callback,
-                  child: Container(
-                    width: 22,
-                    height: 55,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: JhImageUtils.getAssetImage(
-                              "anchor/icon_shuju_left"),
-                          fit: BoxFit.cover),
+                Visibility(
+                  visible: widget.callback != null,
+                  child: InkWell(
+                    onTap: widget.callback,
+                    child: Container(
+                      width: 22,
+                      height: 55,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: JhImageUtils.getAssetImage(
+                                "anchor/icon_shuju_left"),
+                            fit: BoxFit.cover),
+                      ),
+                      child: const Text("主\n播",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400)),
                     ),
-                    child: const Text("主\n播",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400)),
                   ),
                 )
               ],

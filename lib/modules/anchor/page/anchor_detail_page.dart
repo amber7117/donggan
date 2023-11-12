@@ -12,7 +12,7 @@ import 'package:wzty/modules/anchor/page/anchor_detail_bottom_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
-import 'package:wzty/modules/match/page/anchor_match_data_page.dart';
+import 'package:wzty/modules/match/page/match_detail_data_page.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -30,7 +30,6 @@ class AnchorDetailPage extends StatefulWidget {
 
 class _AnchorDetailPageState
     extends KeepAliveLifeWidgetState<AnchorDetailPage> {
-
   LoadStatusType _layoutState = LoadStatusType.loading;
   AnchorDetailModel? _model;
   AnchorDetailModel? _playInfo;
@@ -41,7 +40,7 @@ class _AnchorDetailPageState
 
   final GlobalKey<AnchorDetailBottomPageState> _detailBottomPageKey =
       GlobalKey();
-  final GlobalKey<AnchorMatchDataPageState> _matchDataPageKey = GlobalKey();
+  final GlobalKey<MatchDetailDataPageState> _matchDataPageKey = GlobalKey();
 
   final ScrollController _scrollController = ScrollController();
 
@@ -140,7 +139,7 @@ class _AnchorDetailPageState
 
   _matchDataBtnClick() {
     _matchDataPageKey.currentState?.setDetailModel(_matchDetailModel);
-    
+
     _scrollController.animateTo(_scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 200), curve: Curves.ease);
   }
@@ -202,10 +201,11 @@ class _AnchorDetailPageState
                       model: model,
                       callback: _matchDataBtnClick);
                 } else {
-                  return AnchorMatchDataPage(
+                  return MatchDetailDataPage(
                       key: _matchDataPageKey,
                       matchId: _model!.matchId,
-                      callback: _anchorDataBtnClick);
+                      callback: _anchorDataBtnClick,
+                      showChat: false);
                 }
               }),
         )
