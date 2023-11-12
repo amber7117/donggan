@@ -3,7 +3,6 @@ class WZPlayerManager {
 
   bool showVideoResolution = false;
   String resolution = "标清";
-  late String url;
   List<String> titleArr = [];
   Map<String, String> playUrlDic = {};
 

@@ -497,7 +497,17 @@ class PlayerPanelAnchorState extends State<PlayerPanelAnchor> {
     if (WZPlayerManager.instance.showVideoResolution) {
       ws.add(VideoResolutionWidget(
         fullScreen: player.value.fullScreen,
-        callback: (data) {},
+        callback: (data) async {
+          WZPlayerManager.instance.showVideoResolution = false;
+          if (data.isEmpty) {
+            setState(() {});
+          } else {
+            WZPlayerManager.instance.resolution = data;
+            String url = WZPlayerManager.instance.playUrlDic[data] ?? "";
+            await player.reset();
+            player.setDataSource(url, autoPlay: true);
+          }
+        },
         playRect: rect,
       ));
     }

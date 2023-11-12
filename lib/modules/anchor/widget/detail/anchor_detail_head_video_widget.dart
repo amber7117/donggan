@@ -71,9 +71,10 @@ class _AnchorDetailHeadVideoWidgetState
       resolution = "标清";
     }
 
-    WZPlayerManager.instance.resolution = resolution;
-    WZPlayerManager.instance.url = widget.urlStr;
+    WZPlayerManager.instance.showVideoResolution = false;
+    WZPlayerManager.instance.showDanmuSet = false;
 
+    WZPlayerManager.instance.resolution = resolution;
     WZPlayerManager.instance.titleArr = titleArr;
     WZPlayerManager.instance.playUrlDic = playUrlDic;
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -8,56 +7,120 @@ import 'package:wzty/utils/text_style_utils.dart';
 class VideoResolutionWidget extends StatelessWidget {
   final Rect playRect;
   final bool fullScreen;
-  final WZAnyCallback callback;
+  final WZAnyCallback<String> callback;
 
   const VideoResolutionWidget(
-      {super.key, required this.fullScreen, required this.callback, required this.playRect});
+      {super.key,
+      required this.fullScreen,
+      required this.callback,
+      required this.playRect});
 
   @override
   Widget build(BuildContext context) {
+    if (fullScreen) {
+      return _buildFullscreenUI();
+    } else {
+      return _buildNormalUI();
+    }
+  }
+
+  _buildNormalUI() {
     String resolution = WZPlayerManager.instance.resolution;
     List<String> titleArr = WZPlayerManager.instance.titleArr;
 
-    return SizedBox(
-      width: playRect.width,
-      height: playRect.height,
-      child: Container(
-          width: ScreenUtil().scaleWidth * 0.5,
-          height: playRect.height,
-          color: Colors.yellow,
-          // color: Colors.black.withOpacity(0.6),
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            width: 270,
-            height: 66,
-            child: GridView.builder(
-                padding: const EdgeInsets.only(top: 10, left: 12, bottom: 10),
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: titleArr.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  mainAxisSpacing: 0,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 60 / 28,
-                ),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      callback(index);
-                    },
-                    child: _buildCellWidget(titleArr[index]),
-                  );
-                }),
-          )),
+    return InkWell(
+      onTap: () {
+        callback("");
+      },
+      child: SizedBox(
+        width: playRect.width,
+        height: playRect.height,
+        child: Container(
+            width: playRect.width * 0.5,
+            height: playRect.height,
+            color: Colors.black.withOpacity(0.6),
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 270,
+              height: 66,
+              child: GridView.builder(
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: titleArr.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 60 / 28,
+                  ),
+                  itemBuilder: (context, index) {
+                    String title = titleArr[index];
+                    return _buildCellWidget(title, title == resolution);
+                  }),
+            )),
+      ),
     );
   }
 
-  _buildCellWidget(String title) {
-    return Container(
-        child: Text(title,
-            style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 16,
-                fontWeight: TextStyleUtils.regual)));
+  _buildFullscreenUI() {
+    String resolution = WZPlayerManager.instance.resolution;
+    List<String> titleArr = WZPlayerManager.instance.titleArr;
+
+    return InkWell(
+      onTap: () {
+        callback("");
+      },
+      child: SizedBox(
+        width: playRect.width,
+        height: playRect.height,
+        child: Container(
+            width: playRect.width * 0.5,
+            height: playRect.height,
+            color: Colors.black.withOpacity(0.6),
+            alignment: Alignment.centerRight,
+            child: Container(
+              color: Colors.yellow,
+              width: 270,
+              height: 66,
+              alignment: Alignment.center,
+              child: GridView.builder(
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: titleArr.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 60 / 28,
+                  ),
+                  itemBuilder: (context, index) {
+                    String title = titleArr[index];
+                    return _buildCellWidget(title, title == resolution);
+                  }),
+            )),
+      ),
+    );
+  }
+
+  _buildCellWidget(String title, bool selected) {
+    return InkWell(
+      onTap: () {
+        callback(title);
+      },
+      child: Container(
+        alignment: Alignment.center,
+          decoration: selected
+              ? const BoxDecoration(
+                  color: ColorUtils.red233,
+                  borderRadius: BorderRadius.all(Radius.circular(14)))
+              : BoxDecoration(
+                  border: Border.all(width: 1.0, color: Colors.white),
+                  borderRadius: const BorderRadius.all(Radius.circular(14))),
+          child: Text(title,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400))),
+    );
   }
 }
