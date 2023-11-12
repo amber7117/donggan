@@ -5,7 +5,6 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/me/entity/user_info_entity.dart';
 import 'package:wzty/modules/me/service/me_service.dart';
 import 'package:wzty/utils/color_utils.dart';
-import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 

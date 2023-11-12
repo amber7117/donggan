@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
@@ -8,16 +7,13 @@ import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
-import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
-import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
-import 'package:wzty/modules/anchor/page/anchor_detail_calendar_page.dart';
-import 'package:wzty/modules/anchor/page/anchor_detail_playback_page.dart';
+import 'package:wzty/modules/anchor/page/anchor_detail_bottom_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_video_widget.dart';
-import 'package:wzty/modules/anchor/widget/detail/anchor_detail_user_info_widget.dart';
-import 'package:wzty/modules/chat/chat_page.dart';
-import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
+import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
+import 'package:wzty/modules/match/page/anchor_match_data_page.dart';
+import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -32,51 +28,28 @@ class AnchorDetailPage extends StatefulWidget {
   State createState() => _AnchorDetailPageState();
 }
 
-class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  late PageController _pageController;
-
-  final TabProvider _tabProvider = TabProvider();
-  final MatchDetailDataProvider _dataProvider = MatchDetailDataProvider();
-
-  final List<Widget> _tabs = [
-    const MatchDetailTabbarItemWidget(
-      tabName: '聊球',
-      index: 0,
-    ),
-    const MatchDetailTabbarItemWidget(
-      tabName: '预告',
-      index: 1,
-    ),
-    const MatchDetailTabbarItemWidget(
-      tabName: '回放',
-      index: 2,
-    ),
-  ];
+class _AnchorDetailPageState
+    extends KeepAliveLifeWidgetState<AnchorDetailPage> {
 
   LoadStatusType _layoutState = LoadStatusType.loading;
   AnchorDetailModel? _model;
   AnchorDetailModel? _playInfo;
 
+  late MatchDetailModel _matchDetailModel;
+
   final String playerId = WZStringUtils.generateRandomString(8);
-  
+
+  final GlobalKey<AnchorDetailBottomPageState> _detailBottomPageKey =
+      GlobalKey();
+  final GlobalKey<AnchorMatchDataPageState> _matchDataPageKey = GlobalKey();
+
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
-    _pageController = PageController();
-
     _requestData();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _tabController.dispose();
-    _pageController.dispose();
   }
 
   @override
@@ -84,8 +57,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     super.onPageResume();
 
     if (_model != null) {
-      eventBusManager
-          .emit(PlayerStatusEvent(playerId: playerId, pause: false));
+      eventBusManager.emit(PlayerStatusEvent(playerId: playerId, pause: false));
     }
   }
 
@@ -94,8 +66,7 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     super.onPagePaused();
 
     if (_model != null) {
-      eventBusManager
-          .emit(PlayerStatusEvent(playerId: playerId, pause: true));
+      eventBusManager.emit(PlayerStatusEvent(playerId: playerId, pause: true));
     }
   }
 
@@ -118,11 +89,27 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
         _model!.updatePlayDataByModel(_playInfo!);
 
         _layoutState = LoadStatusType.success;
+
+        requestAnchorMatchData();
       } else {
         _layoutState = LoadStatusType.failure;
       }
 
       setState(() {});
+    });
+  }
+
+  void requestAnchorMatchData() {
+    MatchDetailService.requestMatchDetail(_model!.matchId, (success, result) {
+      if (result != null) {
+        if (result.sportId == SportType.football.value ||
+            result.sportId == SportType.basketball.value) {
+          result.matchStatus = matchStatusToServerValue(MatchStatus.going);
+          _matchDetailModel = result;
+
+          _detailBottomPageKey.currentState?.showDataBtn();
+        }
+      }
     });
   }
 
@@ -151,115 +138,79 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
     return videoUrl;
   }
 
+  _matchDataBtnClick() {
+    _matchDataPageKey.currentState?.setDetailModel(_matchDetailModel);
+    
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200), curve: Curves.ease);
+  }
+
+  _anchorDataBtnClick() {
+    _scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 200), curve: Curves.ease);
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
-    // 设置状态栏颜色
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.transparent, // 设置状态栏颜色
-    //   statusBarBrightness: Brightness.light, // 设置状态栏亮度
-    //   statusBarIconBrightness: Brightness.light, // 设置状态栏图标亮度
-    // ));
-
-    // return AnnotatedRegion<SystemUiOverlayStyle>(
-    //   value: SystemUiOverlayStyle(
-    //     statusBarColor: Colors.transparent, // 设置状态栏颜色
-    //     statusBarBrightness: Brightness.light, // 设置状态栏亮度
-    //     statusBarIconBrightness: Brightness.light, // 设置状态栏图标亮度
-    //   ),
-    //   child: LoadStateWidget(
-    //       state: _layoutState,
-    //       successWidget: Scaffold(
-    //           backgroundColor: ColorUtils.gray248, body: _buildChild(context))),
-    // );
-
     return LoadStateWidget(
         state: _layoutState,
         successWidget: Scaffold(
             backgroundColor: ColorUtils.gray248,
             // resizeToAvoidBottomInset: false,
-            body: _buildChild(context)));
+            body: _buildBottomUI()));
   }
 
-  _buildChild(BuildContext context) {
+  _buildBottomUI() {
     if (_model == null) {
       return const SizedBox();
     }
 
     AnchorDetailModel model = _model!;
 
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context2) => _tabProvider),
-          ChangeNotifierProvider(create: (context2) => _dataProvider),
-        ],
-        child: Column(
-          children: [
-            Consumer<MatchDetailDataProvider>(
-                builder: (context, provider, child) {
-              String videoUrl = _attemptPlayVideo();
-              if (videoUrl.isNotEmpty) {
-                return AnchorDetailHeadVideoWidget(
-                    height: videoHeight(),
-                    titleStr: model.liveTitle,
-                    urlStr: videoUrl,
-                    detailModel: model,
-                    playerId: playerId);
-              } else if (model.animUrl.isNotEmpty) {
-                return MatchDetailHeadWebWidget(
-                    height: videoHeight(), urlStr: model.animUrl);
-              } else {
-                return SizedBox(
-                    width: double.infinity, height: videoStatusBarHeight());
-              }
-            }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: ScreenUtil().screenWidth * 0.5,
-                  child: TabBar(
-                      onTap: (index) {
-                        if (!mounted) return;
-                        _pageController.jumpToPage(index);
-                      },
-                      isScrollable: true,
-                      controller: _tabController,
-                      indicator: const BoxDecoration(),
-                      labelPadding: const EdgeInsets.only(right: 4),
-                      tabs: _tabs),
-                ),
-                AnchorDetailUserInfoWidget(model: model),
-              ],
-            ),
-            const ColoredBox(
-                color: Color.fromRGBO(236, 236, 236, 1.0),
-                child: SizedBox(width: double.infinity, height: 0.5)),
-            Expanded(
-                child: PageView.builder(
-                    itemCount: _tabs.length,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, int index) {
-                      if (index == 0) {
-                        return ChatPage(
-                            roomId: model.roomId.toString(),
-                            chatRoomId: model.chatId);
-                      } else if (index == 1) {
-                        return AnchorDetailCalendarPage(
-                            anchorId: widget.anchorId);
-                      } else {
-                        return AnchorDetailPlaybackPage(
-                            anchorId: widget.anchorId,
-                            nickName: model.nickname);
-                      }
-                    }))
-          ],
-        ));
-  }
-
-  void _onPageChange(int index) {
-    _tabProvider.setIndex(index);
-    _tabController.animateTo(index);
+    Widget headWidget;
+    String videoUrl = _attemptPlayVideo();
+    if (videoUrl.isNotEmpty) {
+      headWidget = AnchorDetailHeadVideoWidget(
+          height: videoHeight(),
+          titleStr: model.liveTitle,
+          urlStr: videoUrl,
+          detailModel: model,
+          playerId: playerId);
+    } else if (model.animUrl.isNotEmpty) {
+      headWidget = MatchDetailHeadWebWidget(
+          height: videoHeight(), urlStr: model.animUrl);
+    } else {
+      headWidget =
+          SizedBox(width: double.infinity, height: videoStatusBarHeight());
+    }
+    return Column(
+      children: [
+        headWidget,
+        Expanded(
+          child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: 2,
+              itemExtent: ScreenUtil().screenWidth,
+              controller: _scrollController,
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return AnchorDetailBottomPage(
+                      key: _detailBottomPageKey,
+                      anchorId: widget.anchorId,
+                      model: model,
+                      callback: _matchDataBtnClick);
+                } else {
+                  return AnchorMatchDataPage(
+                      key: _matchDataPageKey,
+                      matchId: _model!.matchId,
+                      callback: _anchorDataBtnClick);
+                }
+              }),
+        )
+      ],
+    );
   }
 
   @override

@@ -62,11 +62,6 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
     eventBusManager.off(_eventSub);
   }
 
-  @override
-  void onPageResume() {
-    super.onPageResume();
-  }
-
   _requestData() {
     if (!UserManager.instance.isLogin()) return;
 

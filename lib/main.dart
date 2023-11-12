@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/demo_page.dart';
 // import 'package:wzty/demo_page.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
@@ -36,8 +37,7 @@ void main() async {
 
   // runApp(MaterialApp(
   //   title: 'Navigation Test',
-  //   home: StartWidget(),
-  //   navigatorObservers: <NavigatorObserver>[routeObserver],
+  //   home: StaggerRoute(),
   // ));
   // return;
 
