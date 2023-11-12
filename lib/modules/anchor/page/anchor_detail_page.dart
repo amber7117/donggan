@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
@@ -19,6 +21,7 @@ import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
+import 'package:wzty/utils/wz_string_utils.dart';
 
 class AnchorDetailPage extends StatefulWidget {
   final int anchorId;
@@ -56,6 +59,8 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
   AnchorDetailModel? _model;
   AnchorDetailModel? _playInfo;
 
+  final String playerId = WZStringUtils.generateRandomString(8);
+  
   @override
   void initState() {
     super.initState();
@@ -72,6 +77,26 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
 
     _tabController.dispose();
     _pageController.dispose();
+  }
+
+  @override
+  void onPageResume() {
+    super.onPageResume();
+
+    if (_model != null) {
+      eventBusManager
+          .emit(PlayerStatusEvent(playerId: playerId, pause: false));
+    }
+  }
+
+  @override
+  void onPagePaused() {
+    super.onPagePaused();
+
+    if (_model != null) {
+      eventBusManager
+          .emit(PlayerStatusEvent(playerId: playerId, pause: true));
+    }
   }
 
   _requestData() {
@@ -177,7 +202,8 @@ class _AnchorDetailPageState extends KeepAliveLifeWidgetState<AnchorDetailPage>
                     height: videoHeight(),
                     titleStr: model.liveTitle,
                     urlStr: videoUrl,
-                    detailModel: model);
+                    detailModel: model,
+                    playerId: playerId);
               } else if (model.animUrl.isNotEmpty) {
                 return MatchDetailHeadWebWidget(
                     height: videoHeight(), urlStr: model.animUrl);

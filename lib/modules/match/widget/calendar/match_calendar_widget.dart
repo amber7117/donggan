@@ -59,6 +59,28 @@ class _MatchCalendarWidgetState extends State<MatchCalendarWidget> {
                 // No need to call `setState()` here
                 _focusedDay = focusedDay;
               },
+              calendarStyle: CalendarStyle(
+                todayTextStyle: const TextStyle(
+                  color: ColorUtils.red233,
+                  fontSize: 16.0,
+                ),
+                todayDecoration: const BoxDecoration(
+                  color: Color.fromRGBO(250, 240, 242, 1),
+                  shape: BoxShape.circle,
+                ),
+                selectedTextStyle: const TextStyle(
+                  color: ColorUtils.red233,
+                  fontSize: 16.0,
+                ),
+                selectedDecoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    width: 1.0,
+                    color: ColorUtils.red233,
+                  ),
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
             const SizedBox(height: 10),
             Row(

@@ -25,3 +25,11 @@ class LoginStatusEvent {
 
   LoginStatusEvent({required this.login});
 }
+
+/// 播放器状态
+class PlayerStatusEvent {
+  final String playerId;
+  final bool pause;
+
+  PlayerStatusEvent({required this.playerId, required this.pause});
+}
