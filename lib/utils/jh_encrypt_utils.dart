@@ -32,7 +32,7 @@ class JhEncryptUtils {
      /// 这里可以配置类型，
      final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
      final encrypted = encrypter.encrypt(plainText, iv: iv);
-     return encrypted.base16;
+     return encrypted.base64;
    } catch (err) {
      logger.e("aes encode error:$err");
      return plainText;

@@ -10,9 +10,10 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_bottom_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
+import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_empty_widget.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_video_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
-import 'package:wzty/modules/match/page/match_detail_data_page.dart';
+import 'package:wzty/modules/match/page/match_detail_bottom_page.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_web_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -40,7 +41,7 @@ class _AnchorDetailPageState
 
   final GlobalKey<AnchorDetailBottomPageState> _detailBottomPageKey =
       GlobalKey();
-  final GlobalKey<MatchDetailDataPageState> _matchDataPageKey = GlobalKey();
+  final GlobalKey<MatchDetailBottomPageState> _matchDataPageKey = GlobalKey();
 
   final ScrollController _scrollController = ScrollController();
 
@@ -179,8 +180,7 @@ class _AnchorDetailPageState
       headWidget = MatchDetailHeadWebWidget(
           height: videoHeight(), urlStr: model.animUrl);
     } else {
-      headWidget =
-          SizedBox(width: double.infinity, height: videoStatusBarHeight());
+      headWidget = AnchorDetailHeadEmptyWidget(height: videoHeight());
     }
     return Column(
       children: [
@@ -201,7 +201,7 @@ class _AnchorDetailPageState
                       model: model,
                       callback: _matchDataBtnClick);
                 } else {
-                  return MatchDetailDataPage(
+                  return MatchDetailBottomPage(
                       key: _matchDataPageKey,
                       matchId: _model!.matchId,
                       callback: _anchorDataBtnClick,

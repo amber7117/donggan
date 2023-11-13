@@ -52,8 +52,16 @@ class DomainManager {
 
   _getDomainFromLocal() {
     if (appTest) {
+      // 测试
+      // DomainEntity domain1 = DomainEntity.local(
+      //     "dsWZu9x7TALaTWz0zgz8m0ou1qh0RzqsUkkjctCmAaQ=",
+      //     "3a73e2e36692543701e44691e0cb7490",
+      //     domainCDNF);
+      // return [domain1];
+
+      // 预发
       DomainEntity domain1 = DomainEntity.local(
-          "dsWZu9x7TALaTWz0zgz8m0ou1qh0RzqsUkkjctCmAaQ=",
+          "dsWZu9x7TALaTWz0zgz8m2NnwzFYHuWjvyLRmNRJDNU=",
           "3a73e2e36692543701e44691e0cb7490",
           domainCDNF);
       return [domain1];

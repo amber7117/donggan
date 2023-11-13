@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/common/webview/wz_webview_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
+import 'package:wzty/utils/jh_image_utils.dart';
 
-class MatchDetailHeadWebWidget extends StatelessWidget {
+class AnchorDetailHeadEmptyWidget extends StatelessWidget {
   final double height;
-  final String urlStr;
 
-  const MatchDetailHeadWebWidget(
-      {super.key, required this.height, required this.urlStr});
+  const AnchorDetailHeadEmptyWidget({super.key, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,8 @@ class MatchDetailHeadWebWidget extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: height,
-                child: WZWebviewWidget(urlStr: urlStr),
+                child: const JhAssetImage("anchor/imgLiveBg",
+                    fit: BoxFit.cover, x2: false),
               ),
               const WZBackButton(),
             ],

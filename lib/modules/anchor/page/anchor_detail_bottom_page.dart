@@ -12,14 +12,16 @@ import 'package:wzty/utils/jh_image_utils.dart';
 
 class AnchorDetailBottomPage extends StatefulWidget {
   final int anchorId;
+  final bool showChat;
   final AnchorDetailModel model;
-  final VoidCallback callback;
+  final VoidCallback? callback;
 
   const AnchorDetailBottomPage(
       {super.key,
       required this.anchorId,
+      this.showChat = true,
       required this.model,
-      required this.callback});
+      this.callback});
 
   @override
   State createState() => AnchorDetailBottomPageState();
@@ -37,20 +39,10 @@ class AnchorDetailBottomPageState extends State<AnchorDetailBottomPage>
 
   final TabProvider _tabProvider = TabProvider();
 
-  final List<Widget> _tabs = [
-    const MatchDetailTabbarItemWidget(
-      tabName: '聊球',
-      index: 0,
-    ),
-    const MatchDetailTabbarItemWidget(
-      tabName: '预告',
-      index: 1,
-    ),
-    const MatchDetailTabbarItemWidget(
-      tabName: '回放',
-      index: 2,
-    ),
-  ];
+  final List<String> _tabTitles = ['预告', '回放'];
+  final List<Widget> _tabs = [];
+
+  late AnchorDetailModel _model;
 
   late StateSetter _dataBtnSetter;
   bool _showDataBtn = false;
@@ -58,6 +50,19 @@ class AnchorDetailBottomPageState extends State<AnchorDetailBottomPage>
   @override
   void initState() {
     super.initState();
+
+    _model = widget.model;
+
+    if (widget.showChat) {
+      _tabTitles.insert(0, '聊球');
+    }
+
+    for (int i = 0; i < _tabTitles.length; i++) {
+      _tabs.add(MatchDetailTabbarItemWidget(
+        tabName: _tabTitles[i],
+        index: i,
+      ));
+    }
 
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();
@@ -73,8 +78,6 @@ class AnchorDetailBottomPageState extends State<AnchorDetailBottomPage>
 
   @override
   Widget build(BuildContext context) {
-    AnchorDetailModel model = widget.model;
-
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
         child: Column(
@@ -95,7 +98,7 @@ class AnchorDetailBottomPageState extends State<AnchorDetailBottomPage>
                       labelPadding: const EdgeInsets.only(right: 4),
                       tabs: _tabs),
                 ),
-                AnchorDetailUserInfoWidget(model: model),
+                AnchorDetailUserInfoWidget(model: _model),
               ],
             ),
             const ColoredBox(
@@ -110,23 +113,27 @@ class AnchorDetailBottomPageState extends State<AnchorDetailBottomPage>
                     onPageChanged: _onPageChange,
                     controller: _pageController,
                     itemBuilder: (_, int index) {
-                      if (index == 0) {
+                      String title = _tabTitles[index];
+                      if (title == "聊球") {
                         return ChatPage(
-                            roomId: model.roomId.toString(),
-                            chatRoomId: model.chatId);
-                      } else if (index == 1) {
+                            roomId: _model.roomId.toString(),
+                            chatRoomId: _model.chatId);
+                      } else if (title == "预告") {
                         return AnchorDetailCalendarPage(
                             anchorId: widget.anchorId);
-                      } else {
+                      } else if (title == "回放") {
                         return AnchorDetailPlaybackPage(
                             anchorId: widget.anchorId,
-                            nickName: model.nickname);
+                            nickName: _model.nickname,
+                            isDetailPage: widget.showChat);
+                      } else {
+                        return const SizedBox();
                       }
                     }),
                 StatefulBuilder(builder: (context, setState) {
                   _dataBtnSetter = setState;
                   return Visibility(
-                    visible: _showDataBtn,
+                    visible: _showDataBtn && widget.callback != null,
                     child: InkWell(
                       onTap: widget.callback,
                       child: Container(

@@ -14,13 +14,13 @@ import 'package:wzty/modules/match/page/status/match_detail_bb_status_page.dart'
 import 'package:wzty/modules/match/page/status/match_detail_fb_status_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
-class MatchDetailDataPage extends StatefulWidget {
+class MatchDetailBottomPage extends StatefulWidget {
   final int matchId;
   final bool showChat;
   final MatchDetailModel? model;
   final VoidCallback? callback;
 
-  const MatchDetailDataPage(
+  const MatchDetailBottomPage(
       {super.key,
       required this.matchId,
       this.showChat = true,
@@ -28,11 +28,11 @@ class MatchDetailDataPage extends StatefulWidget {
       this.model});
 
   @override
-  State createState() => MatchDetailDataPageState();
+  State createState() => MatchDetailBottomPageState();
 }
 
-class MatchDetailDataPageState
-    extends KeepAliveLifeWidgetState<MatchDetailDataPage>
+class MatchDetailBottomPageState
+    extends KeepAliveLifeWidgetState<MatchDetailBottomPage>
     with SingleTickerProviderStateMixin {
   setDetailModel(MatchDetailModel model) {
     if (_model != null) return;
@@ -72,12 +72,14 @@ class MatchDetailDataPageState
     super.initState();
 
     _model = widget.model;
+    
     if (widget.showChat) {
       _tabs.add(const MatchDetailTabbarItemWidget(
         tabName: '聊球',
         index: 4,
       ));
     }
+
 
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();

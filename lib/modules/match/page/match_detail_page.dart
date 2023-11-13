@@ -6,7 +6,7 @@ import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
-import 'package:wzty/modules/match/page/match_detail_data_page.dart';
+import 'package:wzty/modules/match/page/match_detail_bottom_page.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
 import 'package:wzty/modules/match/widget/detail/match_detail_head_video_widget.dart';
@@ -115,7 +115,7 @@ class _MatchDetailPageState extends KeepAliveLifeWidgetState<MatchDetailPage> {
             }),
             Expanded(
               child:
-                  MatchDetailDataPage(matchId: _model!.matchId, model: model),
+                  MatchDetailBottomPage(matchId: _model!.matchId, model: model),
             ),
           ],
         ));
