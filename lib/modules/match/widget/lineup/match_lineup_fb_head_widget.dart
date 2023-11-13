@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
+import 'package:wzty/modules/match/entity/detail/match_lineup_fb_info_model.dart';
 import 'package:wzty/modules/match/entity/detail/match_lineup_fb_model.dart';
 import 'package:wzty/modules/match/service/match_detail_lineup_service.dart';
 import 'package:wzty/modules/match/widget/lineup/match_lineup_coach_widget.dart';
@@ -66,11 +67,17 @@ class _MatchLineupFbHeadWidgetState extends State<MatchLineupFbHeadWidget> {
         widget.detailModel.matchId, teamId, coachId, (success, result) {
       ToastUtils.hideLoading();
       if (success) {
+        MatchLineupFBCoachInfoModel coach = result as MatchLineupFBCoachInfoModel;
+        if (widget.isHost) {
+          coach.teamLogo = widget.detailModel.hostTeamLogo;
+        } else {
+          coach.teamLogo = widget.detailModel.guestTeamLogo;
+        }
         showDialog(
             context: context,
             builder: (context) {
               return MatchLineupCoachWidget(
-                  model: result,
+                  model: coach,
                   callback: () {
                     Navigator.pop(context);
                   });

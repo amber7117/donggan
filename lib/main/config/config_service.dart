@@ -94,8 +94,8 @@ class ConfigService {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.channelInfo, HttpMethod.post);
 
-    if (result.isSuccess()) {
-      complete(true, (result.data is Map) ? result.data["echatUrl"] : "");
+    if (result.isSuccess() && result.data is Map) {
+      complete(true, result.data["echatUrl"]);
     } else {
       complete(false, null);
     }

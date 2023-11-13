@@ -69,8 +69,7 @@ class AnchorApi {
   static String playbackList =
       "/live-product/anonymous/v1/app/anchor/record/page";
 
-  static String playbackInfo =
-      "/live-product/v2.0/anchorRelay";
+  static String playbackInfo = "/live-product/v2.0/anchorRelay";
 
   static String searchData = "/live-product/anonymous/v1/search";
 }
@@ -88,15 +87,14 @@ class NewsApi {
 
   static String collect = "/qiutx-news/app/news/favorites/###";
 
-  static String collectCancel = "/qiutx-news/app/news/favorites/removeConcerns/###";
+  static String collectCancel =
+      "/qiutx-news/app/news/favorites/removeConcerns/###";
 
   static String newsLike = "/qiutx-news/app/news/like/###";
 
   static String commentLike = "/qiutx-news/app/news/commentlike/###";
 
   static String newsComment = "/qiutx-news/app/news/savecomment";
-
-  
 }
 
 class MeApi {
@@ -118,6 +116,8 @@ class MeApi {
   static String sysMsgList = "/qiutx-sms/user/message/listNew";
 
   static String footprint = "/qiutx-news/app/personal/footprint";
+
+  static String cancelAccount = "qiutx-usercenter/log/off/user";
 }
 
 class LoginApi {

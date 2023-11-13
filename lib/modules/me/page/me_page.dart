@@ -136,7 +136,7 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
       Routes.push(context, Routes.meWenti);
     } else if (type == MeListItemType.kefu) {
       String linkNew =
-          Uri.encodeQueryComponent(ConfigManager.instance.onlineKefu);
+          Uri.encodeFull(ConfigManager.instance.onlineKefu);
       // linkNew = "https://www.baidu.com";
       Routes.push(context, Routes.web,
           arguments: {"title": "在线客服", "urlStr": linkNew});

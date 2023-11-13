@@ -44,7 +44,7 @@ class BannerModel {
         Routes.push(context, Routes.matchDetail, arguments: link.toInt());
         break;
       case 5:
-        String linkNew = Uri.encodeQueryComponent(link);
+        String linkNew = Uri.encodeFull(link);
         if (redirectType == 1) {
         } else {}
         Routes.push(context, Routes.web,

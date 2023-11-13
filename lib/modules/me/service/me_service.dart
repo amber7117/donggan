@@ -186,4 +186,17 @@ class MeService {
       return;
     }
   }
+
+  static Future<void> requestCancelAccount(
+      Map<String, dynamic> params, BusinessCallback<String> complete) async {
+    HttpResultBean result = await HttpManager.request(
+        MeApi.cancelAccount, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
 }

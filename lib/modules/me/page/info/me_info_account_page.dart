@@ -87,7 +87,7 @@ class _MeInfoAccountPageState extends State<MeInfoAccountPage> {
     
     ToastUtils.showLoading();
 
-    MeService.requestModifyUserPwd(params, (success, result) {
+    MeService.requestCancelAccount(params, (success, result) {
       ToastUtils.hideLoading();
 
       if (success) {
