@@ -163,10 +163,10 @@ class MatchDetailModel {
 
   String obtainSecondVideoUrl() {
     var videoUrl = '';
-    if (liveFlvUrl.isNotEmpty) {
-      videoUrl = liveFlvUrl;
-    } else if (liveM3u8Url.isNotEmpty) {
+    if (liveM3u8Url.isNotEmpty) {
       videoUrl = liveM3u8Url;
+    } else if (liveFlvUrl.isNotEmpty) {
+      videoUrl = liveFlvUrl;
     } else if (rtmpUrl.isNotEmpty) {
       videoUrl = rtmpUrl;
     }

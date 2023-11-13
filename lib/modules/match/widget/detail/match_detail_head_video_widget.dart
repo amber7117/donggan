@@ -36,8 +36,7 @@ class _MatchDetailHeadVideoWidgetState
   void initState() {
     super.initState();
 
-    // player.setOption(FijkOption.hostCategory, "referer", "https://video.dqiu.com/");
-    player.setDataSource(widget.urlStr, autoPlay: true);
+    _preparePlayVideo();
 
     _eventSub = eventBusManager.on<PlayerStatusEvent>((event) {
       if (mounted && event.playerId == widget.playerId) {
@@ -46,6 +45,12 @@ class _MatchDetailHeadVideoWidgetState
         }
       }
     });
+  }
+
+  _preparePlayVideo() async {
+    await player.setOption(FijkOption.formatCategory, "headers",
+        "referer:https://video.dqiu.com/");
+    player.setDataSource(widget.urlStr, autoPlay: true);
   }
 
   @override
