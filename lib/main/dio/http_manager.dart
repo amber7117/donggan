@@ -178,9 +178,9 @@ class HttpManager {
     headers["version"] = "1.0.0";
     headers["client-type"] = "ios";
 
-    headers["source"] = "ZQTY";
-    headers["channel"] = "ZQTY";
-    headers["channelApp"] = "ZQTY";
+    headers["source"] = "WZTY";
+    headers["channel"] = "WZTY";
+    headers["channelApp"] = "WZTY";
 
     if (UserManager.instance.isLogin()) {
       headers["Authorization"] = "Bearer ${UserManager.instance.token}";
