@@ -6,6 +6,8 @@ import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
+import 'package:wzty/modules/anchor/manager/user_block_entity.dart';
+import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
 
 class AnchorService {
   static Future<void> requestHotList(
@@ -20,6 +22,9 @@ class AnchorService {
       List tmpList = result.data["list"];
       List<AnchorListModel> retList =
           tmpList.map((dataMap) => AnchorListModel.fromJson(dataMap)).toList();
+
+      retList = await removeBlockData(retList);
+
       complete(true, retList);
       return;
     } else {
@@ -42,6 +47,9 @@ class AnchorService {
         List<AnchorListModel> retList = tmpList
             .map((dataMap) => AnchorListModel.fromJson(dataMap))
             .toList();
+
+        retList = await removeBlockData(retList);
+
         complete(true, retList);
       } else {
         complete(true, []);
@@ -54,10 +62,28 @@ class AnchorService {
     }
   }
 
+  static Future<List<AnchorListModel>> removeBlockData(
+      List<AnchorListModel> listArr) async {
+    List<UserBlockEntity> blockAuthorArr =
+        await UserBlockManger.instance.obtainBlockData();
+    if (blockAuthorArr.isEmpty) {
+      return listArr;
+    }
+
+    List<AnchorListModel> arrTmp = [];
+    for (var model in listArr) {
+      if (!UserBlockManger.instance.getBlockStatus(userId: model.anchorId)) {
+        arrTmp.add(model);
+      }
+    }
+
+    return arrTmp;
+  }
+
   static Future<void> requestDetailBasicInfo(
       int anchorId, BusinessCallback<AnchorDetailModel?> complete) async {
     Map<String, dynamic> params = {"anchorId": anchorId};
-    
+
     if (UserManager.instance.isLogin()) {
       params["currentUserId"] = UserManager.instance.uid;
     }
