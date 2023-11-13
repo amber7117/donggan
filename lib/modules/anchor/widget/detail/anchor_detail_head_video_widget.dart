@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:ffi';
+import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barrage/flutter_barrage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/common/extension/extension_app.dart';
@@ -12,6 +15,7 @@ import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
@@ -106,6 +110,8 @@ class _AnchorDetailHeadVideoWidgetState
 
   final FijkPlayer player = FijkPlayer();
 
+  final barrageWallController = BarrageWallController();
+
   late StreamSubscription _eventSub;
 
   @override
@@ -180,6 +186,62 @@ class _AnchorDetailHeadVideoWidgetState
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isAnchor) {
+      return _buildAnchorVideoUI();
+    } else {
+      return _buildPlaybackVideoUI();
+    }
+  }
+
+  _buildAnchorVideoUI() {
+    // Random random = Random();
+    // List<Bullet> bullets = List<Bullet>.generate(10, (i) {
+    //   final showTime = random.nextInt(60000); // in 60s
+    //   return Bullet(child: Text('$i-$showTime', style: TextStyle(
+    //               color: Colors.white,
+    //               fontSize: ConfigManager.instance.barrageFont.toDouble(),
+    //               fontWeight: FontWeight.w400)), showTime: showTime);
+    // });
+
+    return SizedBox(
+      height: widget.height + ScreenUtil().statusBarHeight,
+      child: Column(
+        children: [
+          SizedBox(width: double.infinity, height: ScreenUtil().statusBarHeight)
+              .colored(Colors.black),
+          Stack(
+            children: [
+              SizedBox(
+                  width: double.infinity,
+                  height: widget.height,
+                  child: _buildPlayerUI()),
+              // Positioned(
+              //     top: 0,
+              //     left: 0,
+              //     width: ScreenUtil().screenWidth,
+              //     height: widget.height * 0.5,
+              //     child: ColoredBox(
+              //       color: Colors.green,
+              //       child: BarrageWall(
+              //         debug: false,
+              //         // safeBottomHeight: 60, // do not send bullets to the safe area
+              //         // speed: 8,
+              //         // speedCorrectionInMilliseconds: 3000,
+              //         // timelineNotifier: timelineNotifier, // send a BarrageValue notifier let bullet fires using your own timeline*/
+              //         bullets: bullets,
+              //         controller: barrageWallController,
+              //         child: const SizedBox(),
+              //       ),
+              //     )),
+              const WZBackButton(),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildPlaybackVideoUI() {
     return SizedBox(
       height: widget.height + ScreenUtil().statusBarHeight,
       child: Column(

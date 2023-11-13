@@ -20,21 +20,16 @@ class MatchDetailHeadWebWidget extends StatelessWidget {
           SizedBox(height: ScreenUtil().statusBarHeight),
           Stack(
             children: [
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: height,
-                    child: WZWebviewWidget(urlStr: urlStr),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 60),
-                    child: JhAssetImage("common/iconWaterLogo2",
-                        width: 88, height: 44),
-                  )
-                ],
+              SizedBox(
+                width: double.infinity,
+                height: height,
+                child: WZWebviewWidget(urlStr: urlStr),
               ),
+              const Positioned(
+                  right: 0,
+                  bottom: 50,
+                  child: JhAssetImage("common/iconWaterLogo2",
+                      width: 88, height: 44)),
               const WZBackButton(),
             ],
           )

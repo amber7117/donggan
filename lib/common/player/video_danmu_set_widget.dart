@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/common/extension/extension_app.dart';
-import 'package:wzty/common/player/wz_player_manager.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 
@@ -20,9 +19,9 @@ class VideoDanmuSetWidget extends StatefulWidget {
 }
 
 class _VideoDanmuSetWidgetState extends State<VideoDanmuSetWidget> {
-  int _fontSize = ConfigManager.instance.barrageFont;
+  final int _fontSize = ConfigManager.instance.barrageFont;
   double _sliderValue = ConfigManager.instance.barrageOpacity;
-  List<String> _fontArr = ["14", "16", "18"];
+  final List<String> _fontArr = ["14", "16", "18"];
 
   @override
   Widget build(BuildContext context) {

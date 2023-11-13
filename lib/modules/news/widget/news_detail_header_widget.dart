@@ -72,6 +72,6 @@ class _NewsDetailHeaderWidgetState extends State<NewsDetailHeaderWidget> {
   }
 
   String appendingHtmlStr(String htmlStr) {
-    return "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style type='text/css'>body {font-size:36px;color:#333333;}#bottom-space {height: 1px;}</style></head><body><script type='text/javascript'>window.onload = () => {var imgArr = document.getElementsByTagName('img');for(var p in imgArr){imgArr[p].style.width = '100%';imgArr[p].style.height ='auto';imgArr[p].style.borderRadius ='8px';}};</script>$htmlStr<div id='bottom-space'></div></body></html>";
+    return "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style type='text/css'>body {font-size:18px;color:#333333;}#bottom-space {height: 1px;}</style></head><body><script type='text/javascript'>window.onload = () => {var imgArr = document.getElementsByTagName('img');for(var p in imgArr){imgArr[p].style.width = '100%';imgArr[p].style.height ='auto';imgArr[p].style.borderRadius ='8px';}};</script>$htmlStr<div id='bottom-space'></div></body></html>";
   }
 }

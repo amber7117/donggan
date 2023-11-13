@@ -12,12 +12,11 @@ import 'package:wzty/utils/shared_preference_utils.dart';
 enum DomainPullFrom { local, server, cdn, npm }
 
 class DomainManager {
-  
   // ---------------------------------------------
 
   List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
-  
+
   bool _domainIniting = false;
   bool _domainInitSuccess = false;
 
@@ -38,6 +37,10 @@ class DomainManager {
   removeDomain() {}
 
   requestDomain() async {
+    if (_domainIniting) return;
+
+    _domainIniting = true;
+
     List<DomainEntity> domianList = await getDomainFromCache();
     if (appDebug) {
       domianList.clear();
@@ -101,8 +104,22 @@ class DomainManager {
     }
   }
 
-  void pullDomainFromCDN() {
-    
+  void pullDomainFromCDN() async {
+    String urlStr =
+        "https://bfw-pic-new.obs.cn-south-1.myhuaweicloud.com/cdn/app_prod.json";
+    HttpResultBean result = await HttpManager.requestCDNData(urlStr);
+    if (result.isSuccess()) {
+      List retList = result.data;
+      List<DomainEntity> domianList =
+          retList.map((dataMap) => DomainEntity.fromJson(dataMap)).toList();
+      if (appDebug) {
+        domianList.removeWhere((element) => element.domain.contains("api.dq"));
+      }
+      checkDomainList(domianList, DomainPullFrom.server);
+    } else {
+      _domainIniting = false;
+      eventBusManager.emit(DomainStateEvent(ok: false));
+    }
   }
 
   void pullDomainFromNPM() {}
@@ -137,7 +154,11 @@ class DomainManager {
       if (retArr.isEmpty) {
         pullDomainFromCDN();
       } else {
-        // pullDomainFromServer();
+        if (appDebug) {
+          // pullDomainFromCDN();
+        } else {
+          pullDomainFromServer();
+        }
 
         notifyDomainAvaliable(_domainList);
       }
@@ -240,5 +261,4 @@ class DomainManager {
   static final DomainManager _getInstance = DomainManager._internal();
 
   DomainManager._internal();
-
 }
