@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
 import 'package:wzty/utils/color_utils.dart';
@@ -24,6 +26,11 @@ class NewsDetailBottomWidget extends StatefulWidget {
 
 class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
   _requestNewsCollect() async {
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+      return false;
+    }
+    
     NewsDetailInfoModel model = widget.model;
 
     bool isCollect = !model.isFavorites;
@@ -45,6 +52,11 @@ class _NewsDetailBottomWidgetState extends State<NewsDetailBottomWidget> {
   }
 
   _requestNewsLink() {
+    if (!UserManager.instance.isLogin()) {
+      Routes.goLoginPage(context);
+      return false;
+    }
+    
     NewsDetailInfoModel model = widget.model;
 
     if (model.isLike) return;

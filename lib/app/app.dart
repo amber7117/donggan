@@ -6,11 +6,11 @@ import 'package:logger/logger.dart';
 const appTest = false;
 
 // Debug开关
-const appDebug = false;
+const appDebug = true;
 
 // 代理开关和配置
-const appProxy = false;
-const appProxyIP = "PROXY 192.168.10.25:8888";
+const appProxy = true;
+const appProxyIP = "PROXY 192.168.1.6:8888";
 
 // 日志配置
 final logger = Logger(level: Level.debug);
