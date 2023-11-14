@@ -60,6 +60,7 @@ class _EmojiWidgetState extends State<EmojiWidget> {
             controller: _controller,
             physics: const PageScrollPhysics(),
             scrollDirection: Axis.horizontal,
+            cacheExtent: 0.0,
             itemBuilder: (context, index) {
               return EmojiContentWidget(
                   dataArr: _emojiArr2[index], callback: (data) {

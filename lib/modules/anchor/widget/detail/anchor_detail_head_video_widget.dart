@@ -68,6 +68,7 @@ class _AnchorDetailHeadVideoWidgetState
                   UserBlockManger.instance
                       .blockAnchor(model: widget.detailModel!);
                   ToastUtils.showSuccess("屏蔽成功");
+                  eventBusManager.emit(BlockAnchorEvent(block: true));
                 }
               });
         });

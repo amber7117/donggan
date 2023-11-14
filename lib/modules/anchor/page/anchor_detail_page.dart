@@ -41,7 +41,6 @@ class _AnchorDetailPageState
 
   final GlobalKey<AnchorDetailBottomPageState> _detailBottomPageKey =
       GlobalKey();
-  final GlobalKey<MatchDetailBottomPageState> _matchDataPageKey = GlobalKey();
 
   final ScrollController _scrollController = ScrollController();
 
@@ -139,8 +138,6 @@ class _AnchorDetailPageState
   }
 
   _matchDataBtnClick() {
-    _matchDataPageKey.currentState?.setDetailModel(_matchDetailModel);
-
     _scrollController.animateTo(_scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 200), curve: Curves.ease);
   }
@@ -193,6 +190,7 @@ class _AnchorDetailPageState
               controller: _scrollController,
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
+              cacheExtent: 0.0,
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return AnchorDetailBottomPage(
@@ -202,9 +200,9 @@ class _AnchorDetailPageState
                       callback: _matchDataBtnClick);
                 } else {
                   return MatchDetailBottomPage(
-                      key: _matchDataPageKey,
                       matchId: _model!.matchId,
                       callback: _anchorDataBtnClick,
+                      model: _matchDetailModel,
                       showChat: false);
                 }
               }),

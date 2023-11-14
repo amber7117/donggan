@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
+import 'package:wzty/modules/anchor/manager/user_block_entity.dart';
+import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/anchor_banner_widget.dart';
 import 'package:wzty/modules/anchor/widget/anchor_match_cell_widget.dart';
@@ -36,11 +42,27 @@ class _AnchorChildHotPageState
   // );
   int _page = 1;
 
+  late StreamSubscription _eventSub;
+
   @override
   void initState() {
     super.initState();
 
     _requestData(loading: true);
+
+    _eventSub = eventBusManager.on<BlockAnchorEvent>((event) async {
+      if (mounted) {
+        _anchorArr = await removeBlockData(_anchorArr);
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    eventBusManager.off(_eventSub);
   }
 
   _requestData({bool loading = false}) async {
@@ -74,6 +96,28 @@ class _AnchorChildHotPageState
       });
     });
   }
+
+  // ---------------------------------------------
+
+  Future<List<AnchorListModel>> removeBlockData(
+      List<AnchorListModel> listArr) async {
+    List<UserBlockEntity> blockAuthorArr =
+        await UserBlockManger.instance.obtainBlockData();
+    if (blockAuthorArr.isEmpty) {
+      return listArr;
+    }
+
+    List<AnchorListModel> arrTmp = [];
+    for (var model in listArr) {
+      if (!UserBlockManger.instance.getBlockStatus(userId: model.anchorId)) {
+        arrTmp.add(model);
+      }
+    }
+
+    return arrTmp;
+  }
+
+  // ---------------------------------------------
 
   @override
   Widget buildWidget(BuildContext context) {

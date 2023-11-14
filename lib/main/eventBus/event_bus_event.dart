@@ -33,3 +33,11 @@ class PlayerStatusEvent {
 
   PlayerStatusEvent({required this.playerId, required this.pause});
 }
+
+/// 登录状态
+class BlockAnchorEvent {
+  final bool block;
+
+  BlockAnchorEvent({required this.block});
+}
+

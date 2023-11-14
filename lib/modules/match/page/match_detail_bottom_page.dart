@@ -34,12 +34,6 @@ class MatchDetailBottomPage extends StatefulWidget {
 class MatchDetailBottomPageState
     extends KeepAliveLifeWidgetState<MatchDetailBottomPage>
     with SingleTickerProviderStateMixin {
-  setDetailModel(MatchDetailModel model) {
-    if (_model != null) return;
-
-    _model = model;
-    setState(() {});
-  }
 
   late TabController _tabController;
   late PageController _pageController;
