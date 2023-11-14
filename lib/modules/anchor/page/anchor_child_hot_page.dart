@@ -50,14 +50,12 @@ class _AnchorChildHotPageState
         BannerService.requestBanner(BannerReqType.anchor, (success, result) {
       _bannerArr = result;
     });
-    Future match = MatchService.requestHotMatchList((success, result) {
-      _matchArr = result;
-    });
+
     Future anchor = AnchorService.requestHotList(_page, (success, result) {
       _anchorArr = result;
     });
 
-    Future.wait([banner, match, anchor]).then((value) {
+    Future.wait([banner, anchor]).then((value) {
       ToastUtils.hideLoading();
 
       if (_anchorArr.isNotEmpty) {
@@ -67,6 +65,13 @@ class _AnchorChildHotPageState
       }
 
       setState(() {});
+
+      MatchService.requestHotMatchList((success, result) {
+        if (result.isNotEmpty) {
+          _matchArr = result;
+          setState(() {});
+        }
+      });
     });
   }
 
@@ -84,22 +89,24 @@ class _AnchorChildHotPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _bannerArr.isNotEmpty
-            ? AnchorBannerWidget(bannerArr: _bannerArr)
-            : const SizedBox(),
-        Container(
-          width: double.infinity,
-          height: liveMatchCellHeight + 24.0,
-          padding: const EdgeInsets.only(top: 12, bottom: 12),
-          child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              itemCount: _matchArr.length,
-              itemExtent: liveMatchCellWidth,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return AnchorMatchCellWidget(model: _matchArr[index]);
-              }),
-        ),
+        _bannerArr.isEmpty
+            ? const SizedBox()
+            : AnchorBannerWidget(bannerArr: _bannerArr),
+        _matchArr.isEmpty
+            ? const SizedBox()
+            : Container(
+                width: double.infinity,
+                height: liveMatchCellHeight + 24.0,
+                padding: const EdgeInsets.only(top: 12, bottom: 12),
+                child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    itemCount: _matchArr.length,
+                    itemExtent: liveMatchCellWidth,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return AnchorMatchCellWidget(model: _matchArr[index]);
+                    }),
+              ),
         const Row(
           children: [
             Padding(

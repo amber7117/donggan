@@ -106,7 +106,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     Future.wait([all, hot]).then((value) {
       ToastUtils.hideLoading();
 
-      if (_allData != null && _hotData != null) {
+      if (_allData != null || _hotData != null) {
         _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.empty;

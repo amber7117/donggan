@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/wz_text_view.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -87,6 +89,10 @@ class ChatBarWidgetState extends State<ChatBarWidget> {
 
   void _onFocusChange() {
     if (_nodeText1.hasFocus) {
+      if (!UserManager.instance.isLogin()) {
+        Routes.goLoginPage(context);
+        return;
+      }
       widget.callback(ChatBarEvent.edit);
     } else {
       widget.callback(ChatBarEvent.editEnd);
