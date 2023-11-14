@@ -159,7 +159,7 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
               _buildTeamWidget(),
             ],
           ),
-          MatchDetailHeadVoteWidget(),
+          MatchDetailHeadVoteWidget(model: model),
         ],
       ),
     );

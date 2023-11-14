@@ -16,6 +16,10 @@ class MatchApi {
 
   static String matchDetail = "/qiutx-score/v5/match/match";
 
+  static String matchDetailVoteData = "/qiutx-score/match/getMatchSurvey";
+  
+  static String matchDetailVote = "/qiutx-score/match/setMatchSurveyVote";
+
   // -------------------------------------------
 
   static String matchAnchor = "/live-product/anonymous/app/match/live";
