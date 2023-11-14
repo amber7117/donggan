@@ -112,87 +112,90 @@ class MatchDetailBottomPageState
 
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: TabBar(
-                  onTap: (index) {
-                    if (!mounted) return;
-                    _pageController.jumpToPage(index);
-                  },
-                  isScrollable: false,
-                  controller: _tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: const EdgeInsets.only(left: 10, right: 10),
-                  tabs: _tabs),
-            ),
-            const ColoredBox(
-                color: Color.fromRGBO(236, 236, 236, 1.0),
-                child: SizedBox(width: double.infinity, height: 0.5)),
-            Expanded(
-                child: Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                PageView.builder(
-                    itemCount: _tabs.length,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, int index) {
-                      if (index == 0) {
-                        if (sportType == SportType.football) {
-                          return MatchDetailFBStatusPage(
+        child: ColoredBox(
+          color: Colors.white,
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: TabBar(
+                    onTap: (index) {
+                      if (!mounted) return;
+                      _pageController.jumpToPage(index);
+                    },
+                    isScrollable: false,
+                    controller: _tabController,
+                    indicator: const BoxDecoration(),
+                    labelPadding: const EdgeInsets.only(left: 10, right: 10),
+                    tabs: _tabs),
+              ),
+              const ColoredBox(
+                  color: Color.fromRGBO(236, 236, 236, 1.0),
+                  child: SizedBox(width: double.infinity, height: 0.5)),
+              Expanded(
+                  child: Stack(
+                alignment: Alignment.centerLeft,
+                children: [
+                  PageView.builder(
+                      itemCount: _tabs.length,
+                      onPageChanged: _onPageChange,
+                      controller: _pageController,
+                      itemBuilder: (_, int index) {
+                        if (index == 0) {
+                          if (sportType == SportType.football) {
+                            return MatchDetailFBStatusPage(
+                                matchId: widget.matchId, detailModel: model);
+                          } else {
+                            return MatchDetailBBStatusPage(
+                                matchId: widget.matchId, detailModel: model);
+                          }
+                        } else if (index == 1) {
+                          if (sportType == SportType.football) {
+                            return MatchDetailFBLineupPage(
+                                matchId: widget.matchId, detailModel: model);
+                          } else {
+                            return MatchDetailBBLineupPage(
+                                matchId: widget.matchId, detailModel: model);
+                          }
+                        } else if (index == 2) {
+                          return MatchDetailAnalysisPage(
                               matchId: widget.matchId, detailModel: model);
-                        } else {
-                          return MatchDetailBBStatusPage(
-                              matchId: widget.matchId, detailModel: model);
+                        } else if (index == 3) {
+                          return MatchDetailAnchorPage(matchId: widget.matchId);
+                        } else if (index == 4) {
+                          return ChatPage(
+                              roomId: model.roomId,
+                              chatRoomId: model.matchId.toString(),
+                              isMatch: true);
                         }
-                      } else if (index == 1) {
-                        if (sportType == SportType.football) {
-                          return MatchDetailFBLineupPage(
-                              matchId: widget.matchId, detailModel: model);
-                        } else {
-                          return MatchDetailBBLineupPage(
-                              matchId: widget.matchId, detailModel: model);
-                        }
-                      } else if (index == 2) {
-                        return MatchDetailAnalysisPage(
-                            matchId: widget.matchId, detailModel: model);
-                      } else if (index == 3) {
-                        return MatchDetailAnchorPage(matchId: widget.matchId);
-                      } else if (index == 4) {
-                        return ChatPage(
-                            roomId: model.roomId,
-                            chatRoomId: model.matchId.toString(),
-                            isMatch: true);
-                      }
-                      return const SizedBox();
-                    }),
-                Visibility(
-                  visible: widget.callback != null,
-                  child: InkWell(
-                    onTap: widget.callback,
-                    child: Container(
-                      width: 22,
-                      height: 55,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: JhImageUtils.getAssetImage(
-                                "anchor/icon_shuju_left"),
-                            fit: BoxFit.cover),
+                        return const SizedBox();
+                      }),
+                  Visibility(
+                    visible: widget.callback != null,
+                    child: InkWell(
+                      onTap: widget.callback,
+                      child: Container(
+                        width: 22,
+                        height: 55,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: JhImageUtils.getAssetImage(
+                                  "anchor/icon_shuju_left"),
+                              fit: BoxFit.cover),
+                        ),
+                        child: const Text("主\n播",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400)),
                       ),
-                      child: const Text("主\n播",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400)),
                     ),
-                  ),
-                )
-              ],
-            ))
-          ],
+                  )
+                ],
+              ))
+            ],
+          ),
         ));
   }
 

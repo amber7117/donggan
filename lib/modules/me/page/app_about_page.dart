@@ -123,7 +123,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
   _buildListItemWidget(AboutListItemType type) {
     String valueStr = "";
     if (type == AboutListItemType.versionInfo) {
-      valueStr = "v1.0.0";
+      valueStr = "1.0.0";
     } else if (type == AboutListItemType.versionInfo) {
       valueStr = ConfigManager.instance.onlineKefu;
     }

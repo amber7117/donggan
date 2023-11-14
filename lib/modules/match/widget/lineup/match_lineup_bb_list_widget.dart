@@ -11,11 +11,15 @@ const double lineupBBListItemWidth = 50.0;
 const double lineupBBListItemHeight = 36.0;
 
 class MatchLineupBBListWidget extends StatelessWidget {
+  final bool isHost;
   final MatchLineupBBTeamModel team;
   final List<List<String>> dataArr2;
 
   const MatchLineupBBListWidget(
-      {super.key, required this.team, required this.dataArr2});
+      {super.key,
+      required this.team,
+      required this.dataArr2,
+      required this.isHost});
 
   @override
   Widget build(BuildContext context) {
@@ -116,16 +120,16 @@ class MatchLineupBBListWidget extends StatelessWidget {
           width: 20,
           height: 20,
           alignment: Alignment.center,
-          decoration: const BoxDecoration(
-              color: ColorUtils.red233,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          decoration: BoxDecoration(
+              color: isHost
+                  ? ColorUtils.red233
+                  : const Color.fromRGBO(66, 191, 244, 1),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Text(
             player.shirtNumber,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-                color: ColorUtils.black34,
-                fontSize: 12,
-                fontWeight: TextStyleUtils.regual),
+                color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
           ),
         ),
         const SizedBox(width: 8),

@@ -70,11 +70,13 @@ class _MatchDetailBBLineupPageState
             child: MatchLineupBBListWidget(
           team: model!.hostTeam,
           dataArr2: model!.hostDataArr2,
+          isHost: true,
         )),
         SliverToBoxAdapter(
             child: MatchLineupBBListWidget(
           team: model!.hostTeam,
           dataArr2: model!.hostDataArr2,
+          isHost: false,
         )),
       ],
     );
