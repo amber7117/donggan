@@ -12,6 +12,7 @@ import 'package:wzty/demo_page.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/lib/lifecycle_aware_state.dart';
+import 'package:wzty/main/lib/navigator_provider.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/main/user/user_provider.dart';
 
@@ -80,6 +81,7 @@ class _MyAppState extends State {
               debugShowCheckedModeBanner: false,
               onGenerateRoute: router.generator,
               builder: EasyLoading.init(),
+              navigatorKey: NavigatorProvider.navigatorKey,
               navigatorObservers: <NavigatorObserver>[routeObserver],
             ));
       },

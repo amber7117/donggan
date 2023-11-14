@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/main/dio/http_config.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 
 import 'package:wzty/main/domain/domain_entity.dart';
 import 'package:wzty/main/domain/domain_manager.dart';
+import 'package:wzty/main/lib/navigator_provider.dart';
 import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/utils/app_utils.dart';
+import 'package:wzty/utils/toast_utils.dart';
 import 'package:wzty/utils/wz_date_utils.dart';
 import 'package:wzty/utils/wz_string_utils.dart';
 
@@ -29,6 +32,7 @@ typedef BusinessCallback<T> = void Function(bool success, T result);
 
 class HttpManager {
   static Dio? dio;
+  static bool showLogin = false;
 
   /// 业务请求
   static Future<HttpResultBean> request(
@@ -155,6 +159,20 @@ class HttpManager {
         }
         return handler.next(options);
       }));
+      dio?.interceptors.add(InterceptorsWrapper(onResponse: (Response<dynamic> e, ResponseInterceptorHandler handler) {
+        if (e.data is Map) {
+          Map result = e.data;
+          int code = result["code"] ?? 0;
+          if (code > 380 && code < 520) {
+            // ZQDomainManager.shared.removeDomain(domain: domainModel);
+          } else if (code >= 9527 && code <= 9530) {
+            handleErrorCode(result["msg"], code);
+          } else {
+            showLogin = false;
+          }
+          return handler.next(e);
+        }
+      }));
 
       // 抓包代码
       if (appProxy) {
@@ -173,6 +191,27 @@ class HttpManager {
     }
     return dio!;
   }
+
+  static void handleErrorCode(String msg, int code) {
+    if (showLogin) return;
+    showLogin = true;
+
+    ToastUtils.showError(msg);
+
+    if (UserManager.instance.isLogin()) {
+      UserManager.instance.removeUser();
+    }
+
+    // 冻结用户&其他设备登录
+    if (9527 == code || 9530 == code) {
+      Routes.goLoginPage(NavigatorProvider.navigatorContext!);
+    } else {
+      Future.delayed(const Duration(seconds: 2), () {
+        exit(1);
+      });
+    }
+  }
+
 
   static Future<Map<String, dynamic>> getHeader(
       Map<String, dynamic> params, HttpMethod method) async {
