@@ -13,6 +13,7 @@ import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/provider/match_detail_data_provider.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
+import 'package:wzty/modules/match/widget/detail/match_detail_head_vote_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
@@ -131,28 +132,34 @@ class _MatchDetailHeadWidgetState extends State<MatchDetailHeadWidget> {
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
               image: JhImageUtils.getAssetImage(imgPath, x2: false))),
-      child: Column(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          SizedBox(height: ScreenUtil().statusBarHeight),
-          _buildNavWidget(),
-          const SizedBox(height: 7),
-          Container(
-              width: 44,
-              height: 24,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(6))),
-              child: Text(
-                matchDesc,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: TextStyleUtils.medium),
-              )),
-          const SizedBox(height: 16),
-          _buildTeamWidget(),
+          Column(
+            children: [
+              SizedBox(height: ScreenUtil().statusBarHeight),
+              _buildNavWidget(),
+              const SizedBox(height: 7),
+              Container(
+                  width: 44,
+                  height: 24,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: const BorderRadius.all(Radius.circular(6))),
+                  child: Text(
+                    matchDesc,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: TextStyleUtils.medium),
+                  )),
+              const SizedBox(height: 16),
+              _buildTeamWidget(),
+            ],
+          ),
+          MatchDetailHeadVoteWidget(),
         ],
       ),
     );

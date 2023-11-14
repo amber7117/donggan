@@ -106,16 +106,18 @@ class DomainManager {
 
   void pullDomainFromCDN() async {
     String urlStr =
-        "https://bfw-pic-new.obs.cn-south-1.myhuaweicloud.com/cdn/app_prod.json";
-    HttpResultBean result = await HttpManager.requestCDNData(urlStr);
-    if (result.isSuccess()) {
-      List retList = result.data;
+        "https://bfw-pic-new01.obs.cn-south-1.myhuaweicloud.com/cdn/app_prod.json";
+    String? result = await HttpManager.requestCDNData(urlStr);
+    if (result != null) {
+      String jsonStr = utf8.decode(base64.decode(result));
+      Map json = jsonDecode(jsonStr);
+      List retList = json["data"];
       List<DomainEntity> domianList =
           retList.map((dataMap) => DomainEntity.fromJson(dataMap)).toList();
       if (appDebug) {
         domianList.removeWhere((element) => element.domain.contains("api.dq"));
       }
-      checkDomainList(domianList, DomainPullFrom.server);
+      checkDomainList(domianList, DomainPullFrom.cdn);
     } else {
       _domainIniting = false;
       eventBusManager.emit(DomainStateEvent(ok: false));

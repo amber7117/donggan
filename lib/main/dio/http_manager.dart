@@ -100,15 +100,19 @@ class HttpManager {
   }
 
   /// 请求cdn domain
-  static Future<HttpResultBean> requestCDNData(String urlString) async {
+  static Future<String?> requestCDNData(String urlString) async {
     Dio instance = getInstance();
 
     try {
-      Response response = await instance.request(urlString);
-      return HttpConfig.handleResponseData(response);
+      Response response = await instance.request(
+        urlString,
+        options: Options(
+            method: HttpMethod.get.value, responseType: ResponseType.plain),
+      );
+      return response.data;
     } on DioException catch (exception) {
       logger.e("----catch--请求错误-----$exception");
-      return HttpConfig.handleResponseErr();
+      return null;
     }
   }
 
