@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/main/lib/appbar.dart';
+import 'package:wzty/utils/cache_utils.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AppSetPage extends StatefulWidget {
   const AppSetPage({super.key});
@@ -17,6 +19,24 @@ class _AppSetPageState extends State<AppSetPage> {
     SetListItemType.appUpdate,
     SetListItemType.cleanCache
   ];
+
+  String _fileSize = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    _requestData();
+  }
+
+  _requestData() async {
+    double value = await CacheUtils.loadAppCache();
+    _fileSize = CacheUtils.formatSize(value);
+
+    setState(() {});
+  }
+
+  // -------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +55,10 @@ class _AppSetPageState extends State<AppSetPage> {
   }
 
   _buildListItemWidget(SetListItemType type) {
+    String value = "";
+    if (type == SetListItemType.cleanCache) {
+      value = _fileSize;
+    }
     return InkWell(
       child: Container(
         color: Colors.white,
@@ -52,6 +76,14 @@ class _AppSetPageState extends State<AppSetPage> {
                       fontSize: 14,
                       fontWeight: TextStyleUtils.regual),
                 )),
+            const Spacer(),
+            Text(
+              value,
+              style: const TextStyle(
+                  color: ColorUtils.black34,
+                  fontSize: 14,
+                  fontWeight: TextStyleUtils.regual),
+            ),
             const JhAssetImage("me/iconMeJiantou", width: 16.0, height: 16.0),
           ],
         ),
@@ -59,7 +91,12 @@ class _AppSetPageState extends State<AppSetPage> {
       onTap: () {
         if (type == SetListItemType.appUpdate) {
           ToastUtils.showInfo("当前已是最新版本");
-        } else if (type == SetListItemType.cleanCache) {}
+        } else if (type == SetListItemType.cleanCache) {
+          ToastUtils.showSuccess("缓存清除成功");
+          CacheUtils.clearAppCache2();
+          _fileSize = "";
+          setState(() {});
+        }
       },
     );
   }
