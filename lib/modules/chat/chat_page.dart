@@ -106,7 +106,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   _joinIMRoom() {
     _msgStartTime = DateTime.now().millisecondsSinceEpoch;
 
-    IMManager.instance.engine.joinChatRoom(widget.chatRoomId, 50, false,
+    IMManager.instance.engine.joinChatRoom(widget.chatRoomId, 50, true,
         callback:
             IRCIMIWJoinChatRoomCallback(onChatRoomJoined: (code, targetId) {
       if (code != 0) {

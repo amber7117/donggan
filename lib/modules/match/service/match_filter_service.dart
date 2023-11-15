@@ -20,11 +20,9 @@ class MatchFilterService {
         params: params);
 
     if (result.isSuccess()) {
-      MatchFilterModel model;
-      if (status == MatchStatus.going) {
+      MatchFilterModel model = _processFilterAllData(result.data);
+      if (model.titleArr.isEmpty) {
         model = _processFilterOtherData(result.data);
-      } else {
-        model = _processFilterAllData(result.data);
       }
 
       complete(true, model);

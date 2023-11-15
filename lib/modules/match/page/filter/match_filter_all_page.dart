@@ -34,7 +34,7 @@ class MatchFilterAllPageState extends State<MatchFilterAllPage> {
     }
     setState(() {});
   }
-
+  
   @override
   Widget build(BuildContext context) {
     MatchFilterModel model = widget.model;

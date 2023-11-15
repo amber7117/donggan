@@ -54,6 +54,11 @@ class MatchDetailBottomPageState
       index: 2,
     ),
   ];
+  final List<String> _tabTitles = [
+    '赛况',
+    '阵容',
+    '分析',
+  ];
 
   MatchDetailModel? _model;
 
@@ -64,6 +69,7 @@ class MatchDetailBottomPageState
     _model = widget.model;
 
     if (ConfigManager.instance.liveOk) {
+      _tabTitles.add('主播');
       _tabs.add(const MatchDetailTabbarItemWidget(
         tabName: '主播',
         index: 3,
@@ -72,6 +78,7 @@ class MatchDetailBottomPageState
 
     if (widget.showChat) {
       int tabCnt = _tabs.length;
+      _tabTitles.add('聊球');
       _tabs.add(MatchDetailTabbarItemWidget(
         tabName: '聊球',
         index: tabCnt,
@@ -138,7 +145,8 @@ class MatchDetailBottomPageState
                       onPageChanged: _onPageChange,
                       controller: _pageController,
                       itemBuilder: (_, int index) {
-                        if (index == 0) {
+                        String title = _tabTitles[index];
+                        if (title == "赛况") {
                           if (sportType == SportType.football) {
                             return MatchDetailFBStatusPage(
                                 matchId: widget.matchId, detailModel: model);
@@ -146,7 +154,7 @@ class MatchDetailBottomPageState
                             return MatchDetailBBStatusPage(
                                 matchId: widget.matchId, detailModel: model);
                           }
-                        } else if (index == 1) {
+                        } else if (title == "阵容") {
                           if (sportType == SportType.football) {
                             return MatchDetailFBLineupPage(
                                 matchId: widget.matchId, detailModel: model);
@@ -154,12 +162,12 @@ class MatchDetailBottomPageState
                             return MatchDetailBBLineupPage(
                                 matchId: widget.matchId, detailModel: model);
                           }
-                        } else if (index == 2) {
+                        } else if (title == "分析") {
                           return MatchDetailAnalysisPage(
                               matchId: widget.matchId, detailModel: model);
-                        } else if (index == 3) {
+                        } else if (title == "主播") {
                           return MatchDetailAnchorPage(matchId: widget.matchId);
-                        } else if (index == 4) {
+                        } else if (title == "聊球") {
                           return ChatPage(
                               roomId: model.roomId,
                               chatRoomId: model.matchId.toString(),

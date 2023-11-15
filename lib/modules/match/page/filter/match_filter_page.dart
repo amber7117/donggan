@@ -40,6 +40,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   final MatchDetailDataProvider _detailProvider = MatchDetailDataProvider();
 
   final GlobalKey<MatchFilterAllPageState> _allPageKey = GlobalKey();
+  final GlobalKey<MatchFilterHotPageState> _otherPageKey = GlobalKey();
   final GlobalKey<MatchFilterHotPageState> _hotPageKey = GlobalKey();
   final GlobalKey<MatchFilterBottomWidgetState> _bottomWidgetKey = GlobalKey();
 
@@ -94,13 +95,14 @@ class _MatchFilterPageState extends State<MatchFilterPage>
         MatchFilterType.footballAll, widget.matchStatus, widget.dateStr,
         (success, result) {
       if (result != null) {
-        if (widget.matchStatus == MatchStatus.going) {
+        if (result.titleArr.isEmpty) {
           _otherData = _processServerData(result, false);
         } else {
           _allData = _processServerData(result, true);
         }
       }
     });
+
     Future hot = MatchFilterService.requestFBHotData(
         MatchFilterType.footballHot, widget.matchStatus, widget.dateStr,
         (success, result) {
@@ -208,14 +210,22 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   _handleBottomEvent(MatchFilterBottomEvent event) {
     if (event == MatchFilterBottomEvent.selectAll) {
       if (_tabProvider.index == 0) {
-        _allPageKey.currentState?.selectAllMatch();
+        if (_allData != null) {
+          _allPageKey.currentState?.selectAllMatch();
+        } else {
+          _otherPageKey.currentState?.selectAllMatch();
+        }
       } else {
         _hotPageKey.currentState?.selectAllMatch();
       }
       _updateBottomViewUI();
     } else if (event == MatchFilterBottomEvent.selectOther) {
       if (_tabProvider.index == 0) {
-        _allPageKey.currentState?.selectOtherMatch();
+        if (_allData != null) {
+          _allPageKey.currentState?.selectOtherMatch();
+        } else {
+          _otherPageKey.currentState?.selectOtherMatch();
+        }
       } else {
         _hotPageKey.currentState?.selectOtherMatch();
       }
@@ -268,7 +278,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     if (existNoSelect) {
       _bottomWidgetKey.currentState?.updateUI(
           canSelectAll: true,
-          canSelectOther: true,
+          canSelectOther: selectCount > 0,
           selectCount: allCount - selectCount);
     } else {
       _bottomWidgetKey.currentState?.updateUI(
@@ -319,7 +329,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     if (isSelectAll) {
       leagueIdArr = [];
     }
-    
+
     MatchFilterManager.instance.updateFilterData(
         widget.sportType, filterType, widget.matchStatus, leagueIdArr);
 
@@ -389,9 +399,9 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                     controller: _pageController,
                     itemBuilder: (_, int index) {
                       if (index == 0) {
-                        if (widget.matchStatus == MatchStatus.going) {
+                        if (_otherData != null) {
                           return MatchFilterHotPage(
-                              key: _allPageKey,
+                              key: _otherPageKey,
                               model: _otherData!,
                               callback: () {
                                 _updateBottomViewUI();
