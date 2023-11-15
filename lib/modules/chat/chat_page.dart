@@ -7,6 +7,8 @@ import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/common_alert_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/user/user_manager.dart';
@@ -236,7 +238,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
         _msgList.add(msg);
         _reloadListAndScroll(true);
 
-        // self.receiveBarrage(msg: msg);
+        receiveBarrage(msg);
       }
     }
   }
@@ -244,13 +246,36 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
   _reloadListAndScroll(bool animated) {
     setState(() {});
 
-    if (animated) {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 200), curve: Curves.ease);
-    } else {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    }
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (animated) {
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 200), curve: Curves.ease);
+      } else {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
   }
+
+  void receiveBarrage(ChatMsgModel msg) {
+  if (msg.type != ChatMsgType.common) {
+    return;
+  }
+  
+  double timeInterval = DateTime.now().millisecondsSinceEpoch / 1000;
+  
+  if (timeInterval - _msgStartTime < 5) {
+    double tmp = _msgCnt * 0.2;
+    msg.barrageDelay = tmp;
+    _msgCnt++;
+    
+    Future.delayed(Duration(milliseconds: tmp.toInt()), () {
+      eventBusManager.emit(ChatMsgEvent(msg: msg));
+    });
+  } else {
+    eventBusManager.emit(ChatMsgEvent(msg: msg));
+  }
+}
+
 
   _sendMsg(ChatMsgModel msg) {
     String msgStr = msg.getMsgJsonStr();
@@ -279,7 +304,8 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
         }
 
         setState(() {});
-        // self?.receiveBarrage(msg: msg)
+        receiveBarrage(msg);
+        
       } else {
         _joinIMRoomFail(data1 ?? 0);
       }

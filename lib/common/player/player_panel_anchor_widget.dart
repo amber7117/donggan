@@ -4,11 +4,11 @@ import 'dart:math';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/common/player/player_danmu_widget.dart';
+import 'package:wzty/common/player/video_danmu_widget.dart';
 import 'package:wzty/common/player/player_panel_utils.dart';
 import 'package:wzty/common/player/video_danmu_set_widget.dart';
 import 'package:wzty/common/player/video_resolution_widget.dart';
-import 'package:wzty/common/player/wz_player_manager.dart';
+import 'package:wzty/common/player/player_data_manager.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
@@ -283,8 +283,8 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
   Widget buildDanmuSetButton(BuildContext context) {
     return InkWell(
         onTap: () {
-          WZPlayerManager.instance.showDanmuSet =
-              !WZPlayerManager.instance.showDanmuSet;
+          PlayerDataManager.instance.showDanmuSet =
+              !PlayerDataManager.instance.showDanmuSet;
           setState(() {});
         },
         child: const Padding(
@@ -333,8 +333,8 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
   Widget buildResolutionButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        WZPlayerManager.instance.showVideoResolution =
-            !WZPlayerManager.instance.showVideoResolution;
+        PlayerDataManager.instance.showVideoResolution =
+            !PlayerDataManager.instance.showVideoResolution;
         setState(() {});
       },
       child: Container(
@@ -344,7 +344,7 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
         decoration: BoxDecoration(
             border: Border.all(width: 1.0, color: Colors.white),
             borderRadius: const BorderRadius.all(Radius.circular(10))),
-        child: Text(WZPlayerManager.instance.resolution,
+        child: Text(PlayerDataManager.instance.resolution,
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 10,
@@ -504,28 +504,28 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
 
     ws.add(waterLogo);
 
-    // if (ConfigManager.instance.barrageOpen) {
-    //   Widget danmu = Positioned(
-    //       top: 0,
-    //       left: 0,
-    //       width: rect.width,
-    //       height: rect.height * 0.5,
-    //       child: const PlayerDanmuWidget());
-    //   ws.add(danmu);
-    // }
+    if (ConfigManager.instance.barrageOpen) {
+      Widget danmu = Positioned(
+          top: 0,
+          left: 0,
+          width: rect.width,
+          height: rect.height * 0.4,
+          child: const VideoDanmuWidget());
+      ws.add(danmu);
+    }
 
     ws.add(buildGestureDetector(context));
 
-    if (WZPlayerManager.instance.showVideoResolution) {
+    if (PlayerDataManager.instance.showVideoResolution) {
       ws.add(VideoResolutionWidget(
         fullScreen: player.value.fullScreen,
         callback: (data) async {
-          WZPlayerManager.instance.showVideoResolution = false;
+          PlayerDataManager.instance.showVideoResolution = false;
           if (data.isEmpty) {
             setState(() {});
           } else {
-            WZPlayerManager.instance.resolution = data;
-            String url = WZPlayerManager.instance.playUrlDic[data] ?? "";
+            PlayerDataManager.instance.resolution = data;
+            String url = PlayerDataManager.instance.playUrlDic[data] ?? "";
             await player.reset();
             player.setDataSource(url, autoPlay: true);
           }
@@ -534,11 +534,11 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
       ));
     }
 
-    if (WZPlayerManager.instance.showDanmuSet) {
+    if (PlayerDataManager.instance.showDanmuSet) {
       ws.add(VideoDanmuSetWidget(
         fullScreen: player.value.fullScreen,
         callback: () async {
-          WZPlayerManager.instance.showDanmuSet = false;
+          PlayerDataManager.instance.showDanmuSet = false;
           setState(() {});
         },
         playRect: rect,

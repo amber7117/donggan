@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/common/player/wz_player_manager.dart';
+import 'package:wzty/common/player/player_data_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 
 class VideoResolutionWidget extends StatelessWidget {
@@ -24,8 +24,8 @@ class VideoResolutionWidget extends StatelessWidget {
   }
 
   _buildNormalUI() {
-    String resolution = WZPlayerManager.instance.resolution;
-    List<String> titleArr = WZPlayerManager.instance.titleArr;
+    String resolution = PlayerDataManager.instance.resolution;
+    List<String> titleArr = PlayerDataManager.instance.titleArr;
 
     return InkWell(
       onTap: () {
@@ -62,8 +62,8 @@ class VideoResolutionWidget extends StatelessWidget {
   }
 
   _buildFullscreenUI() {
-    String resolution = WZPlayerManager.instance.resolution;
-    List<String> titleArr = WZPlayerManager.instance.titleArr;
+    String resolution = PlayerDataManager.instance.resolution;
+    List<String> titleArr = PlayerDataManager.instance.titleArr;
 
     return InkWell(
       onTap: () {

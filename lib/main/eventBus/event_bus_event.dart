@@ -1,5 +1,6 @@
 
 import 'package:wzty/app/app.dart';
+import 'package:wzty/modules/chat/entity/chat_entity.dart';
 
 /// 域名状态
 class DomainStateEvent {
@@ -39,5 +40,12 @@ class BlockAnchorEvent {
   final bool block;
 
   BlockAnchorEvent({required this.block});
+}
+
+/// 聊天状态
+class ChatMsgEvent {
+  final ChatMsgModel msg;
+
+  ChatMsgEvent({required this.msg});
 }
 

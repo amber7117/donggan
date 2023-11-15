@@ -8,7 +8,7 @@ import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/player/player_panel_anchor_widget.dart';
 import 'package:wzty/common/player/player_panel_playback_widget.dart';
-import 'package:wzty/common/player/wz_player_manager.dart';
+import 'package:wzty/common/player/player_data_manager.dart';
 import 'package:wzty/common/widget/report_block_sheet_widget.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
@@ -100,8 +100,7 @@ class _AnchorDetailHeadVideoWidgetState
     if (data == PlayPanelEvent.more) {
       _showReporBlocktUI();
     } else if (data == PlayPanelEvent.fullScreen) {
-    } else if (data == PlayPanelEvent.danmu) {
-    }
+    } else if (data == PlayPanelEvent.danmu) {}
   }
 
   // -------------------------------------------
@@ -119,7 +118,9 @@ class _AnchorDetailHeadVideoWidgetState
     player.setDataSource(widget.urlStr, autoPlay: true);
 
     _eventSub = eventBusManager.on<PlayerStatusEvent>((event) {
-      if (mounted && event.playerId == widget.playerId) {
+      if (mounted &&
+          !player.value.fullScreen &&
+          event.playerId == widget.playerId) {
         if (player.isPlayable() || player.state == FijkState.asyncPreparing) {
           event.pause ? player.pause() : player.start();
         }
@@ -172,12 +173,12 @@ class _AnchorDetailHeadVideoWidgetState
       resolution = "标清";
     }
 
-    WZPlayerManager.instance.showVideoResolution = false;
-    WZPlayerManager.instance.showDanmuSet = false;
+    PlayerDataManager.instance.showVideoResolution = false;
+    PlayerDataManager.instance.showDanmuSet = false;
 
-    WZPlayerManager.instance.resolution = resolution;
-    WZPlayerManager.instance.titleArr = titleArr;
-    WZPlayerManager.instance.playUrlDic = playUrlDic;
+    PlayerDataManager.instance.resolution = resolution;
+    PlayerDataManager.instance.titleArr = titleArr;
+    PlayerDataManager.instance.playUrlDic = playUrlDic;
   }
 
   @override

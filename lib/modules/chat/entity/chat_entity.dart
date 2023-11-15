@@ -18,6 +18,8 @@ class ChatMsgModel {
 
   ChatMsgType type;
 
+  double barrageDelay = 0.0;
+  
   late String nameNew;
   late String contentNew;
 
