@@ -118,6 +118,9 @@ class MeApi {
   static String userFocusCancel = "/qiutx-news/app/post/attention/###/cancel";
 
   static String sysMsgList = "/qiutx-sms/user/message/listNew";
+  static String sysMsgDeleteAll = "/qiutx-sms/v1/user/message/delete/all";
+  static String sysMsgDelete = "/qiutx-sms/user/message/delete";
+  static String sysMsgRead = "qiutx-news/app/news/updateRead";
 
   static String footprint = "/qiutx-news/app/personal/footprint";
 

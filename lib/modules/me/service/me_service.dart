@@ -164,6 +164,47 @@ class MeService {
     }
   }
 
+  static Future<void> requestSysMsgDeleteAll(
+      BusinessCallback<String> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(MeApi.sysMsgDeleteAll, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
+
+  static Future<void> requestSysMsgDelete(
+      String id, BusinessCallback<String> complete) async {
+    Map<String, dynamic> params = {
+      "id": id,
+    };
+
+    HttpResultBean result = await HttpManager.request(
+        MeApi.sysMsgDelete, HttpMethod.get,
+        params: params);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
+
+  static Future<void> requestSysMsgRead(
+      BusinessCallback<String> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(MeApi.sysMsgRead, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      complete(true, "");
+    } else {
+      complete(false, result.msg ?? result.data);
+    }
+  }
+
   static Future<void> requestFootprintData(
       int page, BusinessCallback<List<NewsListModel>> complete) async {
     Map<String, dynamic> params = {

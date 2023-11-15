@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:wzty/common/widget/common_alert_msg_widget.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/me/entity/sys_msg_entity.dart';
@@ -48,20 +49,91 @@ class _MeMsgPageState extends State {
     });
   }
 
+  _requestMsgOperate(bool isDel) {
+    String content = isDel ? "清空所有消息" : "全部标记为已读";
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CommonAlertMsgWidget(
+              content: content,
+              callback: () {
+                if (isDel) {
+                  _requestMsgDeleteAll();
+                } else {
+                  _requestMsgRead();
+                }
+              });
+        });
+  }
+
+  _requestMsgDelete(SysMsgModel model) {
+    ToastUtils.showLoading();
+
+    MeService.requestSysMsgDelete(model.id, (success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        ToastUtils.showSuccess("删除成功");
+
+        _dataArr.removeWhere((element) => element.id == model.id);
+        setState(() {});
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
+  _requestMsgDeleteAll() {
+    ToastUtils.showLoading();
+
+    MeService.requestSysMsgDeleteAll((success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        ToastUtils.showSuccess("清空所有成功");
+
+        _dataArr.clear();
+        setState(() {});
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
+  _requestMsgRead() {
+    ToastUtils.showLoading();
+
+    MeService.requestSysMsgRead((success, result) {
+      ToastUtils.hideLoading();
+      if (success) {
+        ToastUtils.showSuccess("已读成功");
+
+        for (var element in _dataArr) {
+          element.type = 1;
+        }
+        setState(() {});
+      } else {
+        ToastUtils.showError(result);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBarAndActions(titleText: "消息通知", actions: [
           InkWell(
-              onTap: () {},
+              onTap: () {
+                _requestMsgOperate(false);
+              },
               child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: JhAssetImage("me/iconMsgRed", width: 24),
               )),
           InkWell(
-              onTap: () {},
+              onTap: () {
+                _requestMsgOperate(true);
+              },
               child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: JhAssetImage("me/iconMsgDelete", width: 24),
               ))
         ]),
@@ -76,14 +148,17 @@ class _MeMsgPageState extends State {
                       height: 0.5, color: ColorUtils.gray248, indent: 12);
                 },
                 itemBuilder: (context, index) {
+                  SysMsgModel model = _dataArr[index];
                   return Slidable(
                     key: ValueKey(index),
-                    endActionPane: const ActionPane(
+                    endActionPane: ActionPane(
                       extentRatio: 0.15,
-                      motion: ScrollMotion(),
+                      motion: const ScrollMotion(),
                       children: [
                         SlidableAction(
-                          onPressed: doNothing,
+                          onPressed: (context) {
+                            _requestMsgDelete(model);
+                          },
                           backgroundColor: ColorUtils.red233,
                           foregroundColor: Colors.white,
                           label: '删\n除',
@@ -98,9 +173,9 @@ class _MeMsgPageState extends State {
   _buildCellWidget(int idx) {
     SysMsgModel model = _dataArr[idx];
     return Container(
-      height: 66,
+      height: 76,
       color: Colors.white,
-      padding: const EdgeInsets.only(left: 12, right: 12),
+      padding: const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -112,19 +187,24 @@ class _MeMsgPageState extends State {
             children: [
               Text(
                 model.title,
-                style: const TextStyle(
-                    color: Color.fromRGBO(58, 58, 60, 1.0),
+                style: TextStyle(
+                    color: model.type == 1
+                        ? ColorUtils.gray153
+                        : ColorUtils.black34,
                     fontSize: 14,
-                    fontWeight: TextStyleUtils.medium),
+                    fontWeight: FontWeight.w400),
               ),
+              const SizedBox(height: 5),
               Text(
                 model.content,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    color: ColorUtils.gray149,
+                style: TextStyle(
+                    color: model.type == 1
+                        ? ColorUtils.gray153
+                        : ColorUtils.black34,
                     fontSize: 11,
-                    fontWeight: TextStyleUtils.regual),
+                    fontWeight: FontWeight.w400),
               ),
             ],
           )),
@@ -141,5 +221,3 @@ class _MeMsgPageState extends State {
     );
   }
 }
-
-void doNothing(BuildContext context) {}
