@@ -52,6 +52,8 @@ class _MainPageState extends State {
 
   late StreamSubscription _eventSub;
 
+  late LocalKey _bottomBarKey;
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +70,7 @@ class _MainPageState extends State {
     _eventSub = eventBusManager.on<LiveStateEvent>((event) {
       if (mounted) {
         _handleData();
-        
+
         setState(() {});
       }
     });
@@ -78,13 +80,15 @@ class _MainPageState extends State {
     _barList.clear();
     _pageList.clear();
 
+    if (ConfigManager.instance.liveOk) {
+      _barList.add(_buildBarItem('tab/iconZhibo'));
+      _pageList.add(const AnchorPage());
+    }
+
     _barList.addAll(_obtainTabList());
     _pageList.addAll(_obtainPageList());
-    
-    if (ConfigManager.instance.liveOk) {
-      _pageList.insert(0, const AnchorPage());
-      _barList.insert(0, _buildBarItem('tab/iconZhibo'));
-    }
+
+    _bottomBarKey = UniqueKey();
   }
 
   @override
@@ -109,6 +113,7 @@ class _MainPageState extends State {
 
   _buildBottomNavigationBar() {
     return BottomNavigationBar(
+      key: _bottomBarKey,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
       items: _barList,
