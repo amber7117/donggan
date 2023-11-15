@@ -12,6 +12,8 @@ class SpKeys {
   static const String user = 'user';
   static const String token = 'token';
   static const String uid = 'uid'; 
+
+  static const String liveOK = 'liveOK'; 
   
   static const String searchHistory = 'searchHistory';
 

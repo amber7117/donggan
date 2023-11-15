@@ -7,6 +7,8 @@ import 'package:wzty/modules/search/widget/search_result_cell_widget.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
+enum SearchResultSection { anchor, match }
+
 class SearchResultPage extends StatefulWidget {
   final LoadStatusType layoutState;
   final SearchResultModel model;
@@ -19,20 +21,47 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
+  LoadStatusType _layoutState = LoadStatusType.loading;
+  final List<SearchResultSection> _sectionArr = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _layoutState = widget.layoutState;
+
+    _sectionArr.clear();
+    if (widget.model.anchors.isNotEmpty) {
+      _sectionArr.add(SearchResultSection.anchor);
+    }
+    if (widget.model.matchList.isNotEmpty) {
+      _sectionArr.add(SearchResultSection.match);
+    }
+
+    if (_sectionArr.isEmpty) {
+      _layoutState = LoadStatusType.empty;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LoadStateWidget(
-        state: widget.layoutState, successWidget: _buildChild(context));
+        state: _layoutState, successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {
+    if (_layoutState != LoadStatusType.success) {
+      return const SizedBox();
+    }
+
     SearchResultModel model = widget.model;
 
     return ListView.builder(
       padding: EdgeInsets.zero,
-      itemCount: 2,
+      itemCount: _sectionArr.length,
       itemBuilder: (BuildContext context, int index) {
-        if (index == 0) {
+        SearchResultSection type = _sectionArr[index];
+
+        if (type == SearchResultSection.anchor) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

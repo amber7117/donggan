@@ -57,7 +57,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       tabHeight: 44.0,
     ),
   ];
-  
+
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchFilterModel? _allData;
   MatchFilterModel? _hotData;
@@ -97,7 +97,8 @@ class _MatchFilterPageState extends State<MatchFilterPage>
       }
     });
     Future hot = MatchFilterService.requestFBHotData(
-        MatchFilterType.footballHot, (success, result) {
+        MatchFilterType.footballHot, widget.matchStatus, widget.dateStr,
+        (success, result) {
       if (result != null) {
         _hotData = _processServerData(result, false);
       }

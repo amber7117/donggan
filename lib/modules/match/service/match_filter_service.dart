@@ -54,12 +54,15 @@ class MatchFilterService {
     }
   }
 
-  static Future<void> requestFBHotData(MatchFilterType type,
-      BusinessCallback<MatchFilterModel?> complete) async {
+  static Future<void> requestFBHotData(MatchFilterType type, MatchStatus status,
+      String dateStr, BusinessCallback<MatchFilterModel?> complete) async {
     Map<String, dynamic> params = {
       "typeId": type.value,
     };
-
+    // params["status"] = matchStatusToServerValue(status);
+    if (dateStr.isNotEmpty) {
+      params["date"] = dateStr;
+    }
     HttpResultBean result = await HttpManager.request(
         MatchApi.matchFilter, HttpMethod.get,
         params: params);

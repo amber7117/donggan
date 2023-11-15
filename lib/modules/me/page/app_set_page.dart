@@ -5,7 +5,6 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class AppSetPage extends StatefulWidget {
   const AppSetPage({super.key});

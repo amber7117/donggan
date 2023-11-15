@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
@@ -24,17 +25,16 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State {
-  final List<Widget> _pageList = const [
-    AnchorPage(),
-    MatchPage(sportType: SportType.football),
-    MatchPage(sportType: SportType.basketball),
-    NewsPage(),
-    MePage(),
+  final List<Widget> _pageList = [
+    const MatchPage(sportType: SportType.football),
+    const MatchPage(sportType: SportType.basketball),
+    const NewsPage(),
+    const MePage(),
   ];
+  final List<BottomNavigationBarItem> _barList = [];
 
-  List<BottomNavigationBarItem> obtainTabList() {
+  List<BottomNavigationBarItem> _obtainTabList() {
     return [
-      _buildBarItem('tab/iconZhibo'),
       _buildBarItem('tab/iconZuqiu'),
       _buildBarItem('tab/iconLanqiu'),
       _buildBarItem('tab/iconZixun'),
@@ -50,6 +50,13 @@ class _MainPageState extends State {
   @override
   void initState() {
     super.initState();
+
+    _barList.addAll(_obtainTabList());
+    if (ConfigManager.instance.liveOk) {
+      _pageList.insert(0, const AnchorPage());
+      _barList.insert(0, _buildBarItem('tab/iconZhibo'));
+    }
+
     _pageController = PageController();
 
     _eventSub = eventBusManager.on<DomainStateEvent>((event) {
@@ -83,7 +90,7 @@ class _MainPageState extends State {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
-      items: obtainTabList(),
+      items: _barList,
       // 配置对应的索引值选中
       currentIndex: _currentIndex,
       showSelectedLabels: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/tabbar/tab_provider.dart';
 import 'package:wzty/main/tabbar/match_detail_tabbar_item_widget.dart';
@@ -34,7 +35,6 @@ class MatchDetailBottomPage extends StatefulWidget {
 class MatchDetailBottomPageState
     extends KeepAliveLifeWidgetState<MatchDetailBottomPage>
     with SingleTickerProviderStateMixin {
-
   late TabController _tabController;
   late PageController _pageController;
 
@@ -53,10 +53,6 @@ class MatchDetailBottomPageState
       tabName: '分析',
       index: 2,
     ),
-    const MatchDetailTabbarItemWidget(
-      tabName: '主播',
-      index: 3,
-    ),
   ];
 
   MatchDetailModel? _model;
@@ -66,14 +62,21 @@ class MatchDetailBottomPageState
     super.initState();
 
     _model = widget.model;
-    
-    if (widget.showChat) {
+
+    if (ConfigManager.instance.liveOk) {
       _tabs.add(const MatchDetailTabbarItemWidget(
-        tabName: '聊球',
-        index: 4,
+        tabName: '主播',
+        index: 3,
       ));
     }
 
+    if (widget.showChat) {
+      int tabCnt = _tabs.length;
+      _tabs.add(MatchDetailTabbarItemWidget(
+        tabName: '聊球',
+        index: tabCnt,
+      ));
+    }
 
     _tabController = TabController(length: _tabs.length, vsync: this);
     _pageController = PageController();

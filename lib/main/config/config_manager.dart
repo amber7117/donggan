@@ -78,6 +78,7 @@ class ConfigManager {
   // ---------------------------------------------
 
   requestConfig() async {
+    liveOk = await SpUtils.getBool(SpKeys.liveOK); 
 
     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _requestMatchFollowInfo();
@@ -110,6 +111,7 @@ class ConfigManager {
         if (appDebug) {
           videoOk = true;
         }
+        SpUtils.save(SpKeys.liveOK, videoOk);
       }
     });
 
@@ -167,7 +169,6 @@ class ConfigManager {
     });
   }
 
-  
   // ---------------------------------------------
 
   factory ConfigManager() => _getInstance;
