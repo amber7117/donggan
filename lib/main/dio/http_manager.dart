@@ -159,7 +159,8 @@ class HttpManager {
         }
         return handler.next(options);
       }));
-      dio?.interceptors.add(InterceptorsWrapper(onResponse: (Response<dynamic> e, ResponseInterceptorHandler handler) {
+      dio?.interceptors.add(InterceptorsWrapper(onResponse:
+          (Response<dynamic> e, ResponseInterceptorHandler handler) {
         if (e.data is Map) {
           Map result = e.data;
           int code = result["code"] ?? 0;
@@ -196,8 +197,6 @@ class HttpManager {
     if (showLogin) return;
     showLogin = true;
 
-    ToastUtils.showError(msg);
-
     if (UserManager.instance.isLogin()) {
       UserManager.instance.removeUser();
     }
@@ -205,13 +204,16 @@ class HttpManager {
     // 冻结用户&其他设备登录
     if (9527 == code || 9530 == code) {
       Routes.goLoginPage(NavigatorProvider.navigatorContext!);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        ToastUtils.showError(msg);
+      });
     } else {
+      ToastUtils.showError(msg);
       Future.delayed(const Duration(seconds: 2), () {
         exit(1);
       });
     }
   }
-
 
   static Future<Map<String, dynamic>> getHeader(
       Map<String, dynamic> params, HttpMethod method) async {
