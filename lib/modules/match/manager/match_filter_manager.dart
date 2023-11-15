@@ -37,7 +37,7 @@ class MatchFilterManager {
     Map<MatchStatus, dynamic>? matchStatusDic =
         getMatchStatusDic(sportType, filterType);
 
-    if (matchStatusDic != null) {
+    if (matchStatusDic != null && matchStatusDic[matchStatus] != null) {
       return matchStatusDic[matchStatus] as List<int>;
     }
     return [];

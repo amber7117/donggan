@@ -60,6 +60,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
 
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchFilterModel? _allData;
+  MatchFilterModel? _otherData;
   MatchFilterModel? _hotData;
 
   @override
@@ -93,7 +94,11 @@ class _MatchFilterPageState extends State<MatchFilterPage>
         MatchFilterType.footballAll, widget.matchStatus, widget.dateStr,
         (success, result) {
       if (result != null) {
-        _allData = _processServerData(result, true);
+        if (widget.matchStatus == MatchStatus.going) {
+          _otherData = _processServerData(result, false);
+        } else {
+          _allData = _processServerData(result, true);
+        }
       }
     });
     Future hot = MatchFilterService.requestFBHotData(
@@ -107,7 +112,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     Future.wait([all, hot]).then((value) {
       ToastUtils.hideLoading();
 
-      if (_allData != null || _hotData != null) {
+      if ((_allData == null && _otherData == null) || _hotData != null) {
         _layoutState = LoadStatusType.success;
       } else {
         _layoutState = LoadStatusType.empty;
@@ -227,9 +232,20 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     int allCount = 0;
     int selectCount = 0;
 
-    if (_tabProvider.index == 0 && _allData != null) {
-      for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
-        for (MatchFilterItemModel model in modelArr) {
+    if (_tabProvider.index == 0 && (_allData != null || _otherData != null)) {
+      if (_allData != null) {
+        for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
+          for (MatchFilterItemModel model in modelArr) {
+            if (model.noSelect) {
+              existNoSelect = true;
+            } else {
+              selectCount += model.matchCount;
+            }
+            allCount += model.matchCount;
+          }
+        }
+      } else {
+        for (MatchFilterItemModel model in _otherData!.hotArr) {
           if (model.noSelect) {
             existNoSelect = true;
           } else {
@@ -269,8 +285,18 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     List<int> leagueIdArr = [];
 
     if (_tabProvider.index == 0) {
-      for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
-        for (MatchFilterItemModel model in modelArr) {
+      if (_allData != null) {
+        for (List<MatchFilterItemModel> modelArr in _allData!.moderArrArr) {
+          for (MatchFilterItemModel model in modelArr) {
+            if (model.noSelect) {
+              isSelectAll = false;
+            } else {
+              leagueIdArr.add(model.id);
+            }
+          }
+        }
+      } else {
+        for (MatchFilterItemModel model in _otherData!.hotArr) {
           if (model.noSelect) {
             isSelectAll = false;
           } else {
@@ -293,7 +319,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
     if (isSelectAll) {
       leagueIdArr = [];
     }
-
+    
     MatchFilterManager.instance.updateFilterData(
         widget.sportType, filterType, widget.matchStatus, leagueIdArr);
 
@@ -326,7 +352,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   // -------------------------------------------
 
   _buildFFChild(BuildContext context) {
-    if (_allData == null || _hotData == null) {
+    if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
 
@@ -363,12 +389,21 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                     controller: _pageController,
                     itemBuilder: (_, int index) {
                       if (index == 0) {
-                        return MatchFilterAllPage(
-                            key: _allPageKey,
-                            model: _allData!,
-                            callback: () {
-                              _updateBottomViewUI();
-                            });
+                        if (widget.matchStatus == MatchStatus.going) {
+                          return MatchFilterHotPage(
+                              key: _allPageKey,
+                              model: _otherData!,
+                              callback: () {
+                                _updateBottomViewUI();
+                              });
+                        } else {
+                          return MatchFilterAllPage(
+                              key: _allPageKey,
+                              model: _allData!,
+                              callback: () {
+                                _updateBottomViewUI();
+                              });
+                        }
                       } else {
                         return MatchFilterHotPage(
                             key: _hotPageKey,
@@ -391,7 +426,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
   // -------------------------------------------
 
   _buildBBChild(BuildContext context) {
-    if (_hotData == null) {
+    if (_layoutState != LoadStatusType.success) {
       return const SizedBox();
     }
 

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/player/player_danmu_widget.dart';
 import 'package:wzty/common/player/player_panel_utils.dart';
 import 'package:wzty/common/player/video_danmu_set_widget.dart';
 import 'package:wzty/common/player/video_resolution_widget.dart';
@@ -304,7 +305,7 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
           player.value.fullScreen
               ? player.exitFullScreen()
               : player.enterFullScreen();
-          widget.callback(PlayPanelEvent.fullScreen);
+          // widget.callback(PlayPanelEvent.fullScreen);
         },
         child: Padding(
             padding: const EdgeInsets.all(10),
@@ -502,6 +503,17 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
         const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
 
     ws.add(waterLogo);
+
+    // if (ConfigManager.instance.barrageOpen) {
+    //   Widget danmu = Positioned(
+    //       top: 0,
+    //       left: 0,
+    //       width: rect.width,
+    //       height: rect.height * 0.5,
+    //       child: const PlayerDanmuWidget());
+    //   ws.add(danmu);
+    // }
+
     ws.add(buildGestureDetector(context));
 
     if (WZPlayerManager.instance.showVideoResolution) {

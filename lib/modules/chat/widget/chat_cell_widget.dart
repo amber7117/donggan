@@ -71,11 +71,14 @@ class ChatCellWidget extends StatelessWidget {
                     color: nameColor,
                     fontSize: 12,
                     fontWeight: TextStyleUtils.medium)),
-            Text(contentNew,
-                style: TextStyle(
-                    color: contentColor,
-                    fontSize: 12,
-                    fontWeight: TextStyleUtils.medium)),
+            Expanded(
+              child: Text(contentNew,
+                  maxLines: null,
+                  style: TextStyle(
+                      color: contentColor,
+                      fontSize: 12,
+                      fontWeight: TextStyleUtils.medium)),
+            ),
           ],
         ),
       ),

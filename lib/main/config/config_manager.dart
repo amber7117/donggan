@@ -56,6 +56,10 @@ class ConfigManager {
   // ---------------------------------------------
 
   bool videoIsBlock(int leagueId) {
+    if (appDebug) {
+      return false;
+    }
+    
     if (!liveOk) {
       return true;
     }

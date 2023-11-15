@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:wzty/common/player/player_danmu_widget.dart';
+
 class WZPlayerManager {
   // ---------------------------------------------
 
@@ -7,6 +10,13 @@ class WZPlayerManager {
   Map<String, String> playUrlDic = {};
 
   bool showDanmuSet = false;
+
+  Widget? _danmuWidget;
+  Widget getDanmuWidget() {
+    _danmuWidget ??= const PlayerDanmuWidget(); 
+    return _danmuWidget!;
+  }
+
 
   // ---------------------------------------------
 
