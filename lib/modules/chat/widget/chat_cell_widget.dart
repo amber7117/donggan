@@ -46,13 +46,13 @@ class ChatCellWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (model.type == ChatMsgType.common &&
-            UserManager.isSelf(model.userId)) {
+            !UserManager.isSelf(model.userId)) {
           adminOperate();
         }
       },
       onLongPress: () {
         if (model.type == ChatMsgType.common &&
-            UserManager.isSelf(model.userId)) {
+            !UserManager.isSelf(model.userId)) {
           msgOperate();
         }
       },
