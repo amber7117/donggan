@@ -91,6 +91,7 @@ class CommonAlertWidget extends StatelessWidget {
                             fontWeight: TextStyleUtils.regual)),
                     onPressed: () {
                       callback();
+                      Navigator.pop(context);
                     }),
               ),
             ],

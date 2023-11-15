@@ -25,12 +25,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State {
-  final List<Widget> _pageList = [
-    const MatchPage(sportType: SportType.football),
-    const MatchPage(sportType: SportType.basketball),
-    const NewsPage(),
-    const MePage(),
-  ];
+  final List<Widget> _pageList = [];
+
+  List<Widget> _obtainPageList() {
+    return [
+      const MatchPage(sportType: SportType.football),
+      const MatchPage(sportType: SportType.basketball),
+      const NewsPage(),
+      const MePage(),
+    ];
+  }
+
   final List<BottomNavigationBarItem> _barList = [];
 
   List<BottomNavigationBarItem> _obtainTabList() {
@@ -51,11 +56,7 @@ class _MainPageState extends State {
   void initState() {
     super.initState();
 
-    _barList.addAll(_obtainTabList());
-    if (ConfigManager.instance.liveOk) {
-      _pageList.insert(0, const AnchorPage());
-      _barList.insert(0, _buildBarItem('tab/iconZhibo'));
-    }
+    _handleData();
 
     _pageController = PageController();
 
@@ -64,6 +65,26 @@ class _MainPageState extends State {
         IMManager.instance.prepareInitSDK();
       }
     });
+    _eventSub = eventBusManager.on<LiveStateEvent>((event) {
+      if (mounted) {
+        _handleData();
+        
+        setState(() {});
+      }
+    });
+  }
+
+  _handleData() {
+    _barList.clear();
+    _pageList.clear();
+
+    _barList.addAll(_obtainTabList());
+    _pageList.addAll(_obtainPageList());
+    
+    if (ConfigManager.instance.liveOk) {
+      _pageList.insert(0, const AnchorPage());
+      _barList.insert(0, _buildBarItem('tab/iconZhibo'));
+    }
   }
 
   @override

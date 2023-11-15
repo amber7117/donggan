@@ -59,7 +59,7 @@ class ConfigManager {
     if (appDebug) {
       return false;
     }
-    
+
     if (!liveOk) {
       return true;
     }
@@ -82,7 +82,7 @@ class ConfigManager {
   // ---------------------------------------------
 
   requestConfig() async {
-    liveOk = await SpUtils.getBool(SpKeys.liveOK); 
+    liveOk = await SpUtils.getBool(SpKeys.liveOK);
 
     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _requestMatchFollowInfo();
@@ -115,16 +115,20 @@ class ConfigManager {
         if (appDebug) {
           videoOk = true;
         }
-        SpUtils.save(SpKeys.liveOK, videoOk);
       }
     });
 
     ConfigService.requestLiveStatus((success, result) {
       if (success) {
-        liveOk = result!;
+        bool resultTmp = result!;
         if (appDebug) {
-          liveOk = true;
+          resultTmp = true;
         }
+        if (liveOk != resultTmp) {
+          liveOk = resultTmp;
+          eventBusManager.emit(LiveStateEvent(liveOk: liveOk));
+        }
+        SpUtils.save(SpKeys.liveOK, liveOk);
       }
     });
 

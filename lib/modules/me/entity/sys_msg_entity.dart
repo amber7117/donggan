@@ -1,28 +1,36 @@
 class SysMsgModel {
   String id;
-  String? title;
-  String? content;
-  String? createdDate;
-  String? localDateDesc;
-  int? type;
+  String title;
+  String content;
+  String createdDate;
+  String localDateDesc;
+  int type;
+
+  late String createdDateNew;
 
   SysMsgModel({
     required this.id,
-    this.title,
-    this.content,
-    this.createdDate,
-    this.localDateDesc,
-    this.type,
-  });
+    required this.title,
+    required this.content,
+    required this.createdDate,
+    required this.localDateDesc,
+    required this.type,
+  }) {
+     if (createdDate.contains(" ")) {
+      createdDateNew = createdDate.split(" ").first;
+    } else {
+      createdDateNew = "";
+    }
+  }
 
-factory SysMsgModel.fromJson(Map<String, dynamic> json) {
+  factory SysMsgModel.fromJson(Map<String, dynamic> json) {
     return SysMsgModel(
       id: json['id'].toString(),
-      title: json['title'],
-      content: json['content'],
-      createdDate: json['createdDate'],
-      localDateDesc: json['localDateDesc'],
-      type: json['type'],
+      title: json['title'] ?? "",
+      content: json['content'] ?? "",
+      createdDate: json['createdDate'] ?? "",
+      localDateDesc: json['localDateDesc'] ?? "",
+      type: json['type'] ?? 0,
     );
   }
 

@@ -9,6 +9,13 @@ class DomainStateEvent {
   DomainStateEvent({required this.ok});
 }
 
+/// 直播状态
+class LiveStateEvent {
+  final bool liveOk;
+
+  LiveStateEvent({required this.liveOk});
+}
+
 /// 收藏数据
 class MatchCollectDataEvent {
 

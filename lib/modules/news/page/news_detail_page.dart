@@ -121,15 +121,16 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(
-            trailing: InkWell(
-          onTap: () {
-            _showReportUI();
-          },
-          child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: JhAssetImage("news/iconMore", width: 22)),
-        )),
+        appBar: buildAppBarAndActions(actions: [
+          InkWell(
+            onTap: () {
+              _showReportUI();
+            },
+            child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: JhAssetImage("news/iconMore", width: 22)),
+          )
+        ]),
         backgroundColor: Colors.white,
         body: LoadStateWidget(
             state: _layoutState, successWidget: _buildChild(context)));
