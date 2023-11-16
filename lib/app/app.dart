@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 const appTest = true;
 
 // Debug开关
-const appDebug = true;
+const appDebug = false;
 
 // 代理开关和配置
 const appProxy = false;

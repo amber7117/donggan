@@ -5,7 +5,6 @@ import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/news/entity/news_list_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
 import 'package:wzty/modules/news/widget/news_cell_widget.dart';
-import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class NewsChildPage extends StatefulWidget {
@@ -33,7 +32,7 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
   void initState() {
     super.initState();
 
-    _requestData(loading: true);
+    _requestData();
   }
 
   _requestData({bool loading = false}) {
@@ -83,6 +82,7 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
+        errorRetry: _requestData,
         successWidget: _buildChild(context));
   }
 
@@ -95,11 +95,11 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
         controller: _refreshCtrl,
         onRefresh: () async {
           _page = 1;
-          _requestData();
+          _requestData(loading: false);
         },
         onLoad: () {
           _page++;
-          _requestData();
+          _requestData(loading: false);
         },
         child: ListView.builder(
             padding: EdgeInsets.zero,

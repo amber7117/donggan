@@ -42,7 +42,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   void initState() {
     super.initState();
 
-    _requestData(loading: true);
+    _requestData();
 
     _eventSub = eventBusManager.on<BlockAnchorEvent>((event) async {
       if (mounted) {
@@ -59,7 +59,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     eventBusManager.off(_eventSub);
   }
 
-  _requestData({bool loading = false}) async {
+  _requestData({bool loading = true}) async {
     if (loading) ToastUtils.showLoading();
 
     AnchorService.requestTypeList(widget.type, (success, result) {
@@ -103,11 +103,13 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   }
 
   // ---------------------------------------------
-  
+
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        state: _layoutState, successWidget: _buildChild(context));
+        errorRetry: _requestData,
+        state: _layoutState,
+        successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {
@@ -117,7 +119,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     return EasyRefresh(
         controller: _refreshCtrl,
         onRefresh: () async {
-          _requestData();
+          _requestData(loading: false);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),

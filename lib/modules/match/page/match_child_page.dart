@@ -12,7 +12,7 @@ import 'package:wzty/modules/match/widget/calendar/match_calendar_widget.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/modules/match/widget/match_cell_widget.dart';
 import 'package:wzty/modules/match/widget/match_head_date_widget.dart';
-import 'package:wzty/modules/match/widget/match_menu_widget.dart';
+import 'package:wzty/modules/match/widget/match_float_menu_widget.dart';
 import 'package:wzty/utils/toast_utils.dart';
 import 'package:wzty/utils/wz_date_utils.dart';
 
@@ -125,7 +125,7 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     }
   }
 
-  _requestData({bool loading = false, String calendarDate = ''}) async {
+  _requestData({bool loading = true, String calendarDate = ''}) async {
     // if (!domainOk()) {
     //   return;
     // }
@@ -234,13 +234,11 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    // return LoadStateWidget(
-    //     state: _layoutState, successWidget: _buildChildWidget());
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
         _buildChildWidget(),
-        MatchMenuWidget(selectAll: true, callback: (selectAll) {
+        MatchFloatMenuWidget(selectAll: true, callback: (selectAll) {
           if (_selectAllBtn == selectAll) return;
 
           _selectAllBtn = selectAll;
@@ -268,10 +266,11 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
           Expanded(
             child: LoadStateWidget(
               state: _layoutState,
+              errorRetry: _requestData,
               successWidget: EasyRefresh(
                   controller: _refreshCtrl,
                   onRefresh: () async {
-                    _requestData();
+                    _requestData(loading: false);
                   },
                   child: ListView.builder(
                       padding: const EdgeInsets.only(top: 3),
@@ -289,10 +288,11 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     } else {
       return LoadStateWidget(
         state: _layoutState,
+        errorRetry: _requestData,
         successWidget: EasyRefresh(
             controller: _refreshCtrl,
             onRefresh: () async {
-              _requestData();
+              _requestData(loading: false);
             },
             child: ListView.builder(
                 padding: const EdgeInsets.only(top: 3),

@@ -3,18 +3,18 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-class MatchMenuWidget extends StatefulWidget {
+class MatchFloatMenuWidget extends StatefulWidget {
   final bool selectAll;
   final WZAnyCallback<bool> callback;
 
-  const MatchMenuWidget(
+  const MatchFloatMenuWidget(
       {super.key, required this.selectAll, required this.callback});
 
   @override
-  State createState() => _MatchMenuWidgetState();
+  State createState() => _MatchFloatMenuWidgetState();
 }
 
-class _MatchMenuWidgetState extends State<MatchMenuWidget> {
+class _MatchFloatMenuWidgetState extends State<MatchFloatMenuWidget> {
   int _selectIdx = 0;
   bool _showAll = false;
 

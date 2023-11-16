@@ -52,6 +52,7 @@ class _MainPageState extends State {
 
   late StreamSubscription _eventSub;
 
+  late LocalKey _pageKey;
   late LocalKey _bottomBarKey;
 
   @override
@@ -88,6 +89,7 @@ class _MainPageState extends State {
     _barList.addAll(_obtainTabList());
     _pageList.addAll(_obtainPageList());
 
+    _pageKey = UniqueKey();
     _bottomBarKey = UniqueKey();
   }
 
@@ -103,6 +105,7 @@ class _MainPageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        key: _pageKey,
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: _pageList,

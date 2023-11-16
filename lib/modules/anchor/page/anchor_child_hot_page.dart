@@ -48,7 +48,7 @@ class _AnchorChildHotPageState
   void initState() {
     super.initState();
 
-    _requestData(loading: true);
+    _requestData();
 
     _eventSub = eventBusManager.on<BlockAnchorEvent>((event) async {
       if (mounted) {
@@ -65,7 +65,7 @@ class _AnchorChildHotPageState
     eventBusManager.off(_eventSub);
   }
 
-  _requestData({bool loading = false}) async {
+  _requestData({bool loading = true}) async {
     if (loading) ToastUtils.showLoading();
 
     Future banner =
@@ -122,7 +122,9 @@ class _AnchorChildHotPageState
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        state: _layoutState, successWidget: _buildChild(context));
+        emptyRetry: _requestData,
+        state: _layoutState,
+        successWidget: _buildChild(context));
   }
 
   _buildChild(BuildContext context) {

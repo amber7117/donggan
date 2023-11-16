@@ -115,7 +115,7 @@ class _AnchorDetailHeadVideoWidgetState
 
     _requestData();
 
-    player.setDataSource(widget.urlStr, autoPlay: true);
+    _preparePlayVideo();
 
     _eventSub = eventBusManager.on<PlayerStatusEvent>((event) {
       if (mounted &&
@@ -126,6 +126,12 @@ class _AnchorDetailHeadVideoWidgetState
         }
       }
     });
+  }
+
+   _preparePlayVideo() async {
+    await player.setOption(FijkOption.formatCategory, "headers",
+        "referer:https://video.dqiu.com/");
+    player.setDataSource(widget.urlStr, autoPlay: true);
   }
 
   @override

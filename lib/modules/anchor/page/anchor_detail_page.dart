@@ -151,6 +151,7 @@ class _AnchorDetailPageState
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
+        errorRetry: _requestData,
         successWidget: Scaffold(
             backgroundColor: ColorUtils.gray248,
             // resizeToAvoidBottomInset: false,

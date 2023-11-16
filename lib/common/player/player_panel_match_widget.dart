@@ -343,8 +343,7 @@ class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
                 colors: [Color(0x88000000), Color(0x00000000)],
                 end: Alignment.topCenter,
                 begin: Alignment.bottomCenter,
-              ),
-              color: Colors.green),
+              )),
           child: buildBottom(context, toolItemHeight),
         )
       ],
