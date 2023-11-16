@@ -38,7 +38,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     _requestData(loading: true);
   }
 
-  _requestData({bool loading = false}) async {
+  _requestData({bool loading = true}) async {
     if (loading) ToastUtils.showLoading();
 
     Future detail = NewsService.requestDetail(widget.newsId, (success, result) {
@@ -133,7 +133,9 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
         ]),
         backgroundColor: Colors.white,
         body: LoadStateWidget(
-            state: _layoutState, successWidget: _buildChild(context)));
+            errorRetry: _requestData,
+            state: _layoutState,
+            successWidget: _buildChild(context)));
   }
 
   // -------------------------------------------

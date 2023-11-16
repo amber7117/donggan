@@ -23,7 +23,7 @@ class LivePlaybackPage extends StatefulWidget {
 
 class _LivePlaybackPageState extends State<LivePlaybackPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
-  
+
   AnchorDetailModel? _model;
   AnchorRecordModel? _playInfo;
 
@@ -85,6 +85,7 @@ class _LivePlaybackPageState extends State<LivePlaybackPage> {
   Widget build(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
+        errorRetry: _requestData,
         successWidget: Scaffold(
             backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
   }
