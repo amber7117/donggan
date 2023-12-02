@@ -102,45 +102,43 @@ class _NewsPageState extends KeepAliveWidgetState
     }
     return ChangeNotifierProvider<TabProvider>(
         create: (context2) => _tabProvider,
-        child: Scaffold(
-          body: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: ScreenUtil().statusBarHeight + 65.0,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: JhImageUtils.getAssetImage("common/bgHomeTop"),
-                      fit: BoxFit.fitWidth),
-                ),
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                      top: ScreenUtil().statusBarHeight, left: 12, right: 12),
-                  child: TabBar(
-                      onTap: (index) {
-                        if (!mounted) return;
-                        _pageController.jumpToPage(index);
-                      },
-                      isScrollable: true,
-                      controller: _tabController,
-                      indicator: const BoxDecoration(),
-                      labelPadding: const EdgeInsets.only(right: 4),
-                      tabs: _tabs),
-                ),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().statusBarHeight + 65.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: JhImageUtils.getAssetImage("common/bgHomeTop"),
+                    fit: BoxFit.fitWidth),
               ),
-              Expanded(
-                  child: PageView.builder(
-                      itemCount: _tabs.length,
-                      onPageChanged: _onPageChange,
-                      controller: _pageController,
-                      itemBuilder: (_, int index) {
-                        NewsLabelModel model = _labelArr[index];
-                        return NewsChildPage(categoryId: model.categoryId);
-                      }))
-            ],
-          ),
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                    top: ScreenUtil().statusBarHeight, left: 12, right: 12),
+                child: TabBar(
+                    onTap: (index) {
+                      if (!mounted) return;
+                      _pageController.jumpToPage(index);
+                    },
+                    isScrollable: true,
+                    controller: _tabController,
+                    indicator: const BoxDecoration(),
+                    labelPadding: const EdgeInsets.only(right: 4),
+                    tabs: _tabs),
+              ),
+            ),
+            Expanded(
+                child: PageView.builder(
+                    itemCount: _tabs.length,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, int index) {
+                      NewsLabelModel model = _labelArr[index];
+                      return NewsChildPage(categoryId: model.categoryId);
+                    }))
+          ],
         ));
   }
 }
