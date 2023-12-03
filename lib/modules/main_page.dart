@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/data/app_data_utils.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/domain/domain_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/im/im_manager.dart';
@@ -13,6 +15,7 @@ import 'package:wzty/modules/news/page/news_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:umeng_common_sdk/umeng_common_sdk.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 const double _tabW = 44.0;
 const double _tabH = 44.0;
@@ -52,7 +55,9 @@ class _MainPageState extends State {
   late PageController _pageController;
   int _currentIndex = 0;
 
-  late StreamSubscription _eventSub;
+  late StreamSubscription _netSub;
+  late StreamSubscription _domainSub;
+  late StreamSubscription _liveStatusSub;
 
   late LocalKey _pageKey;
   late LocalKey _bottomBarKey;
@@ -65,14 +70,24 @@ class _MainPageState extends State {
 
     _pageController = PageController();
 
-    _eventSub = eventBusManager.on<DomainStateEvent>((event) {
+    _netSub = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      bool netOk = true;
+      if (result == ConnectivityResult.none) {
+        netOk = false;
+      }
+      _handleNetConnetct(netOk);
+    });
+
+    _domainSub = eventBusManager.on<DomainStateEvent>((event) {
       if (event.ok) {
         IMManager.instance.prepareInitSDK();
 
-        initPlugin();
+        _initPlugin();
       }
     });
-    _eventSub = eventBusManager.on<LiveStateEvent>((event) {
+    _liveStatusSub = eventBusManager.on<LiveStateEvent>((event) {
       if (mounted) {
         _handleData();
 
@@ -81,16 +96,26 @@ class _MainPageState extends State {
     });
   }
 
-  Future<void> initPlugin() async {
+  _handleNetConnetct(bool netOk) {
+    if (AppDataUtils.instance.netConnectOk != netOk) {
+      AppDataUtils.instance.netConnectOk = netOk;
+      if (netOk && !DomainManager.instance.domainInitSuccess) {
+        logger.i("requestDomain ---- ");
+        DomainManager.instance.requestDomain();
+      }
+    }
+  }
+
+  _initPlugin() async {
     TrackingStatus status =
         await AppTrackingTransparency.trackingAuthorizationStatus;
     if (status == TrackingStatus.notDetermined) {
-      TrackingStatus status =
-          await AppTrackingTransparency.requestTrackingAuthorization();
-      if (status == TrackingStatus.authorized) {
-        UmengCommonSdk.initCommon("", "5e43ceaacb23d2efa7000076", "WZTY");
-        logger.i("initPlugin ---- ");
-      }
+      await AppTrackingTransparency.requestTrackingAuthorization();
+      UmengCommonSdk.initCommon("", "5e43ceaacb23d2efa7000076", "WZTY");
+      logger.i("initPlugin ---- ");
+    } else {
+      UmengCommonSdk.initCommon("", "5e43ceaacb23d2efa7000076", "WZTY");
+      logger.i("initPlugin ---- ");
     }
   }
 
@@ -115,7 +140,10 @@ class _MainPageState extends State {
     super.dispose();
 
     _pageController.dispose();
-    eventBusManager.off(_eventSub);
+
+    eventBusManager.off(_netSub);
+    eventBusManager.off(_domainSub);
+    eventBusManager.off(_liveStatusSub);
   }
 
   @override

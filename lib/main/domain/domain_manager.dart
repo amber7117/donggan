@@ -17,8 +17,8 @@ class DomainManager {
   List<DomainEntity> _domainList = [];
   int _domainIdx = 0;
 
-  bool _domainIniting = false;
-  bool _domainInitSuccess = false;
+  bool _domainInit = false;
+  bool domainInitSuccess = false;
 
   DomainEntity? currentDomain() {
     if (_domainList.isEmpty) {
@@ -37,9 +37,9 @@ class DomainManager {
   removeDomain() {}
 
   requestDomain() async {
-    if (_domainIniting) return;
+    if (_domainInit) return;
 
-    _domainIniting = true;
+    _domainInit = true;
 
     List<DomainEntity> domianList = await getDomainFromCache();
     if (appDebug) {
@@ -119,7 +119,7 @@ class DomainManager {
       }
       checkDomainList(domianList, DomainPullFrom.cdn);
     } else {
-      _domainIniting = false;
+      _domainInit = false;
       eventBusManager.emit(DomainStateEvent(ok: false));
     }
   }
@@ -221,12 +221,12 @@ class DomainManager {
       return;
     }
 
-    if (_domainInitSuccess) {
+    if (domainInitSuccess) {
       return;
     }
 
-    _domainInitSuccess = true;
-    _domainIniting = false;
+    domainInitSuccess = true;
+    _domainInit = false;
 
     eventBusManager.emit(DomainStateEvent(ok: true));
   }
