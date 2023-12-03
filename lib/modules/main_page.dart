@@ -11,6 +11,8 @@ import 'package:wzty/modules/match/page/match_page.dart';
 import 'package:wzty/modules/me/page/me_page.dart';
 import 'package:wzty/modules/news/page/news_page.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:umeng_common_sdk/umeng_common_sdk.dart';
 
 const double _tabW = 44.0;
 const double _tabH = 44.0;
@@ -66,6 +68,8 @@ class _MainPageState extends State {
     _eventSub = eventBusManager.on<DomainStateEvent>((event) {
       if (event.ok) {
         IMManager.instance.prepareInitSDK();
+
+        initPlugin();
       }
     });
     _eventSub = eventBusManager.on<LiveStateEvent>((event) {
@@ -75,6 +79,19 @@ class _MainPageState extends State {
         setState(() {});
       }
     });
+  }
+
+  Future<void> initPlugin() async {
+    TrackingStatus status =
+        await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      TrackingStatus status =
+          await AppTrackingTransparency.requestTrackingAuthorization();
+      if (status == TrackingStatus.authorized) {
+        UmengCommonSdk.initCommon("", "5e43ceaacb23d2efa7000076", "WZTY");
+        logger.i("initPlugin ---- ");
+      }
+    }
   }
 
   _handleData() {

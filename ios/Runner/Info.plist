@@ -45,5 +45,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>获取广告标识符，用于个性化数据统计</string>
 </dict>
 </plist>
