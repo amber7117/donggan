@@ -37,6 +37,8 @@ class DomainManager {
   removeDomain() {}
 
   requestDomain() async {
+    if (domainInitSuccess) return;
+    
     if (_domainInit) return;
 
     _domainInit = true;
