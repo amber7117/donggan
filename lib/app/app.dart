@@ -13,7 +13,7 @@ const appProxy = false;
 const appProxyIP = "PROXY 192.168.1.6:8888";
 
 // 日志配置
-final logger = Logger(level: Level.debug);
+final logger = Logger(level: Level.info);
 
 // Router
 final router = FluroRouter();
