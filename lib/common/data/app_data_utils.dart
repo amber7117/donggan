@@ -1,6 +1,7 @@
 class AppDataUtils {
 
   bool matchCollectChanged = false;
+  bool netConnectOk = true;
 
   // ---------------------------------------------
 
