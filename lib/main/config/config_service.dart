@@ -4,6 +4,32 @@ import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 
 class ConfigService {
+  static Future<void> requestUserActive(
+      BusinessCallback<bool> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(ConfigApi.userActive, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      complete(true, result.data["activeUser"]);
+    } else {
+      complete(false, false);
+    }
+  }
+
+  static Future<void> requestReportUserActive(
+      BusinessCallback<String> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(ConfigApi.reportUserActive, HttpMethod.post);
+
+    String msg = "";
+    if (!result.isSuccess()) {
+      msg = result.msg ?? result.data;
+    }
+    complete(result.isSuccess(), msg);
+  }
+
+  // ----------------------  活跃用户逻辑  -----------------------
+  
   static Future<void> requestLiveBlock(
       BusinessCallback<LiveBlockModel?> complete) async {
     HttpResultBean result =
@@ -90,12 +116,12 @@ class ConfigService {
   }
 
   static Future<void> requestChannelInfo(
-      BusinessCallback<String?> complete) async {
+      BusinessCallback<Map?> complete) async {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.channelInfo, HttpMethod.post);
 
     if (result.isSuccess() && result.data is Map) {
-      complete(true, result.data["echatUrl"]);
+      complete(true, result.data);
     } else {
       complete(false, null);
     }

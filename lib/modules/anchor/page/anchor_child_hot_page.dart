@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:wzty/common/extension/extension_app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -42,7 +44,8 @@ class _AnchorChildHotPageState
   // );
   int _page = 1;
 
-  late StreamSubscription _eventSub;
+  late StreamSubscription _blockSub;
+  late StreamSubscription _activeUserSub;
 
   @override
   void initState() {
@@ -50,10 +53,15 @@ class _AnchorChildHotPageState
 
     _requestData();
 
-    _eventSub = eventBusManager.on<BlockAnchorEvent>((event) async {
+    _blockSub = eventBusManager.on<BlockAnchorEvent>((event) async {
       if (mounted) {
         _anchorArr = await removeBlockData(_anchorArr);
         setState(() {});
+      }
+    });
+    _activeUserSub = eventBusManager.on<ActiveUserEvent>((event) async {
+      if (mounted) {
+        notifyActiveUser();
       }
     });
   }
@@ -62,10 +70,11 @@ class _AnchorChildHotPageState
   void dispose() {
     super.dispose();
 
-    eventBusManager.off(_eventSub);
+    eventBusManager.off(_blockSub);
+    eventBusManager.off(_activeUserSub);
   }
 
-  _requestData({bool loading = true}) async {
+  _requestData({bool loading = true}) {
     if (loading) ToastUtils.showLoading();
 
     Future banner =
@@ -77,23 +86,37 @@ class _AnchorChildHotPageState
       _anchorArr = result;
     });
 
-    Future.wait([banner, anchor]).then((value) {
+    Future.wait([banner, anchor]).then((value) async {
       ToastUtils.hideLoading();
 
       if (_anchorArr.isNotEmpty) {
         _layoutState = LoadStatusType.success;
+
+        _anchorArr = await removeBlockData(_anchorArr);
+        _anchorArr = handleActiveUserData(_anchorArr);
+
+        MatchService.requestHotMatchList((success, result) {
+          if (result.isNotEmpty) {
+            _matchArr = result;
+            setState(() {});
+          }
+        });
       } else {
         _layoutState = LoadStatusType.failure;
       }
 
       setState(() {});
+    });
+  }
 
-      MatchService.requestHotMatchList((success, result) {
-        if (result.isNotEmpty) {
-          _matchArr = result;
-          setState(() {});
-        }
-      });
+  _requestAnchorData() {
+    AnchorService.requestHotList(_page, (success, result) async {
+      if (success && result.isNotEmpty) {
+        _anchorArr = await removeBlockData(_anchorArr);
+        _anchorArr = handleActiveUserData(_anchorArr);
+        
+        setState(() {});
+      }
     });
   }
 
@@ -115,6 +138,30 @@ class _AnchorChildHotPageState
     }
 
     return arrTmp;
+  }
+
+  List<AnchorListModel> handleActiveUserData(List<AnchorListModel> list) {
+    if (ConfigManager.instance.activeUser) {
+      return list;
+    }
+
+    List<AnchorListModel> arr = [];
+    for (var model in list) {
+      if (model.isGreenLive.isTrue()) {
+        arr.add(model);
+      }
+    }
+    return arr;
+  }
+
+  void notifyActiveUser() {
+    if (ConfigManager.instance.activeUser) {
+      return;
+    }
+
+    _anchorArr.clear();
+
+    _requestAnchorData();
   }
 
   // ---------------------------------------------

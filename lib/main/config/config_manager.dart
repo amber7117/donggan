@@ -5,6 +5,7 @@ import 'package:wzty/main/config/config_service.dart';
 import 'package:wzty/main/config/live_block_entity.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/match/manager/match_collect_manager.dart';
 import 'package:wzty/modules/match/service/match_service.dart';
 import 'package:wzty/utils/shared_preference_utils.dart';
@@ -30,6 +31,7 @@ class ConfigManager {
 
   String onlineKefu = "";
 
+  bool activeUserSwitch = false;
   bool activeUser = false;
 
   Timer? userTimer;
@@ -86,6 +88,8 @@ class ConfigManager {
 
     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _requestMatchFollowInfo();
+
+      _judegeRequestUserActive();
     });
 
     ConfigService.requestLiveBlock((success, result) {
@@ -141,8 +145,12 @@ class ConfigManager {
     });
 
     ConfigService.requestChannelInfo((success, result) {
-      if (success) {
-        onlineKefu = result ?? "";
+      if (success && result != null) {
+        onlineKefu = result["echatUrl"];
+        activeUserSwitch = result["activeUserSwitch"];
+
+        // 活跃逻辑
+        _judegeRequestUserActive();
       }
     });
 
@@ -175,6 +183,80 @@ class ConfigManager {
             MatchCollectDataEvent(sportType: SportType.basketball, value: cnt));
       }
     });
+  }
+
+  // ----------------------  活跃用户逻辑  -----------------------
+
+  void _judegeRequestUserActive() {
+    if (!activeUserSwitch) return;
+
+    if (appDebug) {
+      activeUser = true;
+    } else {
+      _requestUserActive();
+    }
+  }
+
+  void _requestUserActive() {
+    if (!UserManager.instance.isLogin()) {
+      return;
+    }
+
+    ConfigService.requestUserActive((success, result) {
+      if (success) {
+        bool data = result;
+        if (appDebug) {
+          data = true;
+        }
+
+        if (activeUser != data) {
+          activeUser = data;
+          eventBusManager.emit(ActiveUserEvent(activeUSer: data));
+        }
+
+        beginUserTimer();
+      }
+    });
+  }
+
+  void _requestReportUserActive() {
+    if (!UserManager.instance.isLogin()) {
+      return;
+    }
+
+    ConfigService.requestReportUserActive((success, result) {});
+  }
+
+  void beginUserTimer() {
+    if (userTimer != null || userReportTimer != null) {
+      endUserTimer();
+    }
+
+    userReportTimer = Timer.periodic(const Duration(seconds: 60), (timer) {
+      tickUserReportTimer();
+    });
+
+    if (!activeUser) {
+      userTimer = Timer(const Duration(seconds: 10800), () {
+        tickUserTimer();
+      });
+    }
+  }
+
+  void endUserTimer() {
+    userReportTimer?.cancel();
+    userReportTimer = null;
+
+    userTimer?.cancel();
+    userTimer = null;
+  }
+
+  void tickUserReportTimer() {
+    _requestReportUserActive();
+  }
+
+  void tickUserTimer() {
+    _requestUserActive();
   }
 
   // ---------------------------------------------

@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
 // 测试环境开关
-const appTest = false;
+const appTest = true;
 
 // Debug开关
-const appDebug = false;
+const appDebug = true;
 
 // 代理开关和配置
-const appProxy = false;
-const appProxyIP = "PROXY 192.168.1.6:8888";
+const appProxy = true;
+const appProxyIP = "PROXY 172.20.10.4:8888";
 
 // 日志配置
 final logger = Logger(level: Level.info);

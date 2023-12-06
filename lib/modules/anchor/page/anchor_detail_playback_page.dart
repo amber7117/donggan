@@ -37,10 +37,10 @@ class _AnchorDetailCalendarPageState
   void initState() {
     super.initState();
 
-    _requestData(loading: true);
+    _requestData();
   }
 
-  _requestData({bool loading = false}) async {
+  _requestData({bool loading = true}) async {
     if (loading) ToastUtils.showLoading();
 
     AnchorService.requestPlaybackList(widget.anchorId, _page,
@@ -74,7 +74,7 @@ class _AnchorDetailCalendarPageState
     return EasyRefresh(
         controller: _refreshCtrl,
         onRefresh: () async {
-          _requestData();
+          _requestData(loading: false);
         },
         child: ListView.builder(
             padding: const EdgeInsets.only(top: 3),

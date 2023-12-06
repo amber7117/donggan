@@ -42,7 +42,7 @@ class PlayerStatusEvent {
   PlayerStatusEvent({required this.playerId, required this.pause});
 }
 
-/// 登录状态
+/// 主播状态
 class BlockAnchorEvent {
   final bool block;
 
@@ -56,3 +56,9 @@ class ChatMsgEvent {
   ChatMsgEvent({required this.msg});
 }
 
+/// 登录状态
+class ActiveUserEvent {
+  final bool activeUSer;
+
+  ActiveUserEvent({required this.activeUSer});
+}

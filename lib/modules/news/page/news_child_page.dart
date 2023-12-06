@@ -32,10 +32,10 @@ class _NewsChildPageState extends KeepAliveLifeWidgetState<NewsChildPage> {
   void initState() {
     super.initState();
 
-    _requestData(loading: true);
+    _requestData();
   }
 
-  _requestData({bool loading = false}) {
+  _requestData({bool loading = true}) {
     if (loading) ToastUtils.showLoading();
 
     if (widget.categoryId > 0) {

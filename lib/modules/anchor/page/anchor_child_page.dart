@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/common/extension/extension_app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -36,7 +38,8 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     controlFinishLoad: true,
   );
 
-  late StreamSubscription _eventSub;
+  late StreamSubscription _blockSub;
+  late StreamSubscription _activeUserSub;
 
   @override
   void initState() {
@@ -44,10 +47,15 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
 
     _requestData();
 
-    _eventSub = eventBusManager.on<BlockAnchorEvent>((event) async {
+    _blockSub = eventBusManager.on<BlockAnchorEvent>((event) async {
       if (mounted) {
         _anchorArr = await removeBlockData(_anchorArr);
         setState(() {});
+      }
+    });
+     _activeUserSub = eventBusManager.on<ActiveUserEvent>((event) async {
+      if (mounted) {
+        notifyActiveUser();
       }
     });
   }
@@ -56,17 +64,21 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   void dispose() {
     super.dispose();
 
-    eventBusManager.off(_eventSub);
+    eventBusManager.off(_blockSub);
+    eventBusManager.off(_activeUserSub);
   }
 
   _requestData({bool loading = true}) async {
     if (loading) ToastUtils.showLoading();
 
-    AnchorService.requestTypeList(widget.type, (success, result) {
+    AnchorService.requestTypeList(widget.type, (success, result) async {
       ToastUtils.hideLoading();
       if (success) {
         if (result.isNotEmpty) {
           _anchorArr = result;
+
+          _anchorArr = await removeBlockData(_anchorArr);
+          _anchorArr = handleActiveUserData(_anchorArr);
 
           _layoutState = LoadStatusType.success;
         } else {
@@ -79,6 +91,17 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
       _refreshCtrl.finishRefresh();
 
       setState(() {});
+    });
+  }
+
+   _requestAnchorData() {
+    AnchorService.requestTypeList(widget.type, (success, result) async {
+      if (success && result.isNotEmpty) {
+        _anchorArr = await removeBlockData(_anchorArr);
+        _anchorArr = handleActiveUserData(_anchorArr);
+        
+        setState(() {});
+      }
     });
   }
 
@@ -100,6 +123,30 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     }
 
     return arrTmp;
+  }
+
+  List<AnchorListModel> handleActiveUserData(List<AnchorListModel> list) {
+    if (ConfigManager.instance.activeUser) {
+      return list;
+    }
+
+    List<AnchorListModel> arr = [];
+    for (var model in list) {
+      if (model.isGreenLive.isTrue()) {
+        arr.add(model);
+      }
+    }
+    return arr;
+  }
+
+  void notifyActiveUser() {
+    if (ConfigManager.instance.activeUser) {
+      return;
+    }
+
+    _anchorArr.clear();
+
+    _requestAnchorData();
   }
 
   // ---------------------------------------------

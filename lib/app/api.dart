@@ -164,6 +164,10 @@ class ConfigApi {
   static String configInfo = "/qiutx-support/cms/config/list";
 
   static String channelInfo = "/live-product/anonymous/v1/get/channel/info";
+
+  static String userActive = "/qiutx-support/active/user/query";
+
+  static String reportUserActive = "/qiutx-support/client/active/user/report";
 }
 
 class IMApi {

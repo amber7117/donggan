@@ -35,7 +35,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   void initState() {
     super.initState();
 
-    _requestData(loading: true);
+    _requestData();
   }
 
   _requestData({bool loading = true}) async {
