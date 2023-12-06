@@ -423,10 +423,8 @@ class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
       ws.add(buildStateless());
     }
 
-    Widget waterLogo = const Opacity(
-        opacity: 0.6,
-        child: JhAssetImage("common/iconWaterLogo",
-            width: 187 * 0.7, height: 80 * 0.7));
+    Widget waterLogo =
+        const JhAssetImage("common/iconWaterLogo", width: 88.0, height: 44.0);
 
     ws.add(waterLogo);
     ws.add(buildGestureDetector(context));

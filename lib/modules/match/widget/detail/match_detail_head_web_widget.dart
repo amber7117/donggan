@@ -28,8 +28,8 @@ class MatchDetailHeadWebWidget extends StatelessWidget {
               const Positioned(
                   right: 0,
                   bottom: 50,
-                  child: JhAssetImage("common/iconWaterLogo2",
-                      width: 88, height: 44)),
+                  child: JhAssetImage("common/iconWaterLogo",
+                      width: 88.0, height: 44.0)),
               const WZBackButton(),
             ],
           )
