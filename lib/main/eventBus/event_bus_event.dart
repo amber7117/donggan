@@ -16,6 +16,13 @@ class LiveStateEvent {
   LiveStateEvent({required this.liveOk});
 }
 
+/// 动画状态
+class AnimateStateEvent {
+  final bool dataOk;
+
+  AnimateStateEvent({required this.dataOk});
+}
+
 /// 收藏数据
 class MatchCollectDataEvent {
 
@@ -56,7 +63,7 @@ class ChatMsgEvent {
   ChatMsgEvent({required this.msg});
 }
 
-/// 登录状态
+/// 活跃用户
 class ActiveUserEvent {
   final bool activeUSer;
 

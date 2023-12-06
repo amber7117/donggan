@@ -49,11 +49,11 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
 
     _blockSub = eventBusManager.on<BlockAnchorEvent>((event) async {
       if (mounted) {
-        _anchorArr = await removeBlockData(_anchorArr);
+        _anchorArr = await _removeBlockData(_anchorArr);
         setState(() {});
       }
     });
-     _activeUserSub = eventBusManager.on<ActiveUserEvent>((event) async {
+    _activeUserSub = eventBusManager.on<ActiveUserEvent>((event) async {
       if (mounted) {
         notifyActiveUser();
       }
@@ -68,17 +68,19 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     eventBusManager.off(_activeUserSub);
   }
 
-  _requestData({bool loading = true}) async {
+  _requestData({bool loading = true}) {
     if (loading) ToastUtils.showLoading();
 
-    AnchorService.requestTypeList(widget.type, (success, result) async {
+    AnchorService.requestTypeList(widget.type, (success, result) {
       ToastUtils.hideLoading();
+
+      _refreshCtrl.finishRefresh();
+
       if (success) {
         if (result.isNotEmpty) {
           _anchorArr = result;
 
-          _anchorArr = await removeBlockData(_anchorArr);
-          _anchorArr = handleActiveUserData(_anchorArr);
+          _anchorArr = _handleActiveUserData(_anchorArr);
 
           _layoutState = LoadStatusType.success;
         } else {
@@ -88,18 +90,15 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
         _layoutState = LoadStatusType.failure;
       }
 
-      _refreshCtrl.finishRefresh();
-
       setState(() {});
     });
   }
 
-   _requestAnchorData() {
-    AnchorService.requestTypeList(widget.type, (success, result) async {
+  _requestAnchorData() {
+    AnchorService.requestTypeList(widget.type, (success, result) {
       if (success && result.isNotEmpty) {
-        _anchorArr = await removeBlockData(_anchorArr);
-        _anchorArr = handleActiveUserData(_anchorArr);
-        
+        _anchorArr = _handleActiveUserData(_anchorArr);
+
         setState(() {});
       }
     });
@@ -107,7 +106,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
 
   // ---------------------------------------------
 
-  Future<List<AnchorListModel>> removeBlockData(
+  Future<List<AnchorListModel>> _removeBlockData(
       List<AnchorListModel> listArr) async {
     List<UserBlockEntity> blockAuthorArr =
         await UserBlockManger.instance.obtainBlockData();
@@ -125,7 +124,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
     return arrTmp;
   }
 
-  List<AnchorListModel> handleActiveUserData(List<AnchorListModel> list) {
+  List<AnchorListModel> _handleActiveUserData(List<AnchorListModel> list) {
     if (ConfigManager.instance.activeUser) {
       return list;
     }

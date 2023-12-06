@@ -13,6 +13,8 @@ class SpKeys {
   static const String token = 'token';
   static const String uid = 'uid'; 
 
+  static const String animateOK = 'animateOK';
+  static const String videoOK = 'videoOK';
   static const String liveOK = 'liveOK'; 
   
   static const String searchHistory = 'searchHistory';

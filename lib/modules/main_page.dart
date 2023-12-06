@@ -83,7 +83,7 @@ class _MainPageState extends State {
     _domainSub = eventBusManager.on<DomainStateEvent>((event) {
       if (event.ok) {
         IMManager.instance.prepareInitSDK();
-
+        ConfigManager.instance.requestConfig();
         _initPlugin();
       }
     });

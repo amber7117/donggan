@@ -83,15 +83,29 @@ class ConfigManager {
 
   // ---------------------------------------------
 
-  requestConfig() async {
+  obtainData() async {
+    animateOk = await SpUtils.getBool(SpKeys.animateOK);
+    videoOk = await SpUtils.getBool(SpKeys.videoOK);
     liveOk = await SpUtils.getBool(SpKeys.liveOK);
+
+    barrageOpen = await SpUtils.getBool(SpKeys.barrageOpen);
+    barrageFont = await SpUtils.getInt(SpKeys.barrageFont);
+    if (barrageFont < 1) {
+      barrageFont = 14;
+    }
+    barrageOpacity = await SpUtils.getDouble(SpKeys.barrageOpacity);
+    if (barrageOpacity < 1) {
+      barrageOpacity = 50.0;
+    }
 
     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _requestMatchFollowInfo();
 
       _judegeRequestUserActive();
     });
+  }
 
+  requestConfig() {
     ConfigService.requestLiveBlock((success, result) {
       if (success) {
         liveBlockData = result;
@@ -104,27 +118,9 @@ class ConfigManager {
       }
     });
 
-    ConfigService.requestAnimateStatus((success, result) {
-      if (success) {
-        animateOk = result!;
-        if (appDebug) {
-          animateOk = true;
-        }
-      }
-    });
-
-    ConfigService.requestVideoStatus((success, result) {
-      if (success) {
-        videoOk = result!;
-        if (appDebug) {
-          videoOk = true;
-        }
-      }
-    });
-
     ConfigService.requestLiveStatus((success, result) {
       if (success) {
-        bool resultTmp = result!;
+        bool resultTmp = result;
         if (appDebug) {
           resultTmp = true;
         }
@@ -137,6 +133,30 @@ class ConfigManager {
     });
 
     _requestMatchFollowInfo();
+
+    Future animate = ConfigService.requestAnimateStatus((success, result) {
+      if (success) {
+        animateOk = result;
+        if (appDebug) {
+          animateOk = true;
+        }
+        SpUtils.save(SpKeys.animateOK, animateOk);
+      }
+    });
+
+    Future video = ConfigService.requestVideoStatus((success, result) {
+      if (success) {
+        videoOk = result;
+        if (appDebug) {
+          videoOk = true;
+        }
+        SpUtils.save(SpKeys.videoOK, videoOk);
+      }
+    });
+
+    Future.wait([animate, video]).then((value) {
+      eventBusManager.emit(AnimateStateEvent(dataOk: true));
+    });
 
     ConfigService.requestConfigInfo((success, result) {
       if (success) {
@@ -153,16 +173,6 @@ class ConfigManager {
         _judegeRequestUserActive();
       }
     });
-
-    barrageOpen = await SpUtils.getBool(SpKeys.barrageOpen);
-    barrageFont = await SpUtils.getInt(SpKeys.barrageFont);
-    if (barrageFont < 1) {
-      barrageFont = 14;
-    }
-    barrageOpacity = await SpUtils.getDouble(SpKeys.barrageOpacity);
-    if (barrageOpacity < 1) {
-      barrageOpacity = 50.0;
-    }
   }
 
   _requestMatchFollowInfo() {
@@ -190,11 +200,11 @@ class ConfigManager {
   void _judegeRequestUserActive() {
     if (!activeUserSwitch) return;
 
-    if (appDebug) {
-      activeUser = true;
-    } else {
+    // if (appDebug) {
+    //   activeUser = true;
+    // } else {
       _requestUserActive();
-    }
+    // }
   }
 
   void _requestUserActive() {
@@ -237,7 +247,7 @@ class ConfigManager {
     });
 
     if (!activeUser) {
-      userTimer = Timer(const Duration(seconds: 10800), () {
+      userTimer = Timer.periodic(const Duration(seconds: 10800), (timer) {
         tickUserTimer();
       });
     }

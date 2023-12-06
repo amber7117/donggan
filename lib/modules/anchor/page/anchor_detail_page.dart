@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
@@ -12,6 +14,7 @@ import 'package:wzty/modules/anchor/page/anchor_detail_bottom_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_empty_widget.dart';
 import 'package:wzty/modules/anchor/widget/detail/anchor_detail_head_video_widget.dart';
+import 'package:wzty/modules/anchor/widget/detail/login_timer_alert_widget.dart';
 import 'package:wzty/modules/match/entity/detail/match_detail_entity.dart';
 import 'package:wzty/modules/match/page/match_detail_bottom_page.dart';
 import 'package:wzty/modules/match/service/match_detail_service.dart';
@@ -90,6 +93,8 @@ class _AnchorDetailPageState
         _layoutState = LoadStatusType.success;
 
         requestAnchorMatchData();
+
+        beginUserTimer();
       } else {
         _layoutState = LoadStatusType.failure;
       }
@@ -215,5 +220,54 @@ class _AnchorDetailPageState
   @override
   bool isAutomaticKeepAlive() {
     return true;
+  }
+
+  // ----------------- login timer --------------------------
+
+  Timer? _loginTimer;
+  int _loginCnt = 0;
+  bool _showTimerUI = false;
+
+  void beginUserTimer() {
+    if (_loginTimer != null) {
+      endLoginTimer();
+    }
+
+    _loginTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loginCnt++;
+      logger.i("beginUserTimer ---------- $_loginCnt");
+      handleLoginTimerLogic();
+    });
+  }
+
+  void endLoginTimer() {
+    _loginTimer?.cancel();
+    _loginTimer = null;
+  }
+
+  void handleLoginTimerLogic() {
+    if (_loginCnt == 2) {
+      //两分钟
+      showTimerAlertUI(false);
+    } else if (_loginCnt == 5) {
+      //五分钟
+      showTimerAlertUI(true);
+    }
+  }
+
+  showTimerAlertUI(bool forceLogin) {
+    if (_showTimerUI) {
+      return;
+    }
+    _showTimerUI = true;
+    showDialog(
+        context: context,
+        builder: (context) {
+          return LoginTimerAlertWidget(
+              forceLogin: forceLogin,
+              callback: (login) {
+                _showTimerUI = false;
+              });
+        });
   }
 }

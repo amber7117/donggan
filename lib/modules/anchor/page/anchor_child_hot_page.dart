@@ -55,7 +55,7 @@ class _AnchorChildHotPageState
 
     _blockSub = eventBusManager.on<BlockAnchorEvent>((event) async {
       if (mounted) {
-        _anchorArr = await removeBlockData(_anchorArr);
+        _anchorArr = await _removeBlockData(_anchorArr);
         setState(() {});
       }
     });
@@ -86,14 +86,13 @@ class _AnchorChildHotPageState
       _anchorArr = result;
     });
 
-    Future.wait([banner, anchor]).then((value) async {
+    Future.wait([banner, anchor]).then((value) {
       ToastUtils.hideLoading();
 
       if (_anchorArr.isNotEmpty) {
         _layoutState = LoadStatusType.success;
 
-        _anchorArr = await removeBlockData(_anchorArr);
-        _anchorArr = handleActiveUserData(_anchorArr);
+        _anchorArr = _handleActiveUserData(_anchorArr);
 
         MatchService.requestHotMatchList((success, result) {
           if (result.isNotEmpty) {
@@ -104,17 +103,15 @@ class _AnchorChildHotPageState
       } else {
         _layoutState = LoadStatusType.failure;
       }
-
       setState(() {});
     });
   }
 
   _requestAnchorData() {
-    AnchorService.requestHotList(_page, (success, result) async {
+    AnchorService.requestHotList(_page, (success, result) {
       if (success && result.isNotEmpty) {
-        _anchorArr = await removeBlockData(_anchorArr);
-        _anchorArr = handleActiveUserData(_anchorArr);
-        
+        _anchorArr = _handleActiveUserData(_anchorArr);
+
         setState(() {});
       }
     });
@@ -122,7 +119,7 @@ class _AnchorChildHotPageState
 
   // ---------------------------------------------
 
-  Future<List<AnchorListModel>> removeBlockData(
+  Future<List<AnchorListModel>> _removeBlockData(
       List<AnchorListModel> listArr) async {
     List<UserBlockEntity> blockAuthorArr =
         await UserBlockManger.instance.obtainBlockData();
@@ -140,7 +137,7 @@ class _AnchorChildHotPageState
     return arrTmp;
   }
 
-  List<AnchorListModel> handleActiveUserData(List<AnchorListModel> list) {
+  List<AnchorListModel> _handleActiveUserData(List<AnchorListModel> list) {
     if (ConfigManager.instance.activeUser) {
       return list;
     }

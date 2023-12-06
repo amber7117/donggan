@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/main/user/user_manager.dart';
@@ -39,7 +43,8 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
 
   _setMenuSelectData(bool isHot) {
     if (widget.sportType == SportType.football) {
-      filterType = isHot ? MatchFilterType.footballHot : MatchFilterType.unknown;
+      filterType =
+          isHot ? MatchFilterType.footballHot : MatchFilterType.unknown;
     } else {
       filterType =
           isHot ? MatchFilterType.basketballHot : MatchFilterType.unknown;
@@ -49,7 +54,6 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
 
     _requestData(loading: true);
   }
-
 
   getMatchDateStr() {
     return _dateStrArr[_selectIdx];
@@ -72,12 +76,27 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
     controlFinishLoad: true,
   );
 
+  late StreamSubscription _animateSub;
+
   @override
   void initState() {
     super.initState();
 
     _createData();
     _requestData(loading: true);
+
+    _animateSub = eventBusManager.on<AnimateStateEvent>((event) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    eventBusManager.off(_animateSub);
   }
 
   _createData() {
@@ -238,12 +257,14 @@ class MatchChildPageState extends KeepAliveLifeWidgetState<MatchChildPage> {
       alignment: Alignment.bottomRight,
       children: [
         _buildChildWidget(),
-        MatchFloatMenuWidget(selectAll: true, callback: (selectAll) {
-          if (_selectAllBtn == selectAll) return;
+        MatchFloatMenuWidget(
+            selectAll: true,
+            callback: (selectAll) {
+              if (_selectAllBtn == selectAll) return;
 
-          _selectAllBtn = selectAll;
-          _setMenuSelectData(!selectAll);
-        })
+              _selectAllBtn = selectAll;
+              _setMenuSelectData(!selectAll);
+            })
       ],
     );
   }

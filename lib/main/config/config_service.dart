@@ -4,8 +4,7 @@ import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 
 class ConfigService {
-  static Future<void> requestUserActive(
-      BusinessCallback<bool> complete) async {
+  static Future<void> requestUserActive(BusinessCallback<bool> complete) async {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.userActive, HttpMethod.get);
 
@@ -29,7 +28,7 @@ class ConfigService {
   }
 
   // ----------------------  活跃用户逻辑  -----------------------
-  
+
   static Future<void> requestLiveBlock(
       BusinessCallback<LiveBlockModel?> complete) async {
     HttpResultBean result =
@@ -56,38 +55,41 @@ class ConfigService {
   }
 
   static Future<void> requestAnimateStatus(
-      BusinessCallback<bool?> complete) async {
+      BusinessCallback<bool> complete) async {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.animateFlag, HttpMethod.get);
 
     if (result.isSuccess()) {
       complete(true, result.data["showAnimation"]);
+      return;
     } else {
-      complete(false, null);
+      complete(false, false);
+      return;
     }
   }
 
   static Future<void> requestVideoStatus(
-      BusinessCallback<bool?> complete) async {
+      BusinessCallback<bool> complete) async {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.videoFlag, HttpMethod.get);
 
     if (result.isSuccess()) {
       complete(true, result.data["showVideo"]);
+      return;
     } else {
-      complete(false, null);
+      complete(false, false);
+      return;
     }
   }
 
-  static Future<void> requestLiveStatus(
-      BusinessCallback<bool?> complete) async {
+  static Future<void> requestLiveStatus(BusinessCallback<bool> complete) async {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.liveFlag, HttpMethod.get);
 
     if (result.isSuccess()) {
       complete(true, result.data["showLive"]);
     } else {
-      complete(false, null);
+      complete(false, false);
     }
   }
 

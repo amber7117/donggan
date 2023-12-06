@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/match/entity/match_list_entity.dart';
@@ -31,6 +35,8 @@ class _MatchChildCollectPageState
     controlFinishLoad: true,
   );
 
+  late StreamSubscription _animateSub;
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +44,19 @@ class _MatchChildCollectPageState
     List<MatchListModel> result =
         MatchCollectManager.instance.obtainCollectData(widget.sportType);
     _handleResultData(result);
+
+    _animateSub = eventBusManager.on<AnimateStateEvent>((event) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    eventBusManager.off(_animateSub);
   }
 
   _handleResultData(List<MatchListModel> result) {

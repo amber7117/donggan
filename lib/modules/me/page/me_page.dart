@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/extension/extension_widget.dart';
 import 'package:wzty/common/widget/circle_img_place_widget.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
@@ -135,8 +136,7 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
     } else if (type == MeListItemType.wenti) {
       Routes.push(context, Routes.meWenti);
     } else if (type == MeListItemType.kefu) {
-      String linkNew =
-          Uri.encodeFull(ConfigManager.instance.onlineKefu);
+      String linkNew = Uri.encodeFull(ConfigManager.instance.onlineKefu);
       // linkNew = "https://www.baidu.com";
       Routes.push(context, Routes.web,
           arguments: {"title": "在线客服", "urlStr": linkNew});
@@ -152,6 +152,8 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
 
   @override
   Widget buildWidget(BuildContext context) {
+    List<Widget> listArr = _buildListItemWidgetArr();
+
     return Scaffold(
       backgroundColor: ColorUtils.gray248,
       body: Container(
@@ -164,59 +166,39 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
             children: [
               SizedBox(height: ScreenUtil().statusBarHeight),
               SizedBox(
-                height: 190.h,
-                child: _buildHeadWidget(),
+                height: 190,
+                child: _buildHeadUI(),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10.h),
                 height: 104.h,
                 decoration: const BoxDecoration(
                     color: ColorUtils.gray248,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(10))),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          child: _buildCardWidget(
-                              "me/iconMessage", "消息通知", "${msgList.length}条未读"),
-                          onTap: () {
-                            _handleEvent(MeEvent.msg);
-                          },
-                        ),
-                        InkWell(
-                          child:
-                              _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
-                          onTap: () {
-                            _handleEvent(MeEvent.collect);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                child: _buildMiddleUI(),
               ),
-              Container(
-                height: 64.h * 6,
+              Expanded(
+                  child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(0),
-                  itemExtent: 64.h,
-                  children: _buildListItemWidgetArr(),
-                ),
-              )
+                child: ListView.builder(
+                    itemCount: listArr.length,
+                    itemExtent: 64.h,
+                    padding: const EdgeInsets.all(0),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return listArr[index];
+                    }),
+              ))
             ],
           )),
     );
   }
 
-  _buildHeadWidget() {
+  _buildHeadUI() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -225,35 +207,23 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
             onPressed: () {
               _handleEvent(MeEvent.set);
             }),
+        const SizedBox(height: 20),
         Padding(
-            padding:
-                const EdgeInsets.only(top: 20, left: 20, right: 18, bottom: 16),
+            padding: const EdgeInsets.only(left: 20, right: 18),
             child: InkWell(
               child: _buildInfoWidget(),
               onTap: () {
                 _handleEvent(MeEvent.info);
               },
             )),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            InkWell(
-              child: _buildFansWidget(true),
-              onTap: () {
-                _handleEvent(MeEvent.follow);
-              },
-            ),
-            Container(
-              width: 1,
-              height: 26,
-              color: Colors.white.withOpacity(0.2),
-            ),
-            InkWell(
-              child: _buildFansWidget(false),
-              onTap: () {
-                _handleEvent(MeEvent.fans);
-              },
-            ),
+            _buildFansWidget(true),
+            const SizedBox(width: 1, height: 26)
+                .colored(Colors.white.withOpacity(0.2)),
+            _buildFansWidget(false),
           ],
         )
       ],
@@ -301,31 +271,65 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
   }
 
   _buildFansWidget(bool isFollow) {
-    return SizedBox(
-      width: 175.w,
-      height: 44.h,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            isFollow
-                ? "${userInfo2?.focusCount ?? 0}"
-                : "${userInfo2?.fansCount ?? 0}",
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: TextStyleUtils.medium),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            isFollow ? "关注" : "粉丝",
-            style: TextStyle(
-                color: Colors.white.withOpacity(0.6),
-                fontSize: 12,
-                fontWeight: TextStyleUtils.medium),
-          ),
-        ],
+    return InkWell(
+      onTap: () {
+        if (isFollow) {
+          _handleEvent(MeEvent.follow);
+        } else {
+          _handleEvent(MeEvent.fans);
+        }
+      },
+      child: SizedBox(
+        width: 175.w,
+        height: 44.h,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              isFollow
+                  ? "${userInfo2?.focusCount ?? 0}"
+                  : "${userInfo2?.fansCount ?? 0}",
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: TextStyleUtils.medium),
+            ),
+            const SizedBox(width: 4),
+            Text(
+              isFollow ? "关注" : "粉丝",
+              style: TextStyle(
+                  color: Colors.white.withOpacity(0.6),
+                  fontSize: 12,
+                  fontWeight: TextStyleUtils.medium),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  _buildMiddleUI() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              child: _buildCardWidget(
+                  "me/iconMessage", "消息通知", "${msgList.length}条未读"),
+              onTap: () {
+                _handleEvent(MeEvent.msg);
+              },
+            ),
+            InkWell(
+              child: _buildCardWidget("me/iconStar", "我的收藏", "收藏赛事"),
+              onTap: () {
+                _handleEvent(MeEvent.collect);
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -333,15 +337,13 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
     return Container(
       width: 171.w,
       height: 84.h,
-      padding: const EdgeInsets.only(left: 20),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          JhAssetImage(imgPath, width: 44.0, height: 44.0),
+          const SizedBox(width: 20),
+          JhAssetImage(imgPath, width: 44, height: 44),
           const SizedBox(width: 10),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

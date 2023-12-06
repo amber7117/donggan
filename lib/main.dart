@@ -44,7 +44,7 @@ void main() async {
 
   await UserManager.instance.obtainData();
   await DomainManager.instance.requestDomain();
-  await ConfigManager.instance.requestConfig();
+  await ConfigManager.instance.obtainData();
 
   runApp(const MyApp());
 }
