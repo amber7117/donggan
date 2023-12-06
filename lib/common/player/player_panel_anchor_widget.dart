@@ -253,6 +253,8 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
     return InkWell(
         onTap: () async {
           await player.reset();
+          await player.setOption(FijkOption.formatCategory, "headers",
+              "referer:https://video.dqiu.com/");
           player.setDataSource(player.dataSource!, autoPlay: true);
         },
         child: const Padding(

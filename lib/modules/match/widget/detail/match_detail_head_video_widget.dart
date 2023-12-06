@@ -39,7 +39,9 @@ class _MatchDetailHeadVideoWidgetState
     _preparePlayVideo();
 
     _eventSub = eventBusManager.on<PlayerStatusEvent>((event) {
-      if (mounted && event.playerId == widget.playerId) {
+      if (mounted &&
+          !player.value.fullScreen &&
+          event.playerId == widget.playerId) {
         if (player.isPlayable() || player.state == FijkState.asyncPreparing) {
           event.pause ? player.pause() : player.start();
         }

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
 // 测试环境开关
-const appTest = true;
+const appTest = false;
 
 // Debug开关
 const appDebug = true;

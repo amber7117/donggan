@@ -248,6 +248,8 @@ class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
     return InkWell(
         onTap: () async {
           await player.reset();
+          await player.setOption(FijkOption.formatCategory, "headers",
+              "referer:https://video.dqiu.com/");
           player.setDataSource(player.dataSource!, autoPlay: true);
         },
         child: const Padding(
@@ -340,10 +342,10 @@ class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
           alignment: fullScreen ? Alignment.center : Alignment.bottomCenter,
           decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0x88000000), Color(0x00000000)],
-                end: Alignment.topCenter,
-                begin: Alignment.bottomCenter,
-              )),
+            colors: [Color(0x88000000), Color(0x00000000)],
+            end: Alignment.topCenter,
+            begin: Alignment.bottomCenter,
+          )),
           child: buildBottom(context, toolItemHeight),
         )
       ],
