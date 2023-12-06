@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
@@ -233,9 +234,9 @@ class _AnchorDetailPageState
       endLoginTimer();
     }
 
-    _loginTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _loginTimer = Timer.periodic(const Duration(seconds: 60), (timer) {
       _loginCnt++;
-      logger.i("beginUserTimer ---------- $_loginCnt");
+      // logger.i("beginUserTimer ---------- $_loginCnt");
       handleLoginTimerLogic();
     });
   }
@@ -262,11 +263,14 @@ class _AnchorDetailPageState
     _showTimerUI = true;
     showDialog(
         context: context,
-        builder: (context) {
+        builder: (context2) {
           return LoginTimerAlertWidget(
               forceLogin: forceLogin,
               callback: (login) {
                 _showTimerUI = false;
+                if (login) {
+                  Routes.goLoginPage(context);
+                }
               });
         });
   }

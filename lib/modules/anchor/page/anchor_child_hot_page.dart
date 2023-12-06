@@ -83,16 +83,18 @@ class _AnchorChildHotPageState
     });
 
     Future anchor = AnchorService.requestHotList(_page, (success, result) {
-      _anchorArr = result;
+      var resultTmp = _handleActiveUserData(result);
+
+      _anchorArr = resultTmp;
     });
 
     Future.wait([banner, anchor]).then((value) {
       ToastUtils.hideLoading();
 
-      if (_anchorArr.isNotEmpty) {
+      if (_anchorArr.isEmpty && _bannerArr.isEmpty) {
+        _layoutState = LoadStatusType.empty;
+      } else {
         _layoutState = LoadStatusType.success;
-
-        _anchorArr = _handleActiveUserData(_anchorArr);
 
         MatchService.requestHotMatchList((success, result) {
           if (result.isNotEmpty) {
@@ -100,8 +102,6 @@ class _AnchorChildHotPageState
             setState(() {});
           }
         });
-      } else {
-        _layoutState = LoadStatusType.failure;
       }
       setState(() {});
     });
@@ -109,8 +109,13 @@ class _AnchorChildHotPageState
 
   _requestAnchorData() {
     AnchorService.requestHotList(_page, (success, result) {
-      if (success && result.isNotEmpty) {
-        _anchorArr = _handleActiveUserData(_anchorArr);
+      if (success) {
+        var resultTmp = _handleActiveUserData(result);
+        _anchorArr = resultTmp;
+
+        if (resultTmp.isNotEmpty) {
+          _layoutState = LoadStatusType.success;
+        }
 
         setState(() {});
       }
@@ -152,7 +157,7 @@ class _AnchorChildHotPageState
   }
 
   void notifyActiveUser() {
-    if (ConfigManager.instance.activeUser) {
+    if (!ConfigManager.instance.activeUser) {
       return;
     }
 

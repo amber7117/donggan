@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
-import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/wz_sure_size_button.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -25,15 +24,15 @@ class LoginTimerAlertWidget extends StatelessWidget {
               title: "去登录",
               handleTap: () {
                 if (forceLogin) {
-                  Routes.goLoginPage(context);
+                  callback(true);
+
                   return;
                 }
-                
+
                 Navigator.pop(context);
-                callback(false);
 
                 Future.delayed(const Duration(milliseconds: 500), () {
-                  Routes.goLoginPage(context);
+                  callback(true);
                 });
               },
               width: 189.0,

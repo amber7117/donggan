@@ -77,11 +77,10 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
       _refreshCtrl.finishRefresh();
 
       if (success) {
-        if (result.isNotEmpty) {
-          _anchorArr = result;
+        var resultTmp = _handleActiveUserData(result);
+        _anchorArr = resultTmp;
 
-          _anchorArr = _handleActiveUserData(_anchorArr);
-
+        if (resultTmp.isNotEmpty) {
           _layoutState = LoadStatusType.success;
         } else {
           _layoutState = LoadStatusType.empty;
@@ -96,8 +95,15 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
 
   _requestAnchorData() {
     AnchorService.requestTypeList(widget.type, (success, result) {
-      if (success && result.isNotEmpty) {
-        _anchorArr = _handleActiveUserData(_anchorArr);
+      if (success) {
+        var resultTmp = _handleActiveUserData(result);
+        _anchorArr = resultTmp;
+
+        if (resultTmp.isNotEmpty) {
+          _layoutState = LoadStatusType.success;
+        } else {
+          _layoutState = LoadStatusType.empty;
+        }
 
         setState(() {});
       }
@@ -139,7 +145,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   }
 
   void notifyActiveUser() {
-    if (ConfigManager.instance.activeUser) {
+    if (!ConfigManager.instance.activeUser) {
       return;
     }
 
