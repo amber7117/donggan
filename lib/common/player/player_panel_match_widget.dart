@@ -268,7 +268,7 @@ class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
           player.value.fullScreen
               ? player.exitFullScreen()
               : player.enterFullScreen();
-          widget.callback(PlayPanelEvent.fullScreen);
+          // widget.callback(PlayPanelEvent.fullScreen);
         },
         child: Padding(
             padding: const EdgeInsets.all(10),
@@ -421,8 +421,10 @@ class __PlayerPanelMatchState extends State<_PlayerPanelMatch> {
       ws.add(buildStateless());
     }
 
-    Widget waterLogo =
-        const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
+    Widget waterLogo = const Opacity(
+        opacity: 0.6,
+        child: JhAssetImage("common/iconWaterLogo",
+            width: 187 * 0.7, height: 80 * 0.7));
 
     ws.add(waterLogo);
     ws.add(buildGestureDetector(context));

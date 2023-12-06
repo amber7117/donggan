@@ -9,7 +9,7 @@ const appTest = true;
 const appDebug = true;
 
 // 代理开关和配置
-const appProxy = true;
+const appProxy = false;
 const appProxyIP = "PROXY 172.20.10.4:8888";
 
 // 日志配置

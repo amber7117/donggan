@@ -417,10 +417,10 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
           alignment: fullScreen ? Alignment.center : Alignment.bottomCenter,
           decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0x88000000), Color(0x00000000)],
-                end: Alignment.topCenter,
-                begin: Alignment.bottomCenter,
-              )),
+            colors: [Color(0x88000000), Color(0x00000000)],
+            end: Alignment.topCenter,
+            begin: Alignment.bottomCenter,
+          )),
           child: buildBottom(context, toolItemHeight),
         )
       ],
@@ -498,8 +498,10 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
       ws.add(buildStateless());
     }
 
-    Widget waterLogo =
-        const JhAssetImage("common/iconWaterLogo", width: 187, height: 80);
+    Widget waterLogo = const Opacity(
+        opacity: 0.6,
+        child: JhAssetImage("common/iconWaterLogo",
+            width: 187 * 0.7, height: 80 * 0.7));
 
     ws.add(waterLogo);
 
