@@ -1,4 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:wzty/common/extension/extension_app.dart';
+import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/eventBus/event_bus_event.dart';
+import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
@@ -18,16 +24,32 @@ class MatchDetailAnchorPage extends StatefulWidget {
   State createState() => _MatchDetailAnchorPageState();
 }
 
-class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchorPage> {
+class _MatchDetailAnchorPageState
+    extends KeepAliveWidgetState<MatchDetailAnchorPage> {
   LoadStatusType _layoutState = LoadStatusType.loading;
   MatchAnchorModel? _model;
   final List<MatchAnchorType> _dataArr = [];
+
+  late StreamSubscription _activeUserSub;
 
   @override
   void initState() {
     super.initState();
 
     _requestData();
+
+    _activeUserSub = eventBusManager.on<ActiveUserEvent>((event) async {
+      if (mounted) {
+        notifyActiveUser();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    eventBusManager.off(_activeUserSub);
   }
 
   _requestData() {
@@ -41,16 +63,22 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
 
           _dataArr.clear();
 
+          _model!.matchList = _handleActiveUserData(_model!.matchList);
+          _model!.otherMatchList =
+              _handleActiveUserData(_model!.otherMatchList);
+
           if (_model!.matchList.isNotEmpty) {
             _dataArr.add(MatchAnchorType.living);
           }
           if (_model!.otherMatchList.isNotEmpty) {
             _dataArr.add(MatchAnchorType.more);
           }
+        }
 
-          _layoutState = LoadStatusType.success;
-        } else {
+        if (_dataArr.isEmpty) {
           _layoutState = LoadStatusType.empty;
+        } else {
+          _layoutState = LoadStatusType.success;
         }
       } else {
         _layoutState = LoadStatusType.failure;
@@ -59,13 +87,34 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
     });
   }
 
+  List<AnchorListModel> _handleActiveUserData(List<AnchorListModel> list) {
+    if (ConfigManager.instance.activeUser) {
+      return list;
+    }
+
+    List<AnchorListModel> arr = [];
+    for (var model in list) {
+      if (model.isGreenLive.isTrue()) {
+        arr.add(model);
+      }
+    }
+    return arr;
+  }
+
+  void notifyActiveUser() {
+    if (!ConfigManager.instance.activeUser) {
+      return;
+    }
+
+    _requestData();
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        state: _layoutState,
-        successWidget: _buildChild(context));
+        state: _layoutState, successWidget: _buildChild(context));
   }
-  
+
   _buildChild(BuildContext context) {
     if (_model == null) {
       return const SizedBox();
