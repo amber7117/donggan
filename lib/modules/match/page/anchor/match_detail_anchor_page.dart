@@ -63,8 +63,7 @@ class _MatchDetailAnchorPageState extends KeepAliveWidgetState<MatchDetailAnchor
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
         state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+        successWidget: _buildChild(context));
   }
   
   _buildChild(BuildContext context) {

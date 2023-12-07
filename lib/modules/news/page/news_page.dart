@@ -90,10 +90,12 @@ class _NewsPageState extends KeepAliveWidgetState
 
   @override
   Widget buildWidget(BuildContext context) {
-    return LoadStateWidget(
+    return Scaffold(
+      backgroundColor: ColorUtils.gray248,
+      body: LoadStateWidget(
         state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+        successWidget: _buildChild(context))
+    );
   }
 
   _buildChild(BuildContext context) {

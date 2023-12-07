@@ -431,6 +431,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
     } else {
       return [
         _animateWidget(model),
+        const SizedBox(width: 10),
       ];
     }
   }

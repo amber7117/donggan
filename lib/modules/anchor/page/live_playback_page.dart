@@ -83,11 +83,12 @@ class _LivePlaybackPageState extends State<LivePlaybackPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadStateWidget(
-        state: _layoutState,
-        errorRetry: _requestData,
-        successWidget: Scaffold(
-            backgroundColor: ColorUtils.gray248, body: _buildChild(context)));
+    return Scaffold(
+        backgroundColor: ColorUtils.gray248,
+        body: LoadStateWidget(
+            errorRetry: _requestData,
+            state: _layoutState,
+            successWidget: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {

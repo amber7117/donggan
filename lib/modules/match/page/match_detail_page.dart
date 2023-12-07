@@ -79,10 +79,10 @@ class _MatchDetailPageState extends KeepAliveLifeWidgetState<MatchDetailPage> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return LoadStateWidget(
-        state: _layoutState,
-        successWidget: Scaffold(
-            backgroundColor: Colors.white, body: _buildChild(context)));
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: LoadStateWidget(
+            state: _layoutState, successWidget: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {
