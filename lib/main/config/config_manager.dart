@@ -168,14 +168,13 @@ class ConfigManager {
       if (success && result != null) {
         onlineKefu = result["echatUrl"];
         activeUserSwitch = result["activeUserSwitch"];
-
-        if (activeUserSwitch) {
-          // 活跃逻辑
-          _judegeRequestUserActive();
-        } else {
-          activeUser = true;
-          eventBusManager.emit(ActiveUserEvent(activeUSer: true));
-        }
+      }
+      if (activeUserSwitch) {
+        // 活跃逻辑
+        _judegeRequestUserActive();
+      } else {
+        activeUser = true;
+        eventBusManager.emit(ActiveUserEvent(activeUSer: true));
       }
     });
   }
