@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wzty/app/app.dart';
+import 'package:wzty/main/config/config_manager.dart';
 import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
@@ -37,6 +38,10 @@ class _SearchTextWidgetState extends State<SearchTextWidget> {
   }
 
   _buildTextField() {
+    String hintTxt = "搜索赛事";
+    if (ConfigManager.instance.liveOk) {
+      hintTxt = "搜索主播、直播或赛事";
+    }
     return TextField(
       style: const TextStyle(
         color: ColorUtils.black34,
@@ -54,22 +59,22 @@ class _SearchTextWidgetState extends State<SearchTextWidget> {
           widget.callback(_textController.text);
         }
       },
-      decoration: const InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-        hintText: "搜索用户、直播或赛事",
-        hintStyle: TextStyle(
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+        hintText: hintTxt,
+        hintStyle: const TextStyle(
           color: ColorUtils.gray179,
           fontSize: 12,
           fontWeight: TextStyleUtils.regual,
         ),
         counterText: '',
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white,
             width: 0.0,
           ),
         ),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: Colors.white,
             width: 0.0,

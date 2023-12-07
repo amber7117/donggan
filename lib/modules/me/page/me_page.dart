@@ -180,7 +180,7 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
               ),
               Expanded(
                   child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 12),
+                margin: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -281,7 +281,7 @@ class _MePageState extends KeepAliveLifeWidgetState<MePage> {
       },
       child: SizedBox(
         width: 175.w,
-        height: 44.h,
+        height: 44,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
