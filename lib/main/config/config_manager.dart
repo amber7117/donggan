@@ -218,6 +218,8 @@ class ConfigManager {
       return;
     }
 
+    logger.i('-----------_requestUserActive');
+
     ConfigService.requestUserActive((success, result) {
       if (success) {
         bool data = result;

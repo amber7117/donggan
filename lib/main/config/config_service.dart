@@ -1,4 +1,5 @@
 import 'package:wzty/app/api.dart';
+import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/live_block_entity.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
@@ -8,8 +9,9 @@ class ConfigService {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.userActive, HttpMethod.get);
 
-    if (result.isSuccess()) {
-      complete(true, result.data["activeUser"]);
+    if (result.isSuccess() && result.data is Map) {
+      int activeUser = result.data["activeUser"];
+      complete(true, activeUser.isTrue());
     } else {
       complete(false, false);
     }
