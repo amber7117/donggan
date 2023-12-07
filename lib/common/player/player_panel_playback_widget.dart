@@ -423,7 +423,10 @@ class __PlayerPanelPlaybackState extends State<_PlayerPanelPlayback> {
       ws.add(buildStateless());
     }
 
-    Widget waterLogo = const JhAssetImage("common/iconWaterLogo", width: 88.0, height: 44.0);
+    Widget waterLogo = const Padding(
+      padding: EdgeInsets.only(right: 12),
+      child: JhAssetImage("common/iconWaterLogo", width: 88.0, height: 44.0),
+    );
 
     ws.add(waterLogo);
     ws.add(buildGestureDetector(context));

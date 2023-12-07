@@ -26,7 +26,7 @@ class MatchDetailHeadWebWidget extends StatelessWidget {
                 child: WZWebviewWidget(urlStr: urlStr),
               ),
               const Positioned(
-                  right: 0,
+                  right: 12,
                   bottom: 50,
                   child: JhAssetImage("common/iconWaterLogo",
                       width: 88.0, height: 44.0)),

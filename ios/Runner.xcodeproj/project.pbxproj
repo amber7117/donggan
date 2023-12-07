@@ -502,7 +502,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.douqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = VC3394AFDU.com.test.douqiu1;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "douqiu(VC3394AFDU.com.test.douqiu)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -694,7 +694,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.douqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = VC3394AFDU.com.test.douqiu1;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "douqiu(VC3394AFDU.com.test.douqiu)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -728,7 +728,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.douqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = VC3394AFDU.com.test.douqiu1;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "douqiu(VC3394AFDU.com.test.douqiu)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

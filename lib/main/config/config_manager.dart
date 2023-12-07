@@ -169,8 +169,13 @@ class ConfigManager {
         onlineKefu = result["echatUrl"];
         activeUserSwitch = result["activeUserSwitch"];
 
-        // 活跃逻辑
-        _judegeRequestUserActive();
+        if (activeUserSwitch) {
+          // 活跃逻辑
+          _judegeRequestUserActive();
+        } else {
+          activeUser = true;
+          eventBusManager.emit(ActiveUserEvent(activeUSer: true));
+        }
       }
     });
   }
@@ -203,7 +208,7 @@ class ConfigManager {
     // if (appDebug) {
     //   activeUser = true;
     // } else {
-      _requestUserActive();
+    _requestUserActive();
     // }
   }
 
