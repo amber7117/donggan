@@ -64,15 +64,20 @@ class ChatEnterMsgWidget extends StatelessWidget {
           ),
           const SizedBox(width: double.infinity, height: 10)
               .colored(ColorUtils.gray248),
-          Container(
-              width: double.infinity,
-              height: chatEnterMsgItemHeight,
-              alignment: Alignment.center,
-              child: const Text("取消",
-                  style: TextStyle(
-                      color: ColorUtils.gray153,
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal)))
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+                width: double.infinity,
+                height: chatEnterMsgItemHeight,
+                alignment: Alignment.center,
+                child: const Text("取消",
+                    style: TextStyle(
+                        color: ColorUtils.gray153,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal))),
+          )
         ],
       ),
     );
