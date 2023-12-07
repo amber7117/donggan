@@ -56,6 +56,13 @@ class _AnchorDetailPageState
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    endLoginTimer();
+  }
+
+  @override
   void onPageResume() {
     super.onPageResume();
 
