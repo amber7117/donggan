@@ -262,6 +262,7 @@ class _AnchorDetailPageState
     }
     _showTimerUI = true;
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context2) {
           return LoginTimerAlertWidget(
