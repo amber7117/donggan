@@ -84,6 +84,8 @@ class ConfigManager {
   // ---------------------------------------------
 
   obtainData() async {
+    activeUserSwitch = true;
+    
     animateOk = await SpUtils.getBool(SpKeys.animateOK);
     videoOk = await SpUtils.getBool(SpKeys.videoOK);
     liveOk = await SpUtils.getBool(SpKeys.liveOK);
