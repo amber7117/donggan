@@ -21,7 +21,7 @@ class _MatchCalendarWidgetState extends State<MatchCalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double marginY = (popContentHeight() - 404.0) * 0.5;
+    double marginY = (popContentHeight() - 450.0) * 0.5;
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 32, vertical: marginY),
         decoration: const BoxDecoration(
@@ -32,7 +32,7 @@ class _MatchCalendarWidgetState extends State<MatchCalendarWidget> {
             TableCalendar(
               firstDay: kFirstDay,
               lastDay: kLastDay,
-              // locale: Intl.defaultLocale,
+              locale: Intl.systemLocale,
               availableCalendarFormats: const {
                 CalendarFormat.month: '',
               },
@@ -133,6 +133,7 @@ class _MatchCalendarWidgetState extends State<MatchCalendarWidget> {
                 ),
               ],
             ),
+            const SizedBox(height: 6),
           ],
         ));
   }
