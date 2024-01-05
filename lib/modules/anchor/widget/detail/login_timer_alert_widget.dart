@@ -19,13 +19,13 @@ class LoginTimerAlertWidget extends StatefulWidget {
 }
 
 class _LoginTimerAlertWidgetState extends State<LoginTimerAlertWidget> {
-  late StreamSubscription eventSub;
+  late StreamSubscription loginEvent;
 
   @override
   void initState() {
     super.initState();
 
-    eventSub = eventBusManager.on<LoginStatusEvent>((event) {
+    loginEvent = eventBusManager.on<LoginStatusEvent>((event) {
       if (event.login) {
         Navigator.pop(context);
       }
@@ -35,7 +35,7 @@ class _LoginTimerAlertWidgetState extends State<LoginTimerAlertWidget> {
   @override
   void dispose() {
     super.dispose();
-    eventBusManager.off(eventSub);
+    eventBusManager.off(loginEvent);
   }
 
   @override

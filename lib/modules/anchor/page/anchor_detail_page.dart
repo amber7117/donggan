@@ -49,11 +49,19 @@ class _AnchorDetailPageState
 
   final ScrollController _scrollController = ScrollController();
 
+  late StreamSubscription loginEvent;
+
   @override
   void initState() {
     super.initState();
 
     _requestData();
+
+    loginEvent = eventBusManager.on<LoginStatusEvent>((event) {
+      if (event.login) {
+        endLoginTimer();
+      }
+    });
   }
 
   @override
@@ -61,6 +69,8 @@ class _AnchorDetailPageState
     super.dispose();
 
     endLoginTimer();
+
+    eventBusManager.off(loginEvent);
   }
 
   @override
@@ -240,7 +250,7 @@ class _AnchorDetailPageState
     if (UserManager.instance.isLogin()) {
       return;
     }
-    
+
     if (_loginTimer != null) {
       endLoginTimer();
     }
@@ -272,6 +282,7 @@ class _AnchorDetailPageState
       return;
     }
     _showTimerUI = true;
+
     showDialog(
         barrierDismissible: false,
         context: context,

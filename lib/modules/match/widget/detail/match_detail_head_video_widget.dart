@@ -34,6 +34,7 @@ class _MatchDetailHeadVideoWidgetState
   final FijkPlayer player = FijkPlayer();
 
   late StreamSubscription _eventSub;
+  late StreamSubscription loginEvent;
 
   @override
   void initState() {
@@ -48,6 +49,11 @@ class _MatchDetailHeadVideoWidgetState
         if (player.isPlayable() || player.state == FijkState.asyncPreparing) {
           event.pause ? player.pause() : player.start();
         }
+      }
+    });
+    loginEvent = eventBusManager.on<LoginStatusEvent>((event) {
+      if (event.login) {
+        endLoginTimer();
       }
     });
 
@@ -74,6 +80,8 @@ class _MatchDetailHeadVideoWidgetState
     eventBusManager.off(_eventSub);
 
     endLoginTimer();
+
+    eventBusManager.off(loginEvent);
   }
 
   @override
