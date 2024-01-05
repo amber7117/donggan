@@ -8,6 +8,7 @@ import 'package:wzty/common/player/player_panel_match_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/anchor/widget/detail/login_timer_alert_widget.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
@@ -119,6 +120,10 @@ class _MatchDetailHeadVideoWidgetState
   bool _showTimerUI = false;
 
   void beginUserTimer() {
+    if (UserManager.instance.isLogin()) {
+      return;
+    }
+
     if (_loginTimer != null) {
       endLoginTimer();
     }

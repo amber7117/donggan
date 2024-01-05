@@ -45,7 +45,7 @@ class JhImageUtils {
   }
 }
 
-/// 加载本地或者URL图片
+/// 加载URL图片
 buildNetImage(String imageUrl,
     {double? width,
     double? height,

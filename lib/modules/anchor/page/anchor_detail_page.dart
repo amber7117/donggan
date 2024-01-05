@@ -10,6 +10,7 @@ import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/page/anchor_detail_bottom_page.dart';
 import 'package:wzty/modules/anchor/service/anchor_service.dart';
@@ -236,6 +237,10 @@ class _AnchorDetailPageState
   bool _showTimerUI = false;
 
   void beginUserTimer() {
+    if (UserManager.instance.isLogin()) {
+      return;
+    }
+    
     if (_loginTimer != null) {
       endLoginTimer();
     }
