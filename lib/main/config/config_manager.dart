@@ -182,6 +182,10 @@ class ConfigManager {
   }
 
   _requestMatchFollowInfo() {
+    if (!UserManager.instance.isLogin()) {
+      return;
+    }
+    
     MatchService.requestMatchListAttr(SportType.football, (success, result) {
       if (success) {
         int cnt = MatchCollectManager.instance

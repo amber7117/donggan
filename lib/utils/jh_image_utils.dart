@@ -54,7 +54,7 @@ buildNetImage(String imageUrl,
   height = height ?? width;
   if (imageUrl.isEmpty) {
     if (placeholder != null) {
-      return JhAssetImage(placeholder, width: width, height: height);
+      return JhAssetImage(placeholder, width: width, height: height, fit: fit);
     } else {
       return const Icon(Icons.error);
     }
@@ -67,11 +67,11 @@ buildNetImage(String imageUrl,
       placeholder: (context, url) {
         return placeholder == null
             ? const CircularProgressIndicator()
-            : JhAssetImage(placeholder, width: width, height: height);
+            : JhAssetImage(placeholder, width: width, height: height, fit: fit);
       },
       errorWidget: (context, url, error) {
         if (placeholder != null) {
-          return JhAssetImage(placeholder, width: width, height: height);
+          return JhAssetImage(placeholder, width: width, height: height, fit: fit);
         } else {
           return const Icon(Icons.error);
         }

@@ -128,6 +128,7 @@ class _NewsPageState extends KeepAliveWidgetState
                     controller: _tabController,
                     indicator: const BoxDecoration(),
                     labelPadding: const EdgeInsets.only(right: 4),
+                    tabAlignment: TabAlignment.start,
                     tabs: _tabs),
               ),
             ),

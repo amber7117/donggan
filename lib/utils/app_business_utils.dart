@@ -46,7 +46,7 @@ class AppBusinessUtils {
     } else if (type == 4) {
       //乌龙球
       pic = "event/iconZuqiushijianWulongqiu12";
-    } else if (type == 6) {
+    } else if (type == 5) {
       //助攻
       pic = "event/iconZuqiushijianZhugong12";
     }
