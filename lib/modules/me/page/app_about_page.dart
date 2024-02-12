@@ -124,8 +124,8 @@ class _AppAboutPageState extends State<AppAboutPage> {
     String valueStr = "";
     if (type == AboutListItemType.versionInfo) {
       valueStr = "1.0.0";
-    } else if (type == AboutListItemType.versionInfo) {
-      valueStr = ConfigManager.instance.onlineKefu;
+    } else if (type == AboutListItemType.kefuQQ) {
+      valueStr = ConfigManager.instance.contactQQ;
     }
     return Container(
       color: Colors.white,
