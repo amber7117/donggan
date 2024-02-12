@@ -62,6 +62,8 @@ class MatchAnalysisApi {
 }
 
 class AnchorApi {
+  static String categoryInfo = "/live-product/anonymous/v1/anchor/all/type/list";
+  
   static String hotList = "/live-product/anonymous/new/app/live/list";
 
   static String typeList = "/live-product/anonymous/v6/app/live/list";

@@ -9,6 +9,7 @@ import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
+import 'package:wzty/modules/anchor/entity/anchor_category_entity.dart';
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/anchor/manager/user_block_entity.dart';
 import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
@@ -20,9 +21,9 @@ import 'package:wzty/utils/text_style_utils.dart';
 import 'package:wzty/utils/toast_utils.dart';
 
 class AnchorChildPage extends StatefulWidget {
-  final LiveSportType type;
+  final AnchorCategoryModel model;
 
-  const AnchorChildPage({super.key, required this.type});
+  const AnchorChildPage({super.key, required this.model});
 
   @override
   State createState() => _AnchorChildPageState();
@@ -71,7 +72,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   _requestData({bool loading = true}) {
     if (loading) ToastUtils.showLoading();
 
-    AnchorService.requestTypeList(widget.type, (success, result) {
+    AnchorService.requestTypeList(widget.model.liveGroupId, (success, result) {
       ToastUtils.hideLoading();
 
       _refreshCtrl.finishRefresh();
@@ -94,7 +95,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   }
 
   _requestAnchorData() {
-    AnchorService.requestTypeList(widget.type, (success, result) {
+    AnchorService.requestTypeList(widget.model.liveGroupId, (success, result) {
       if (success) {
         var resultTmp = _handleActiveUserData(result);
         _anchorArr = resultTmp;
@@ -183,7 +184,7 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
                   const Padding(
                       padding: EdgeInsets.only(top: 12, bottom: 12, right: 5),
                       child: JhAssetImage("anchor/iconFire2", width: 16)),
-                  Text("${widget.type.title}直播",
+                  Text("${widget.model.liveGroupName}直播",
                       style: const TextStyle(
                           color: ColorUtils.black34,
                           fontSize: 14,

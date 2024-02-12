@@ -3,6 +3,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
 import 'package:wzty/main/user/user_manager.dart';
+import 'package:wzty/modules/anchor/entity/anchor_category_entity.dart';
 import 'package:wzty/modules/anchor/entity/anchor_detail_entity.dart';
 import 'package:wzty/modules/anchor/entity/anchor_list_entity.dart';
 import 'package:wzty/modules/anchor/entity/anchor_video_entity.dart';
@@ -10,6 +11,25 @@ import 'package:wzty/modules/anchor/manager/user_block_entity.dart';
 import 'package:wzty/modules/anchor/manager/user_block_manager.dart';
 
 class AnchorService {
+  static Future<void> requestCategoryInfo(
+      BusinessCallback<List<AnchorCategoryModel>> complete) async {
+    HttpResultBean result =
+        await HttpManager.request(AnchorApi.categoryInfo, HttpMethod.get);
+
+    if (result.isSuccess()) {
+      List tmpList = result.data["liveGroupList"];
+      List<AnchorCategoryModel> retList = tmpList
+          .map((dataMap) => AnchorCategoryModel.fromJson(dataMap))
+          .toList();
+
+      complete(true, retList);
+      return;
+    } else {
+      complete(false, []);
+      return;
+    }
+  }
+
   static Future<void> requestHotList(
       int page, BusinessCallback<List<AnchorListModel>> complete) async {
     Map<String, dynamic> params = {"pageNum": 1, "pageSize": pageSize100};
@@ -33,9 +53,9 @@ class AnchorService {
     }
   }
 
-  static Future<void> requestTypeList(LiveSportType type,
+  static Future<void> requestTypeList(int type,
       BusinessCallback<List<AnchorListModel>> complete) async {
-    Map<String, dynamic> params = {"liveType": type.value};
+    Map<String, dynamic> params = {"liveType": type};
 
     HttpResultBean result = await HttpManager.request(
         AnchorApi.typeList, HttpMethod.get,

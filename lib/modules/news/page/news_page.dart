@@ -21,6 +21,7 @@ class NewsPage extends StatefulWidget {
   }
 }
 
+
 class _NewsPageState extends KeepAliveWidgetState
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -127,7 +128,7 @@ class _NewsPageState extends KeepAliveWidgetState
                     isScrollable: true,
                     controller: _tabController,
                     indicator: const BoxDecoration(),
-                    labelPadding: const EdgeInsets.only(right: 4),
+                    labelPadding: const EdgeInsets.only(left: 2, right: 2),
                     tabAlignment: TabAlignment.start,
                     tabs: _tabs),
               ),
