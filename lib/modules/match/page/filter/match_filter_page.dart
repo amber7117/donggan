@@ -382,7 +382,7 @@ class _MatchFilterPageState extends State<MatchFilterPage>
                       if (!mounted) return;
                       _pageController.jumpToPage(index);
                     },
-                    isScrollable: true,
+                    isScrollable: false,
                     controller: _tabController,
                     indicator: const BoxDecoration(),
                     labelPadding: const EdgeInsets.only(left: 30, right: 30),

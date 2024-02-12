@@ -172,8 +172,10 @@ class _LoginPageState extends State with SingleTickerProviderStateMixin {
                               },
                               isScrollable: true,
                               controller: _tabController,
+                              dividerHeight: 0.0,
                               indicator: const BoxDecoration(),
                               labelPadding: EdgeInsets.zero,
+                              tabAlignment: TabAlignment.start,
                               tabs: const <Widget>[
                                 LoginTabbarItemWidget(
                                     tabName: '手机登录', index: 0),

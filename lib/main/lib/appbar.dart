@@ -85,6 +85,7 @@ AppBar buildAppBarAndActions({
             ),
           ),
       actions: actions,
+      centerTitle: true,
       bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 0.5),
           child: Container(color: ColorUtils.gray248, height: 1.0)));

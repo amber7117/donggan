@@ -179,6 +179,7 @@ class _MatchDetailBBStatusPageState
                         },
                         isScrollable: false,
                         controller: _tabController,
+                        dividerHeight: 0.0,
                         indicator: const BoxDecoration(),
                         labelPadding:
                             const EdgeInsets.only(left: 10, right: 10),

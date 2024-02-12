@@ -136,23 +136,24 @@ class _AnchorPageState extends KeepAliveWidgetState
                         }
                         Routes.push(context, Routes.meFollow);
                       }),
-                  const SizedBox(height: 3.0),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(left: 12, right: 12),
-                    child: TabBar(
-                        onTap: (index) {
-                          if (!mounted) return;
-                          _pageController.jumpToPage(index);
-                        },
-                        isScrollable: true,
-                        controller: _tabController,
-                        dividerHeight: 0.0,
-                        indicator: const BoxDecoration(),
-                        labelPadding: const EdgeInsets.only(left: 2, right: 2),
-                        tabAlignment: TabAlignment.start,
-                        tabs: _tabs),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(left: 12, right: 12),
+                      child: TabBar(
+                          onTap: (index) {
+                            if (!mounted) return;
+                            _pageController.jumpToPage(index);
+                          },
+                          isScrollable: true,
+                          controller: _tabController,
+                          dividerHeight: 0.0,
+                          indicator: const BoxDecoration(),
+                          labelPadding: const EdgeInsets.only(left: 2, right: 2),
+                          tabAlignment: TabAlignment.start,
+                          tabs: _tabs),
+                    ),
                   )
                 ],
               ),

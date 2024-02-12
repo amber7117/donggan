@@ -166,31 +166,32 @@ class _MatchPageState extends KeepAliveWidgetState<MatchPage>
                               : () {
                                   Routes.pushAndCallback(
                                       context, Routes.matchFilter, (data) {
-                                        if (data == null) return;
-                                        _setConditionData();
-                                      },
-                                      arguments: {
-                                        "sportType": sportType,
-                                        "matchStatus":
-                                            _getMatchStatus(),
-                                        "dateStr": _getMatchDateStr(),
-                                      });
+                                    if (data == null) return;
+                                    _setConditionData();
+                                  }, arguments: {
+                                    "sportType": sportType,
+                                    "matchStatus": _getMatchStatus(),
+                                    "dateStr": _getMatchDateStr(),
+                                  });
                                 });
                     }),
-                    const SizedBox(height: 6.0),
-                    SizedBox(
-                      width: double.infinity,
-                      child: TabBar(
-                          onTap: (index) {
-                            if (!mounted) return;
-                            _pageController.jumpToPage(index);
-                          },
-                          isScrollable: false,
-                          controller: _tabController,
-                          indicator: const BoxDecoration(),
-                          labelPadding: EdgeInsets.only(
-                              left: tabbarPadding, right: tabbarPadding),
-                          tabs: _tabs),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        width: double.infinity,
+                        child: TabBar(
+                            onTap: (index) {
+                              if (!mounted) return;
+                              _pageController.jumpToPage(index);
+                            },
+                            isScrollable: false,
+                            controller: _tabController,
+                            dividerHeight: 0.0,
+                            indicator: const BoxDecoration(),
+                            labelPadding: EdgeInsets.only(
+                                left: tabbarPadding, right: tabbarPadding),
+                            tabs: _tabs),
+                      ),
                     )
                   ],
                 ),

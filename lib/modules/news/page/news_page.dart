@@ -21,7 +21,6 @@ class NewsPage extends StatefulWidget {
   }
 }
 
-
 class _NewsPageState extends KeepAliveWidgetState
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -92,11 +91,9 @@ class _NewsPageState extends KeepAliveWidgetState
   @override
   Widget buildWidget(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorUtils.gray248,
-      body: LoadStateWidget(
-        state: _layoutState,
-        successWidget: _buildChild(context))
-    );
+        backgroundColor: ColorUtils.gray248,
+        body: LoadStateWidget(
+            state: _layoutState, successWidget: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {
@@ -118,8 +115,7 @@ class _NewsPageState extends KeepAliveWidgetState
               child: Container(
                 alignment: Alignment.bottomCenter,
                 width: double.infinity,
-                margin: EdgeInsets.only(
-                    top: ScreenUtil().statusBarHeight, left: 12, right: 12),
+                margin: const EdgeInsets.only(left: 12, right: 12),
                 child: TabBar(
                     onTap: (index) {
                       if (!mounted) return;
@@ -127,6 +123,7 @@ class _NewsPageState extends KeepAliveWidgetState
                     },
                     isScrollable: true,
                     controller: _tabController,
+                    dividerHeight: 0.0,
                     indicator: const BoxDecoration(),
                     labelPadding: const EdgeInsets.only(left: 2, right: 2),
                     tabAlignment: TabAlignment.start,
