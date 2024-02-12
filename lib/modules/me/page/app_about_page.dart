@@ -35,7 +35,10 @@ class _AppAboutPageState extends State<AppAboutPage> {
               itemCount: 2,
               separatorBuilder: (BuildContext context, int index) =>
                   const Divider(
-                      color: ColorUtils.gray240, indent: 12, height: 0.5),
+                      color: ColorUtils.gray240,
+                      indent: 12,
+                      height: 0.5,
+                      thickness: 0.5),
               itemBuilder: (BuildContext context, int index) {
                 return _buildListItemWidget(dataArr[index]);
               },

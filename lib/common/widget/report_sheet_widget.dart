@@ -54,7 +54,8 @@ class ReportSheetWidget extends StatelessWidget {
                 return const Divider(
                     color: Color.fromRGBO(236, 236, 236, 1),
                     indent: 0,
-                    height: 0.5);
+                    height: 0.5,
+                    thickness: 0.5);
               }),
           const SizedBox(width: double.infinity, height: 10)
               .colored(ColorUtils.gray248),

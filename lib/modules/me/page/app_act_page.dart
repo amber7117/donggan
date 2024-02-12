@@ -67,7 +67,10 @@ class _AppActPageState extends State {
         itemCount: _dataArr.length,
         separatorBuilder: (context, index) {
           return const Divider(
-              height: 0.5, color: ColorUtils.gray248, indent: 12);
+              height: 0.5,
+              color: ColorUtils.gray248,
+              indent: 12,
+              thickness: 0.5);
         },
         itemBuilder: (context, index) {
           return _buildCellWidget(index);

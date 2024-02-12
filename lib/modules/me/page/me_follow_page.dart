@@ -29,7 +29,7 @@ class _MeFollowPageState extends State {
 
   _requestData() {
     ToastUtils.showLoading();
-    
+
     MeService.requestFollowList(FollowListType.anchor, (success, result) {
       ToastUtils.hideLoading();
       if (success) {
@@ -58,7 +58,10 @@ class _MeFollowPageState extends State {
                 itemCount: _dataArr.length,
                 separatorBuilder: (context, index) {
                   return const Divider(
-                      height: 0.5, color: ColorUtils.gray248, indent: 12);
+                      height: 0.5,
+                      color: ColorUtils.gray248,
+                      indent: 12,
+                      thickness: 0.5);
                 },
                 itemBuilder: (context, index) {
                   return MeFollowCellWidget(model: _dataArr[index]);

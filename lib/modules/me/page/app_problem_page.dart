@@ -74,7 +74,10 @@ class _AppProblemPageState extends State {
                     },
                     separatorBuilder: (context, index) {
                       return const Divider(
-                          height: 0.5, color: ColorUtils.gray216, indent: 12);
+                          height: 0.5,
+                          color: ColorUtils.gray216,
+                          indent: 12,
+                          thickness: 0.5);
                     }),
                 const SizedBox(width: double.infinity, height: 20)
                     .colored(ColorUtils.gray248),
