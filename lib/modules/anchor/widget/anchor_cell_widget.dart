@@ -8,7 +8,7 @@ import 'package:wzty/utils/color_utils.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 import 'package:wzty/utils/text_style_utils.dart';
 
-const anchorCellRatio = 171 / 134;
+const anchorCellRatio = 171 / 154;
 
 class AnchorCellWidget extends StatelessWidget {
   final AnchorListModel model;
@@ -47,6 +47,15 @@ class AnchorCellWidget extends StatelessWidget {
                     width: cellWidth,
                     height: coverHeight,
                     placeholder: "common/imgZhiboMoren")),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              child: Text(model.title,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: ColorUtils.black34,
+                      fontSize: 12,
+                      fontWeight: TextStyleUtils.medium)),
+            ),
             Expanded(
                 child: Row(
               children: [
@@ -73,6 +82,7 @@ class AnchorCellWidget extends StatelessWidget {
                             fontWeight: TextStyleUtils.medium))),
               ],
             )),
+            const SizedBox(height: 10),
           ],
         ),
       ),

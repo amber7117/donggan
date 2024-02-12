@@ -87,7 +87,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
           const SizedBox(
             width: 186,
             child: Text(
-              "Copyright@2020-2023\n杭州用云科技有限公司 版权所有",
+              "Copyright@2020-2023\n广西速伟科技有限公司 版权所有",
               maxLines: 2,
               textAlign: TextAlign.center,
               style: TextStyle(
