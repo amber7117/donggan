@@ -121,6 +121,16 @@ class _MatchDetailHeadVideoWidgetState
     );
   }
 
+  // ----------------- Tool Method --------------------------
+
+  bool getFullScreen() {
+    return player.value.fullScreen;
+  }
+
+  void exitFullScreen() {
+    player.exitFullScreen();
+  }
+
   // ----------------- login timer --------------------------
 
   Timer? _loginTimer;
@@ -163,6 +173,20 @@ class _MatchDetailHeadVideoWidgetState
       return;
     }
     _showTimerUI = true;
+
+    bool isFullScreen = getFullScreen();
+    if (isFullScreen) {
+      exitFullScreen();
+
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        _showLoginAlert(forceLogin);
+      });
+    } else {
+      _showLoginAlert(forceLogin);
+    }
+  }
+
+  _showLoginAlert(bool forceLogin) {
     showDialog(
         barrierDismissible: false,
         context: context,

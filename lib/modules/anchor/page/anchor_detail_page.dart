@@ -47,6 +47,9 @@ class _AnchorDetailPageState
   final GlobalKey<AnchorDetailBottomPageState> _detailBottomPageKey =
       GlobalKey();
 
+  final GlobalKey<AnchorDetailHeadVideoWidgetState> _videoWidgetKey =
+      GlobalKey();
+
   final ScrollController _scrollController = ScrollController();
 
   late StreamSubscription loginEvent;
@@ -192,6 +195,7 @@ class _AnchorDetailPageState
     String videoUrl = _attemptPlayVideo();
     if (videoUrl.isNotEmpty) {
       headWidget = AnchorDetailHeadVideoWidget(
+          key: _videoWidgetKey,
           height: videoHeight(),
           titleStr: model.liveTitle,
           urlStr: videoUrl,
@@ -283,6 +287,21 @@ class _AnchorDetailPageState
     }
     _showTimerUI = true;
 
+    if (_videoWidgetKey.currentState != null) {
+      bool isFullScreen = _videoWidgetKey.currentState!.getFullScreen();
+      if (isFullScreen) {
+        _videoWidgetKey.currentState!.exitFullScreen();
+
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          _showLoginAlert(forceLogin);
+        });
+      } else {
+        _showLoginAlert(forceLogin);
+      }
+    }
+  }
+
+  _showLoginAlert(bool forceLogin) {
     showDialog(
         barrierDismissible: false,
         context: context,

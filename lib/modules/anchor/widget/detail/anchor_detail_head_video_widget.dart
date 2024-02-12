@@ -37,11 +37,22 @@ class AnchorDetailHeadVideoWidget extends StatefulWidget {
       required this.playerId});
 
   @override
-  State createState() => _AnchorDetailHeadVideoWidgetState();
+  State createState() => AnchorDetailHeadVideoWidgetState();
 }
 
-class _AnchorDetailHeadVideoWidgetState
+class AnchorDetailHeadVideoWidgetState
     extends State<AnchorDetailHeadVideoWidget> {
+
+  // -------------------------------------------
+
+  bool getFullScreen() {
+    return player.value.fullScreen;
+  }
+
+  void exitFullScreen() {
+    player.exitFullScreen();
+  }
+
   // -------------------------------------------
 
   _showReporBlocktUI() {
@@ -96,7 +107,7 @@ class _AnchorDetailHeadVideoWidgetState
 
   // -------------------------------------------
 
-  handlePlayerEvent(PlayPanelEvent data) {
+  _handlePlayerEvent(PlayPanelEvent data) {
     if (data == PlayPanelEvent.more) {
       _showReporBlocktUI();
     } else if (data == PlayPanelEvent.fullScreen) {
@@ -128,7 +139,7 @@ class _AnchorDetailHeadVideoWidgetState
     });
   }
 
-   _preparePlayVideo() async {
+  _preparePlayVideo() async {
     await player.setOption(FijkOption.formatCategory, "headers",
         "referer:https://video.dqiu.com/");
     player.setDataSource(widget.urlStr, autoPlay: true);
@@ -213,10 +224,10 @@ class _AnchorDetailHeadVideoWidgetState
     FijkPanelWidgetBuilder builder;
     if (widget.isAnchor) {
       builder = anchorPanelBuilder(
-          title: widget.titleStr, callback: handlePlayerEvent);
+          title: widget.titleStr, callback: _handlePlayerEvent);
     } else {
       builder = playbackPanelBuilder(
-          title: widget.titleStr, callback: handlePlayerEvent);
+          title: widget.titleStr, callback: _handlePlayerEvent);
     }
     return FijkView(
       player: player,
