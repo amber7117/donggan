@@ -37,6 +37,7 @@ class AnchorCellWidget extends StatelessWidget {
             ],
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -50,6 +51,7 @@ class AnchorCellWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Text(model.title,
+                  textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: ColorUtils.black34,
