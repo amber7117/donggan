@@ -6,7 +6,7 @@ const domainCDNH = "aHc=";
 const domainCDNT = "dGVuY2VudA==";
 const domainCDNF = "ZnVubnVsbA==";
 
-
+const domainHost = "domainHost";
 const domainType = "domainType";
 const domainToken = "domainToken";
 const domainSignType = "domainSignType";

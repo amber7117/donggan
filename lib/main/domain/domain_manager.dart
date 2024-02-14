@@ -34,7 +34,25 @@ class DomainManager {
     return domain;
   }
 
-  removeDomain() {}
+  removeDomain(String domain) {
+    if (domain.isEmpty) return;
+    
+    List<DomainEntity> arrTmp = [];
+
+    for (var model in _domainList) {
+      if (model.domain != domain) {
+        arrTmp.add(model);
+      }
+    }
+
+    if (arrTmp.isEmpty) {
+      pullDomainFromServer();
+    } else {
+      _domainList = arrTmp;
+    }
+
+    cacheDomainArr(arrTmp);
+  }
 
   requestDomain() async {
     if (domainInitSuccess) return;

@@ -165,7 +165,8 @@ class HttpManager {
           Map result = e.data;
           int code = result["code"] ?? 0;
           if (code > 380 && code < 520) {
-            // ZQDomainManager.shared.removeDomain(domain: domainModel);
+            String domain = e.requestOptions.headers[domainHost];
+            DomainManager.instance.removeDomain(domain);
           } else if (code >= 9527 && code <= 9530) {
             handleErrorCode(result["msg"], code);
           } else {
@@ -258,12 +259,14 @@ class HttpManager {
 
 extension Domain on Map {
   addDomainValue(DomainEntity domain) {
+    this[domainHost] = domain.domain;
     this[domainType] = domain.domainType;
     this[domainToken] = domain.token;
     this[domainSignType] = domain.signType;
   }
 
   removeDomainValue() {
+    remove(domainHost);
     remove(domainType);
     remove(domainSignType);
     remove(domainToken);

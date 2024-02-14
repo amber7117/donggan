@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wzty/app/api.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
@@ -122,6 +121,7 @@ class _MatchDetailHeadVoteWidgetState extends State<MatchDetailHeadVoteWidget> {
           height: 20,
           alignment: Alignment.center,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,            
             children: [
               SizedBox(width: team1Width, height: 8).decorate(
                 const BoxDecoration(
