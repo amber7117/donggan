@@ -115,7 +115,14 @@ class _MatchDetailPageState extends KeepAliveLifeWidgetState<MatchDetailPage> {
                   urlStr = model.obtainSecondVideoUrl();
                 }
                 return MatchDetailHeadVideoWidget(
-                    height: videoHeight(), urlStr: urlStr, playerId: playerId);
+                    height: videoHeight(),
+                    urlStr: urlStr,
+                    playerId: playerId,
+                    cb: () {
+                      context
+                          .read<MatchDetailDataProvider>()
+                          .setShowVideo(false);
+                    });
               } else {
                 return MatchDetailHeadWidget(
                     height: videoHeight(), model: model);

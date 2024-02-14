@@ -13,6 +13,7 @@ import 'package:wzty/modules/anchor/widget/detail/login_timer_alert_widget.dart'
 import 'package:wzty/utils/jh_image_utils.dart';
 
 class MatchDetailHeadVideoWidget extends StatefulWidget {
+  final VoidCallback? cb;
   final double height;
   final String urlStr;
   final String playerId;
@@ -21,7 +22,7 @@ class MatchDetailHeadVideoWidget extends StatefulWidget {
       {super.key,
       required this.height,
       required this.urlStr,
-      required this.playerId});
+      required this.playerId, this.cb});
 
   @override
   State createState() => _MatchDetailHeadVideoWidgetState();
@@ -98,7 +99,7 @@ class _MatchDetailHeadVideoWidgetState
                 height: widget.height,
                 child: _buildPlayerUI(),
               ),
-              const WZBackButton(),
+              WZBackButton(cb: widget.cb),
             ],
           )
         ],

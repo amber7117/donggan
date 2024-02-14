@@ -152,7 +152,7 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                     ),
                   ),
                   Text(
-                    _statusLabelText(matchStatus, model.timePlayed),
+                    _statusLabelText(matchStatus, model),
                     style: TextStyle(
                         color:
                             matchGoing ? ColorUtils.red235 : ColorUtils.gray153,
@@ -273,9 +273,10 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
                           fontWeight: TextStyleUtils.medium),
                     ),
                   ),
-                  Text(
-                    _statusLabelText(MatchStatus.uncoming, ""),
-                    style: const TextStyle(
+                  const Text(
+                    // _statusLabelText(MatchStatus.uncoming, ""),
+                    "未",
+                    style: TextStyle(
                         color: ColorUtils.gray153,
                         fontSize: 10,
                         fontWeight: TextStyleUtils.medium),
@@ -373,9 +374,13 @@ class _MatchCellWidgetState extends State<MatchCellWidget> {
         ));
   }
 
-  _statusLabelText(MatchStatus matchStatus, String time) {
+  _statusLabelText(MatchStatus matchStatus, MatchListModel model) {
     if (matchStatus == MatchStatus.going) {
-      return time;
+      if (model.sportType == 1 && model.timePlayed.isNotEmpty) {
+        return model.timePlayed;
+      } else {
+        return model.statusLable;
+      }
     } else if (matchStatus == MatchStatus.finished) {
       return "完";
     } else {

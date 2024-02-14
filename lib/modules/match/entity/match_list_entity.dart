@@ -29,6 +29,7 @@ class MatchListModel {
   int hostTeamRank;
 
   String timePlayed;
+  String statusLable;
   int matchTime;
 
   int status;
@@ -69,6 +70,7 @@ class MatchListModel {
       required this.hostHalfScore,
       required this.hostTeamRank,
       required this.timePlayed,
+      required this.statusLable,
       required this.matchTime,
       required this.status,
       required this.statusCode,
@@ -110,6 +112,7 @@ class MatchListModel {
       timePlayed: json['timePlayed'] != null
           ? AppBusinessUtils.obtainMatchTimeDesc(json['timePlayed'])
           : "",
+      statusLable: json['statusLable'] ?? "",
       matchTime: json['matchTime'] ?? 0,
       status: json['status'] ?? 0,
       statusCode: json['statusCode'] ?? 0,
