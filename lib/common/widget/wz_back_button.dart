@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/utils/jh_image_utils.dart';
 
 class WZBackButton extends StatelessWidget {
   
-  const WZBackButton({super.key});
+  final WZVoidCallback? cb;
+
+  const WZBackButton({super.key, this.cb});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class WZBackButton extends StatelessWidget {
           padding: EdgeInsets.all(11),
           child: JhAssetImage("login/iconDengluBack", width: 22, height: 22)),
       onTap: () {
-        Routes.goBack(context);
+        cb != null ? cb!() : Routes.goBack(context);
       },
     );
   }

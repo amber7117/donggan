@@ -100,7 +100,15 @@ class _MatchDetailPageState extends KeepAliveLifeWidgetState<MatchDetailPage> {
                 builder: (context, provider, child) {
               if (provider.showAnimate) {
                 return MatchDetailHeadWebWidget(
-                    height: videoHeight(), urlStr: provider.animateUrl);
+                  height: videoHeight(),
+                  urlStr: provider.animateUrl,
+                  cb: () {
+                    context.read<MatchDetailDataProvider>().animateUrl = "";
+                    context
+                        .read<MatchDetailDataProvider>()
+                        .setShowAnimate(false);
+                  },
+                );
               } else if (provider.showVideo) {
                 String urlStr = model.obtainFirstVideoUrl();
                 if (urlStr.isEmpty) {
