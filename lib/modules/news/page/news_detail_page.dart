@@ -3,6 +3,7 @@ import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/widget/report_sheet_widget.dart';
 import 'package:wzty/main/lib/appbar.dart';
 import 'package:wzty/main/lib/load_state_widget.dart';
+import 'package:wzty/main/user/user_manager.dart';
 import 'package:wzty/modules/news/entity/news_comment_entity.dart';
 import 'package:wzty/modules/news/entity/news_detail_entity.dart';
 import 'package:wzty/modules/news/service/news_service.dart';
@@ -208,6 +209,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           child: NewsDetailBottomWidget(
               model: _model!.news!,
               commentCb: () {
+                if (!UserManager.instance.isLogin()) {
+                  Routes.goLoginPage(context);
+                  return;
+                }
                 _showTextBar();
               }),
         ),
