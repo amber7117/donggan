@@ -85,7 +85,7 @@ class ConfigManager {
 
   obtainData() async {
     activeUserSwitch = true;
-    
+
     animateOk = await SpUtils.getBool(SpKeys.animateOK);
     videoOk = await SpUtils.getBool(SpKeys.videoOK);
     liveOk = await SpUtils.getBool(SpKeys.liveOK);
@@ -103,7 +103,16 @@ class ConfigManager {
     eventSub = eventBusManager.on<LoginStatusEvent>((event) {
       _requestMatchFollowInfo();
 
-      _judegeRequestUserActive();
+      if (event.login) {
+        _judegeRequestUserActive();
+      } else {
+        if (activeUser) {
+          activeUser = false;
+          eventBusManager.emit(ActiveUserEvent(activeUser: false));
+        }
+
+        endUserTimer();
+      }
     });
   }
 
@@ -175,8 +184,10 @@ class ConfigManager {
         // 活跃逻辑
         _judegeRequestUserActive();
       } else {
-        activeUser = true;
-        eventBusManager.emit(ActiveUserEvent(activeUSer: true));
+        if (!activeUser) { // 不一样才通知
+          activeUser = true;
+          eventBusManager.emit(ActiveUserEvent(activeUser: true));
+        }
       }
     });
   }
@@ -185,7 +196,7 @@ class ConfigManager {
     if (!UserManager.instance.isLogin()) {
       return;
     }
-    
+
     MatchService.requestMatchListAttr(SportType.football, (success, result) {
       if (success) {
         int cnt = MatchCollectManager.instance
@@ -210,11 +221,7 @@ class ConfigManager {
   void _judegeRequestUserActive() {
     if (!activeUserSwitch) return;
 
-    // if (appDebug) {
-    //   activeUser = true;
-    // } else {
     _requestUserActive();
-    // }
   }
 
   void _requestUserActive() {
@@ -231,9 +238,9 @@ class ConfigManager {
           data = true;
         }
 
-        if (activeUser != data) {
+        if (activeUser != data) { // 不一样才发送通知
           activeUser = data;
-          eventBusManager.emit(ActiveUserEvent(activeUSer: data));
+          eventBusManager.emit(ActiveUserEvent(activeUser: data));
         }
 
         beginUserTimer();

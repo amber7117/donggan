@@ -65,7 +65,7 @@ class ChatMsgEvent {
 
 /// 活跃用户
 class ActiveUserEvent {
-  final bool activeUSer;
+  final bool activeUser;
 
-  ActiveUserEvent({required this.activeUSer});
+  ActiveUserEvent({required this.activeUser});
 }

@@ -146,9 +146,9 @@ class _AnchorChildPageState extends KeepAliveWidgetState<AnchorChildPage> {
   }
 
   void notifyActiveUser() {
-    if (!ConfigManager.instance.activeUser) {
-      return;
-    }
+    // if (!ConfigManager.instance.activeUser) {
+    //   return;
+    // }
 
     _anchorArr.clear();
 

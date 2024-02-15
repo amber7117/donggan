@@ -157,9 +157,9 @@ class _AnchorChildHotPageState
   }
 
   void notifyActiveUser() {
-    if (!ConfigManager.instance.activeUser) {
-      return;
-    }
+    // if (!ConfigManager.instance.activeUser) {
+    //   return;
+    // }
 
     _anchorArr.clear();
 
