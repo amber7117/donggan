@@ -6,6 +6,7 @@ import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
+import 'package:wzty/main/config/config_service.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
 import 'package:wzty/main/eventBus/event_bus_manager.dart';
 import 'package:wzty/main/lib/base_widget_state.dart';
@@ -72,6 +73,7 @@ class _AnchorDetailPageState
     super.dispose();
 
     endLoginTimer();
+    endWatchTimer();
 
     eventBusManager.off(loginEvent);
   }
@@ -117,6 +119,7 @@ class _AnchorDetailPageState
         requestAnchorMatchData();
 
         beginUserTimer();
+        beginWatchTimer();
       } else {
         _layoutState = LoadStatusType.failure;
       }
@@ -242,6 +245,28 @@ class _AnchorDetailPageState
   @override
   bool isAutomaticKeepAlive() {
     return true;
+  }
+
+  // ----------------- watch timer --------------------------
+
+  Timer? _watchTimer;
+  int _watchCnt = 0;
+
+  void beginWatchTimer() {
+    _watchTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
+      _watchCnt += 30;
+      _requestReportWatchTime();
+    });
+  }
+
+  void endWatchTimer() {
+    _watchTimer?.cancel();
+    _watchTimer = null;
+  }
+
+  void _requestReportWatchTime() {
+    ConfigService.requestReportWatchTime(
+        widget.anchorId, _watchCnt, (success, result) {});
   }
 
   // ----------------- login timer --------------------------

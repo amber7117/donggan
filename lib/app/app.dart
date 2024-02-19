@@ -10,7 +10,7 @@ const appDebug = false;
 
 // 代理开关和配置
 const appProxy = false;
-const appProxyIP = "PROXY 192.168.1.3:8888";
+const appProxyIP = "PROXY 192.168.1.5:8888";
 
 // 日志配置
 final logger = Logger(level: Level.info);
