@@ -46,11 +46,7 @@ class ConfigService {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.reportWatchTime, HttpMethod.get, params: params);
 
-    String msg = "";
-    if (!result.isSuccess()) {
-      msg = result.msg ?? result.data;
-    }
-    complete(result.isSuccess(), msg);
+    complete(result.isSuccess(), "");
   }
 
   // ----------------------  配置逻辑  -----------------------
