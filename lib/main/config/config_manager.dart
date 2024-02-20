@@ -90,11 +90,18 @@ class ConfigManager {
     videoOk = await SpUtils.getBool(SpKeys.videoOK);
     liveOk = await SpUtils.getBool(SpKeys.liveOK);
 
-    barrageOpen = await SpUtils.getBool(SpKeys.barrageOpen);
+    bool existBarrage = await SpUtils.isExist(SpKeys.barrageOpen);
+    if (existBarrage) {
+      barrageOpen = await SpUtils.getBool(SpKeys.barrageOpen);
+    } else {
+      barrageOpen = true;
+    }
+
     barrageFont = await SpUtils.getInt(SpKeys.barrageFont);
     if (barrageFont < 1) {
       barrageFont = 14;
     }
+    
     barrageOpacity = await SpUtils.getDouble(SpKeys.barrageOpacity);
     if (barrageOpacity < 1) {
       barrageOpacity = 50.0;

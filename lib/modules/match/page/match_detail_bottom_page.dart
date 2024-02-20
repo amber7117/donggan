@@ -46,17 +46,12 @@ class MatchDetailBottomPageState
       index: 0,
     ),
     const MatchDetailTabbarItemWidget(
-      tabName: '阵容',
-      index: 1,
-    ),
-    const MatchDetailTabbarItemWidget(
       tabName: '分析',
       index: 2,
     ),
   ];
   final List<String> _tabTitles = [
     '赛况',
-    '阵容',
     '分析',
   ];
 
@@ -67,6 +62,24 @@ class MatchDetailBottomPageState
     super.initState();
 
     _model = widget.model;
+
+    if (_model == null || _model!.sportId == 1) {
+      _tabs.insert(
+          1,
+          const MatchDetailTabbarItemWidget(
+            tabName: '阵容',
+            index: 1,
+          ));
+      _tabTitles.insert(1, '阵容');
+    } else {
+      _tabs.insert(
+          1,
+          const MatchDetailTabbarItemWidget(
+            tabName: '球员',
+            index: 1,
+          ));
+      _tabTitles.insert(1, '球员');
+    }
 
     if (ConfigManager.instance.liveOk) {
       _tabTitles.add('主播');
@@ -155,7 +168,7 @@ class MatchDetailBottomPageState
                             return MatchDetailBBStatusPage(
                                 matchId: widget.matchId, detailModel: model);
                           }
-                        } else if (title == "阵容") {
+                        } else if (title == "阵容" || title == "球员") {
                           if (sportType == SportType.football) {
                             return MatchDetailFBLineupPage(
                                 matchId: widget.matchId, detailModel: model);
