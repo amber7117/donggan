@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/config_manager.dart';
@@ -171,7 +170,7 @@ class _AnchorChildHotPageState
   @override
   Widget buildWidget(BuildContext context) {
     return LoadStateWidget(
-        emptyRetry: _requestData,
+        errorRetry: _requestData,
         state: _layoutState,
         successWidget: _buildChild(context));
   }

@@ -500,9 +500,9 @@ class __PlayerPanelAnchorState extends State<_PlayerPanelAnchor> {
       ws.add(buildStateless());
     }
 
-    Widget waterLogo = const Padding(
-      padding: EdgeInsets.only(right: 12),
-      child: JhAssetImage("common/iconWaterLogo", width: 88.0, height: 44.0),
+    Widget waterLogo = Padding(
+      padding: EdgeInsets.only(right: player.value.fullScreen ? 85 : 12),
+      child: const JhAssetImage("common/iconWaterLogo", width: 88.0, height: 44.0),
     );
 
     ws.add(waterLogo);

@@ -101,7 +101,7 @@ class ConfigManager {
     if (barrageFont < 1) {
       barrageFont = 14;
     }
-    
+
     barrageOpacity = await SpUtils.getDouble(SpKeys.barrageOpacity);
     if (barrageOpacity < 1) {
       barrageOpacity = 50.0;
@@ -124,6 +124,8 @@ class ConfigManager {
   }
 
   requestConfig() {
+    _requestLiveStatus();
+
     ConfigService.requestLiveBlock((success, result) {
       if (success) {
         liveBlockData = result;
@@ -133,20 +135,6 @@ class ConfigManager {
     ConfigService.requestSystemNotice((success, result) {
       if (success) {
         systemNotice = result!;
-      }
-    });
-
-    ConfigService.requestLiveStatus((success, result) {
-      if (success) {
-        bool resultTmp = result;
-        if (appDebug) {
-          resultTmp = true;
-        }
-        if (liveOk != resultTmp) {
-          liveOk = resultTmp;
-          eventBusManager.emit(LiveStateEvent(liveOk: liveOk));
-        }
-        SpUtils.save(SpKeys.liveOK, liveOk);
       }
     });
 
@@ -191,10 +179,32 @@ class ConfigManager {
         // 活跃逻辑
         _judegeRequestUserActive();
       } else {
-        if (!activeUser) { // 不一样才通知
+        if (!activeUser) {
+          // 不一样才通知
           activeUser = true;
           eventBusManager.emit(ActiveUserEvent(activeUser: true));
         }
+      }
+    });
+  }
+
+  _requestLiveStatus() {
+    ConfigService.requestLiveStatus((success, result) {
+      if (success) {
+        bool resultTmp = result;
+        if (appDebug) {
+          resultTmp = true;
+        }
+        if (liveOk != resultTmp) {
+          liveOk = resultTmp;
+          eventBusManager.emit(LiveStateEvent(liveOk: liveOk));
+        }
+        SpUtils.save(SpKeys.liveOK, liveOk);
+      } else {
+        // 如果不成功 延迟2s继续请求
+        Future.delayed(const Duration(seconds: 2), () {
+          _requestLiveStatus();
+        });
       }
     });
   }
@@ -245,7 +255,8 @@ class ConfigManager {
           data = true;
         }
 
-        if (activeUser != data) { // 不一样才发送通知
+        if (activeUser != data) {
+          // 不一样才发送通知
           activeUser = data;
           eventBusManager.emit(ActiveUserEvent(activeUser: data));
         }

@@ -100,7 +100,9 @@ class _AnchorPageState extends KeepAliveWidgetState
     return Scaffold(
         backgroundColor: ColorUtils.gray248,
         body: LoadStateWidget(
-            state: _layoutState, successWidget: _buildChild(context)));
+            errorRetry: _requestData,
+            state: _layoutState,
+            successWidget: _buildChild(context)));
   }
 
   _buildChild(BuildContext context) {
@@ -150,7 +152,8 @@ class _AnchorPageState extends KeepAliveWidgetState
                           controller: _tabController,
                           dividerHeight: 0.0,
                           indicator: const BoxDecoration(),
-                          labelPadding: const EdgeInsets.only(left: 2, right: 2),
+                          labelPadding:
+                              const EdgeInsets.only(left: 2, right: 2),
                           tabAlignment: TabAlignment.start,
                           tabs: _tabs),
                     ),

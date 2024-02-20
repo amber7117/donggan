@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:wzty/app/app.dart';
 import 'package:wzty/app/routes.dart';
@@ -46,7 +47,8 @@ void main() async {
   await DomainManager.instance.requestDomain();
   await ConfigManager.instance.obtainData();
 
-  runApp(const MyApp());
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
