@@ -26,25 +26,48 @@ class IMManager {
       return;
     }
 
-    String? result = await IMService.requestInitInfo();
-    if (result != null) {
-      appkey = result;
-    }
-    RCIMIWEngineOptions options = RCIMIWEngineOptions.create();
-    _engine = await RCIMIWEngine.create(appkey, options);
-    inited = true;
-
-    connectIM();
+    IMService.requestInitInfo((success, result) {
+      if (success) {
+        inited = true;
+        
+        if (result.isNotEmpty) {
+          appkey = result;
+        }
+        
+        _initSDK();
+      } else {
+        // 如果不成功 延迟2s继续请求
+        Future.delayed(const Duration(seconds: 2), () {
+          prepareInitSDK();
+        });
+      }
+    });
   }
 
-  void connectIM({WZVoidCallback? callback}) async {
-    String? result = await IMService.requestToken();
-    if (result == null) {
-      connectOK = false;
-      return;
-    }
+  void _initSDK() async {
+    RCIMIWEngineOptions options = RCIMIWEngineOptions.create();
+    _engine = await RCIMIWEngine.create(appkey, options);
 
-    _engine.connect(result, 0,
+    prepareConnectIM();
+  }
+
+  void prepareConnectIM({WZVoidCallback? callback}) async {
+    IMService.requestToken((success, result) {
+      if (success) {
+        _connectIM(result, callback: callback);
+      } else {
+        connectOK = false;
+
+        // 如果不成功 延迟2s继续请求
+        Future.delayed(const Duration(seconds: 2), () {
+          prepareConnectIM();
+        });
+      }
+    });
+  }
+
+  void _connectIM(token, {WZVoidCallback? callback}) async {
+    _engine.connect(token, 0,
         callback: RCIMIWConnectCallback(onDatabaseOpened: (code) {
           if (code != 0) {
             connectOK = false;
