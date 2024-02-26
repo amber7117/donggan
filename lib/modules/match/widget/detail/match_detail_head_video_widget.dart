@@ -4,6 +4,7 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wzty/app/routes.dart';
+import 'package:wzty/common/data/app_data_utils.dart';
 import 'package:wzty/common/player/player_panel_match_widget.dart';
 import 'package:wzty/common/widget/wz_back_button.dart';
 import 'package:wzty/main/eventBus/event_bus_event.dart';
@@ -58,7 +59,7 @@ class _MatchDetailHeadVideoWidgetState
       }
     });
 
-    beginUserTimer();
+    beginLoginTimer();
   }
 
   _preparePlayVideo() async {
@@ -135,10 +136,9 @@ class _MatchDetailHeadVideoWidgetState
   // ----------------- login timer --------------------------
 
   Timer? _loginTimer;
-  int _loginCnt = 0;
   bool _showTimerUI = false;
 
-  void beginUserTimer() {
+  void beginLoginTimer() {
     if (UserManager.instance.isLogin()) {
       return;
     }
@@ -147,9 +147,13 @@ class _MatchDetailHeadVideoWidgetState
       endLoginTimer();
     }
 
-    _loginTimer = Timer.periodic(const Duration(seconds: 60), (timer) {
-      _loginCnt++;
-      // logger.i("beginUserTimer ---------- $_loginCnt");
+    if (AppDataUtils.instance.loginTimerCnt >= 60) {
+      showTimerAlertUI(true);
+      return;
+    }
+    
+    _loginTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      AppDataUtils.instance.loginTimerCnt++;
       handleLoginTimerLogic();
     });
   }
@@ -160,12 +164,13 @@ class _MatchDetailHeadVideoWidgetState
   }
 
   void handleLoginTimerLogic() {
-    if (_loginCnt == 2) {
+    if (AppDataUtils.instance.loginTimerCnt == 24) {
       //两分钟
       showTimerAlertUI(false);
-    } else if (_loginCnt == 5) {
+    } else if (AppDataUtils.instance.loginTimerCnt == 60) {
       //五分钟
       showTimerAlertUI(true);
+      endLoginTimer();
     }
   }
 
