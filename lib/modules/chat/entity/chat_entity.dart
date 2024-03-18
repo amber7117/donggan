@@ -19,7 +19,7 @@ class ChatMsgModel {
   ChatMsgType type;
 
   double barrageDelay = 0.0;
-  
+
   late String nameNew;
   late String contentNew;
 
@@ -64,18 +64,26 @@ class ChatMsgModel {
     var wealthLevel = json['wealthLevel'];
     if (wealthLevel is String) {
       wealthLevelValue = int.parse(wealthLevel);
-    } else if (wealthLevel is String) {
-      wealthLevelValue = wealthLevel as int;
+    } else if (wealthLevel is int) {
+      wealthLevelValue = wealthLevel;
     }
 
     int nobleLevelValue = 0;
     var nobleLevel = json['nobleLevel'];
     if (nobleLevel is String) {
       nobleLevelValue = int.parse(nobleLevel);
-    } else if (nobleLevel is String) {
-      nobleLevelValue = nobleLevel as int;
+    } else if (nobleLevel is int) {
+      nobleLevelValue = nobleLevel;
     }
-    
+
+    int typeValue = 1;
+    var type = json['type'];
+    if (type is String) {
+      typeValue = int.parse(type);
+    } else if (type is int) {
+      typeValue = type;
+    }
+
     return ChatMsgModel(
       wealthLevel: wealthLevelValue,
       nobleLevel: nobleLevelValue,
@@ -84,11 +92,12 @@ class ChatMsgModel {
       headUrl: json['headUrl'] ?? '',
       identity: json['identity'] ?? 0,
       content: json['content'] ?? '',
-      isLink: json['isLink'] ?? false,
+      // isLink: json['isLink'] ?? false,
+      isLink: false,
       sign: json['sign'] ?? '',
       sendTime: json['sendTime'] ?? 0,
       pushTime: json['pushTime'] ?? 0,
-      type: ChatMsgTypeEnum.fromInt(json['type'] ?? 1),
+      type: ChatMsgTypeEnum.fromInt(typeValue),
       messageUId: json['messageUId'] ?? '',
     );
   }

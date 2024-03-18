@@ -170,6 +170,8 @@ class ConfigApi {
   static String userActive = "/qiutx-support/active/user/query";
 
   static String reportUserActive = "/qiutx-support/client/active/user/report";
+
+  static String reportWatchTime = "/live-product/v1/user/watch";
 }
 
 class IMApi {

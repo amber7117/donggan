@@ -5,18 +5,19 @@ import 'package:wzty/main/im/im_msg_filter_entity.dart';
 import 'package:wzty/main/user/user_manager.dart';
 
 class IMService {
-  static Future<String?> requestInitInfo() async {
+
+  static Future<void> requestInitInfo(BusinessCallback<String> complete) async {
     HttpResultBean result =
         await HttpManager.request(IMApi.initInfo, HttpMethod.get);
 
     if (result.isSuccess()) {
-      return result.data["appId"];
+      complete(true, result.data["appId"]);
     } else {
-      return null;
+      complete(false, "");
     }
   }
 
-  static Future<String?> requestToken() async {
+  static Future<void> requestToken(BusinessCallback<String> complete) async {
     String userId = await UserManager.instance.obtainUseridOrDeviceid();
     Map<String, dynamic> params = {};
     if (UserManager.instance.isLogin()) {
@@ -31,9 +32,9 @@ class IMService {
         params: params);
 
     if (result.isSuccess()) {
-      return (result.data as String);
+      complete(true, result.data);
     } else {
-      return null;
+      complete(false, "");
     }
   }
 

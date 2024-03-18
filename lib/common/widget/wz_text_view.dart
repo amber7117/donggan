@@ -47,7 +47,7 @@ class WZTextViewState extends State<WZTextView> {
       keyboardType: TextInputType.multiline,
       inputFormatters: null,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+        contentPadding: const EdgeInsets.only(bottom: 10.0),
         hintText: widget.hintText,
         hintStyle: const TextStyle(
           color: ColorUtils.gray149,

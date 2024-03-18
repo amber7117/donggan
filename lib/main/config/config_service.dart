@@ -3,8 +3,11 @@ import 'package:wzty/common/extension/extension_app.dart';
 import 'package:wzty/main/config/live_block_entity.dart';
 import 'package:wzty/main/dio/http_manager.dart';
 import 'package:wzty/main/dio/http_result_bean.dart';
+import 'package:wzty/main/user/user_manager.dart';
 
 class ConfigService {
+  // ----------------------  活跃用户逻辑  -----------------------
+
   static Future<void> requestUserActive(BusinessCallback<bool> complete) async {
     HttpResultBean result =
         await HttpManager.request(ConfigApi.userActive, HttpMethod.get);
@@ -29,7 +32,24 @@ class ConfigService {
     complete(result.isSuccess(), msg);
   }
 
-  // ----------------------  活跃用户逻辑  -----------------------
+  static Future<void> requestReportWatchTime(
+      int anchorId, int time, BusinessCallback<String> complete) async {
+    Map<String, dynamic> params = {
+      "matchId": 0,
+      "anchorId": anchorId,
+      "second": time
+    };
+    if (UserManager.instance.isLogin()) {
+      params["userId"] = UserManager.instance.uid;
+    }
+
+    HttpResultBean result =
+        await HttpManager.request(ConfigApi.reportWatchTime, HttpMethod.get, params: params);
+
+    complete(result.isSuccess(), "");
+  }
+
+  // ----------------------  配置逻辑  -----------------------
 
   static Future<void> requestLiveBlock(
       BusinessCallback<LiveBlockModel?> complete) async {

@@ -97,7 +97,7 @@ class _ChatPageState extends KeepAliveWidgetState<ChatPage> with ChatPageMixin {
     if (IMManager.instance.connectOK) {
       _joinIMRoom();
     } else {
-      IMManager.instance.connectIM(callback: () {
+      IMManager.instance.prepareConnectIM(callback: () {
         _joinIMRoom();
       });
     }
