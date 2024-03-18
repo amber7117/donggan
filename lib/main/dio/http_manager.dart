@@ -221,7 +221,7 @@ class HttpManager {
     Map<String, dynamic> headers = {};
     headers["Content-Type"] = "application/json";
 
-    headers["version"] = "1.0.0";
+    headers["version"] = "1.0.1";
     headers["client-type"] = "ios";
 
     headers["source"] = "WZTY";
