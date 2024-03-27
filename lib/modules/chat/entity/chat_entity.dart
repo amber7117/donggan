@@ -62,7 +62,7 @@ class ChatMsgModel {
   factory ChatMsgModel.fromJson(Map<String, dynamic> json) {
     int wealthLevelValue = 0;
     var wealthLevel = json['wealthLevel'];
-    if (wealthLevel is String) {
+    if (wealthLevel is String && wealthLevel.isNotEmpty) {
       wealthLevelValue = int.parse(wealthLevel);
     } else if (wealthLevel is int) {
       wealthLevelValue = wealthLevel;
@@ -70,7 +70,7 @@ class ChatMsgModel {
 
     int nobleLevelValue = 0;
     var nobleLevel = json['nobleLevel'];
-    if (nobleLevel is String) {
+    if (nobleLevel is String && nobleLevel.isNotEmpty) {
       nobleLevelValue = int.parse(nobleLevel);
     } else if (nobleLevel is int) {
       nobleLevelValue = nobleLevel;
@@ -84,19 +84,35 @@ class ChatMsgModel {
       typeValue = type;
     }
 
+    int pushTimeValue = 0;
+    var pushTime = json['pushTime'];
+    if (pushTime is String && pushTime.isNotEmpty) {
+      pushTimeValue = int.parse(pushTime);
+    } else if (pushTime is int) {
+      pushTimeValue = pushTime;
+    }
+    int sendTimeValue = 0;
+    var sendTime = json['sendTime'];
+    if (sendTime is String && sendTime.isNotEmpty) {
+      sendTimeValue = int.parse(sendTime);
+    } else if (sendTime is int) {
+      sendTimeValue = sendTime;
+    }
+
     return ChatMsgModel(
       wealthLevel: wealthLevelValue,
       nobleLevel: nobleLevelValue,
       userId: json['userId'].toString(),
       nickname: json['nickname'] ?? '',
       headUrl: json['headUrl'] ?? '',
-      identity: json['identity'] ?? 0,
+      // identity: json['identity'] ?? "0",
+      identity: 0,
       content: json['content'] ?? '',
       // isLink: json['isLink'] ?? false,
       isLink: false,
       sign: json['sign'] ?? '',
-      sendTime: json['sendTime'] ?? 0,
-      pushTime: json['pushTime'] ?? 0,
+      sendTime: sendTimeValue,
+      pushTime: pushTimeValue,
       type: ChatMsgTypeEnum.fromInt(typeValue),
       messageUId: json['messageUId'] ?? '',
     );
