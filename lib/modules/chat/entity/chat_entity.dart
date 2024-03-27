@@ -211,7 +211,7 @@ extension ChatMsgTypeEnum on ChatMsgType {
       case 300:
         return ChatMsgType.msgRecallNotify;
       default:
-        throw Exception('Invalid value: $value');
+        return ChatMsgType.other;
     }
   }
 
